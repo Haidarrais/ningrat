@@ -7,6 +7,7 @@ use App\Models\Reward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class PageRewardController extends Controller
@@ -28,6 +29,20 @@ class PageRewardController extends Controller
     public function penukaran_reward(Request $request) {
         $user = User::find($request->USER_ID);
         $reward = Reward::find($request->id);
+        $exchangedPoint = DB::table('reward_user')
+        ->where('user_id', '=', $user->id)
+        ->where('created_at', '>', Carbon::now()->subMonths(6))
+        ->get();
+        // dd(count($exchangedPoint) > 0);
+        if(count($exchangedPoint)>0) {
+            return response()->json([
+                'error' => true,
+                'message' => [
+                    'head' => 'Gagal',
+                    'body' => 'Anda hanya dapat menukarkan point 6 bulan sekali'
+                ]
+            ], 500);
+        }
         if($user->total_point >= $reward->point) {
             DB::table("reward_user")->insert([
                 'reward_id' => $reward->id,

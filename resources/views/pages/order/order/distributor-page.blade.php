@@ -18,27 +18,20 @@
                                 <th>Total</th>
                             </tr>
                         </thead>
-                        <tbody>
+                <tbody>
                             <input type="hidden" value="0" id="inputWeight">
                             @forelse ($products as $key => $value)
                             <input type="hidden" name="id[]" value="{{ $value->id }}">
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td><img src="{{ asset('upload/product').'/'.$value->image }}" alt="{{ $value->image }}" class="img-fluid" width="200"></td>
+                                <td><img src="{{ asset('upload/product').'/'.$value->image }}" alt="{{ $value->image }}" class="img-fluid"
+                                        width="200"></td>
                                 <td>{{ $value->name }}</td>
-                                <td id="field-price-{{ $value->id }}" data-weight="{{ $value->weight }}" data-price="{{ $value->price }}">Rp. {{ number_format($value->price) }}</td>
+                                <td id="field-price-{{ $value->id }}" data-weight="{{ $value->weight }}" data-price="{{ $value->price }}">Rp.
+                                    {{ number_format($value->price) }}</td>
                                 <td>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <button type="button" class="btn btn-sm btn-primary" onclick="minus({{ $value->id }})"><i class="fas fa-minus"></i></button>
-                                        </div>
-                                        <div class="col-6">
-                                            <input name="qty[]" type="text" id="total-{{ $value->id }}" class="form-control qty text-center" value="0" min="0" readonly>
-                                        </div>
-                                        <div class="col-3">
-                                            <button type="button" class="btn btn-sm btn-primary" onclick="plus({{ $value->id }}, 1000)"><i class="fas fa-plus"></i></button>
-                                        </div>
-                                    </div>
+                                    <input name="qty[]" oninput="onchangePrice({{ $value->id }},1000)" type="number" id="total-{{ $value->id }}"
+                                        class="form-control qty text-center" value="0" min="0">
                                 </td>
                                 <input type="hidden" name="price[]" id="input-total-{{ $value->id }}">
                                 <td id="field-total-{{ $value->id }}" class="field-total">-</td>
@@ -236,15 +229,41 @@
                     loading('hide', $("#btn-courier"))
                 })
             })
+})
         })
-    })
-
-    const minus = id => {
+        
+        function onchangePrice(id, max) {
+        let total = parseInt($(`#total-${id}`).val())
+        console.log(total)
+        if (total === "NaN") {
+        $(`#total-${id}`).val(1);
+        return 0;
+        }
+        if (total > max - 1) {
+        return $swal.fire('Gagal', 'Stock hanya ' + max, 'error')
+        }
+        let price = parseInt($(`#field-price-${id}`).data('price'))
+        // let new_total = total + 1
+        $(`#total-${id}`).val(total)
+        let html = (total * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+        if (html == "NaN") {
+        $(`#field-total-${id}`).html(`Rp. -`)
+        $(`#input-total-${id}`).val(`-`)
+        }else{
+        $(`#field-total-${id}`).html(`Rp. ${html}`)
+        $(`#input-total-${id}`).val(`${total*price}`)
+        }
+        let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
+        weight -= prod_weight * (total - 1)
+        weight += prod_weight * total
+        $('#inputWeight').val(weight)
+        }
+        const minus = id => {
         let total = parseInt($(`#total-${id}`).val())
         let price = parseInt($(`#field-price-${id}`).data('price'))
         let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
         if(total > 0) {
-            let new_total = total - 1
+        let new_total = total - 1
             $(`#total-${id}`).val(new_total)
             let html = (new_total*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
             $(`#field-total-${id}`).html(`Rp. ${html}`)

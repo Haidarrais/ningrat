@@ -71,6 +71,7 @@ class PointController extends Controller
      */
     public function update(PointUpdateRequest $request, $id)
     {
+       
         $point = Point::find($id);
         $point->update($request->all());
         return response()->json([
