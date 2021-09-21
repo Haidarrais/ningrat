@@ -1,0 +1,50 @@
+<table class="table table-sm">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">Nama</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse ($users as $key => $value)
+            <tr class="text-center">
+                <th scope="row">{{ ($users->currentpage()-1) * $users->perpage() + $loop->index + 1 }}</th>
+                <td>{{ $value->name }}</td>
+                <td>{{ $value->email }}</td>
+                <td>
+                    @if ($value->status)
+                        <span class="badge badge-success">Aktif</span>
+                    @else
+                        <span class="badge badge-danger">Tidak Aktif</span>
+                    @endif
+                </td>
+                <td scope="row">
+                    @role('superadmin')
+                    @if (isset($value->request_upgrade()->latest()->first()->status))
+                        @if ($value->request_upgrade()->latest()->first()->status == 1)
+                            <button class="btn btn-sm btn-primary" onclick="upgradeUser({{ $value->id }})">Upgrade</button>
+                        @endif
+                    @endif
+                    @if ($value->status)
+                        <button class="btn-sm btn btn-warning" onclick="setStatusUser({{ $value->id }}, 0)"><i class="fas fa-user-slash"></i></button>
+                    @else
+                        <button class="btn-sm btn btn-info" onclick="setStatusUser({{ $value->id }}, 1)"><i class="fas fa-user-check"></i></button>
+                    @endif
+                    @endrole
+                    <button type="button" class="btn-sm btn btn-success" onclick="editData({{ $value->id }})"><i class="fas fa-user-edit"></i></button>
+                    <button class="btn-sm btn btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button"><i class="fas fa-user-times"></i></button>
+                    <a href="{{ route('users.hirarki', base64_encode($value->api_token)) }}" class="btn-sm btn btn-warning"><i class="fas fa-code-branch"></i></a>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="5" class="text-center">Tidak ada data</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
+{{ $users->appends($data)->links() }}

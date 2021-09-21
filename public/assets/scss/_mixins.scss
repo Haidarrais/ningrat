@@ -1,0 +1,41 @@
+/*-- Transition Ease --*/
+
+@mixin transition($time) {
+    -webkit-transition: all $time ease 0s;
+    -moz-transition: all $time ease 0s;
+    -ms-transition: all $time ease 0s;
+    -o-transition: all $time ease 0s;
+    transition: all $time ease 0s;
+}
+
+/*-- Transition Ease In --*/
+@mixin transitionin($time) {
+    -webkit-transition: all $time ease-in 0s;
+    -moz-transition: all $time ease-in 0s;
+    -ms-transition: all $time ease-in 0s;
+    -o-transition: all $time ease-in 0s;
+    transition: all $time ease-in 0s;
+}
+
+/*-- Transition Ease In Out --*/
+@mixin transitionout($time) {
+    -webkit-transition: all $time ease-in-out 0s;
+    -moz-transition: all $time ease-in-out 0s;
+    -ms-transition: all $time ease-in-out 0s;
+    -o-transition: all $time ease-in-out 0s;
+    transition: all $time ease-in-out 0s;
+}
+
+/*-- Transform --*/
+@mixin transform($value) {
+    -webkit-transform: $value;
+    -ms-transform: $value;
+    transform: $value;
+}
+
+/*-- Border Radius --*/
+@mixin border-radius($radius) {
+	border-radius: $radius;
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+}

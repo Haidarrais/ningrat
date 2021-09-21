@@ -1,0 +1,148 @@
+/*----------------------------------------*/
+/*  09. Blog Area
+/*----------------------------------------*/
+.blog-area {
+    @media #{$tablet-device}{padding: 0 0 73px}
+    @media #{$large-mobile}{padding: 0 0 60px}
+    &.blog-area-pt {
+        @media #{$tablet-device}{padding: 73px 0 73px}
+        @media #{$large-mobile}{padding-top: 60px;}
+    }
+    & .section-title {
+        @media #{$large-mobile}{margin-bottom: 40px}
+    }
+    & .slick-arrow {
+        border: 2px solid $color7;
+        color: $slick-color;
+        font-size: 17px;
+        height: 50px;
+        left: -55px;
+        line-height: 48px;
+        width: 50px;
+        @media #{$desktop-device}{height: 40px; left: 15px; line-height: 39px; width: 40px;}
+        @media #{$tablet-device}{left: -8px;}
+        @media #{$large-mobile}{left: 15px; background: $white; top: 42%}
+        &.slick-next {            
+            left: auto; 
+            right: -55px;
+            @media #{$desktop-device}{right: 15px;}
+            @media #{$tablet-device}{right: -8px;}
+            @media #{$large-mobile}{right: 15px;}
+        }
+        &:hover {
+            background: $gray none repeat scroll 0 0;
+            border-color: $white;
+            box-shadow: 6px 8px 30px 0 rgba(0, 0, 0, 0.1);
+            color: $color4;
+        }
+    }
+    &:hover .slick-arrow {opacity: 1;}
+    & .single-blog {
+        overflow: hidden;
+        @include transitionout(.3s);
+        & .blog-image {
+            overflow: hidden;
+            @include border-radius(15px 15px 0 0);
+            & a {
+                display: block;
+                & img {
+                    max-width: 100%;
+                    @include transitionout(.3s);
+                    @media #{$large-mobile}{width: 100%}
+                } 
+            }
+        }
+        & .blog-text {
+            border-bottom: 1px solid $blog-color;
+            border-left: 1px solid $blog-color;
+            @include border-radius(0 0 15px 15px);
+            border-right: 1px solid $blog-color;
+            padding: 30px 12px 35px;
+            & h4 {
+                color: $color3;
+                font-family: $oswald;
+                font-weight: 500;
+                margin-bottom: 7px;
+                & a {
+                    &a:hover {color: $green;}
+                }
+            }
+            & .post-meta {
+                    color: $blog-color-2;
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 21px;
+                    text-transform: capitalize;
+                span.author-name {
+                    span {
+                        color: $green;
+                        padding-right: 3px;
+                    }
+                }
+            }
+            & p {margin-bottom: 29px;}
+            & a.default-btn {
+                border-color: $color7;
+                color: $dark-hover;
+                line-height: 39px;
+                padding: 0 30px;
+                &:hover, &:focus {
+                    border-color: $green;
+                    background: $green;
+                    color: $white;
+                }
+            }
+        }
+        &:hover .blog-image img {
+            @include transform(scale3d(1.05, 1.05, 1.05));
+        }
+    }
+}
+.blog-three-area {
+    @media #{$tablet-device}{padding: 90px 0 73px}
+    @media #{$large-mobile}{padding: 60px 0 60px}
+}
+.blog-four-area {
+    @media #{$tablet-device}{padding-bottom: 0}
+    @media #{$large-mobile}{padding-bottom: 0}
+    &.blog-pt-hm6 {
+        @media #{$large-mobile}{padding: 60px 0 30px}
+        @media #{$tablet-device}{padding: 60px 0 20px}
+    }
+    & .section-title {
+        @media #{$tablet-device}{margin-bottom: 15px}
+        @media #{$large-mobile}{margin-bottom: 15px}
+    }
+    & .blog-carousel {
+        & .slick-arrow {
+            left: 8px; 
+            margin-top: 7px; 
+            background: $gray;
+            @media #{$large-mobile}{left: 15px; top: 52%; box-shadow: none}
+            @media #{$small-mobile}{top: 41%;}
+            &.slick-next {
+                right: 8px;
+                left: auto;
+                @media #{$large-mobile}{right: 15px;}
+            }
+        }
+        & .slick-slide {
+            padding: 30px 15px;
+            @media #{$large-mobile}{padding-top: 20px}
+            & .single-blog {
+                @include border-radius(14px);
+                & .blog-text {
+                    & h4 {
+                        & a:hover {color: $golden;}
+                    }
+                    .post-meta span.author-name span {color: $golden;}
+                    & a.default-btn {background: transparent;}
+                    & a.default-btn:hover {background: $golden; border-color: $golden}
+                }
+                &:hover {
+                    box-shadow: 6px 8px 14px 0px rgba(0, 0, 0, 0.1), inset 0 0 0 1px $white;
+                }
+            } 
+        }
+    }
+}

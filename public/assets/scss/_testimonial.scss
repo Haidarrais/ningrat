@@ -1,0 +1,132 @@
+/*----------------------------------------*/
+/*  08. Testimonial Area
+/*----------------------------------------*/
+.testimonial-area {
+    @media #{$laptop-device}{padding: 107px 0 95px}
+    @media #{$tablet-device}{padding: 90px 0 76px}
+    @media #{$large-mobile}{padding: 60px 0 46px}
+    & .testimonial-slider-wrapper {
+        & .text-carousel {
+            .slider-text {
+                & .testi-quote {
+                    display: flex;
+                    justify-content: center;
+                }
+                & p {
+                    font-size: 14px;
+                    line-height: 30px;
+                    margin: 31px auto 30px;
+                    max-width: 82%;
+                    @media #{$large-mobile}{
+                        line-height: 23px; 
+                        margin: 13px auto 10px; 
+                        max-width: 92%;
+                    }
+                }
+            }
+            & .slick-arrow {
+                    border: 2px solid $color7;
+                    color: $color6;
+                    font-size: 17px;
+                    height: 50px;
+                    left: -55px;
+                    line-height: 48px;
+                    width: 50px;
+                    @media #{$desktop-device}{left: -4px}
+                    @media #{$tablet-device}{left: -4px}
+                    @media #{$large-mobile}{
+                        left: -24px;
+                        top: 60%;
+                    }
+                    @media #{$small-mobile}{left: -4px}
+                &.slick-next {
+                    left: auto; 
+                    right: -55px;
+                    @media #{$desktop-device}{right: -4px;}
+                    @media #{$tablet-device}{right: -4px;}
+                    @media #{$large-mobile}{
+                        right: -24px;
+                    }
+                    @media #{$small-mobile}{right: -4px;}
+                }
+                &:hover {
+                    background: $gray none repeat scroll 0 0;
+                    border-color: $white;
+                    box-shadow: 6px 8px 30px 0 rgba(0, 0, 0, 0.1);
+                    color: $color4;
+                }
+            }
+            &:hover .slick-arrow {opacity: 1;}
+        }
+        & .image-carousel {
+            margin: auto;
+            max-width: 400px;
+            overflow: hidden;
+
+            & .testi-img {
+                & img {
+                    margin: auto;
+                    @include border-radius(50%);
+                    cursor: pointer;
+                    opacity: 0.4;
+                    @include transform(scale(0.85));
+                    @include transitionout(.3s);
+                }
+                & h4 {
+                    color: $color2;
+                    font-family: $oswald;
+                    font-size: 14px;
+                    font-weight: 600;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    opacity: 0;
+                    text-align: center;
+                    text-transform: uppercase;
+                    @include transitionout(.3s);
+                }
+                &.slick-current img {
+                    opacity: 1;
+                    @include transform(scale(1));
+                }
+                &:hover > img {opacity: 1;}
+                &.slick-current > h4 {opacity: 1;}
+            }
+            & .slick-list {padding: 0 !important;}
+        }
+    }
+}
+.testimonial-four-area {
+    @media #{$laptop-device}{padding: 80px 0 0px}
+    @media #{$tablet-device}{padding: 0px 0}
+    @media #{$large-mobile}{padding: 40px 0 0}
+    .testimonial-slider-wrapper {
+        .text-carousel {
+            .slider-text {
+                .testi-quote {
+                    padding-top: 21px;
+                    @media #{$tablet-device}{padding-top: 23px}
+                    @media #{$large-mobile}{padding-top: 20px}
+                }
+            }
+            .slick-arrow {
+                left: 0px; 
+                top: 51%;
+                &.slick-next {
+                    right: 0px
+                }
+            }
+        }
+        .image-carousel {
+            .testi-img {
+                h4 {
+                    margin-bottom: 5px;
+                    @media #{$large-mobile}{margin-bottom: 7px}
+                }
+            }
+        }
+    }
+}
+.wrapper-two-area {
+    @media #{$tablet-device}{padding-top: 80px}
+    @media #{$large-mobile}{padding-top: 0}
+}

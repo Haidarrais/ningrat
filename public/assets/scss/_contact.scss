@@ -1,0 +1,116 @@
+/*---------------------------------------
+    16. Contact
+-----------------------------------------*/
+.contact-area {
+    @media #{$tablet-device}{margin-bottom: 75px}
+    @media #{$large-mobile}{margin-bottom: 60px}
+    & > div {
+        float: left; 
+        width: 50%;
+        @media #{$tablet-device}{width: 100%; padding-top: 90px}
+        @media #{$large-mobile}{width: 100%; padding-top: 60px}
+    }
+	.contact-form {
+        padding-left: 45px; padding-right: 45px;
+        @media #{$desktop-device}{padding-left: 40px; padding-right: 40px;}
+        @media #{$tablet-device}{padding-top: 90px; padding-bottom: 90px}
+        @media #{$large-mobile}{
+            width: 100%; 
+            padding-top: 60px; 
+            padding-left: 15px; 
+            padding-right: 15px; 
+            padding-bottom: 60px
+        }
+		.contact-title { 
+            color: $color1; font-size: 30px; line-height: 22px; margin-bottom: 45px; font-family: $oswald;
+            @media #{$large-mobile}{margin-bottom: 30px}
+		}
+		#contact-form { 
+            & input, & textarea {
+                background: $color9 none repeat scroll 0 0;
+                border: 0 none;
+                color: $body-color;
+                height: 46px;
+                margin-bottom: 20px;
+                padding: 0 15px;
+                width: 100%;
+                &::-moz-placeholder, &::-moz-placeholder {color: $body-color}
+                @media #{$large-mobile}{margin-bottom: 14px}
+            }
+			.row { 
+                margin-left: -10px; margin-right: -10px;
+				.col-md-6 { 
+                    padding-left: 10px; padding-right: 10px;
+					#name { 
+					}
+				}
+			}
+			#message { 
+                height: 135px; padding: 10px 15px; width: 100%;
+			}
+			.submit-btn { 
+                cursor: pointer;
+                &:hover {
+                    border-color: $green;
+                    background: $green;
+                    color: $white;
+                }
+                @media #{$large-mobile}{width: 100%}
+			}
+			.form-messege { 
+                &.success {color: $green-5;}
+                &.error {color: $red-2;}
+			}
+		}
+	}
+	.contact-address { 
+        background: $gray none repeat scroll 0 0;
+        padding-left: 45px;
+        padding-right: 45px;
+        @media #{$desktop-device}{padding-left: 40px; padding-right: 40px;}
+        @media #{$tablet-device}{padding-bottom: 80px}
+        @media #{$large-mobile}{padding-left: 15px; padding-right: 15px; padding-bottom: 49px}
+		.contact-title {
+            color: $color1; font-size: 30px; line-height: 22px; margin-bottom: 39px; font-family: $oswald;
+            @media #{$large-mobile}{margin-bottom: 28px}
+		}
+		.contact-info {
+            margin-top: -1px;
+			p {
+                margin-bottom: 36px;
+                @media #{$large-mobile}{margin-bottom: 25px}
+			}
+			.contact-list-wrapper { 
+				.contact-list { 
+                    border-top: 1px solid $white-light-2;
+                    display: flex;
+                    line-height: 25px;
+                    padding: 12px 0;
+                    @media #{$large-mobile}{padding: 8px 0}
+					i { 
+                        height: 40px; line-height: 36px; margin-right: 6px; text-align: center; width: 37px;
+                        @media #{$large-mobile}{width: 29px}
+					}
+					span {
+                        display: block; 
+                        line-height: 36px; 
+                        margin-bottom: 10px;
+                        @media #{$large-mobile}{margin-bottom: 0}
+                    }
+				}
+			}
+		}
+		.working-time { 
+            padding-top: 26px; padding-bottom: 6px;
+            @media #{$large-mobile}{padding-top: 10px}
+			h2 { 
+                color: $color1; font-size: 24px; margin-bottom: 7px; font-family: $oswald;
+			}
+			span { 
+				span { 
+                    font-weight: 700; padding-right: 2px
+				}
+			}
+		}
+	}
+}

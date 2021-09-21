@@ -1,0 +1,75 @@
+<div>
+    <!-- Breadcrumb Area Start -->
+    <div class="breadcrumb-area bg-12 text-center">
+        <div class="container">
+            <h1>Transaction Detail</h1>
+            <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="index.html">Transaction Detail</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$invoice[0]['invoice']}}</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- Breadcrumb Area End -->
+    <!-- Cart Area Start -->
+    <div class="cart-area table-area pt-110 pb-95">
+        <div class="container">
+                @php
+                    if ($invoice[0]['status'] == 0) {
+                        $text = 'text-secondary';
+                        $status = 'Pending';
+                    }elseif ($invoice[0]['status'] == 1) {
+                        $text = 'text-warning';
+                        $status = 'Dikemas';
+                    }elseif ($invoice[0]['status'] == 2) {
+                        $text = 'text-warning';
+                        $status = 'Dikirim';
+                    }elseif ($invoice[0]['status'] == 3) {
+                        $text = 'text-warning';
+                        $status = 'Diterima';
+                    }elseif ($invoice[0]['status'] == 4) {
+                        $text = 'text-success';
+                        $status = 'Selesai';
+                    }elseif ($invoice[0]['status'] == 5) {
+                        $text = 'text-danger';
+                        $status = 'Ditolak';
+                    }elseif ($invoice[0]['status'] == 6) {
+                        $text = 'text-danger';
+                        $status = 'Dibatalkan';
+                    }
+                @endphp
+                <h4 class="{{$text}}">Status Transaksi : {{$status}}</h4>
+            <div class="table-responsive">
+                <table class="table product-table text-center">
+                    <thead>
+                        <tr>
+                            <th class="table-image">image</th>
+                            <th class="table-p-name">product</th>
+                            <th class="table-p-price">price</th>
+                            <th class="table-p-qty">quantity</th>
+                            <th class="table-total">total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @foreach ($transactions as $item )
+                                <tr>
+                                    <td class="table-image"><a href="product-details.html"><img src="{{asset('upload/product/'. $item->stock->product->image)}}" alt=""></a></td>
+                                    <td class="table-p-name"><a href="product-details.html">{{$item->stock->product->name}}</a></td>
+                                    <td class="table-p-price"><p>Rp.{{ number_format($item->stock->product->price) }}</p></td>
+                                    <td class="table-p-qty">
+                                        <span>{{$item->qty}}</span>
+                                    </td>
+                                    <td class="table-total">
+                                        <p>Rp.{{ number_format($item->qty*$item->stock->product->price) }}</p>
+                                    </td>
+                                </tr>
+                            @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Cart Area End -->
+</div>

@@ -1,0 +1,330 @@
+/*----------------------------------------*/
+/*  06. Banner Area
+/*----------------------------------------*/
+.banner-area {
+    @media #{$tablet-device}{padding: 80px 0 58px;}
+    @media #{$large-mobile}{padding: 53px 0 50px;}
+    & .banner-text {
+        @media #{$extraBig-device}{padding-top: 15px;}
+        @media #{$laptop-device}{padding-top: 24px;}
+        @media #{$tablet-device}{padding-top: 0;}
+        @media #{$large-mobile}{padding-top: 0;}
+        & h3 {
+            color: $color4;
+            font-weight: 300;
+            line-height: 19px;
+            margin-bottom: 3px;
+            @media #{$large-mobile}{font-size: 22px}
+            & span {
+                color: $olive;
+                padding-left: 3.5px;
+            }
+        }
+        & h1 {
+            color: $color2;
+            font-family: "Playfair Display",serif;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 26px;
+            @media #{$desktop-device}{font-size: 63px;}
+            @media #{$large-mobile}{font-size: 45px; margin-bottom: 15px}
+        }
+        & h2 {
+            color: $olive;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 9px;
+            position: relative;
+            text-transform: uppercase;
+            & img {
+                position: relative;
+                top: -1px;
+            }
+            & span {
+                
+                &:last-child {
+                    padding-left: 14px;
+                    position: relative;
+                }
+            }
+        }
+        & p {
+            @media #{$desktop-device}{width: 95%; margin-bottom: 0}
+        }
+        & a.default-btn {
+            line-height: 37px;
+            margin-top: 44px;
+            padding: 0 25px;
+            @media #{$tablet-device}{margin-top: 25px;}
+            @media #{$large-mobile}{margin-top: 4px}
+        }
+    }
+    & .banner-image-wrapper {
+        position: relative;
+        & .banner-image {
+            @media #{$desktop-device}{padding-top: 7px;}
+            @media #{$tablet-device}{float: right; padding-top: 20px; width: 61%;}
+            @media #{$large-mobile}{float: right; margin-right: -15px; margin-top: 25px; width: 64%;}
+            & img {max-width: 100%;}
+        }
+        & .banner-image-text {
+            background: $white none repeat scroll 0 0;
+            border: 2px solid $olive;
+            @include border-radius(30px);
+            left: -65px;
+            padding: 24px 25px;
+            position: absolute;
+            top: 92px;
+            width: 47.5%;
+            @media #{$desktop-device}{padding: 20px 14px; width: 54%;}
+            @media #{$tablet-device}{left: 59px; top: 80px}
+            @media #{$large-mobile}{left: 0; padding: 16px 14px 12px; top: 44px; width: 68.3%;}
+            &:before {
+                -moz-border-bottom-colors: none;
+                -moz-border-left-colors: none;
+                -moz-border-right-colors: none;
+                -moz-border-top-colors: none;
+                border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) $olive;
+                border-image: none;
+                border-style: solid;
+                border-width: 15px;
+                content: " ";
+                height: 0;
+                left: 100%;
+                margin-top: -36px;
+                pointer-events: none;
+                position: absolute;
+                top: 57%;
+                width: 0;
+            }
+            &:after {
+                -moz-border-bottom-colors: none;
+                -moz-border-left-colors: none;
+                -moz-border-right-colors: none;
+                -moz-border-top-colors: none;
+                border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) $white;
+                border-image: none;
+                border-style: solid;
+                border-width: 12px;
+                content: " ";
+                height: 0;
+                left: 100%;
+                margin-top: -32px;
+                pointer-events: none;
+                position: absolute;
+                top: 57%;
+                width: 0;
+            }
+            & h4 {
+                color: $color2;
+                font-size: 13px;
+                font-weight: 600;
+                line-height: 15px;
+                margin-bottom: 12px;
+                padding-bottom: 11px;
+                position: relative;
+                text-transform: uppercase;
+                @media #{$large-mobile}{padding: 0}
+                &::after {
+                    background: $color2 none repeat scroll 0 0;
+                    bottom: 0;
+                    content: "";
+                    height: 1px;
+                    left: 0;
+                    position: absolute;
+                    width: 35px;
+                    @media #{$large-mobile}{display: none}
+                }
+            }
+            & p {line-height: 22px;}
+        }
+    }
+    &.banner-one-area {
+        @media #{$laptop-device}{padding: 53px 0 78px;}
+    }
+}
+.shop-banner-area {
+    @media #{$large-mobile}{padding: 24px 0 40px;}
+    & .shop-banner-img {
+        overflow: hidden;
+        @include border-radius(15px);
+        @media #{$large-mobile}{margin-bottom: 20px}
+        & a{
+            display: inline-block;
+            & img {
+                @include transitionin(.3s);
+                overflow: hidden;
+                max-width: 100%
+            }
+            &:hover img {
+                @include transform(scale3d(1.05, 1.05, 1.05));
+            }
+        }
+    }
+}
+.banner-two-area {
+    @media #{$tablet-device}{background-position: center -83px; padding: 70px 0 106px;}
+    @media #{$large-mobile}{padding: 51px 0 60px;}  
+    & .banner-text {
+        padding-top: 50px;
+        @media #{$tablet-device}{
+            padding-top: 35px;
+            padding-bottom: 15px;
+        }  
+        @media #{$large-mobile}{
+            padding-top: 8px; 
+            width: 92%
+        }  
+        @media #{$small-mobile}{width: 100%}
+    }
+}
+.banner-four-area {
+    margin-top: -44px;
+    @media #{$tablet-device}{margin-top: 0}
+    @media #{$large-mobile}{margin-top: 10px}
+    & .banner-four-container {
+        @media #{$large-mobile}{flex-flow: column}
+        & .banner-four-image {
+            & a {
+                display: block;
+                overflow: hidden;
+                & img {
+                    @include transitionin(.3s);
+                    @media #{$large-mobile}{max-width: 100%}
+                }
+                &:hover img {
+                    @include transform(scale3d(1.05, 1.05, 1.05));
+                }
+            }
+        }
+        & .banner-four-text {
+            margin-left: 25px;
+            padding-top: 20px;
+            @media #{$tablet-device}{padding-top: 10px}
+            @media #{$large-mobile}{margin-left: 0}
+            & h4 {
+                font-weight: 500;
+                font-size: 12px;
+                color: #a4a4a4;
+                letter-spacing: 6px;
+                font-family: $oswald;
+                text-transform: uppercase;
+                padding-top: 12px;
+                margin-bottom: 36px;
+                @media #{$tablet-device}{margin-bottom: 20px}
+                @media #{$large-mobile}{margin-bottom: 20px}
+            }
+            & p {
+                width: 580px;
+                margin-bottom: 51px;
+                @media #{$desktop-device}{width: auto;}
+                @media #{$tablet-device}{width: auto; margin-bottom: 30px}
+                @media #{$large-mobile}{width: auto; margin-bottom: 30px}
+            }
+            & .signature img {
+                margin-left: -12px;
+                @media #{$tablet-device}{width: 66%}
+                @media #{$large-mobile}{width: 45%; margin-left: 0}
+                @media #{$small-mobile}{width: 66%;}
+            }
+        }
+    }
+}
+
+
+.organic-about-area {
+    @media #{$large-mobile}{padding-top: 40px;padding-bottom: 50px;}
+}
+
+.organic-about-img {
+    img {
+        width: 100%;
+    }    
+}
+
+.organic-about-text {
+    @media #{$large-mobile}{margin-top: 30px;}
+    h4 {
+        font-weight: 500;
+        font-size: 12px;
+        color: #a4a4a4;
+        letter-spacing: 6px;
+        font-family: "Oswald", sans-serif;
+        text-transform: uppercase;
+        padding-top: 12px;
+        margin-bottom: 30px;
+        @media #{$tablet-device}{margin-bottom: 10px;}
+        @media #{$large-mobile}{margin-bottom: 10px;}
+    }
+    p {
+        margin-bottom: 45px;
+        @media #{$tablet-device}{margin-bottom: 20px;}
+        @media #{$large-mobile}{margin-bottom: 20px;}
+    }
+}
+
+.banner-fruits {
+    a {
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.banner-wrap {
+    position: relative;
+    a {
+        img {
+            width: 100%;
+        }
+    }
+    .banner-content {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        h4 {
+            text-transform: capitalize;
+            margin: 0;
+            color: $green;
+            font-size: 20px;
+            font-family: $playfair;
+            a {
+                color: $green;
+            }
+        }
+        p {
+            color: #333;
+            margin: 5px 0 15px;
+            font-size: 14px;
+        }
+        .banner-btn {
+            a {
+                text-decoration: underline;
+                line-height: 1;
+                display: inline-block;
+                color: #333;
+                text-transform: capitalize;
+                font-size: 14px;
+                font-family: $playfair;
+                &:hover {
+                    color: $green;
+                }
+            }
+        }
+    }
+}
+
+.banner-area {
+    &.pb-70 {
+        @media #{$large-mobile}{padding-bottom: 30px;}
+    }
+    &.pt-100 {
+        @media #{$large-mobile}{padding-top: 50px;}
+    }
+}
+
+
+

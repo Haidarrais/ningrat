@@ -1,0 +1,51 @@
+/*----------------------------------------*/
+/*  04. Category Area
+/*----------------------------------------*/
+.food-category-area {
+    @media #{$laptop-device}{padding: 80px 0 70px;}
+    @media #{$desktop-device}{padding: 92px 0 70px;}
+    @media #{$tablet-device}{padding: 76px 0 50px;}
+    @media #{$large-mobile}{padding: 30px 0 12px;}
+    & .ht-food-slider {
+        margin: 0 -15px;
+        width: auto;
+        & .single-food-category {
+            border: 1px solid $white-light;
+            @include border-radius(20px);
+            margin-bottom: 40px;
+            margin-top: 30px;
+            padding: 43px 0 36px;
+            @include transitionout(.3s);
+            @media #{$large-mobile}{margin-top: 5px}
+            &:hover {
+                background: $gray none repeat scroll 0 0;
+                border-color: $white;
+                box-shadow: 4px 8px 14px 0 rgba(0, 0, 0, 0.1), 0 0 0 1px $white inset;
+            }
+            & > h4 {
+                & > a{
+                    color: $dark-green;
+                    font-family: $oswald;
+                    font-size: 18px;
+                    font-weight: 500;
+                    text-transform: capitalize;
+                    @include transitionout(.3s);
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+            & >  img {
+                margin: auto;
+                padding: 25px 0 22px;
+            }
+            & > span {
+                color: $green;
+                display: block;
+            }
+        }
+    }
+}
+.food-category-three {
+    @media #{$large-mobile}{padding: 30px 0 20px;}
+}

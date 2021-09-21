@@ -1,0 +1,115 @@
+/*----------------------------------------*/
+/*  11. Newsletter
+/*----------------------------------------*/
+.newsletter-container {
+    & h2 {
+        color: $color3;
+        font-family: $oswald;
+        font-size: 24px;
+        line-height: 25px;
+        margin-bottom: 17px;
+        padding-top: 2px;
+    }
+    & p {}
+    & .newsletter-form {
+        & form {
+            & .mc-form {
+                background: $form-bg none repeat scroll 0 0;
+                border: 1px solid $color7;
+                @include border-radius(35px);
+                box-shadow: 0 1px 0 0 $white;
+                height: 50px;
+                margin: 43px auto auto;
+                max-width: 600px;
+                position: relative;
+                @media #{$tablet-device}{margin: 33px auto auto}
+                @media #{$large-mobile}{margin: 26px auto auto; width: 100%;}
+                @media #{$small-mobile}{height: 44px; margin: 20px auto auto; width: 100%;}
+                & input {
+                    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+                    border: 0 none;
+                    color: $input-color;
+                    height: 100%;
+                    padding: 15px 135px 15px 25px;
+                    width: 100%;
+                    @media #{$small-mobile}{padding: 8px 105px 8px 16px;}
+                }
+                & input::-moz-placeholder {
+                    color: $input-color;
+                }
+                & .mc-news {
+                    left: -5000px;
+                    position: absolute;
+                }
+                & .default-btn {
+                    background: $green;
+                    border-color: $green;
+                    color: $white;
+                    height: calc(100% + 1px);
+                    padding: 0 33px;
+                    position: absolute;
+                    right: -1px;
+                    top: -0.5px;
+                    @media #{$small-mobile}{line-height: 42px; padding: 0 20px;}
+                    &:hover, &:focus {
+                        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+                        color: $green;
+                    }
+                }
+            }
+        }
+    }
+}
+.social-icon {
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    padding-bottom: 58px;
+    @media #{$tablet-device}{padding-top: 35px; padding-bottom: 38px}
+    @media #{$large-mobile}{padding-top: 31px; padding-bottom: 9px}
+    @media #{$small-mobile}{padding-top: 25px}
+    & > a {
+        border: 1px solid $color7;
+        @include border-radius(50%);
+        box-shadow: 0 1px 0 0 $white;
+        color: $social-icon-color;
+        font-size: 14px;
+        height: 42px;
+        line-height: 40px;
+        margin: 0 9px;
+        text-align: center;
+        width: 42px;
+        &:hover {
+            border-color: $white;
+            box-shadow: 6px 8px 30px 0 rgba(0, 0, 0, 0.1);
+            color: $dark-hover;
+        }
+    }
+}
+.newsletter-syle-two {
+    & .newsletter-container {
+        border-top: 1px solid #e1e1e1;
+        box-shadow: inset 0 1px 0 0 #fff;
+        @media #{$tablet-device}{padding-top: 85px}
+        @media #{$large-mobile}{padding-top: 54px}
+        & .newsletter-form {
+            form  {
+                .mc-form {
+                    .default-btn {
+                        background: $golden;
+                        border-color: $golden;
+                        &:hover, &:focus {
+                            background: $white;
+                            color: $golden;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .social-icon {
+        padding-bottom: 60px;
+        @media #{$tablet-device}{padding-bottom: 40px;}
+        @media #{$large-mobile}{padding-bottom: 10px;}
+    }
+}
