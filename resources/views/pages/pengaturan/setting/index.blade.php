@@ -8,8 +8,7 @@
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
-                            value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
                         </div>
@@ -40,7 +39,33 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Key</label>
-                        <input type="text" class="form-control" name="key" id="key" required>
+                        <select name="key" id="selectKey" class="form-control">
+                            <option selected>==Pilih Key==</option>
+                            <option value="minimal-belanja" title="atur minimal belanja user sesuai roe">minimal-belanja</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="form-group d-none" id="selectRoleWrapper">
+                        <label for="selectSubKategori">Role</label>
+                        <select name="role" id="selectRole" class="form-control">
+                            <option selected disabled>Pilih Role</option>
+                           @foreach ($roles as $role)
+                               <option value="{{$role->name}}">{{$role->name}}</option>
+                           @endforeach
+                        </select>
+                        <div class="form-check mt-2 d-none">
+                            <input class="form-check-input" type="radio" name="distributorType" id="exampleRadios1" value="old" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                               Distributor Lama(Terhitung 2019 ke bawah)
+                            </label>
+                        </div>
+                        <div class="form-check d-none">
+                            <input class="form-check-input" type="radio" name="distributorType" id="exampleRadios2" value="new">
+                            <label class="form-check-label" for="exampleRadios2">
+                                Distributor baru(Terhitung 2019 ke atas)
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Value</label>
@@ -61,21 +86,43 @@
 <script>
     let type
     $(document).ready(function() {
+        //modal input 
+        $("#selectKey").on('change', () => {
+            var value = $('#selectKey').val()
+            if (value == "minimal-belanja") {
+                $("#selectRoleWrapper").removeClass("d-none");
+            }else{
+                $("#selectRoleWrapper").addClass("d-none");
+            }
+        })
+        $("#selectRole").on("change",()=>{
+            var value = $('#selectRole').val()
+            console.log(value)
+            if(value=="distributor"){
+                $(".form-check").removeClass('d-none');
+            }else{
+                $(".form-check").addClass('d-none');
+            }
+        })
         $("#btnTambah").on('click', () => {
             type = 'STORE'
             $("#modalTitle").html('Tambah Setting')
             $("#formTambah")[0].reset()
             $('#modal_tambah').modal('show')
         })
+        $("input[type=radio][name=distributorType]").change(function() {
+            console.log(this.value);
+        })
 
         $("#formTambah").on('submit', (e) => {
             e.preventDefault()
             let serializedData = $("#formTambah").serialize()
-
-            if(type == "STORE") {
+            if (type == "STORE") {
                 new Promise((resolve, reject) => {
                     $axios.post(`{{ route('setting.store') }}`, serializedData)
-                        .then(({data}) => {
+                        .then(({
+                            data
+                        }) => {
                             $('#modal_tambah').modal('hide')
                             refresh_table(URL_NOW)
                             $swal.fire({
@@ -85,14 +132,19 @@
                             })
                         })
                         .catch(err => {
+                            console.log(err);
                             throwErr(err)
+                        }).then(()=>{
+                            $("#modal_tambah").modal("hide")
                         })
                 })
-            } else if(type == "UPDATE") {
+            } else if (type == "UPDATE") {
                 let id_setting = $("#inputID").val()
                 new Promise((resolve, reject) => {
                     $axios.put(`${URL_NOW}/${id_setting}`, serializedData)
-                        .then(({data}) => {
+                        .then(({
+                            data
+                        }) => {
                             $('#modal_tambah').modal('hide')
                             refresh_table(URL_NOW)
                             $swal.fire({
@@ -112,7 +164,9 @@
     const editData = id => {
         new Promise((resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let setting = data.data
                     type = 'UPDATE'
                     $("#formTambah")[0].reset()
@@ -147,7 +201,9 @@
                 if (result.isConfirmed) {
                     new Promise((resolve, reject) => {
                         $axios.delete(`${URL_NOW}/${id}`)
-                            .then(({data}) => {
+                            .then(({
+                                data
+                            }) => {
                                 $swal.fire({
                                     icon: 'success',
                                     title: data.message.head,

@@ -9,11 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Setting extends Model
 {
     use HasFactory;
-    protected $fillable = ["parent", "key", "value"];
+    protected $fillable = ["parent", "key", "value", "role"];
     protected $appends = ['new_key'];
 
-    public function scopeFindKey($query, $key) {
-        return $query->where('key', $key)->first();
+    public static function checkData($key, $role) {
+        if ($role) {
+            return Setting::where('key', $key)->where('role',$role)->first();
+        }else{
+            return Setting::where('key', $key)->first();
+        }
     }
 
     public function getNewKeyAttribute() {

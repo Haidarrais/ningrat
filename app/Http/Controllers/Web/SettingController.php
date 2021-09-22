@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Setting\SettingStoreRequest;
 use App\Http\Requests\Setting\SettingUpdateRequest;
 use App\Traits\SettingTrait;
+use Spatie\Permission\Models\Role;
 
 class SettingController extends Controller
 {
@@ -20,12 +21,13 @@ class SettingController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
+        $roles = Role::where('name','!=', 'superadmin')->get();
         $query = Setting::query();
         $settings = $query->paginate(10);
         if($request->ajax()) {
-            return view('pages.pengaturan.setting.pagination', compact('settings', 'data'))->render();
+            return view('pages.pengaturan.setting.pagination', compact('roles','settings', 'data'))->render();
         }
-        return view('pages.pengaturan.setting.index', compact('settings', 'data'));
+        return view('pages.pengaturan.setting.index', compact('roles','settings', 'data'));
     }
 
     /**
@@ -37,18 +39,23 @@ class SettingController extends Controller
     public function store(SettingStoreRequest $request)
     {
         $key = Str::slug($request->key);
-        $setting = Setting::findKey($key);
+        $role = $request->role;
+        if ($role) {
+            $role= $role=="distributor"?$request->distributorType . "-" . $role : $role;
+        }
+        $setting = Setting::checkData($key, $role);
         if($setting) {
             return response()->json([
                 'status' => false,
                 'message' => [
                     'head' => 'Gagal',
-                    'body' => 'Key sudah ada'
+                    'body' => 'Data sudah ada, silahkan edit untuk mengupdate'
                 ]
             ], 500);
         }
         Setting::create([
             'key' => $key,
+            'role' => $role,
             'value' => $request->value
         ]);
         return response()->json([
