@@ -29,6 +29,7 @@ class DashboardController extends Controller
         }
         $all_role = Role::all();
         $role = $user->getRoleNames()->first();
+        // dd($user->created_at);
         if($role == 'reseller') {
             $hirarki = User::where('id', $user->id)->get()->pluck('id')->toArray();
             $orders = Transaction::where('user_id', $user->id)->latest()->limit(10)->get();

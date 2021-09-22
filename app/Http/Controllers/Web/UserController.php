@@ -122,6 +122,8 @@ class UserController extends Controller
             $user->update($request->all());
         }
         $user->assignRole($request->role);
+        //update nilai updated_at di user untuk melacak kapan role user berubah
+        $user->update(['updated_at'=>Carbon::now()]);
         return response()->json([
             'status' => true,
             'message' => [

@@ -187,6 +187,8 @@
     }
 
     const deleteData = id => {
+        console.log(id);
+        // return;
         $swal.fire({
                 title: 'Yakin?',
                 text: "Ingin menghapus data ini!",
