@@ -188,10 +188,8 @@
                             $role":"Anda tidak memenuhi minimal pembelanjaan sebagai $role"}}</h3>
                         </div>
                         <div>
-                            <button id="showMontlyTransaction" class="btn btn-primary btn-sm">Detail</button>
-                            {{-- <a href="#"
-                         
-                            class="btn {{$checkMitraRequirement?'btn-success':'btn-danger'}}">Detail</a> --}}
+                            <button id="showMontlyTransaction" class="btn {{$checkMitraRequirement?'btn-success':'btn-danger'}} btn-sm">Detail</button>
+
                         </div>
                     </div>
                 </div>
@@ -356,8 +354,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-detail-monthly" tabindex="-2" role="dialog" aria-labelledby="modal-detail-monthly"
-    aria-hidden="true">
+<div class="modal fade" id="modal-detail-monthly" tabindex="-2" role="dialog" aria-labelledby="modal-detail-monthly" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -368,28 +365,28 @@
             </div>
             <div class="modal-body">
                 <div class="card-body p-0 overflow-auto">
-                                    <div class="table-responsive table-invoice">
-                                        <table class="table table-striped" id="table_data">
-                                            <tr>
-                                                <th>Bulan</th>
-                                                <th>Total Transaksi</th>
-                                                <th>Status</th>
-                                            </tr>
-                                          @foreach ($monthly_transaction as $index => $item)
-                                          <tr>
-                                              <td>{{ $month[$index - 1] }}</td>
-                                              <td>{{"Rp " . number_format($item["sums"],2,',','.')}}</td>
-                                              <td>
-                                                  <i class="fas fa-thumbs-up  @if ($item['sums']> $minimal_transaction)
-                                                      text-primary
+                    <div class="table-responsive table-invoice">
+                        <table class="table table-striped" id="table_data">
+                            <tr>
+                                <th>Bulan</th>
+                                <th>Total Transaksi</th>
+                                <th>Status</th>
+                            </tr>
+                            @foreach ($monthly_transaction as $index => $item)
+                            <tr>
+                                <td>{{ $month[$index - 1] }}</td>
+                                <td>{{"Rp " . number_format($item["sums"],2,',','.')}}</td>
+                                <td>
+                                    <i class="fas fa-thumbs-up  @if ($item['sums']> $minimal_transaction)
+                                                      text-success
                                                   @endif" style="font-size: 20px"></i>
-                                                </td>
-                                          </tr>
-                                                @endforeach
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
@@ -507,9 +504,9 @@
         @endrole
     })
 
-$("#showMontlyTransaction").on("click",()=>{
-$("#modal-detail-monthly").modal("show");
-})
+    $("#showMontlyTransaction").on("click", () => {
+        $("#modal-detail-monthly").modal("show");
+    })
     const get_penjualan = (month, year) => {
         return new Promise((resolve, reject) => {
             $axios.post(`{{ route('api.get_penjualan') }}`, {

@@ -56,11 +56,16 @@ class DashboardController extends Controller
         }
 
 
-        $monthly_transaction = $this->getMonthlyTransaction($hirarki, $user, $minimal_transaction);
-        $check = $this->checkOrderRequirements($monthly_transaction, $minimal_transaction);
-        $checkMitraRequirement = count($check)>1?false:true;
-       
-        // dd($monthly_transaction);
+        $d = $this->getMonthlyTransaction($hirarki, $user, $minimal_transaction);
+        $monthly_transaction = [];
+        // if ($d) {
+            $check = $this->checkOrderRequirements($d, $minimal_transaction);
+            $checkMitraRequirement = count($check["checkMitraRequirement"])>1?false:true;
+            $monthly_transaction = $check["newData"];
+        // }else{
+            
+        //     $checkMitraRequirement = false;
+        // }
         $month = $this->month;
         $royalty = Royalty::where('id', '=', 1)->get()->toArray();
         if (auth()->user()->isCustomer()) {
@@ -80,6 +85,7 @@ class DashboardController extends Controller
         )->whereIn('user_id', $hirarki)
             ->orWhere('user_id', $user->id)
             ->where('status', 4)
+            // ->whereMonth('created_at', 8)
             ->whereYear('created_at', Carbon::now()->year)
             ->groupBy('month')
             ->orderBy('created_at', 'ASC')
@@ -104,21 +110,47 @@ class DashboardController extends Controller
     }
     private function checkOrderRequirements($monthly_transaction, $minimal_transaction){
         $todaysMonth = Carbon::now()->month;
-        $checkers = [];
+            $checkers = [];
+            $newData = [];
+            // dd($monthly_transaction);
         for ($i = $todaysMonth >= 6 ? 7 : 1; $i <= $todaysMonth; $i++) {
-            if ($monthly_transaction[$i]) {
-                if ($monthly_transaction[$i]["sums"] > $minimal_transaction) {
-                    array_push($checkers, true);
+            try {
+                if ($monthly_transaction[$i]) {
+                    if ($monthly_transaction[$i]["sums"] > $minimal_transaction) {
+                        array_push($checkers, true);
+                        $newData[$i] = $monthly_transaction[$i];
+                        // array_push($newData, $monthly_transaction[$i]);
+                    }else{
+                        array_push($checkers, false);
+                        $fakeData = [
+                            "sums" => 0,
+                        ];
+                        // array_push($newData,$fakeData);
+                        $newData[$i] = $fakeData;
+                    }
                 }else{
                     array_push($checkers, false);
+                    $fakeData = [
+                        "sums" => 0,
+                    ];
+                    $newData[$i] = $fakeData;
                 }
-            }else{
+                //code...
+            } catch (\Throwable $th) {
                 array_push($checkers, false);
+                $fakeData = [
+                    "sums" => 0,
+                ];
+                $newData[$i] = $fakeData;
             }
         }
         $filteredArray = Arr::where($checkers, function ($value, $key) {
             return $value == false;
         });
-        return $filteredArray;
+        // dd($filteredArray);
+        return [
+            "newData" => $newData,
+            "checkMitraRequirement" =>  $filteredArray
+        ];
     }
 }

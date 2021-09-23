@@ -50,14 +50,14 @@
                         <label for="selectSubKategori">Role</label>
                         <select name="role" id="selectRole" class="form-control">
                             <option selected disabled>Pilih Role</option>
-                           @foreach ($roles as $role)
-                               <option value="{{$role->name}}">{{$role->name}}</option>
-                           @endforeach
+                            @foreach ($roles as $role)
+                            <option value="{{$role->name}}">{{$role->name}}</option>
+                            @endforeach
                         </select>
                         <div class="form-check mt-2 d-none">
                             <input class="form-check-input" type="radio" name="distributorType" id="exampleRadios1" value="old" checked>
                             <label class="form-check-label" for="exampleRadios1">
-                               Distributor Lama(Terhitung 2019 ke bawah)
+                                Distributor Lama(Terhitung 2019 ke bawah)
                             </label>
                         </div>
                         <div class="form-check d-none">
@@ -67,10 +67,10 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="">Value</label>
-                        <input type="text" class="form-control" name="value" id="value" required>
+                    <div class="row" id="new_input">
+
                     </div>
+
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -91,16 +91,33 @@
             var value = $('#selectKey').val()
             if (value == "minimal-belanja") {
                 $("#selectRoleWrapper").removeClass("d-none");
-            }else{
+                $("#new_input").append($(`<div class="
+                                col "> <div class="
+                                form - group" id="
+                                "> <label
+                                for="">Minimal Transaksi / Bulan</label> <input type="text"
+                                class="form-control"
+                                name="value"
+                                id="value" required>
+                                </div></div>
+                                <div class = "col"> <div class="form-group"
+                                id="">
+                                <label for="">Minimal Transaksi / Order </label> <input type="text"
+                                class= "form-control"
+                                name="min_transaction"
+                                id="min_transaction"
+                                required>
+                                </div></div>`));
+            } else {
                 $("#selectRoleWrapper").addClass("d-none");
             }
-        })
-        $("#selectRole").on("change",()=>{
+        });
+        $("#selectRole").on("change", () => {
             var value = $('#selectRole').val()
             console.log(value)
-            if(value=="distributor"){
+            if (value == "distributor") {
                 $(".form-check").removeClass('d-none');
-            }else{
+            } else {
                 $(".form-check").addClass('d-none');
             }
         })
@@ -109,7 +126,7 @@
             $("#modalTitle").html('Tambah Setting')
             $("#formTambah")[0].reset()
             $('#modal_tambah').modal('show')
-        })
+        });
         $("input[type=radio][name=distributorType]").change(function() {
             console.log(this.value);
         })
@@ -134,7 +151,7 @@
                         .catch(err => {
                             console.log(err);
                             throwErr(err)
-                        }).then(()=>{
+                        }).then(() => {
                             $("#modal_tambah").modal("hide")
                         })
                 })

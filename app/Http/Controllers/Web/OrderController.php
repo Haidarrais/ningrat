@@ -102,9 +102,9 @@ class OrderController extends Controller
             ];
         }
         if($role == 'distributor') {
-            return view('pages.order.order.distributor-page', compact('products', 'upper_origin', 'minimal_transaction'));
+            return view('pages.order.order.distributor-page', compact('products', 'upper_origin', 'minimal_transaction', 'role'));
         }
-        return view('pages.order.order.order-page', compact('products', 'upper_origin', 'discount', 'minimal_transaction'));
+        return view('pages.order.order.order-page', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role'));
     }
 
     /**
