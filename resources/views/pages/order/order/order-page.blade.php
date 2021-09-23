@@ -64,15 +64,16 @@
                                 </td>
                                 <td>
                                     <div class="row">
-                                        <div class="col-3">
+                                        {{-- <div class="col-3">
                                             <button type="button" class="btn btn-sm btn-primary" onclick="minus({{ $value->product_id }})"><i class="fas fa-minus"></i></button>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-6">
-                                            <input name="qty[]" type="text" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0" readonly>
+                                            <input name="qty[]" 
+                                            oninput="onchangePrice({{ $value->id }},1000)" type="text" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0" readonly>
                                         </div>
-                                        <div class="col-3">
+                                        {{-- <div class="col-3">
                                             <button type="button" class="btn btn-sm btn-primary" onclick="plus({{ $value->product_id }}, {{ $value->stock }})"><i class="fas fa-plus"></i></button>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </td>
                                 <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
@@ -91,6 +92,16 @@
                         </div>
                         <div class="col-md-6">
                             <button type="button" class="btn btn-success" id="btn-courier">Cek Ongkir</button>
+                        </div>
+                      <div class="col-md-3">
+                            Total Belanja
+                            <input disabled name="" id="totalSemua" class="form-control">
+                            <input name="m" hidden id="totalSemuaInt" class="form-control" value="0">
+                        </div>
+                        <div class="col-md-3">
+                            Minimal Belanja({{Auth::user()->getRoleNames()->first()}})
+                            <input disabled name="" id="syarat" class="form-control"
+                                value="{{"Rp " . number_format($minimal_transaction,2,',','.')}}">
                         </div>
                         <div class="col-md-12 mt-2" id="fieldCourier">
                         </div>
@@ -148,12 +159,22 @@
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 <script>
     let weight = 0
+    var minTransation = parseInt("{{$minimal_transaction}}")
+    var totalNominal = [];
     $(document).ready(function() {
 
         $("#formTambah").on('submit', (e) => {
             e.preventDefault()
+            let countProducts = parseInt($('#totalSemuaInt').val());
             let serializedData = $("#formTambah").serialize()
-
+            if (countProducts<minTransation) { 
+                return $swal.fire({ icon: 'error' , title: "Gagal" ,
+                text: "Perhatikan minimal transaksi anda" }) 
+                } 
+            if (!$('input[name="cost" ]:checked').val()) { 
+                    return $swal.fire({
+                icon: 'error' , title: "Gagal" , text: "Anda belum memilih jenis ongkos kirim" }) 
+                }
             if(!$('input[name="cost"]:checked').val()) {
                 return $swal.fire({
                     icon: 'error',
@@ -273,6 +294,44 @@
         })
     })
 
+function onchangePrice(id, max) {
+    let total = parseInt($(`#total-${id}`).val())
+    // console.log(total)
+    if (total === "NaN") {
+    $(`#total-${id}`).val(1);
+    return 0;
+    }
+    // console.log(parseInt($(`#input-total-${id}`).val())
+    // totalNominal += parseInt($(`#input-total-${id}`).val());
+    if (total > max - 1) {
+    return $swal.fire('Gagal', 'Stock hanya ' + max, 'error')
+    }
+    let price = parseInt($(`#field-price-${id}`).data('price'))
+    // let new_total = total + 1
+    $(`#total-${id}`).val(total)
+    let html = (total * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+    if (html == "NaN") {
+    $(`#field-total-${id}`).html(`Rp. -`)
+    $(`#input-total-${id}`).val(`-`)
+    } else {
+    $(`#field-total-${id}`).html(`Rp. ${html}`)
+    $(`#input-total-${id}`).val(`${total*price}`)
+    // if (totalNominal[id]) {
+    totalNominal[id] = total * price;
+    var uhek = 0;
+    
+    for (let i = 0; i < totalNominal.length; i++) { if (typeof totalNominal[i]=="number" ) { uhek +=totalNominal[i]; } } if
+        (uhek<minTransation) { $("#totalSemua").addClass('border-danger') $("#syarat").addClass('border-danger') }else{
+        $("#totalSemua").removeClass('border-danger') $("#totalSemua").addClass('border-success')
+        $("#syarat").removeClass('border-danger') $("#syarat").addClass('border-success') }
+        $("#totalSemuaInt").attr('value',`${uhek}`); $("#totalSemua").val("Rp "+uhek.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+               
+            }
+            let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
+            weight -= prod_weight * (total - 1)
+            weight += prod_weight * total
+            $('#inputWeight').val(weight)
+        }
     const minus = id => {
         let total = parseInt($(`#total-${id}`).val())
         let price = parseInt($(`#field-price-${id}`).data('price'))

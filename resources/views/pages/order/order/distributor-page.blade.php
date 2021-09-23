@@ -126,7 +126,6 @@
             e.preventDefault()
             let countProducts = parseInt($('#totalSemuaInt').val());
             let serializedData = $("#formTambah").serialize()
-            console.log(countProducts)
             if (countProducts<minTransation) {
                 return $swal.fire({
                                 icon: 'error',

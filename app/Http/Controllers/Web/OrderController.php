@@ -35,9 +35,7 @@ class OrderController extends Controller
         $bawahan = User::where('upper', $user->id)->get()->pluck('id')->toArray();
         $query = Order::query();
         $query->with('details');
-        // dd(intval($minimal_transaction));
         if($role == 'superadmin') {
-            // return "Welkom to mai yutup cenel";
         } else {
             $query->where(function($q) use($bawahan, $user) {
                 $q->whereIn('user_id', $bawahan)
@@ -87,7 +85,7 @@ class OrderController extends Controller
         //get minimal order
         if($role == 'superadmin') {
         } else if($role == 'distributor') {
-            $minimal_transaction = $user_updated_at < 2019 ?
+            $minimal_transaction = $user_updated_at > 2019 ?
                 Setting::where('role', 'new-distributor')->first()->value :
                 Setting::where('role', 'old-distributor')->first()->value;
             $products = Product::all();
