@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Gloudemans\Shoppingcart\Contracts\Buyable;
 
-class Stock extends Model
+class Stock extends Model implements Buyable
 {
     use HasFactory;
     protected $fillable = ['user_id', 'product_id', 'status', 'stock', 'member_price', 'type'];
@@ -19,7 +20,17 @@ class Stock extends Model
         'member_price' => 'integer',
         'stock' => 'integer',
     ];
+    public function getBuyableIdentifier($options = null){
+        return $this->id;
+    }
 
+    public function getBuyableDescription($options = null){
+        return $this->name;
+    }
+
+    public function getBuyablePrice($options = null){
+        return $this->price;
+    }
     public function user() {
         return $this->belongsTo(User::class);
     }

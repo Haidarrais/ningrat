@@ -51,8 +51,9 @@
                                             <td class="table-p-price"><p>Rp.{{ number_format($item->price) }}</p></td>
                                             <td class="table-p-qty">
                                                 <button wire:click.prevert="increaseQty('{{$item->rowId}}')">+</button>
-                                                <input value="{{$item->qty}}" name="cart-qty" type="number">
+                                                <input value="{{$item->qty}}" name="cart-qty" type="number" wire:model="itemQty.{{$item->rowId}}.qty" wire:change="show()" max="{{$item->model->stock}}">
                                                 <button wire:click.prevert="decreaseQty('{{$item->rowId}}')">-</button>
+                                                <label for="cart-qty" class="label">Maks : {{$item->model->stock}}</label>
                                             </td>
 
                                             <td class="table-total">
@@ -105,4 +106,19 @@
                 </div>
             </div>
             <!-- Cart Area End -->
+            <script>
+                $(function () {
+                $("inputqty").keydown(function () {
+                    // Save old value.
+                    $(this).data("old", $(this).val());
+                });
+                $("inputqty").keyup(function () {
+                    // Check correct, else revert back to old value.
+                    if (parseInt($(this).val()) <= 99 && parseInt($(this).val()) >= 0)
+                    ;
+                    else
+                    $(this).val($(this).data("old"));
+                });
+                });
+            </script>
 </div>

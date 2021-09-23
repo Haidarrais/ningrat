@@ -92,7 +92,7 @@
                                         @endif
                                             <div class="single-product-item">
                                                 <div class="product-image">
-                                                    <a href="/member">
+                                                    <a>
                                                         <img src="{{ asset('upload/product/' . $prod->image)}}" alt="">
                                                     </a>
                                                     <div class="product-hover">

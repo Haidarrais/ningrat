@@ -10,6 +10,12 @@ use Kavist\RajaOngkir\Facades\RajaOngkir;
 
 class CartComponent extends Component
 {
+    public $itemQty=[];
+
+    public function mount()
+    {
+            $this->itemQty = Cart::content();
+    }
     public function increaseQty($rowId)
     {
         $product = Cart::get($rowId);
@@ -28,7 +34,17 @@ class CartComponent extends Component
         Cart::update($rowId,$qty);
 
     }
-
+    public function show()
+    {
+        foreach ($this->itemQty as $value) {
+            $condition = Cart::get($value["rowId"]);
+            if ($condition->model->stock >= intval($value["qty"])) {
+                Cart::update($value["rowId"],intval($value["qty"]));
+            }else{
+                return redirect(request()->header('Referer'));
+            }
+        }
+    }
     public function destroyItem($rowId)
     {
         $product = Cart::remove($rowId);
