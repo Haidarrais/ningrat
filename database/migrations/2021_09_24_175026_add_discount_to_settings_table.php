@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMinTransactionToSettingsTable extends Migration
+class AddDiscountToSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class AddMinTransactionToSettingsTable extends Migration
      */
     public function up()
     {
-        // Schema::dropIfExist('settings', function (Blueprint $table) {
-        //     $table->string('mininal_transaction')
-        //     ->after('role');
-        // });
+        Schema::dropColumns("settings","mininal_transaction");
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('minimal_transaction')->after('role')->nullable();
+            $table->bigInteger('discount')->after('minimal_transaction')->nullable();
         });
     }
 

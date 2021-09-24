@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Setting extends Model
 {
     use HasFactory;
-    protected $fillable = ["parent", "key", "value", "role"];
+    protected $fillable = ["parent", "key", "value", "role", "minimal_transaction", "discount"];
     protected $appends = ['new_key'];
 
     public static function checkData($key, $role) {
