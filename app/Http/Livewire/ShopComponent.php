@@ -37,13 +37,16 @@ class ShopComponent extends Component
     }
     public function store($stock_id, $stock_name, $stock_price)
     {
-        $product = Stock::where('product_id', $stock_id)->first();
+        $stock = Stock::where('id', $stock_id)->first();
+        $product = Stock::where('product_id', $stock->product->id)->first();
         $stock = Cart::content()->where('id', $stock_id)->first();
         if (empty($stock->qty)) {
-            Cart::add($stock_id, $stock_name, 1, $stock_price, ['stock' => $product])->associate('App\Models\Stock');
+            $catitem = Cart::add($stock_id, $stock_name, 1, $stock_price, ['stock' => $product]);
+            $catitem->associate('App\Models\Stock');
             $this->emit('cartAdd');
         }elseif ($stock->qty < $product->stock) {
-            Cart::add($stock_id, $stock_name, 1, $stock_price, ['stock' => $product])->associate('App\Models\Stock');
+            $catitem = Cart::add($stock_id, $stock_name, 1, $stock_price, ['stock' => $product]);
+            $catitem->associate('App\Models\Stock');
             $this->emit('cartAdd');
         }else{
             $this->emit('cartFail');
@@ -56,7 +59,7 @@ class ShopComponent extends Component
         if ($this->category) {
             if ($this->sorting=='date') {
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.*', 'products.id')
+                ->select('stocks.*', 'products.price')
                 ->where('stock', '>', 0)
                 ->where('category_id', $this->category)
                 ->where('user_id', $this->id_member)
@@ -66,7 +69,7 @@ class ShopComponent extends Component
             }
             else if ($this->sorting=='price-asc') {
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.*', 'products.id')
+                ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'ASC')
                 ->where('stock', '>', 0)
                 ->where('category_id', $this->category)
@@ -76,7 +79,7 @@ class ShopComponent extends Component
             }
             else if ($this->sorting=='price-desc') {
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.*', 'products.id')
+                ->select('stocks.id', 'products.id')
                 ->orderBy('price', 'DESC')
                 ->where('stock', '>', 0)
                 ->where('category_id', $this->category)
@@ -86,7 +89,7 @@ class ShopComponent extends Component
             }
             else{
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.*', 'products.id')
+                ->select('stocks.*', 'products.price')
                 ->where('stock', '>', 0)
                 ->where('category_id', $this->category)
                 ->where('user_id', $this->id_member)
@@ -96,7 +99,7 @@ class ShopComponent extends Component
         }else{
             if ($this->sorting=='date') {
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.*', 'products.id')
+                ->select('stocks.*', 'products.price')
                 ->where('stock', '>', 0)
                 ->where('user_id', $this->id_member)
                 ->orderBy('created_at', 'DESC')
@@ -105,7 +108,7 @@ class ShopComponent extends Component
             }
             else if ($this->sorting=='price-asc') {
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.*', 'products.id')
+                ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'ASC')
                 ->where('stock', '>', 0)
                 ->where('user_id', $this->id_member)
@@ -114,7 +117,7 @@ class ShopComponent extends Component
             }
             else if ($this->sorting=='price-desc') {
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.*', 'products.id')
+                ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'DESC')
                 ->where('stock', '>', 0)
                 ->where('user_id', $this->id_member)
@@ -123,7 +126,7 @@ class ShopComponent extends Component
             }
             else{
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.*', 'products.id')
+                ->select('stocks.*', 'products.price')
                 ->where('stock', '>', 0)
                 ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])

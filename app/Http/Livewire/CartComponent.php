@@ -14,7 +14,7 @@ class CartComponent extends Component
 
     public function mount()
     {
-            $this->itemQty = Cart::content();
+        $this->itemQty = Cart::content();
     }
     public function increaseQty($rowId)
     {
@@ -22,6 +22,7 @@ class CartComponent extends Component
         $qty = $product->qty + 1;
         if ($qty<=$product->model->stock) {
             Cart::update($rowId,$qty);
+            $this->itemQty = Cart::content();
         }
         else{
             session()->flash('message', 'stock tidak cukup');
@@ -32,7 +33,7 @@ class CartComponent extends Component
         $product = Cart::get($rowId);
         $qty = $product->qty - 1;
         Cart::update($rowId,$qty);
-
+        $this->itemQty = Cart::content();
     }
     public function show()
     {
@@ -40,6 +41,7 @@ class CartComponent extends Component
             $condition = Cart::get($value["rowId"]);
             if ($condition->model->stock >= intval($value["qty"])) {
                 Cart::update($value["rowId"],intval($value["qty"]));
+                $this->itemQty = Cart::content();
             }else{
                 return redirect(request()->header('Referer'));
             }

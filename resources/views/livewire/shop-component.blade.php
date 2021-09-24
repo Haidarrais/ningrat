@@ -77,7 +77,7 @@
                                                             </li>
                                                             <li><a href="{{ asset('upload/product/' . $stock->product->image) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
-                                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->product->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart{{$stock->id}}</a>
                                                     </div>
                                                 </div>
                                                 <div class="product-text">
@@ -146,7 +146,7 @@
                                                 <span class="old-price">$122.00</span>
                                             </div>
                                             <p>{{$stock->description}}</p>
-                                            <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->product->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                            <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart{{$stock->id}}</a>
                                         </div>
                                     </div>
                                 @endforeach
@@ -276,7 +276,7 @@
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus</p>
                                     <div class="input-cart">
                                         <input value="1" type="number">
-                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->product->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart{{$stock->id}}</a>
                                     </div>
                                     <div class="share-product">
                                         <h4>Share this product</h4>

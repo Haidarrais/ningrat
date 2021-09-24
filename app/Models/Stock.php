@@ -25,11 +25,11 @@ class Stock extends Model implements Buyable
     }
 
     public function getBuyableDescription($options = null){
-        return $this->name;
+        return $this->product->name;
     }
 
     public function getBuyablePrice($options = null){
-        return $this->price;
+        return $this->product->price;
     }
     public function user() {
         return $this->belongsTo(User::class);
