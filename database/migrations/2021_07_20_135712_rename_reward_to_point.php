@@ -24,6 +24,7 @@ class RenameRewardToPoint extends Migration
      */
     public function down()
     {
+        
         Schema::dropIfExists('rewards');
         Schema::dropIfExists('point_user');
     }

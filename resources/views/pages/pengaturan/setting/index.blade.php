@@ -204,6 +204,7 @@
                     data
                 }) => {
                     let setting = data.data;
+                    console.log(setting);
                     type = 'UPDATE';
                     $("#formTambah")[0].reset();
                     $("#inputID").val(setting.id);

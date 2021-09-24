@@ -11,6 +11,8 @@ use App\Http\Requests\Setting\SettingUpdateRequest;
 use App\Traits\SettingTrait;
 use Spatie\Permission\Models\Role;
 
+use function GuzzleHttp\Promise\all;
+
 class SettingController extends Controller
 {
     /**
@@ -21,13 +23,13 @@ class SettingController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $roles = Role::where('name','!=', 'superadmin')->get();
+        $roles = Role::where('name', '!=', 'superadmin')->get();
         $query = Setting::query();
         $settings = $query->paginate(10);
-        if($request->ajax()) {
-            return view('pages.pengaturan.setting.pagination', compact('roles','settings', 'data'))->render();
+        if ($request->ajax()) {
+            return view('pages.pengaturan.setting.pagination', compact('roles', 'settings', 'data'))->render();
         }
-        return view('pages.pengaturan.setting.index', compact('roles','settings', 'data'));
+        return view('pages.pengaturan.setting.index', compact('roles', 'settings', 'data'));
     }
 
     /**
@@ -41,10 +43,10 @@ class SettingController extends Controller
         $key = Str::slug($request->key);
         $role = $request->role;
         if ($role) {
-            $role= $role=="distributor"?$request->distributorType . "-" . $role : $role;
+            $role = $role == "distributor" ? $request->distributorType . "-" . $role : $role;
         }
         $setting = Setting::checkData($key, $role);
-        if($setting) {
+        if ($setting) {
             return response()->json([
                 'status' => false,
                 'message' => [
@@ -53,20 +55,11 @@ class SettingController extends Controller
                 ]
             ], 500);
         }
-        if ($key=="minimal-belanja") {
-            # code...
-             Setting::create([
-            'key' => $key,
-            'role' => $role,
-            'discount' => $request->discount,
-            'minimal_transaction'=> $ $request->minimal_transaction,
-            'value' => $request->value
-        ]);
-        }
         Setting::create([
             'key' => $key,
             'role' => $role,
-            // ''=> $ $request->minimal_
+            'discount' => $request->discount,
+            'minimal_transaction' => $request->minimal_transaction,
             'value' => $request->value
         ]);
         return response()->json([
@@ -111,13 +104,14 @@ class SettingController extends Controller
             $key = Str::slug($request->key);
             $setting = Setting::find($id);
             if ($key == "minimal-belanja") {
-            $setting->update([
-                "key" => $key,
-                "role" => $role,
-                'discount' => $request->discount,
-                "value" => $request->value,
-                "minimal_transaction" => $request->minimal_transaction
-            ]);}
+                $setting->update([
+                    "key" => $key,
+                    "role" => $role,
+                    'discount' => $request->discount,
+                    "value" => $request->value,
+                    "minimal_transaction" => $request->minimal_transaction
+                ]);
+            }
             return response()->json([
                 'status' => true,
                 'message' => [
