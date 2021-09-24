@@ -13,7 +13,7 @@ class AddDiscountToSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::dropColumns("settings","mininal_transaction");
+        // Schema::dropColumns("settings","mininal_transaction");
         Schema::table('settings', function (Blueprint $table) {
             $table->bigInteger('discount')->after('minimal_transaction')->nullable();
         });

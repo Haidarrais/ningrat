@@ -87,6 +87,7 @@ class OrderController extends Controller
         $monthly_min_transaction = 0;
         $discount_role_based = 0;
         //get minimal order
+        $setting_role = "";
         if($role == 'superadmin') {
         } else if($role == 'distributor') {
             $minimal_transaction = $user_updated_at > 2019 ?
@@ -95,7 +96,9 @@ class OrderController extends Controller
                  $discount_role_based= Setting::where('role', 'old-distributor')->first()->discount??0;
             $monthly_min_transaction = Setting::where('role', 'old-distributor')->first()->value;
             $products = Product::all();
+            $setting_role = $user_updated_at > 2019? "new-distributor": "old-distributor";
         } else {
+            $setting_role = $role;
             $minimal_transaction = Setting::where('role', $role)->first()->minimal_transaction ?? 0;
             $monthly_min_transaction = Setting::where('role', $role)->first()->value;
             $discount_role_based = Setting::where('role', $role)->first()->discount ?? 0;
@@ -117,9 +120,9 @@ class OrderController extends Controller
             ];
         }
         if($role == 'distributor') {
-            return view('pages.order.order.distributor-page', compact('products', 'upper_origin', 'minimal_transaction', 'role','this_month_total_transaction','monthly_min_transaction', 'discount_role_based'));
+            return view('pages.order.order.distributor-page', compact('products', 'upper_origin', 'minimal_transaction', 'role','this_month_total_transaction','monthly_min_transaction', 'discount_role_based', 'setting_role'));
         }
-        return view('pages.order.order.order-page', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role','this_month_total_transaction','monthly_min_transaction', 'discount_role_based'));
+        return view('pages.order.order.order-page', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role','this_month_total_transaction','monthly_min_transaction', 'discount_role_based', 'setting_role'));
     }
 
     /**

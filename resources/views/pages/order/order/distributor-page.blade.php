@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body overflow-auto">
                     <div class="d-flex justify-content-center">
-                        <span data-toggle="tooltip" data-placement="bottom" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
+                        <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
                             Total Belanja anda bulan ini adalah {{"Rp " . number_format($this_month_total_transaction,2,',','.')}}
                         </span>
                         <!-- <div>
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-body">
+        <div class="card-body overflow-auto">
             <form action="" method="POST" id="formTambah">
                 @csrf
                 <div class="">
@@ -39,6 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- <input type="hidden" value="0" name="discount" id="discount"> -->
                             <input type="hidden" value="0" id="inputWeight">
                             @forelse ($products as $key => $value)
                             <input type="hidden" name="id[]" value="{{ $value->id }}">
@@ -140,6 +141,9 @@
 <script>
     let weight = 0
     var minTransation = parseInt("{{$minimal_transaction}}")
+    let discountFromRole = parseInt("{{$discount_role_based}}");
+    let thisMonthTotalTransaction = parseInt("{{$this_month_total_transaction}}");
+    let monthlyMinimalTransaction = parseInt("{{$monthly_min_transaction}}");
     var totalNominal = [];
     // var uhek = 0;
     $(document).ready(function() {
@@ -353,14 +357,24 @@
                 default:
                     break;
             }
+            if (uhek + thisMonthTotalTransaction > minTransation) {
+                $("input[name='discount']").val(discountFromRole);
+                // console.l
+                console.log("before discount", uhek);
+
+                // $("#discount").attr('value', `${discountFromRole}`);
+                let tempDiscount = uhek * (discountFromRole / 100);
+                $("#displayPriceAfterDiscount").val(uhek - tempDiscount)
+                console.log("after discount", (uhek - tempDiscount));
+            }
             $("#totalSemuaInt").attr('value', `${uhek}`);
             $("#totalSemua").val("Rp " + uhek.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
 
         }
-        let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
-        weight -= prod_weight * (total - 1)
-        weight += prod_weight * total
-        $('#inputWeight').val(weight)
+        let prod_weight = parseInt($(`#field-price-${id}`).data('weight'));
+        weight -= prod_weight * (total - 1);
+        weight += prod_weight * total;
+        $('#inputWeight').val(weight);
     }
 </script>
 @endsection
