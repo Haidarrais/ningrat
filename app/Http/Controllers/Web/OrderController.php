@@ -36,7 +36,6 @@ class OrderController extends Controller
         $query = Order::query();
         $query->with('details');
         if($role == 'superadmin') {
-            // return "Welkom to mai yutup cenel";
         } else {
             $query->where(function($q) use($bawahan, $user) {
                 $q->whereIn('user_id', $bawahan)
@@ -81,10 +80,17 @@ class OrderController extends Controller
         $user = Auth::user();
         $role = $user->getRoleNames()->first();
         $discount = MasterDiscount::where('status', 1)->latest()->first();
+        $user_updated_at = $user->updated_at->year;
+        $minimal_transaction = 0;
+        //get minimal order
         if($role == 'superadmin') {
         } else if($role == 'distributor') {
+            $minimal_transaction = $user_updated_at > 2019 ?
+                Setting::where('role', 'new-distributor')->first()->value :
+                Setting::where('role', 'old-distributor')->first()->value;
             $products = Product::all();
         } else {
+            $minimal_transaction = Setting::where('role', $role)->first()->value ?? 0;
             $products = Stock::with(['product', 'user'])->where('user_id', $user->upper)->where('status', 1)->where('stock', '>', 0)->get();
         }
         $upper_origin = [];
@@ -96,9 +102,9 @@ class OrderController extends Controller
             ];
         }
         if($role == 'distributor') {
-            return view('pages.order.order.distributor-page', compact('products', 'upper_origin'));
+            return view('pages.order.order.distributor-page', compact('products', 'upper_origin', 'minimal_transaction', 'role'));
         }
-        return view('pages.order.order.order-page', compact('products', 'upper_origin', 'discount'));
+        return view('pages.order.order.order-page', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role'));
     }
 
     /**

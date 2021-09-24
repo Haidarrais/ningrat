@@ -4,11 +4,11 @@
 <div class="section-body">
     <div class="row">
         @php
-            $col = "col";
+        $col = "col";
         @endphp
         @role('superadmin')
         @php
-            $col = "col-6";
+        $col = "col-6";
         @endphp
         <div class="col-12 mb-2">
             <select name="roles" id="roles" class="form-control" autocomplete="off">
@@ -27,11 +27,10 @@
         <div class="{{ $col }}">
             <select name="year" id="year" class="form-control mb-2" autocomplete="off">
                 @php
-                    $end_year = date('Y') + 3
+                $end_year = date('Y') + 3
                 @endphp
-                @for ($i = 2019; $i < $end_year; $i++)
-                    <option data-year="{{ $i }}" data-id="{{ $i }}" class="tahun" {{ date('Y') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                @endfor
+                @for ($i = 2019; $i < $end_year; $i++) <option data-year="{{ $i }}" data-id="{{ $i }}" class="tahun" {{ date('Y') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                    @endfor
             </select>
         </div>
     </div>
@@ -41,11 +40,11 @@
                 <div class="card-stats p-3">
                     <div class="card-stats-title">Penjualan -
                         <div class="dropdown d-inline">
-                            <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
-                                id="orders-month">{{ $month[(date('n') - 1)] }}</a>
+                            <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#" id="orders-month">{{ $month[(date('n') - 1)] }}</a>
                             <ul class="dropdown-menu dropdown-menu-sm">
                                 <li class="dropdown-title">Select Month</li>
                                 @foreach ($month as $key => $value)
+                                <a href="">{{ $month[(date('n') - 1)] }}</a>
                                 <li>
                                     <a href="#" data-month="{{ $value }}" data-id="{{ $key + 1 }}" class="dropdown-item bulan {{ ($key == (date('n') - 1)) ? 'active' : '' }}">{{ $value }}</a>
                                 </li>
@@ -138,19 +137,17 @@
                         </div>
                         <div class="col-6">
                             <select name="month" id="rankMonth" class="form-control" autocomplete="off">
-                                @for ($i = 1; $i < 13; $i++)
-                                    <option value="{{ $i }}" {{ date('n') == $i ? 'selected' : '' }}>{{ date("F", mktime(0, 0, 0, $i, 10)) }}</option>
-                                @endfor
+                                @for ($i = 1; $i < 13; $i++) <option value="{{ $i }}" {{ date('n') == $i ? 'selected' : '' }}>{{ date("F", mktime(0, 0, 0, $i, 10)) }}</option>
+                                    @endfor
                             </select>
                         </div>
                         <div class="col-6">
                             <select name="year" id="rankYar" class="form-control mb-2" autocomplete="off">
                                 @php
-                                    $end_year = date('Y') + 3
+                                $end_year = date('Y') + 3
                                 @endphp
-                                @for ($i = 2019; $i < $end_year; $i++)
-                                    <option data-year="{{ $i }}" data-id="{{ $i }}" class="tahun" {{ date('Y') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                @endfor
+                                @for ($i = 2019; $i < $end_year; $i++) <option data-year="{{ $i }}" data-id="{{ $i }}" class="tahun" {{ date('Y') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                    @endfor
                             </select>
                         </div>
                         <div class="col-12 mt-3" id="fieldRanking">
@@ -181,6 +178,24 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{$checkMitraRequirement?"Selamat anda masih memenuhi minimal pembelanjaan sebagai
+                            $role":"Anda tidak memenuhi minimal pembelanjaan sebagai $role"}}</h3>
+                        </div>
+                        <div>
+                            <button id="showMontlyTransaction" class="btn {{$checkMitraRequirement?'btn-success':'btn-danger'}} btn-sm">Detail</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @endrole
     @endrole
 
@@ -191,11 +206,10 @@
                 <div class="card-header">
                     <h4>Pesanan</h4>
                     <div class="card-header-action">
-                        <a href="{{ route('order.index') }}" class="btn btn-danger">Lainnya <i
-                                class="fas fa-chevron-right"></i></a>
+                        <a href="{{ route('order.index') }}" class="btn btn-danger">Lainnya <i class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
-                <div class="card-body p-0">
+                <div class="card-body p-0 overflow-auto">
                     <div class="table-responsive table-invoice">
                         <table class="table table-striped" id="table_data">
                             <tr>
@@ -243,8 +257,7 @@
                 <div class="card-header">
                     <h4>Pesanan Terbaru</h4>
                     <div class="card-header-action">
-                        <a href="#" class="btn btn-danger">Lainnya <i
-                                class="fas fa-chevron-right"></i></a>
+                        <a href="#" class="btn btn-danger">Lainnya <i class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -297,8 +310,7 @@
 @endsection
 
 @section('modal')
-<div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-labelledby="modal-detailLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modal-detail" tabindex="-1" role="dialog" aria-labelledby="modal-detailLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -341,6 +353,47 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-detail-monthly" tabindex="-2" role="dialog" aria-labelledby="modal-detail-monthly" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-detail-monthly">Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body p-0 overflow-auto">
+                    <div class="table-responsive table-invoice">
+                        <table class="table table-striped" id="table_data">
+                            <tr>
+                                <th>Bulan</th>
+                                <th>Total Transaksi</th>
+                                <th>Status</th>
+                            </tr>
+                            @foreach ($monthly_transaction as $index => $item)
+                            <tr>
+                                <td>{{ $month[$index - 1] }}</td>
+                                <td>{{"Rp " . number_format($item["sums"],2,',','.')}}</td>
+                                <td>
+                                    <i class="fas fa-thumbs-up  @if ($item['sums']> $minimal_transaction)
+                                                      text-success
+                                                  @endif" style="font-size: 20px"></i>
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('css')
@@ -350,10 +403,12 @@
         cursor: not-allowed;
         pointer-events: all !important;
     }
+
     ul.timeline {
         list-style-type: none;
         position: relative;
     }
+
     ul.timeline:before {
         content: ' ';
         background: #d4d9df;
@@ -364,11 +419,13 @@
         height: 100%;
         z-index: 400;
     }
-    ul.timeline > li {
+
+    ul.timeline>li {
         margin: 20px 0;
         padding-left: 20px;
     }
-    ul.timeline > li:before {
+
+    ul.timeline>li:before {
         content: ' ';
         background: white;
         display: inline-block;
@@ -395,11 +452,11 @@
         loading('show', '#fieldPendapatan')
         get_status_penjualan(`{!! json_encode($hirarki) !!}`, IS_RESELLER)
             .then(() => loading('hide', '#fieldPendapatan'))
-            // .catch(() => loading('hide', '#fieldPendapatan'))
+        // .catch(() => loading('hide', '#fieldPendapatan'))
         loading('show', '#fieldPenualan')
         get_grafik_penjualan(`{!! json_encode($hirarki) !!}`, IS_RESELLER)
             .then(() => loading('hide', '#fieldPenualan'))
-            // .catch(() => loading('hide', '#fieldPenualan'))
+        // .catch(() => loading('hide', '#fieldPenualan'))
 
         @role('superadmin')
         $("#select_user").on('change', () => {
@@ -412,8 +469,8 @@
             let role = $('#roles').val()
             new Promise((resolve, reject) => {
                 $axios.post(`{{ route('api.get_user_by_role') }}`, {
-                    role
-                })
+                        role
+                    })
                     .then(res => {
                         let data = res.data.data
                         let html = `<option value="">Semua User</option>`
@@ -447,15 +504,20 @@
         @endrole
     })
 
+    $("#showMontlyTransaction").on("click", () => {
+        $("#modal-detail-monthly").modal("show");
+    })
     const get_penjualan = (month, year) => {
         return new Promise((resolve, reject) => {
             $axios.post(`{{ route('api.get_penjualan') }}`, {
-                hirarki: `{!! json_encode($hirarki) !!}`,
-                user: `{{Auth::user()->isReseller()}}`,
-                month: `${month}`,
-                year: `${year}`
-            })
-                .then(({data}) => {
+                    hirarki: `{!! json_encode($hirarki) !!}`,
+                    user: `{{Auth::user()->isReseller()}}`,
+                    month: `${month}`,
+                    year: `${year}`
+                })
+                .then(({
+                    data
+                }) => {
                     $("#countPending").html(data.data.pending)
                     $("#countShipping").html(data.data.shipping)
                     $("#countCompleted").html(data.data.completed)
@@ -469,13 +531,16 @@
     const get_status_penjualan = (hirarki, user) => {
         return new Promise((resolve, reject) => {
             $axios.post(`{{ route('api.get_status_penjualan') }}`, {
-                hirarki, user
+                    hirarki,
+                    user
                 })
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     $("#countPenjualan").html(data.data.penjualan)
                     // $("#countPendapatan").html()
                     let pendapatan = parseInt(data.data.pendapatan)
-                    if(!pendapatan) {
+                    if (!pendapatan) {
                         pendapatan = 0
                     }
                     $("#countPendapatan").html(`Rp. ${(pendapatan).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`)
@@ -487,9 +552,12 @@
     const get_grafik_penjualan = (hirarki, user) => {
         return new Promise((resolve, reject) => {
             $axios.post(`{{ route('api.get_grafik_penjualan') }}`, {
-                hirarki, user
+                    hirarki,
+                    user
                 })
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let grafik = data.data
                     let data_penjualan = []
                     let data_pendapatan = []
@@ -530,28 +598,33 @@
     })
 
     const detail = id => {
-        loading('show', $("#table_data"), {image: '', text: 'Loading....'})
+        loading('show', $("#table_data"), {
+            image: '',
+            text: 'Loading....'
+        })
         new Promise((resolve, reject) => {
             let url = `{{ route('order.show', ['order' => ':id']) }}`
             url = url.replace(':id', id)
             $axios.get(`${url}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     $("#fieldInvoice").html(data.data.invoice)
                     let status = data.data.status
                     let textStatus = ''
-                    if(status == 0) {
+                    if (status == 0) {
                         textStatus = 'Pending'
-                    } else if(status == 1) {
+                    } else if (status == 1) {
                         textStatus = 'Dikemas'
-                    } else if(status == 2) {
+                    } else if (status == 2) {
                         textStatus = 'Dikirim'
-                    } else if(status == 3) {
+                    } else if (status == 3) {
                         textStatus = 'Diterima'
-                    } else if(status == 4) {
+                    } else if (status == 4) {
                         textStatus = 'Selesai'
-                    } else if(status == 5) {
+                    } else if (status == 5) {
                         textStatus = 'Ditolek'
-                    } else if(status == 6) {
+                    } else if (status == 6) {
                         textStatus = 'Batal'
                     }
                     $("#fieldStatus").html(textStatus)
@@ -573,7 +646,7 @@
                     })
                     $("#fieldDaftarProduk").html(html)
 
-                    if(data.data.waybill) {
+                    if (data.data.waybill) {
                         $("#checkKirim").show()
                         $("#fieldAlamat").html(data.data.user.member.address)
                         $("#fieldProvinsi").html(data.data.user.member.city.province)
@@ -585,15 +658,21 @@
                     } else {
                         $("#checkKirim").hide()
                     }
-                    if(data.data.waybill) {
+                    if (data.data.waybill) {
                         lacak_resi(data.data.shipping, data.data.waybill)
                             .then(() => {
                                 $("#modal-detail").modal('show')
-                                loading('hide', $("#table_data"), {image: '', text: 'Loading....'})
+                                loading('hide', $("#table_data"), {
+                                    image: '',
+                                    text: 'Loading....'
+                                })
                             })
                     } else {
                         $("#modal-detail").modal('show')
-                        loading('hide', $("#table_data"), {image: '', text: 'Loading....'})
+                        loading('hide', $("#table_data"), {
+                            image: '',
+                            text: 'Loading....'
+                        })
                     }
                 })
         })
@@ -602,11 +681,13 @@
     const lacak_resi = (kurir, resi) => {
         return new Promise((resolve, reject) => {
             $axios.post(`{{ route('api.lacak_ongkir') }}`, {
-                'waybill': resi,
-                'courier': kurir
-            })
-                .then(({data}) => {
-                    if(data.status.code == 400) {
+                    'waybill': resi,
+                    'courier': kurir
+                })
+                .then(({
+                    data
+                }) => {
+                    if (data.status.code == 400) {
                         $("#fieldTimeline").html("Resi tidak ditemukan")
                     } else {
                         let lacak = data['result']['manifest']
@@ -628,10 +709,10 @@
     }
 
     const render_grafik = (element, label, data) => {
-        if(element == "sales-chart") {
+        if (element == "sales-chart") {
             $('#sales-chart').remove()
             $("#fieldChartPenjualan").append(`<canvas id="sales-chart" height="80"></canvas>`)
-        } else if(element == "balance-chart") {
+        } else if (element == "balance-chart") {
             $('#balance-chart').remove()
             $("#fieldChartPendapatan").append(`<canvas id="balance-chart" height="80"></canvas>`)
         }
@@ -664,14 +745,17 @@
     const get_rank = (level = null, month, year) => {
         return new Promise((resolve, reject) => {
             $axios.post(`{{ route('api.get_rank') }}`, {
-                level, month, year
-            })
-                .then(({data}) => {
+                    level,
+                    month,
+                    year
+                })
+                .then(({
+                    data
+                }) => {
                     $("#fieldRanking").html(data)
                     resolve(data)
                 })
         })
     }
-
 </script>
 @endsection
