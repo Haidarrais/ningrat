@@ -2,9 +2,26 @@
 
 @section('content')
 <div class="section-body">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body overflow-auto">
+                    <div class="d-flex justify-content-center">
+                        <span data-toggle="tooltip" data-placement="bottom" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
+                            Total Belanja anda bulan ini adalah {{"Rp " . number_format($this_month_total_transaction,2,',','.')}}
+                        </span>
+                        <!-- <div>
+                            <button id="showMontlyTransaction" class="btn btn-success btn-sm">Detail</button>
+
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card">
         <div class="card-body">
-
             <form action="" method="POST" id="formTambah">
                 @csrf
                 <div class="">
@@ -304,9 +321,9 @@
                 $("#syarat").addClass('border-danger')
                 switch ("{{$role}}") {
                     case "distributor":
-                        
+
                         break;
-                
+
                     default:
                         break;
                 }
@@ -345,6 +362,5 @@
         weight += prod_weight * total
         $('#inputWeight').val(weight)
     }
-
 </script>
 @endsection
