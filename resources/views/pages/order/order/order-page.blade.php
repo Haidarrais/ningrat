@@ -5,7 +5,7 @@
 <div class="section-body">
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('order.store') }}" method="POST" id="formTambah">
+            <form action="" method="POST" id="formTambah">
                 @csrf
                 <div class="">
                     <table class="table product-table text-center">
@@ -64,16 +64,12 @@
                                 </td>
                                 <td>
                                     <div class="row">
-                                        {{-- <div class="col-3">
-                                            <button type="button" class="btn btn-sm btn-primary" onclick="minus({{ $value->product_id }})"><i class="fas fa-minus"></i></button>
-                                        </div> --}}
-                                        <div class="col-6">
+            
+                                        <div class="col-12">
                                             <input name="qty[]" 
                                             oninput="onchangePrice({{ $value->product_id }})" type="number" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0" >
                                         </div>
-                                        {{-- <div class="col-3">
-                                            <button type="button" class="btn btn-sm btn-primary" onclick="plus({{ $value->product_id }}, {{ $value->stock }})"><i class="fas fa-plus"></i></button>
-                                        </div> --}}
+                
                                     </div>
                                 </td>
                                 <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
@@ -287,7 +283,7 @@
                 return 0;
                 }
                 // console.log(parseInt($(`#input-total-${id}`).val())
-                totalNominal += parseInt($(`#input-total-${id}`).val());
+                // totalNominal += parseInt($(`#input-total-${id}`).val());
                 // if (total > max - 1) {
                 // return $swal.fire('Gagal', 'Stock hanya ' + max, 'error')
                 // }
@@ -301,7 +297,7 @@
                 } else {
                     $(`#field-total-${id}`).html(`Rp. ${html}`)
                     $(`#input-total-${id}`).val(`${total*price}`)
-                if (totalNominal[id]) {
+                // if (totalNominal[id]) {
                 totalNominal[id] = total * price;
                 var uhek = 0;
     
@@ -321,14 +317,15 @@
                     //              break; 
                     //             } 
                      $("input[name='discount']").val(); 
-                    } 
-                     else { 
-                         $("#totalSemua").removeClass('border-danger');
+                    }else { 
+                        $("#totalSemua").removeClass('border-danger');
                     $("#totalSemua").addClass('border-success'); 
                     $("#syarat").removeClass('border-danger');
-                    $("#syarat").addClass('border-success'); } 
-                    $("#totalSemuaInt").attr('value',`${uhek}`); 
-                    $("#totalSemua").val("Rp " + uhek.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                    $("#syarat").addClass('border-success'); 
+                } 
+                console.log(uhek);
+                $("#totalSemuaInt").attr('value',`${uhek}`); 
+                $("#totalSemua").val("Rp " + uhek.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
     
             }
             let prod_weight = parseInt($(`#field-price-${id}`).data('weight'));
@@ -336,6 +333,6 @@
             weight += prod_weight * total;
             $('#inputWeight').val(weight);
         }
-        }
+        // }
 </script>
 @endsection

@@ -4,7 +4,7 @@
 <div class="section-body">
     <div class="card">
         <div class="card-header">
-            <button class="btn btn-success" id="btnTambah"><i class="fas fa-plus"></i> Tambah Point</button>
+            <button class="btn btn-success" id="btnTambah"><i class="fas fa-plus"></i> Tambah Setting</button>
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
@@ -16,7 +16,7 @@
                 </form>
             </div>
         </div>
-        <div class="card-body table-responsive" id="table_data">
+        <div class="card-body table-responsive overflow-auto" id="table_data">
             @include('pages.pengaturan.setting.pagination')
         </div>
     </div>
@@ -29,7 +29,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" onclick="resetForm()" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -73,7 +73,7 @@
 
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button onclick="resetForm()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
@@ -92,9 +92,7 @@
             if (value == "minimal-belanja") {
                 $("#selectRoleWrapper").removeClass("d-none");
                 $("#new_input").append($(`<div class="
-                                col "> <div class="
-                                form - group" id="
-                                "> <label
+                                col "> <div class="form-group" id=""> <label
                                 for="">Minimal Transaksi / Bulan</label> <input type="text"
                                 class="form-control"
                                 name="value"
@@ -104,12 +102,22 @@
                                 id="">
                                 <label for="">Minimal Transaksi / Order </label> <input type="text"
                                 class= "form-control"
-                                name="min_transaction"
-                                id="min_transaction"
+                                name="minimal_transaction"
+                                id="minimal_transaction"
                                 required>
-                                </div></div>`));
+                                </div></div>
+                                <div class="form-group"> 
+                                <label
+                                for="">Diskon(%)</label> <input type="text"
+                                class="form-control"
+                                name="discount"
+                                id="discount" required>
+                                <span class="">(jika user memenuhi minimal transaksi / perbulan)</span>
+                                </div>
+                                `));
             } else {
                 $("#selectRoleWrapper").addClass("d-none");
+                $("#new_input").children("div").remove();
             }
         });
         $("#selectRole").on("change", () => {
@@ -133,47 +141,58 @@
 
         $("#formTambah").on('submit', (e) => {
             e.preventDefault()
-            let serializedData = $("#formTambah").serialize()
+            let serializedData = $("#formTambah").serialize();
+
             if (type == "STORE") {
                 new Promise((resolve, reject) => {
                     $axios.post(`{{ route('setting.store') }}`, serializedData)
                         .then(({
                             data
                         }) => {
-                            $('#modal_tambah').modal('hide')
-                            refresh_table(URL_NOW)
+                            $('#modal_tambah').modal('hide');
+                            $('#selectKey').val("");
+                            $("#new_input").children("div").remove();
+                            refresh_table(URL_NOW);
                             $swal.fire({
                                 icon: 'success',
                                 title: data.message.head,
                                 text: data.message.body
-                            })
+                            });
                         })
                         .catch(err => {
                             console.log(err);
                             throwErr(err)
                         }).then(() => {
-                            $("#modal_tambah").modal("hide")
-                        })
-                })
+                            $("#modal_tambah").modal("hide");
+                            $('#selectKey').val("");
+                            $("#new_input").children("div").remove();
+                        });
+                });
             } else if (type == "UPDATE") {
-                let id_setting = $("#inputID").val()
+                let id_setting = $("#inputID").val();
+                console.log("oke you are going to update");
+                // return;
                 new Promise((resolve, reject) => {
                     $axios.put(`${URL_NOW}/${id_setting}`, serializedData)
                         .then(({
                             data
                         }) => {
-                            $('#modal_tambah').modal('hide')
-                            refresh_table(URL_NOW)
+                            $('#modal_tambah').modal('hide');
+                            $('#selectKey').val("");
+                            $("#new_input").children("div").remove();
+                            refresh_table(URL_NOW);
                             $swal.fire({
                                 icon: 'success',
                                 title: data.message.head,
                                 text: data.message.body
-                            })
+                            });
                         })
                         .catch(err => {
-                            throwErr(err)
-                        })
-                })
+                            throwErr(err);
+                            $('#selectKey').val("");
+                            $("#new_input").children("div").remove();
+                        });
+                });
             }
         })
     })
@@ -184,13 +203,14 @@
                 .then(({
                     data
                 }) => {
-                    let setting = data.data
-                    type = 'UPDATE'
-                    $("#formTambah")[0].reset()
-                    $("#inputID").val(setting.id)
-                    $("#key").val(setting.key)
-                    $("#value").val(setting.value)
-                    $('#modal_tambah').modal('show')
+                    let setting = data.data;
+                    type = 'UPDATE';
+                    $("#formTambah")[0].reset();
+                    $("#inputID").val(setting.id);
+                    $("#key").val(setting.key);
+                    $("#modalTitle").html('Edit Setting')
+                    $("#value").val(setting.value);
+                    $('#modal_tambah').modal('show');
                 })
                 .catch(err => {
                     console.log(err)
@@ -201,6 +221,11 @@
                     })
                 })
         })
+    }
+
+    const resetForm = () => {
+        $('#selectKey').val("");
+        $("#new_input").children("div").remove();
     }
 
     const deleteData = id => {

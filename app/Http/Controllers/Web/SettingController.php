@@ -53,9 +53,20 @@ class SettingController extends Controller
                 ]
             ], 500);
         }
+        if ($key=="minimal-belanja") {
+            # code...
+             Setting::create([
+            'key' => $key,
+            'role' => $role,
+            'discount' => $request->discount,
+            'minimal_transaction'=> $ $request->minimal_transaction,
+            'value' => $request->value
+        ]);
+        }
         Setting::create([
             'key' => $key,
             'role' => $role,
+            // ''=> $ $request->minimal_
             'value' => $request->value
         ]);
         return response()->json([
@@ -91,18 +102,39 @@ class SettingController extends Controller
      */
     public function update(SettingUpdateRequest $request, $id)
     {
-        $setting = Setting::find($id);
-        $setting->update([
-            'key' => Str::slug($request->key),
-            'value' => $request->value
-        ]);
-        return response()->json([
-            'status' => true,
-            'message' => [
-                'head' => 'Sukses',
-                'body' => 'Berhasil Update Setting'
-            ]
-        ], 200);
+        try {
+            $role = $request->role;
+            if ($role) {
+                $role = $role == "distributor" ? $request->distributorType . "-" . $role : $role;
+            }
+            $request->role = $role;
+            $key = Str::slug($request->key);
+            $setting = Setting::find($id);
+            if ($key == "minimal-belanja") {
+            $setting->update([
+                "key" => $key,
+                "role" => $role,
+                'discount' => $request->discount,
+                "value" => $request->value,
+                "minimal_transaction" => $request->minimal_transaction
+            ]);}
+            return response()->json([
+                'status' => true,
+                'message' => [
+                    'head' => 'Sukses',
+                    'body' => 'Berhasil Update Setting'
+                ]
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'head' => 'gagal',
+                    'body' => $th->getMessage()
+                ]
+            ], 200);
+            //    return $th->getMessage();
+        }
     }
 
     /**

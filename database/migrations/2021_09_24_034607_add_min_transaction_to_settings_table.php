@@ -13,8 +13,12 @@ class AddMinTransactionToSettingsTable extends Migration
      */
     public function up()
     {
+        // Schema::dropIfExist('settings', function (Blueprint $table) {
+        //     $table->string('mininal_transaction')
+        //     ->after('role');
+        // });
         Schema::table('settings', function (Blueprint $table) {
-            $table->string('mininal_transaction')->after('role')->nullable();
+            $table->string('minimal_transaction')->after('role')->nullable();
         });
     }
 

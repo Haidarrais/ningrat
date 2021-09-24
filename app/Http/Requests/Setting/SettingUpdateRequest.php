@@ -24,7 +24,7 @@ class SettingUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'key' => 'required|unique:settings,key,id,'.request()->id,
+            'key' => 'required',
             'value' => 'required'
         ];
     }
