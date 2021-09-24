@@ -21,7 +21,7 @@
                 </form>
             </div>
         </div>
-        <div class="card-body table-responsive" id="table_data">
+        <div class="card-body table-responsive overflow-auto" id="table_data">
             @include('pages.order.order.pagination')
         </div>
     </div>
