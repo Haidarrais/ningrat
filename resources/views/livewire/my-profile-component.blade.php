@@ -24,7 +24,6 @@
                                 <div class="myaccount-tab-menu nav" role="tablist">
                                     <a href="#account-info"  class="active"  data-toggle="tab"><i class="fa fa-user"></i> Account Details</a>
                                     <a href="#orders" data-toggle="tab"><i class="fa fa-cart-arrow-down"></i> Orders</a>
-                                    <a href="#download" data-toggle="tab"><i class="fa fa-cloud-download"></i> Download</a>
                                     {{-- <a href="#payment-method" data-toggle="tab"><i class="fa fa-credit-card"></i> Payment
                                         Method</a> --}}
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-danger">
@@ -232,37 +231,6 @@
                                     </div>
                                     <!-- Single Tab Content End -->
                                     <!-- Single Tab Content Start -->
-                                    <div class="tab-pane fade" id="download" role="tabpanel">
-                                        <div class="myaccount-content">
-                                            <h3>Downloads</h3>
-                                            <div class="myaccount-table table-responsive text-center">
-                                                <table class="table table-bordered">
-                                                    <thead class="thead-light">
-                                                        <tr>
-                                                            <th>Product</th>
-                                                            <th>Date</th>
-                                                            <th>Expire</th>
-                                                            <th>Download</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Haven - Free Real Estate PSD Template</td>
-                                                            <td>Aug 22, 2018</td>
-                                                            <td>Yes</td>
-                                                            <td><a href="#" class="check-btn sqr-btn "><i class="fa fa-cloud-download"></i> Download File</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>HasTech - Profolio Business Template</td>
-                                                            <td>Sep 12, 2018</td>
-                                                            <td>Never</td>
-                                                            <td><a href="#" class="check-btn sqr-btn "><i class="fa fa-cloud-download"></i> Download File</a></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <!-- Single Tab Content End -->
                                     <!-- Single Tab Content Start -->
                                     {{-- <div class="tab-pane fade" id="payment-method" role="tabpanel">

@@ -51,7 +51,7 @@
                                             <td class="table-p-price"><p>Rp.{{ number_format($item->price) }}</p></td>
                                             <td class="table-p-qty">
                                                 <button wire:click.prevert="increaseQty('{{$item->rowId}}')">+</button>
-                                                <input value="{{$item->qty}}" name="cart-qty" type="number" wire:model="itemQty.{{$item->rowId}}.qty" wire:change="show()" max="{{$item->model->stock}}">
+                                                <input value="{{$item->qty}}" name="cart-qty" type="number" wire:model="itemQty.{{$item->rowId}}.qty" wire:change="show('{{$item->rowId}}')" max="{{$item->model->stock}}">
                                                 <button wire:click.prevert="decreaseQty('{{$item->rowId}}')">-</button>
                                                 <label for="cart-qty" class="label">Maks : {{$item->model->stock}}</label>
                                             </td>

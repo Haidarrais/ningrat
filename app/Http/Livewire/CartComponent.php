@@ -35,7 +35,7 @@ class CartComponent extends Component
         Cart::update($rowId,$qty);
         $this->itemQty = Cart::content();
     }
-    public function show()
+    public function show($rowId)
     {
         foreach ($this->itemQty as $value) {
             $condition = Cart::get($value["rowId"]);
@@ -43,7 +43,8 @@ class CartComponent extends Component
                 Cart::update($value["rowId"],intval($value["qty"]));
                 $this->itemQty = Cart::content();
             }else{
-                return redirect(request()->header('Referer'));
+                Cart::update($rowId,$condition->model->stock);
+                $this->itemQty = Cart::content();
             }
         }
     }
