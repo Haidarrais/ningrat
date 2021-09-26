@@ -15,6 +15,7 @@ use App\Http\Controllers\Web\DiscountController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\PageRewardController;
 use App\Http\Controllers\Web\TransactionController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

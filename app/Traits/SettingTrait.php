@@ -11,7 +11,7 @@ trait SettingTrait {
     }
 
     public static function getDiscount($price, $discount) {
-        $total_discount = $price * ($discount / 100);
+        $total_discount = floatval($price * ($discount / 100));
         return $price - $total_discount;
     }
 

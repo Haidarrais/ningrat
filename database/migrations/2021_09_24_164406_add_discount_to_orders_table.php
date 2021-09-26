@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameRewardToPoint extends Migration
+class AddDiscountToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class RenameRewardToPoint extends Migration
      */
     public function up()
     {
-        Schema::rename("rewards", 'points');
-        Schema::rename("reward_user", 'point_user');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->bigInteger('discount')->after('subtotal')->nullable();
+        });
     }
 
     /**
@@ -24,8 +25,8 @@ class RenameRewardToPoint extends Migration
      */
     public function down()
     {
-        
-        Schema::dropIfExists('rewards');
-        Schema::dropIfExists('point_user');
+        Schema::table('orders', function (Blueprint $table) {
+            //
+        });
     }
 }
