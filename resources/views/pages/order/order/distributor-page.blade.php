@@ -25,8 +25,8 @@
             <form action="" method="POST" id="formTambah">
                 @csrf
                 <div class="">
-                    <input type="hidden" name="discount-ongkir" value="0">
-                    <input type="hidden" name="discount" value="0">
+                    <input type="hidden" name="ongkir-discount" value="0" readonly>
+                    <input type="hidden" name="discount" value="0" readonly>
                     <table class="table product-table text-center">
                         <thead>
                             <tr>
@@ -81,6 +81,18 @@
                             <input disabled name="" id="syarat" class="form-control" value="{{"Rp " . number_format($minimal_transaction,2,',','.')}}">
                         </div>
                         <div class="col-md-12 mt-2" id="fieldCourier">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input disabled name="" id="displayOngkirDiscount" class="form-control" value="0">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-success">Ongkir Discount</button>
+                        </div>
+                        <div class="col-md-6 d-none" id="isUserGetDiscount">
+                            Anda berhak mendapatkan diskon sebesar {{$discount_role_based}}%
+                            <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
                         </div>
                     </div>
                 </div>
@@ -287,6 +299,7 @@
     })
 
     let tempCounter = 0;
+    let discount_ongkir = 0;
 
     function onchangePrice(id, max) {
         let total = parseInt($(`#total-${id}`).val())
@@ -315,6 +328,7 @@
             totalNominal[id] = total * price;
             var uhek = 0;
 
+
             for (let i = 0; i < totalNominal.length; i++) {
                 if (typeof totalNominal[i] == "number") {
                     uhek += totalNominal[i];
@@ -338,34 +352,35 @@
                 $("#syarat").removeClass('border-danger')
                 $("#syarat").addClass('border-success')
             }
-            let discount_ongkir = 0;
-            switch ($(`input[name="productCategory${id}"]`)) {
-                case "1":
-                    discount_ongkir += 1000;
-                    break;
-                case "2":
-                    discount_ongkir += 1000;
-                    break;
-                case "3":
-                    // if (tempcounter<3) {
-                    //     tempCounter++;
-                    // }else{
-                    //     discount_ongkir=
-                    // }
-                    discount_ongkir += 500
-                    break;
-                default:
-                    break;
-            }
+
             if (uhek + thisMonthTotalTransaction > minTransation) {
                 $("input[name='discount']").val(discountFromRole);
-                // console.l
                 console.log("before discount", uhek);
 
-                // $("#discount").attr('value', `${discountFromRole}`);
                 let tempDiscount = uhek * (discountFromRole / 100);
-                $("#displayPriceAfterDiscount").val(uhek - tempDiscount)
-                console.log("after discount", (uhek - tempDiscount));
+                $("#displayPriceAfterDiscount").val(`Harga setelah diskon adalah Rp. ${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
+                $("#isUserGetDiscount").removeClass("d-none");
+                // console.log("after discount", (uhek - tempDiscount));
+                // console.log($(`input[name="productCategory${id}"]`).val());
+                switch ($(`input[name="productCategory${id}"]`).val()) {
+                    case "1":
+                        discount_ongkir += 1000;
+                        break;
+                    case "2":
+                        discount_ongkir += 1000;
+                        break;
+                    case "3":
+                        discount_ongkir += 500
+                        break;
+                    default:
+                        break;
+                }
+                $("input[name='ongkir-discount']").val(discount_ongkir);
+                console.log(discount_ongkir);
+                $("#displayOngkirDiscount").val(`Rp. ${discount_ongkir.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
+            } else {
+                $("#isUserGetDiscount").addClass("d-none");
+                $("#displayPriceAfterDiscount").val(`Rp. ${0}`);
             }
             $("#totalSemuaInt").attr('value', `${uhek}`);
             $("#totalSemua").val("Rp " + uhek.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));

@@ -15,6 +15,7 @@ use App\Http\Controllers\Web\DiscountController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\PageRewardController;
 use App\Http\Controllers\Web\TransactionController;
+use App\Http\Controllers\Web\UserMaintenanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
             Route::get('/view/reward/user', [PageRewardController::class, 'reward_user'])->name('reward.user');
             // Accpet or Reject
             Route::post('/view/reward/set_status', [PageRewardController::class, 'set_status'])->name('reward.user.set_status');
+            Route::get('/user-maintenace', [UserMaintenanceController::class, 'index'])->name('maintenance');
+            Route::get('/user-maintenace/{id}', [UserMaintenanceController::class, 'show'])->name('maintenance.show');
         });
 
         Route::get('/users/{id}/hirarki', [UserController::class, 'hirarki'])->name('users.hirarki');

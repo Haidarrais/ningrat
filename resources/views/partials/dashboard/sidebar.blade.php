@@ -61,6 +61,7 @@
                     <li><a class="nav-link" href="{{ route('point.index') }}">Point</a></li>
                     <li><a class="nav-link" href="{{ route('reward.index') }}">Reward</a></li>
                     <li><a class="nav-link" href="{{ route('setting.index') }}">Pengaturan</a></li>
+                    <li><a class="nav-link" href="{{ route('maintenance') }}">User Maintenance</a></li>
                 </ul>
                 @else
                 {{-- Else List Pengaturan --}}

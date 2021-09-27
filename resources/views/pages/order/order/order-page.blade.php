@@ -6,11 +6,19 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body overflow-auto">
-                    <div class="d-flex justify-content-center">
-                        <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
-                            Total Belanja anda bulan ini adalah {{"Rp " . number_format($this_month_total_transaction,2,',','.')}}
-                        </span>
+                <div class="card-body ">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="col-12">
+                            <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
+                                Total Belanja anda bulan ini adalah {{"Rp " . number_format($this_month_total_transaction,2,',','.')}}
+                            </span>
+
+                        </div>
+                        <div class="col-12">
+                            <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
+                                Total Belanja anda bulan ini adalah {{"Rp " . number_format($monthly_min_transaction,2,',','.')}}
+                            </span>
+                        </div>
                         <!-- <div>
                             <button id="showMontlyTransaction" class="btn btn-success btn-sm">Detail</button>
 
@@ -38,10 +46,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <input type="hidden" name="discount" value="0" id="discount">
+                            <input type="hidden" name="ongkir-discount" value="0" readonly>
+                            <input type="hidden" name="discount" value="0" readonly>
+                            <!-- <input type="hidden" name="discount" value="0" id="discount"> -->
                             <input type="hidden" value="0" id="inputWeight">
                             @forelse ($products as $key => $value)
                             <input type="hidden" name="id[]" value="{{ $value->product_id }}">
+                            <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->category_id }}">
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td><img src="{{ asset('upload/product').'/'.$value->product->image }}" alt="{{ $value->product->image }}" class="img-fluid" width="200"></td>
@@ -117,6 +128,18 @@
                             <input disabled name="" id="syarat" class="form-control" value="{{"Rp " . number_format($minimal_transaction,2,',','.')}}">
                         </div>
                         <div class="col-md-12 mt-2" id="fieldCourier">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Subsidi Ongkir
+                            <input disabled name="" id="displayOngkirDiscount" class="form-control" value="0">
+                        </div>
+                        <!-- <div class="col-md-3"> -->
+                        <!-- </div> -->
+                        <div class="col-md-6 d-none" id="isUserGetDiscount">
+                            Anda berhak mendapatkan diskon sebesar {{$discount_role_based}}%
+                            <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
                         </div>
                     </div>
                 </div>
@@ -323,6 +346,7 @@
     });
 
     let tempCounter = 0;
+    let discount_ongkir = 0;
 
     function onchangePrice(id) {
         let total = parseInt($(`#total-${id}`).val())
@@ -355,29 +379,36 @@
                     uhek += totalNominal[i];
                 }
             }
-            if (uhek < minTransation) {
-                $("#totalSemua").addClass('border-danger');
+            if (uhek + thisMonthTotalTransaction > monthlyMinimalTransaction) {
+                $("input[name='discount']").val(discountFromRole);
+                console.log("before discount", uhek);
 
-                $("#syarat").addClass('border-danger');
-                // switch ("{{$role}}") { 
-                //     case "distributor" :
-                //          break; 
-                //          default:
-                //              break; 
-                //             } 
+                let tempDiscount = uhek * (discountFromRole / 100);
+                $("#displayPriceAfterDiscount").val(`Harga setelah diskon adalah Rp. ${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
+                $("#isUserGetDiscount").removeClass("d-none");
+                // console.log("after discount", (uhek - tempDiscount));
+                console.log($(`input[name="productCategory${id}"]`).val());
 
+                switch ($(`input[name="productCategory${id}"]`).val()) {
+                    case "1":
+                        discount_ongkir += 1000;
+                        break;
+                    case "2":
+                        discount_ongkir += 1000;
+                        break;
+                    case "3":
+                        discount_ongkir += 500
+                        break;
+                    default:
+                        break;
+                }
+                $("input[name='ongkir-discount']").val(discount_ongkir);
+                console.log(discount_ongkir);
+                $("#displayOngkirDiscount").val(`Rp. ${discount_ongkir.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
             } else {
-                $("#totalSemua").removeClass('border-danger');
-                $("#totalSemua").addClass('border-success');
-                $("#syarat").removeClass('border-danger');
-                $("#syarat").addClass('border-success');
+                $("#isUserGetDiscount").addClass("d-none");
+                $("#displayPriceAfterDiscount").val(`Rp. ${0}`);
             }
-            if (uhek + thisMonthTotalTransaction < minTransation) {
-                // $("input[name='discount']").val(discountFromRole);
-                $("#discount").attr('value', `${discountFromRole}`);
-                
-            }
-            // console.log(uhek);
             $("#totalSemuaInt").attr('value', `${uhek}`);
             $("#totalSemua").val("Rp " + uhek.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
 
