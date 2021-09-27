@@ -58,14 +58,11 @@ class DashboardController extends Controller
 
         $d = $this->getMonthlyTransaction($hirarki, $user, $minimal_transaction);
         $monthly_transaction = [];
-        // if ($d) {
+
             $check = $this->checkOrderRequirements($d, $minimal_transaction);
             $checkMitraRequirement = count($check["checkMitraRequirement"])>1?false:true;
             $monthly_transaction = $check["newData"];
-        // }else{
-            
-        //     $checkMitraRequirement = false;
-        // }
+
         $month = $this->month;
         $royalty = Royalty::where('id', '=', 1)->get()->toArray();
         if (auth()->user()->isCustomer()) {

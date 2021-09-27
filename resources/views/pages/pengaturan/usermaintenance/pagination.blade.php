@@ -4,6 +4,7 @@
       <th scope="col">#</th>
       <th scope="col">Nama</th>
       <th scope="col">Email</th>
+      <th scope="col">Role</th>
       <th scope="col">Status</th>
       <th scope="col">Aksi</th>
     </tr>
@@ -16,6 +17,7 @@
       </th>
       <td>{{ $value["name"] }}</td>
       <td>{{ $value["email"] }}</td>
+      <td>{{$value["role"]}}</td>
       <td>
         @if ($value["status"])
         <span class="badge badge-success">Good</span>
@@ -25,9 +27,9 @@
       </td>
       <td>
         @if ($value["status"])
-        <span class="badge badge-success" style="cursor: pointer;" onclick="showOrderModal('{{ $value['id'] }}','{{ $value['status'] }}')"><i class="fas fa-thumbs-up"></i></span>
+        <span class="badge badge-success" style="cursor: pointer;" onclick="showOrderModal('{{ $value['id'] }}','{{ $value['status'] }}','{{$value['role']}}')"><i class="fas fa-thumbs-up"></i></span>
         @else
-        <span class="badge badge-danger" style="cursor: pointer;" onclick="showOrderModal('{{ $value['id'] }}','{{ $value['status'] }}')"><i class="fas fa-thumbs-down"></i></span>
+        <span class="badge badge-danger" style="cursor: pointer;" onclick="showOrderModal('{{ $value['id'] }}','{{ $value['status'] }}','{{$value['role']}}')"><i class="fas fa-thumbs-down"></i></span>
         @endif
       </td>
     </tr>

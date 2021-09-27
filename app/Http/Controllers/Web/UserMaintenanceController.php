@@ -24,11 +24,11 @@ class UserMaintenanceController extends Controller
     {
         $this->month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember'];
     }
-    public function index()
+    public function index(Request $request)
     {
         $month = $this->month;
         $users = User::whereHas('roles', function ($query) {
-            $query->where('name', '!=', 'superadmin');
+            $query->where('name', '!=', 'superadmin')->whereDate('last_upgrade', '<=', Carbon::now()->startOfMonth());
         })->with('roles')->get();
         $userWithRoleAndOrders = [];
         
@@ -53,13 +53,15 @@ class UserMaintenanceController extends Controller
             User::where('id', $user->id)->get()->pluck('id')->toArray()
             : 
             User::where('upper', $user->id)->get()->pluck('id')->toArray();
-            $d = $this->getMonthTotalTransaction($hirarki, $user->id);
+            $d = $this->getMonthTotalTransaction($hirarki, $user);
             if ($d> $minimal_transaction) {
                $userWithRoleAndOrders[$index]["status"] = true;
             }else{
                 $userWithRoleAndOrders[$index]["status"] = false;
             }
-           
+        }
+        if ($request->ajax()) {
+            return view("pages.pengaturan.usermaintenance.pagination", compact('userWithRoleAndOrders', 'month'))->render();
         }
         return view("pages.pengaturan.usermaintenance.index", compact('userWithRoleAndOrders', 'month'));
     }
@@ -135,9 +137,52 @@ class UserMaintenanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $role = $request->role;
+        $id = $request->id;
+        try {
+            if ($role=="subagent"|| $role == "reseller" || $role== "customer") {
+                return response()->json([
+                    'status' => false,
+                    'message' => [
+                        'head'=>'Error',
+                        'body'=>"User ini tidak bisa didowngrade"]
+                ], 500);
+            }else{
+            $user = User::find($id);
+            switch ($role) {
+                case 'distributor':
+                    $user->removeRole($role);
+                    $user->assignRole('agent+');
+                    break;
+                case 'agent+':
+                    $user->removeRole($role);
+                    $user->assignRole('agent');
+                    break;
+                case 'agent':
+                    $user->removeRole($role);
+                    $user->assignRole('subagent');
+                    break;
+                default:
+                    break;
+            }
+            $user->update(['last_upgrade'=>Carbon::now()]);
+                return response()->json([
+                    'status' => true,
+                    'message' => [
+                        'head' => 'Success',
+                        'body' => 'User berhasil didowngrade!'
+                    ]
+                ], 200);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => true,
+                'message' => $th
+            ], 200);
+        }
+      
     }
 
     /**
@@ -151,15 +196,16 @@ class UserMaintenanceController extends Controller
         //
     }
 
-    private function getMonthTotalTransaction($hirarki, $user_id)
+    private function getMonthTotalTransaction($hirarki, $user)
     {
+        
         $todaysMonth = Carbon::now()->month;
         $processedOrders = [];
         $orders =  Order::select(
             DB::raw('sum(subtotal) as sums'),
             DB::raw("DATE_FORMAT(created_at,'%m') as month")
         )->whereIn('user_id', $hirarki)
-            ->orWhere('user_id', $user_id)
+            ->orWhere('user_id', $user->id)
             ->where('status', 4)
             ->whereMonth('created_at', $todaysMonth)
             ->whereYear('created_at', Carbon::now()->year)
@@ -205,7 +251,7 @@ class UserMaintenanceController extends Controller
             ->groupBy('month')
             ->orderBy('created_at', 'ASC')
             ->get()->toArray();
-
+    
         if ($todaysMonth > 6) {
             $filteredArray = Arr::where($orders, function ($value, $key) {
                 return intval($value['month']) > 6;

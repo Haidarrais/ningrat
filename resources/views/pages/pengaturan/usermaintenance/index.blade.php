@@ -23,36 +23,36 @@
 @endsection
 
 @section('modal')
-<div class="modal fade" tabindex="-1" role="dialog" id="modal_edit">
+<div class="modal fade" role="dialog" id="modal_edit" data-backdrop="static" data-keyboard="false" tab-index="-1">
 </div>
 @endsection
 
 @section('js')
 <script src="{{ asset('assets-dashboard/js/page/bootstrap-modal.js') }}"></script>
 <script>
-  let month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember'];
+  let monthHere = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember'];
   let type
   // $(document).ready(function() {
-  // console.log(month);
-  async function showOrderModal(id, status) {
+  // console.log(monthHere);
+  async function showOrderModal(id, status, role) {
     console.log(id);
     let tempdata = ['100', '1111']
-    var url = "{{route('maintenance.show', ":userId ")}}";
-    url = url.replace(':userId', id);
+    var urlHere = "{{route('maintenance.show', ":userId ")}}";
+    urlHere = urlHere.replace(':userId', id);
     let html = "";
-    let buttons = status ? `<button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>` : `<button type="button" onclick="removechilderen()" class="btn btn-outline-danger">Downgrade Now!</button> <button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>`
-    await $axios.get(url).then((response) => {
+    let buttons = status ? `<button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>` : `<button type="button" onclick="downGradeUser(${id},'${role}')" class="btn btn-outline-danger">Downgrade Now!</button> <button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>`
+    await $axios.get(urlHere).then((response) => {
       let i = 0;
       let data = response.data;
       for (const property in data) {
         i++;
         console.log(`${property}: ${data[property].sums}`);
-        html += `<tr><td>${month[property-1]}</td>
+        html += `<tr><td>${monthHere[property-1]}</td>
         <td>Rp  ${parseInt(data[property].sums).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td></tr>
         `;
       }
     });
-    $("#modal_edit").append(`<div class="modal-dialog modal-lg" role="document">
+    $("#modal_edit").append(`<div class="modal-dialog modal-lg" role="document" >
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modal-detail-monthly">Order</h5>
@@ -81,9 +81,38 @@
     $("#modal_edit").modal('show');
   }
 
+  async function downGradeUser(id, role) {
+    // var url = "{{route('maintenance.update', ": userId ")}}";
+    // url = url.replace(':userId', id);
+    await $axios.patch(`{{ route('maintenance.update') }}`, {
+      id: id,
+      role: role
+    }).then((response) => {
+      let data = response.data;
+      $swal.fire({
+        icon: data.status ? "success" : "error",
+        title: data.message.head,
+        text: data.message.body,
+      }).then(()=>{
+        removechilderen();
+        refresh_table(URL_NOW);
+      });
+    }).catch((r,err) => {
+      console.log(r.response.data);
+      // console.log(err);
+      $swal.fire({
+        icon: 'error',
+        title: r.response.data.message.head,
+        text: r.response.data.message.body,
+      });
+    });
+  }
+
   function removechilderen() {
     $("#modal_edit").modal('hide');
-    $("#modal_edit").children().remove();
+    setTimeout(() => {
+      $("#modal_edit").children().remove();
+    }, 500);
   }
   // }
 </script>

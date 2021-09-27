@@ -48,6 +48,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
             Route::post('/view/reward/set_status', [PageRewardController::class, 'set_status'])->name('reward.user.set_status');
             Route::get('/user-maintenace', [UserMaintenanceController::class, 'index'])->name('maintenance');
             Route::get('/user-maintenace/{id}', [UserMaintenanceController::class, 'show'])->name('maintenance.show');
+            Route::patch('/user-maintenace/update', [UserMaintenanceController::class, 'update'])->name('maintenance.update');
         });
 
         Route::get('/users/{id}/hirarki', [UserController::class, 'hirarki'])->name('users.hirarki');
