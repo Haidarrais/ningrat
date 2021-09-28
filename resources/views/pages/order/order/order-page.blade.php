@@ -28,119 +28,62 @@
             </div>
         </div>
     </div>
-    <div class="card">
 
+    <div class="card">
+        <div class="card-header">
+            <!-- @role('superadmin')
+            @else
+            <a class="btn btn-success" href="{{ route('order.create') }}"><i class="fas fa-plus"></i> Tambah Order</a>
+            @endrole -->
+            <button class="btn btn-outline-primary ml-2" onclick="refresh_table(URL_NOW)"><i class="fas fa-sync"></i>Refresh</button>
+            <div class="ml-auto">
+                <form action="" method="get" class="row">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i>Cari</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="card-body overflow-auto">
             <form action="" method="POST" id="formTambah">
                 @csrf
-                <div class="">
-                    <table class="table product-table text-center">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Gambar</th>
-                                <th>Nama Produk</th>
-                                <th>Harga</th>
-                                <th>Jumlah</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <input type="hidden" name="ongkir-discount" value="0" readonly>
-                            <input type="hidden" name="discount" value="0" readonly>
-                            <!-- <input type="hidden" name="discount" value="0" id="discount"> -->
-                            <input type="hidden" value="0" id="inputWeight">
-                            @forelse ($products as $key => $value)
-                            <input type="hidden" name="id[]" value="{{ $value->product_id }}">
-                            <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->category_id }}">
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td><img src="{{ asset('upload/product').'/'.$value->product->image }}" alt="{{ $value->product->image }}" class="img-fluid" width="200"></td>
-                                <td>{{ $value->product->name }}</td>
-                                @if ($discount =
-                                $value->discount()->where('user_id', $value->user_id)->where('status', 1)->first())
-                                @php
-                                $status = true;
-                                if($value->member_price) {
-                                $price = $value->member_price;
-                                } else {
-                                $price = $value->product->price;
-                                }
-                                if($discount) $price = App\Traits\SettingTrait::getDiscount($price, $discount->discount );
-                                $user_discount = $value->discount()->where('user_id', $value->user_id)->where('status', 1)->first();
-                                if($user_discount) {
-                                $price = App\Traits\SettingTrait::getDiscount($price, $user_discount->discount);
-                                }
-                                @endphp
-                                @else
-                                @php
-                                $status = false;
-                                if($value->member_price) {
-                                $price = $value->member_price;
-                                } else {
-                                $price = $value->product->price;
-                                }
-                                @endphp
-                                @endif
-                                <td id="field-price-{{ $value->product_id }}" data-weight="{{ $value->product->weight }}" data-price="{{ $price }}">
-                                    @if ($status)
-                                    {{-- @if ($value->member_price)
-                                            <s>Rp. {{ number_format($value->member_price) }}</s><br>
-                                    @else --}}
-                                    <s>Rp. {{ number_format($value->product->price) }}</s><br>
-                                    {{-- @endif --}}
-                                    @endif
-                                    Rp. {{ number_format($price) }}
-                                </td>
-                                <td>
-                                    <div class="row">
-
-                                        <div class="col-12">
-                                            <input name="qty[]" oninput="onchangePrice({{ $value->product_id }})" type="number" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0">
-                                        </div>
-
-                                    </div>
-                                </td>
-                                <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
-                                <td id="field-total-{{ $value->product_id }}" class="field-total">-</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="6">Tidak ada data</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <select name="courier" id="courier" class="form-control select2"></select>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-success" id="btn-courier">Cek Ongkir</button>
-                        </div>
-                        <div class="col-md-3">
-                            Total Belanja
-                            <input disabled name="" id="totalSemua" class="form-control">
-                            <input name="m" hidden id="totalSemuaInt" class="form-control" value="0">
-                        </div>
-                        <div class="col-md-3">
-                            Minimal Belanja({{Auth::user()->getRoleNames()->first()}})
-                            <input disabled name="" id="syarat" class="form-control" value="{{"Rp " . number_format($minimal_transaction,2,',','.')}}">
-                        </div>
-                        <div class="col-md-12 mt-2" id="fieldCourier">
-                        </div>
+                <input type="hidden" name="ongkir-discount" value="0" readonly>
+                <input type="hidden" name="discount" value="0" readonly>
+                <div class="" id="table_data">
+                    @include('pages.order.order.pagination_create_order')
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <select name="courier" id="courier" class="form-control select2"></select>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            Subsidi Ongkir
-                            <input disabled name="" id="displayOngkirDiscount" class="form-control" value="0">
-                        </div>
-                        <!-- <div class="col-md-3"> -->
-                        <!-- </div> -->
-                        <div class="col-md-6 d-none" id="isUserGetDiscount">
-                            Anda berhak mendapatkan diskon sebesar {{$discount_role_based}}%
-                            <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
-                        </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-success" id="btn-courier">Cek Ongkir</button>
+                    </div>
+                    <div class="col-md-3">
+                        Total Belanja
+                        <input disabled name="" id="totalSemua" class="form-control">
+                        <input name="m" hidden id="totalSemuaInt" class="form-control" value="0">
+                    </div>
+                    <div class="col-md-3">
+                        Minimal Belanja({{Auth::user()->getRoleNames()->first()}})
+                        <input disabled name="" id="syarat" class="form-control" value="{{"Rp " . number_format($minimal_transaction,2,',','.')}}">
+                    </div>
+                    <div class="col-md-12 mt-2" id="fieldCourier">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        Subsidi Ongkir
+                        <input disabled name="" id="displayOngkirDiscount" class="form-control" value="0">
+                    </div>
+                    <!-- <div class="col-md-3"> -->
+                    <!-- </div> -->
+                    <div class="col-md-6 d-none" id="isUserGetDiscount">
+                        Anda berhak mendapatkan diskon sebesar {{$discount_role_based}}%
+                        <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
                     </div>
                 </div>
                 <button class="btn btn-success float-right" id="btn-simpan">Order</button>
@@ -418,6 +361,27 @@
         weight += prod_weight * total;
         $('#inputWeight').val(weight);
     }
+    $('html').on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        console.log($(".pagination a"));
+        var url = $(this).attr('href');
+        $swal.fire({
+            title: 'Perhatian!',
+            text: "Pastikan anda sudah memilih semua produk yg anda butuhkan di halaman ini terlebih dahulu",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Belum',
+            confirmButtonText: 'Sudah!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $axios.get(url).then(() => {
+                    refresh_table(url);
+                });
+            }
+        });
+    });
     // }
 </script>
 @endsection
