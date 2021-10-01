@@ -9,7 +9,7 @@
       <th>Total</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="overflow-auto">
     <input type="hidden" name="ongkir-discount" value="0" readonly>
     <input type="hidden" name="discount" value="0" readonly>
     <!-- <input type="hidden" name="discount" value="0" id="discount"> -->
@@ -75,4 +75,3 @@
     @endforelse
   </tbody>
 </table>
-{!!$products->links()!!}

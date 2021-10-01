@@ -33,8 +33,8 @@ class DashboardController extends Controller
         $user_updated_at = $user->updated_at->year;
         if ($role == 'distributor') {
             $minimal_transaction = $user_updated_at > 2019 ?
-                Setting::where('role', 'new-distributor')->first()->value :
-                Setting::where('role', 'old-distributor')->first()->value;
+                Setting::where('role', 'new-distributor')->first()->value?? 0 :
+                Setting::where('role', 'old-distributor')->first()->value?? 0;
         } else {
             $minimal_transaction = Setting::where('role', $role)->first()->value ?? 0;
         }

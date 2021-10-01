@@ -86,38 +86,40 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-4 col-sm-12" id="fieldPendapatan">
-            <div class="card card-statistic-2">
-                <div class="card-chart p-4" id="fieldChartPendapatan">
-                    <canvas id="balance-chart" height="80"></canvas>
-                </div>
-                <div class="card-icon shadow-primary bg-primary">
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Pendapatan</h4>
+        <div class="row">
+            <div class="col-lg-6 col-md-4 col-sm-12" id="fieldPendapatan">
+                <div class="card card-statistic-2">
+                    <div class="card-chart p-4" id="fieldChartPendapatan">
+                        <canvas id="balance-chart" height="80"></canvas>
                     </div>
-                    <div class="card-body" id="countPendapatan">
-                        0
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Pendapatan</h4>
+                        </div>
+                        <div class="card-body" id="countPendapatan">
+                            0
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 col-md-4 col-sm-12" id="fieldPenualan">
-            <div class="card card-statistic-2">
-                <div class="card-chart p-4" id="fieldChartPenjualan">
-                    <canvas id="sales-chart" height="80"></canvas>
-                </div>
-                <div class="card-icon shadow-primary bg-primary">
-                    <i class="fas fa-shopping-bag"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Penjualan</h4>
+            <div class="col-lg-6 col-md-4 col-sm-12" id="fieldPenualan">
+                <div class="card card-statistic-2">
+                    <div class="card-chart p-4" id="fieldChartPenjualan">
+                        <canvas id="sales-chart" height="80"></canvas>
                     </div>
-                    <div class="card-body" id="countPenjualan">
-                        0
+                    <div class="card-icon shadow-primary bg-primary">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="card-wrap">
+                        <div class="card-header">
+                            <h4>Penjualan</h4>
+                        </div>
+                        <div class="card-body" id="countPenjualan">
+                            0
+                        </div>
                     </div>
                 </div>
             </div>
