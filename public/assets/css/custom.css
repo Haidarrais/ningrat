@@ -1,0 +1,44 @@
+.table_order table {
+    width: 100%;
+}
+
+.table_order thead, .table_order tbody, .table_order tr, .table_order td, .table_order th { display: block; }
+
+.table_order tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.table_order thead th {
+    height: 30px;
+
+    /*text-align: left;*/
+}
+
+.table_order tbody {
+    height: 120px;
+    overflow-y: auto;
+}
+
+.table_order thead {
+    /* fallback */
+}
+
+
+.table_order thead th {
+    width: 16.2%;
+    float: left;
+    padding:1rem 25px!important;
+}
+.table_order tbody tr{
+  display:flex;
+justify-content:space-around;
+}
+.table_order tbody td{
+ flex-basis:15%;
+}
+/* #displayer{
+  display:flex;
+} */

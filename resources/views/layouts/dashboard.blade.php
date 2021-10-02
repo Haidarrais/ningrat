@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('assets-dashboard/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets-dashboard/css/components.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     @yield('css')
@@ -34,31 +35,31 @@
                     <div class="section-header">
                         <h1>
                             @if (is_numeric(request()->segment(count(request()->segments()))))
-                                {{ strtoupper(request()->segment((count(request()->segments()) -1))) }}
+                            {{ strtoupper(request()->segment((count(request()->segments()) -1))) }}
                             @else
-                                {{ strtoupper(request()->segment(count(request()->segments()))) }}
+                            {{ strtoupper(request()->segment(count(request()->segments()))) }}
                             @endif
                             {{ isset($text_dashboard) ? '-' . strtoupper($text_dashboard) : '' }}
                         </h1>
                         <div class="section-header-breadcrumb">
                             @php
-                                $path = explode('/', request()->path());
+                            $path = explode('/', request()->path());
                             @endphp
                             @forelse ($path as $key => $value)
-                                @if (is_numeric($value) || strpos($value, '='))
-                                    @php
-                                        continue;
-                                    @endphp
-                                @endif
-                                @if ($key == 0)
-                                    <div class="breadcrumb-item active"><a href="{{ route($value) }}">{{ ucfirst($value) }}</a></div>
-                                @else
-                                    <div class="breadcrumb-item">{{ ucfirst($value) }}</div>
-                                @endif
+                            @if (is_numeric($value) || strpos($value, '='))
+                            @php
+                            continue;
+                            @endphp
+                            @endif
+                            @if ($key == 0)
+                            <div class="breadcrumb-item active"><a href="{{ route($value) }}">{{ ucfirst($value) }}</a></div>
+                            @else
+                            <div class="breadcrumb-item">{{ ucfirst($value) }}</div>
+                            @endif
                             @empty
 
                             @endforelse
-                          </div>
+                        </div>
                     </div>
                     {{-- <div class="section-body">
                     </div> --}}
@@ -101,7 +102,7 @@
     <script>
         $(document).ready(function() {
             // Ajax Paginate
-            if(window.$paging) {
+            if (window.$paging) {
                 $(document).on('click', '.pagination a', function(event) {
                     event.preventDefault()
                     // Jika di url terdapat "page=" maka di pisah
@@ -109,7 +110,7 @@
                     let l = window.location.href
                     let url = ''
                     // Jika tidak ada keyword / kata kunci yang sedang dicari
-                    if(l.includes('?')) {
+                    if (l.includes('?')) {
                         url = l + "&page=" + page
                     } else {
                         url = l + "?page=" + page
@@ -122,32 +123,40 @@
 
         const refresh_table = url => {
             new Promise((resolve, reject) => {
-                    $("#table_data").LoadingOverlay('show')
-                    $axios.get(url)
-                        .then(({data}) => {
-                            $("#table_data").LoadingOverlay('hide')
-                            $('#table_data').html(data)
+                $("#table_data").LoadingOverlay('show')
+                $axios.get(url)
+                    .then(({
+                        data
+                    }) => {
+                        $("#table_data").LoadingOverlay('hide')
+                        $('#table_data').html(data)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        $("#table_data").LoadingOverlay('hide')
+                        $swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
                         })
-                        .catch(err => {
-                            console.log(err)
-                            $("#table_data").LoadingOverlay('hide')
-                            $swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Something went wrong!',
-                            })
-                        })
-                })
+                    })
+            })
         }
 
-        const loading = (type , selector = null, options = null) => { if(selector) { $(selector).LoadingOverlay(type, options) } else { $.LoadingOverlay(type, options) } }
+        const loading = (type, selector = null, options = null) => {
+            if (selector) {
+                $(selector).LoadingOverlay(type, options)
+            } else {
+                $.LoadingOverlay(type, options)
+            }
+        }
 
         const throwErr = err => {
-            if(err.response.status == 422) {
+            if (err.response.status == 422) {
                 let message = err.response.data.errors
                 let teks_error = ''
                 $.each(message, (i, e) => {
-                    if(e.length > 1) {
+                    if (e.length > 1) {
                         $.each(e, (id, el) => {
                             teks_error += `<p>${el}</p>`
                         })
@@ -173,16 +182,16 @@
         (function($) {
             $.fn.inputFilter = function(inputFilter) {
                 return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
-                if (inputFilter(this.value)) {
-                    this.oldValue = this.value
-                    this.oldSelectionStart = this.selectionStart
-                    this.oldSelectionEnd = this.selectionEnd
-                } else if (this.hasOwnProperty("oldValue")) {
-                    this.value = this.oldValue
-                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd)
-                } else {
-                    this.value = ""
-                }
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value
+                        this.oldSelectionStart = this.selectionStart
+                        this.oldSelectionEnd = this.selectionEnd
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd)
+                    } else {
+                        this.value = ""
+                    }
                 })
             }
         }(jQuery))

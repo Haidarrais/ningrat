@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12 col-md-4 col-sm-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card card-statistic-2 first">
                 <div class="card-stats p-3">
                     <div class="card-stats-title">Penjualan -
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="card-icon shadow-primary bg-primary">
                                 <i class="fas fa-archive"></i>
                             </div>
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-8 d-flex align-items-center justify-content-between">
+                        <div class="col-lg-8 col-md-12 col-sm-12 d-flex align-items-center justify-content-between flex-wrapukm">
                             {{-- <div class="card-stats-items"> --}}
                             <div class="card-stats-item">
                                 <div class="card-stats-item-count" id="countPending">0</div>
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6 col-md-4 col-sm-12" id="fieldPendapatan">
+            <div class="col-lg-6 col-md-6 col-sm-12" id="fieldPendapatan">
                 <div class="card card-statistic-2">
                     <div class="card-chart p-4" id="fieldChartPendapatan">
                         <canvas id="balance-chart" height="80"></canvas>
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-4 col-sm-12" id="fieldPenualan">
+            <div class="col-lg-6 col-md-6 col-sm-12" id="fieldPenualan">
                 <div class="card card-statistic-2">
                     <div class="card-chart p-4" id="fieldChartPenjualan">
                         <canvas id="sales-chart" height="80"></canvas>

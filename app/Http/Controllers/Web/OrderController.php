@@ -119,6 +119,7 @@ class OrderController extends Controller
                 'subdistrict' => $upper->member->subdistrict_id
             ];
         }
+        // dd($products);
         if ($request->ajax()) {
             return $role=="distributor"?view('pages.order.order.paginationdistributor', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role', 'this_month_total_transaction', 'monthly_min_transaction', 'discount_role_based', 'setting_role'))->render(): view('pages.order.order.pagination_create_order', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role', 'this_month_total_transaction', 'monthly_min_transaction', 'discount_role_based', 'setting_role'))->render();
         }else{
