@@ -91,16 +91,16 @@ class OrderController extends Controller
         if($role == 'superadmin') {
         } else if($role == 'distributor') {
             $minimal_transaction = $user_updated_at > 2019 ?
-                Setting::where('role', 'new-distributor')->first()->minimal_transaction :
-                Setting::where('role', 'old-distributor')->first()->minimal_transaction;
+                Setting::where('role', 'new-distributor')->first()->minimal_transaction??0 :
+                Setting::where('role', 'old-distributor')->first()->minimal_transaction??0;
                  $discount_role_based= Setting::where('role', 'old-distributor')->first()->discount??0;
-            $monthly_min_transaction = Setting::where('role', 'old-distributor')->first()->value;
+            $monthly_min_transaction = Setting::where('role', 'old-distributor')->first()->value??0;
             $products = Product::all();
             $setting_role = $user_updated_at > 2019? "new-distributor": "old-distributor";
         } else {
             $setting_role = $role;
             $minimal_transaction = Setting::where('role', $role)->first()->minimal_transaction ?? 0;
-            $monthly_min_transaction = Setting::where('role', $role)->first()->value;
+            $monthly_min_transaction = Setting::where('role', $role)->first()->value??0;
             $discount_role_based = Setting::where('role', $role)->first()->discount ?? 0;
             $products = Stock::with(['product', 'user'])->where('user_id', $user->upper)->where('status', 1)->where('stock', '>', 0)->get();
         }
