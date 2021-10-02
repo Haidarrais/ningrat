@@ -95,14 +95,14 @@ class OrderController extends Controller
                 Setting::where('role', 'old-distributor')->first()->minimal_transaction;
                  $discount_role_based= Setting::where('role', 'old-distributor')->first()->discount??0;
             $monthly_min_transaction = Setting::where('role', 'old-distributor')->first()->value;
-            $products = Product::paginate(10);
+            $products = Product::all();
             $setting_role = $user_updated_at > 2019? "new-distributor": "old-distributor";
         } else {
             $setting_role = $role;
             $minimal_transaction = Setting::where('role', $role)->first()->minimal_transaction ?? 0;
             $monthly_min_transaction = Setting::where('role', $role)->first()->value;
             $discount_role_based = Setting::where('role', $role)->first()->discount ?? 0;
-            $products = Stock::with(['product', 'user'])->where('user_id', $user->upper)->where('status', 1)->where('stock', '>', 0)->paginate(10);
+            $products = Stock::with(['product', 'user'])->where('user_id', $user->upper)->where('status', 1)->where('stock', '>', 0)->get();
         }
         if ($role == 'reseller') {
             $hirarki = User::where('id', $user->id)->get()->pluck('id')->toArray();
@@ -119,6 +119,7 @@ class OrderController extends Controller
                 'subdistrict' => $upper->member->subdistrict_id
             ];
         }
+        // dd($products);
         if ($request->ajax()) {
             return $role=="distributor"?view('pages.order.order.paginationdistributor', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role', 'this_month_total_transaction', 'monthly_min_transaction', 'discount_role_based', 'setting_role'))->render(): view('pages.order.order.pagination_create_order', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role', 'this_month_total_transaction', 'monthly_min_transaction', 'discount_role_based', 'setting_role'))->render();
         }else{
@@ -128,7 +129,7 @@ class OrderController extends Controller
             return view('pages.order.order.order-page', compact('products', 'upper_origin', 'discount', 'minimal_transaction', 'role','this_month_total_transaction','monthly_min_transaction', 'discount_role_based', 'setting_role'));
         }
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
