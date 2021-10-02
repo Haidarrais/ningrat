@@ -54,7 +54,11 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::registerView(function() {
             $role = Role::where(function($q) {
                 $q->where('name', '!=', 'superadmin')
-                ->where('name', '!=', 'owner');
+                ->where('name', '!=', 'owner')
+                ->where('name', '!=', 'distributor')
+                ->where('name', '!=', 'agent+')
+                ->where('name', '!=', 'agent')
+                ->where('name', '!=', 'subagent');
             })->get();
             return view('auth.register', compact('role'));
         });
