@@ -73,7 +73,7 @@
                             <select name="role" id="level" class="form-control @error('role') is-invalid @enderror">
                                 <option value="">== Pilih Level ==</option>
                                 @foreach ($role as $value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    <option value="{{ $value->id }}">{{ ucfirst($value->name) }}</option>
                                 @endforeach
                             </select>
                             @error('role')
