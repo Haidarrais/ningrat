@@ -45,7 +45,7 @@
             <div class="ml-auto">
                 <div class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Nama Produk" value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Nama Produk" oninput="onchangeProductType(this.value)" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary"><i class="fas fa-search"></i>Cari</button>
                         </div>
@@ -406,7 +406,11 @@
     });
     // }
     function onchangeProductType(id) {
-        let arrayH = $(".category_product").toArray();
+        let arrayH = !isNaN(id) ? $(".category_product").toArray() : $(".product_name").toArray();
+        !isNaN(parseInt(id)) ? categoryFilter(arrayH, id) : nameFilter(arrayH, id);
+    }
+
+    function categoryFilter(arrayH, id) {
         let checkMatching = true;
         const warnP = document.createElement('p');
         arrayH.forEach((item) => {
@@ -431,6 +435,34 @@
                     let tbody = document.getElementById("tbody");
                     tbody.removeChild(warnElement.parentNode);
 
+                }
+            }
+        });
+    }
+
+    function nameFilter(arrayH, id) {
+        let checkMatching = [];
+        const warnP = document.createElement('p');
+
+        arrayH.map((item) => {
+            // console.log("aaaa", );
+            if (!(item.innerHTML.toLowerCase().includes(id.toLowerCase()))) {
+                item.parentElement.classList.add('d-none');
+                checkMatching.push(false);
+            } else {
+                item.parentElement.classList.remove('d-none');
+                checkMatching.push(true);
+            }
+            let warnElement = document.getElementById("showWarn");
+            if (!checkMatching.includes(true)) {
+                if (warnElement === null) {
+                    warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
+                    item.parentElement.parentElement.appendChild(warnP);
+                }
+            } else {
+                if (warnElement) {
+                    let tbody = document.getElementById("tbody");
+                    tbody.removeChild(warnElement.parentNode);
                 }
             }
         });
