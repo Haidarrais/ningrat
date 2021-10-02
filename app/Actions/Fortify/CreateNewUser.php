@@ -49,9 +49,9 @@ class CreateNewUser implements CreatesNewUsers
             $data['status'] = 1;
         }
         $user = User::create($data);
-        if($upper) {
-            $user->assignRole($input['role']);
-        }
+
+        $user->assignRole($input['role']);
+
         return $user;
 
     }
