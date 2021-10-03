@@ -69,6 +69,19 @@
                     </tbody>
                 </table>
             </div>
+            @if ($result)
+                <div class="container" style="padding: 30px">
+                    <h4>Lacak Resi - <strong>{{$this->waybill . " via " . strtoupper($this->courier)}}</strong></h4>
+                    <ul class="timeline" id="fieldTimeline">
+                        @foreach ($result['manifest'] as $manifest )
+                        <li>
+                            <a href="javascript:void(0)">{{$manifest['manifest_date'] . " | " . $manifest['manifest_time']}}</a>
+                            <p>{{$manifest['manifest_description'] . " di " . $manifest['city_name']}}</p>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
     <!-- Cart Area End -->

@@ -11,6 +11,7 @@ use App\Models\Subdistrict;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\Member;
+use App\Models\Royalty;
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutReseller extends Component
@@ -70,6 +71,7 @@ class CheckoutReseller extends Component
         }else{
             $kurir = $this->othercourier;
         }
+        $royalty = Royalty::latest()->first();
         $transaction = Transaction::create([
             'user_id' => Auth::id(),
             'seller_id' => $this->sellerid,
@@ -82,7 +84,8 @@ class CheckoutReseller extends Component
             'member_phone' =>   $this->buyer_phone,
             'member_address' => $this->buyer_address,
             'subtotal' => Cart::subtotal(2,'.','')+$this->ongkir,
-            'status' => 0
+            'status' => 0,
+            'royalty' => $royalty ?? 10
         ]);
         foreach (Cart::content() as $cart) {
             TransactionDetail::create([

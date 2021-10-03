@@ -30,6 +30,7 @@
         @include('partials.main.testimonial')
         @include('partials.main.quickview') --}}
         @yield('content')
+
         @include('partials.main.footer')
         <!-- All js here -->
         <script src="{{ asset('assets/js/vendor/jquery-3.2.1.min.js') }}"></script>
@@ -38,6 +39,43 @@
         <script src="{{ asset('assets/js/plugins.js') }}"></script>
         <script src="{{ asset('assets/js/ajax-mail.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+        <style>
+            button:disabled {
+                cursor: not-allowed;
+                pointer-events: all !important;
+            }
+            ul.timeline {
+                list-style-type: none;
+                position: relative;
+            }
+            ul.timeline:before {
+                content: ' ';
+                background: #d4d9df;
+                display: inline-block;
+                position: absolute;
+                left: 29px;
+                width: 2px;
+                height: 100%;
+                z-index: 400;
+            }
+            ul.timeline > li {
+                margin: 20px 0;
+                padding-left: 50px;
+            }
+            ul.timeline > li:before {
+                content: ' ';
+                background: white;
+                display: inline-block;
+                position: absolute;
+                border-radius: 50%;
+                border: 3px solid green;
+                left: 20px;
+                width: 20px;
+                height: 20px;
+                z-index: 400;
+            }
+        </style>
         @livewireScripts
         @yield('modal')
     </body>

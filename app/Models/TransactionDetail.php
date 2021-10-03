@@ -12,9 +12,9 @@ class TransactionDetail extends Model
     protected $guarded = [];
 
     public function transaction() {
-        return $this->belongsTo(Transaction::class, 'transaction_id');
+        return $this->belongsTo(Transaction::class);
     }
     public function stock() {
-        return $this->belongsTo(Stock::class, 'stock_id');
+        return $this->belongsTo(Stock::class, 'stock_id', 'id');
     }
 }

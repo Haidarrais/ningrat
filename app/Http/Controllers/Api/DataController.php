@@ -52,7 +52,7 @@ class DataController extends Controller
         $user = $request->user;
         if ($user) {
             $query = Transaction::query();
-            $query->selectRaw("SUM(subtotal*$royalty->royalty/100) as pendapatan, COUNT(subtotal) as penjualan");
+            $query->selectRaw("SUM(subtotal*royalty/100) as pendapatan, COUNT(subtotal) as penjualan");
         }else{
             $query = Order::query();
             $query->selectRaw("SUM(subtotal) as pendapatan, COUNT(subtotal) as penjualan");
@@ -83,7 +83,7 @@ class DataController extends Controller
         $user = $request->user;
         if ($user) {
             $query = Transaction::query();
-            $query->selectRaw("SUM(subtotal*$royalty->royalty/100) as pendapatan, COUNT(subtotal) as penjualan, MONTH(created_at) as bulan");
+            $query->selectRaw("SUM(subtotal*royalty/100) as pendapatan, COUNT(subtotal) as penjualan, MONTH(created_at) as bulan");
         }else{
             $query = Order::query();
             $query->selectRaw("SUM(subtotal) as pendapatan, COUNT(subtotal) as penjualan, MONTH(created_at) as bulan");
