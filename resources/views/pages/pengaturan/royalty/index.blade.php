@@ -18,7 +18,7 @@
                 @csrf
                 <div class="form-group col-md-6 col-12">
                     <label>Presentase</label>
-                    <input class="form-control" type="number" name="royalty" value="{{$royalty[0]['royalty']}}">
+                    <input class="form-control" type="number" name="royalty" value="{{$royalty['royalty']}}">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

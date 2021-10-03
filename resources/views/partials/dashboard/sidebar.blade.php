@@ -43,6 +43,7 @@
                     <li><a class="nav-link" href="{{ route('category.index') }}">Kategori</a></li>
                     <li><a class="nav-link" href="{{ route('product.index') }}">Produk</a></li>
                     <li><a class="nav-link" href="{{ route('discount.index') }}">Diskon</a></li>
+                    <li><a class="nav-link" href="{{ route('royalty.index') }}">Royalty</a></li>
                 </ul>
             </li>
             @endrole

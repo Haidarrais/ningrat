@@ -9,4 +9,9 @@ class Royalty extends Model
 {
     use HasFactory;
     protected $table = 'royalty';
+
+    protected $fillable =
+    [
+        'royalty'
+    ];
 }

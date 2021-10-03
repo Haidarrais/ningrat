@@ -21,6 +21,9 @@ class DetailOrderComponent extends Component
         $this->invoice = Transaction::where('id', '=', $this->transaction)->get()->toArray();
         $this->waybill = $this->invoice[0]['waybill'];
         $this->courier = $this->invoice[0]['shipping'];
+        if($this->waybill){
+            $this->lacak();
+        }
     }
     public function lacak() {
         $http = Http::post($this->enpoint."waybill", [
@@ -33,7 +36,6 @@ class DetailOrderComponent extends Component
     }
     public function render()
     {
-        $this->lacak();
         return view('livewire.detail-order-component')->layout('layouts.main');
     }
 }

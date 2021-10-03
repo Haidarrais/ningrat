@@ -71,7 +71,7 @@
             </div>
             @if ($result)
                 <div class="container" style="padding: 30px">
-                    <h4>Lacak Resi</h4>
+                    <h4>Lacak Resi - <strong>{{$this->waybill . " via " . strtoupper($this->courier)}}</strong></h4>
                     <ul class="timeline" id="fieldTimeline">
                         @foreach ($result['manifest'] as $manifest )
                         <li>

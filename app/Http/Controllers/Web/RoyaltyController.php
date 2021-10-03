@@ -15,7 +15,14 @@ class RoyaltyController extends Controller
      */
     public function index()
     {
-        $royalty = Royalty::all()->toArray();
+        $royalty = Royalty::latest()->first();
+        if (!$royalty) {
+            Royalty::create([
+                'royalty' => 10
+            ]);
+            return redirect(route('royalty.index'));
+        }
+        $royalty = $royalty->toArray();
         return view('pages.pengaturan.royalty.index', compact('royalty'));
     }
 
@@ -71,10 +78,11 @@ class RoyaltyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $royalty = Royalty::where('id','=', $id)->first();
+        $royalty = Royalty::latest()->first();
         $royalty->royalty = $request->royalty;
         $royalty->save();
-        return redirect()->back()->with('success', 'data berhasil diubah');
+        $id = $royalty->id;
+        return redirect()->back()->with('success', 'data '. $id .' berhasil diubah');
     }
 
     /**
