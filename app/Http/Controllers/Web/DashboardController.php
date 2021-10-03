@@ -49,10 +49,10 @@ class DashboardController extends Controller
 
         if($role == 'reseller') {
             $hirarki = User::where('id', $user->id)->get()->pluck('id')->toArray();
-            $orders = Transaction::where('user_id', $user->id)->latest()->limit(10)->get();
+            $orders = Transaction::where('user_id', $user->id)->latest()->paginate(5);
         } else {
             $hirarki = User::where('upper', $user->id)->get()->pluck('id')->toArray();
-            $orders = Order::whereIn('user_id', $hirarki)->latest()->limit(10)->get();
+            $orders = Order::whereIn('user_id', $hirarki)->latest()->paginate(5);
         }
 
 

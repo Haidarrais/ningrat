@@ -1,11 +1,17 @@
 @extends('layouts.dashboard')
-
+@section('css')
+<style>
+  .break-it {
+    white-space: pre-wrap;
+  }
+</style>
+@endsection
 @section('content')
 <div class="section-body">
   <div class="card">
     <div class="card-header">
       <div class="row w-100">
-        <div class="col-12">
+        <!-- <div class="col-12">
           <div class="row">
             <div class="ml-auto col-6">
               {{-- <form action="" method="get" class="row"> --}}
@@ -18,7 +24,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="col-12 mt-2">
           <ul class="nav nav-tabs col-12">
             <li class="nav-item">
@@ -39,11 +45,11 @@
       <div id="bad" class="container active tab-pane">
         <form id="form-downgrade-once">
           @csrf
-        <div class="card-body table-responsive" id="table_data">
-          @include('pages.pengaturan.usermaintenance.pagination')
-        </div>
-      <button id="buttonSubmit" type="submit" class="btn btn-danger ml-2">Downgrade All</button>
-      </form>
+          <div class="card-body table-responsive" id="table_data">
+            @include('pages.pengaturan.usermaintenance.pagination')
+          </div>
+          <button id="buttonSubmit" type="submit" class="btn btn-danger ml-2">Downgrade All</button>
+        </form>
       </div>
       <div id="good" class="container tab-pane">
         <div class="card-body table-responsive">
@@ -69,22 +75,22 @@
   $(document).ready(function() {
     // $("form").on('submit',function(e){e.preventDefault()})
     //   $("#form-downgrade-once").on('submit', function(e){
-      //   e.preventDefault();
-      //   alert("aa");
-      // refresh_table(URL_NOW);
-      //   });
-      
-      //   $("#submitForm").click(function(){
-        //     $("#buttonSubmit").click();
-        // });
-        // $("#submitForm").on('click',function(){
+    //   e.preventDefault();
+    //   alert("aa");
+    // refresh_table(URL_NOW);
+    //   });
+
+    //   $("#submitForm").click(function(){
+    //     $("#buttonSubmit").click();
+    // });
+    // $("#submitForm").on('click',function(){
 
   });
   // console.log(monthHere);
   async function showOrderModal(id, status, role) {
     console.log(id);
     let tempdata = ['100', '1111']
-    var urlHere = "{{route('maintenance.show', ":userId ")}}";
+    var urlHere = "{{route('maintenance.show', ": userId ")}}";
     urlHere = urlHere.replace(':userId', id);
     let html = "";
     let buttons = status ? `<button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>` : `<button type="button" onclick="downGradeUser(${id},'${role}')" class="btn btn-outline-danger">Downgrade Now!</button> <button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>`
@@ -159,28 +165,41 @@
       $("#modal_edit").children().remove();
     }, 500);
   }
-$("form").on('submit', (e) => {
-e.preventDefault()
-let serializedData = $("#form-downgrade-once").serialize();
+  $("form").on('submit', (e) => {
+    e.preventDefault()
+    let serializedData = $("#form-downgrade-once").serialize();
 
-new Promise((resolve, reject) => {
-$axios.post(`{{route('maintenance.downgrade_all')}}`, serializedData)
-.then(({data}) => {
-refresh_table(URL_NOW);
-let html = data.message.body.map((item)=>`<p>${item.name} ${item.status?"Berhasil":"Gagal"} diupdate!`);
+    new Promise((resolve, reject) => {
+      $axios.post(`{{route('maintenance.downgrade_all')}}`, serializedData)
+        .then(({
+          data
+        }) => {
+          refresh_table(URL_NOW);
+          let html = '';
+          var br = document.createElement("br");
+          data.message.body.map((item) => {
+            html += `${item.name} ${item.status?"Berhasil":"Gagal"} didowngrade!\n`
+          });
 
-  toastr.warning(html)
-  })
-  .catch(err => {
-  throwErr(err)
-  })
-  })
+          // console.log(html);
+          toastr.warning(html)
+          // $("#swal2-content").appendChild("break-it");
+          // $swal.fire({
+          //   icon: 'error',
+          //   title: 'Oops...',
+          //   text: html,
+          // });
+        })
+        .catch(err => {
+          throwErr(err)
+        })
+    })
   });
   // function downGradeAll(){
-    // e.preventDefault();
-  
+  // e.preventDefault();
+
   // }
-// }
+  // }
   // $("#submitForm").click(function(e){
   //   e.preventDefault();
   //   // console.log("aa");
@@ -189,6 +208,5 @@ let html = data.message.body.map((item)=>`<p>${item.name} ${item.status?"Berhasi
   // function submitForm(){
   //   $("#form-downgrade-once").submit();
   // }
-
 </script>
 @endsection

@@ -44,7 +44,6 @@
                             <ul class="dropdown-menu dropdown-menu-sm">
                                 <li class="dropdown-title">Select Month</li>
                                 @foreach ($month as $key => $value)
-                                <a href="">{{ $month[(date('n') - 1)] }}</a>
                                 <li>
                                     <a href="#" data-month="{{ $value }}" data-id="{{ $key + 1 }}" class="dropdown-item bulan {{ ($key == (date('n') - 1)) ? 'active' : '' }}">{{ $value }}</a>
                                 </li>
@@ -83,237 +82,238 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12" id="fieldPendapatan">
+            <div class="card card-statistic-2">
+                <div class="card-chart p-4" id="fieldChartPendapatan">
+                    <canvas id="balance-chart" height="80"></canvas>
+                </div>
+                <div class="card-icon shadow-primary bg-primary">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="card-wrap">
+                    <div class="card-header">
+                        <h4>Pendapatan</h4>
+                    </div>
+                    <div class="card-body" id="countPendapatan">
+                        0
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12" id="fieldPendapatan">
-                <div class="card card-statistic-2">
-                    <div class="card-chart p-4" id="fieldChartPendapatan">
-                        <canvas id="balance-chart" height="80"></canvas>
-                    </div>
-                    <div class="card-icon shadow-primary bg-primary">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Pendapatan</h4>
-                        </div>
-                        <div class="card-body" id="countPendapatan">
-                            0
-                        </div>
-                    </div>
+        <div class="col-lg-6 col-md-6 col-sm-12" id="fieldPenualan">
+            <div class="card card-statistic-2">
+                <div class="card-chart p-4" id="fieldChartPenjualan">
+                    <canvas id="sales-chart" height="80"></canvas>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12" id="fieldPenualan">
-                <div class="card card-statistic-2">
-                    <div class="card-chart p-4" id="fieldChartPenjualan">
-                        <canvas id="sales-chart" height="80"></canvas>
+                <div class="card-icon shadow-primary bg-primary">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="card-wrap">
+                    <div class="card-header">
+                        <h4>Penjualan</h4>
                     </div>
-                    <div class="card-icon shadow-primary bg-primary">
-                        <i class="fas fa-shopping-bag"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Penjualan</h4>
-                        </div>
-                        <div class="card-body" id="countPenjualan">
-                            0
-                        </div>
+                    <div class="card-body" id="countPenjualan">
+                        0
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @role('superadmin')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Ranking 10 Besar</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 mb-2">
-                            <select name="roles" id="rankRole" class="form-control" autocomplete="off">
-                                <option value="">Semua Level</option>
-                                @foreach ($all_role as $value)
-                                <option value="{{ $value->name }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <select name="month" id="rankMonth" class="form-control" autocomplete="off">
-                                @for ($i = 1; $i < 13; $i++) <option value="{{ $i }}" {{ date('n') == $i ? 'selected' : '' }}>{{ date("F", mktime(0, 0, 0, $i, 10)) }}</option>
-                                    @endfor
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <select name="year" id="rankYar" class="form-control mb-2" autocomplete="off">
-                                @php
-                                $end_year = date('Y') + 3
-                                @endphp
-                                @for ($i = 2019; $i < $end_year; $i++) <option data-year="{{ $i }}" data-id="{{ $i }}" class="tahun" {{ date('Y') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                    @endfor
-                            </select>
-                        </div>
-                        <div class="col-12 mt-3" id="fieldRanking">
-                        </div>
+@role('superadmin')
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Ranking 10 Besar</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <select name="roles" id="rankRole" class="form-control" autocomplete="off">
+                            <option value="">Semua Level</option>
+                            @foreach ($all_role as $value)
+                            <option value="{{ $value->name }}">{{ $value->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
+                    <div class="col-6">
+                        <select name="month" id="rankMonth" class="form-control" autocomplete="off">
+                            @for ($i = 1; $i < 13; $i++) <option value="{{ $i }}" {{ date('n') == $i ? 'selected' : '' }}>{{ date("F", mktime(0, 0, 0, $i, 10)) }}</option>
+                                @endfor
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select name="year" id="rankYar" class="form-control mb-2" autocomplete="off">
+                            @php
+                            $end_year = date('Y') + 3
+                            @endphp
+                            @for ($i = 2019; $i < $end_year; $i++) <option data-year="{{ $i }}" data-id="{{ $i }}" class="tahun" {{ date('Y') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                @endfor
+                        </select>
+                    </div>
+                    <div class="col-12 mt-3" id="fieldRanking">
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+@endrole
+
+@unlessrole('superadmin')
+@unlessrole('reseller')
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>Total Point : <?= $user->total_point ?></h3>
+                    </div>
+                    <div>
+                        <a href="{{ route('page.reward.index') }}" class="btn btn-success">Tukarkan Point / Lihat History Point</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    @endrole
-
-    @unlessrole('superadmin')
-    @unlessrole('reseller')
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h4>Total Point : <?= $user->total_point ?></h3>
-                        </div>
-                        <div>
-                            <a href="{{ route('page.reward.index') }}" class="btn btn-success">Tukarkan Point / Lihat History Point</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h4>{{$checkMitraRequirement?"Selamat anda masih memenuhi minimal pembelanjaan sebagai
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{$checkMitraRequirement?"Selamat anda masih memenuhi minimal pembelanjaan sebagai
                             $role":"Anda tidak memenuhi minimal pembelanjaan sebagai $role"}}</h3>
-                        </div>
-                        <div>
-                            <button id="showMontlyTransaction" class="btn {{$checkMitraRequirement?'btn-success':'btn-danger'}} btn-sm">Detail</button>
+                    </div>
+                    <div>
+                        <button id="showMontlyTransaction" class="btn {{$checkMitraRequirement?'btn-success':'btn-danger'}} btn-sm">Detail</button>
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @endrole
-    @endrole
+</div>
+@endrole
+@endrole
 
-    <div class="row">
-        <div class="col-md-12">
-            @if(!Auth::user()->isReseller())
-            <div class="card">
-                <div class="card-header">
-                    <h4>Pesanan</h4>
-                    <div class="card-header-action">
-                        <a href="{{ route('order.index') }}" class="btn btn-danger">Lainnya <i class="fas fa-chevron-right"></i></a>
-                    </div>
-                </div>
-                <div class="card-body p-0 overflow-auto">
-                    <div class="table-responsive table-invoice">
-                        <table class="table table-striped" id="table_data">
-                            <tr>
-                                <th>Invoice ID</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Tanggal Pesan</th>
-                                <th>Action</th>
-                            </tr>
-                            @forelse ($orders as $key => $value)
-                            <tr>
-                                <td>{{ $value->invoice }}</td>
-                                <td>{{ $value->user->name }}</td>
-                                <td>
-                                    @if ($value->status == 0)
-                                    <span class="badge badge-warning">Pending</span>
-                                    @elseif($value->status == 1)
-                                    <span class="badge badge-secondary">Dikemas</span>
-                                    @elseif($value->status == 2)
-                                    <span class="badge badge-primary">Dikirim</span>
-                                    @elseif($value->status == 3)
-                                    <span class="badge badge-info">Diterima</span>
-                                    @elseif($value->status == 4)
-                                    <span class="badge badge-success">Selesai</span>
-                                    @elseif($value->status == 5)
-                                    <span class="badge badge-danger">Ditolak</span>
-                                    @elseif($value->status == 6)
-                                    <span class="badge badge-danger">Batal</span>
-                                    @endif
-                                </td>
-                                <td>{{ Carbon\Carbon::parse($value->created_at)->isoFormat('dddd, D MMMM Y') }}</td>
-                                <td><button onclick="detail({{ $value->id }})" class="btn btn-primary btn-sm">Detail</button></td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center">Tidak Ada Pesanan</td>
-                            </tr>
-                            @endforelse
-                        </table>
-                    </div>
+<div class="row">
+    <div class="col-md-12">
+        @if(!Auth::user()->isReseller())
+        <div class="card">
+            <div class="card-header">
+                <h4>Pesanan</h4>
+                <div class="card-header-action">
+                    <a href="{{ route('order.index') }}" class="btn btn-danger">Lainnya <i class="fas fa-chevron-right"></i></a>
                 </div>
             </div>
-            @else
-            <div class="card">
-                <div class="card-header">
-                    <h4>Pesanan Terbaru</h4>
-                    <div class="card-header-action">
-                        <a href="#" class="btn btn-danger">Lainnya <i class="fas fa-chevron-right"></i></a>
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive table-invoice">
-                        <table class="table table-striped" id="table_data">
-                            <tr>
-                                <th>Invoice ID</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Tanggal Pesan</th>
-                                <th>Action</th>
-                            </tr>
-                            @forelse ($orders as $key => $value)
-                            <tr>
-                                <td>{{ $value->invoice }}</td>
-                                <td>{{ $value->user->name }}</td>
-                                <td>
-                                    @if ($value->status == 0)
-                                    <span class="badge badge-warning">Pending</span>
-                                    @elseif($value->status == 1)
-                                    <span class="badge badge-secondary">Dikemas</span>
-                                    @elseif($value->status == 2)
-                                    <span class="badge badge-primary">Dikirim</span>
-                                    @elseif($value->status == 3)
-                                    <span class="badge badge-info">Diterima</span>
-                                    @elseif($value->status == 4)
-                                    <span class="badge badge-success">Selesai</span>
-                                    @elseif($value->status == 5)
-                                    <span class="badge badge-danger">Ditolak</span>
-                                    @elseif($value->status == 6)
-                                    <span class="badge badge-danger">Batal</span>
-                                    @endif
-                                </td>
-                                <td>{{ Carbon\Carbon::parse($value->created_at)->isoFormat('dddd, D MMMM Y') }}</td>
-                                <td><a href="{{ route('detail.order'. Auth::user()->getRoleNames()[0], ['transaction'=>$value->id])}}" class="btn btn-primary btn-sm">Detail</a></td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center">Tidak Ada Pesanan</td>
-                            </tr>
-                            @endforelse
-                        </table>
-                    </div>
+            <div class="card-body p-0 overflow-auto">
+                <div class="table-responsive table-invoice">
+                    <table class="table table-striped" id="table_data">
+                        <tr>
+                            <th>Invoice ID</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Tanggal Pesan</th>
+                            <th>Action</th>
+                        </tr>
+                        @forelse ($orders as $key => $value)
+                        <tr>
+                            <td>{{ $value->invoice }}</td>
+                            <td>{{ $value->user->name }}</td>
+                            <td>
+                                @if ($value->status == 0)
+                                <span class="badge badge-warning">Pending</span>
+                                @elseif($value->status == 1)
+                                <span class="badge badge-secondary">Dikemas</span>
+                                @elseif($value->status == 2)
+                                <span class="badge badge-primary">Dikirim</span>
+                                @elseif($value->status == 3)
+                                <span class="badge badge-info">Diterima</span>
+                                @elseif($value->status == 4)
+                                <span class="badge badge-success">Selesai</span>
+                                @elseif($value->status == 5)
+                                <span class="badge badge-danger">Ditolak</span>
+                                @elseif($value->status == 6)
+                                <span class="badge badge-danger">Batal</span>
+                                @endif
+                            </td>
+                            <td>{{ Carbon\Carbon::parse($value->created_at)->isoFormat('dddd, D MMMM Y') }}</td>
+                            <td><button onclick="detail({{ $value->id }})" class="btn btn-primary btn-sm">Detail</button></td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak Ada Pesanan</td>
+                        </tr>
+                        @endforelse
+                    </table>
+                    {{ $orders->links() }}
                 </div>
             </div>
-            @endif
         </div>
+        @else
+        <div class="card">
+            <div class="card-header">
+                <h4>Pesanan Terbaru</h4>
+                <div class="card-header-action">
+                    <a href="#" class="btn btn-danger">Lainnya <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive table-invoice">
+                    <table class="table table-striped" id="table_data">
+                        <tr>
+                            <th>Invoice ID</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Tanggal Pesan</th>
+                            <th>Action</th>
+                        </tr>
+                        @forelse ($orders as $key => $value)
+                        <tr>
+                            <td>{{ $value->invoice }}</td>
+                            <td>{{ $value->user->name }}</td>
+                            <td>
+                                @if ($value->status == 0)
+                                <span class="badge badge-warning">Pending</span>
+                                @elseif($value->status == 1)
+                                <span class="badge badge-secondary">Dikemas</span>
+                                @elseif($value->status == 2)
+                                <span class="badge badge-primary">Dikirim</span>
+                                @elseif($value->status == 3)
+                                <span class="badge badge-info">Diterima</span>
+                                @elseif($value->status == 4)
+                                <span class="badge badge-success">Selesai</span>
+                                @elseif($value->status == 5)
+                                <span class="badge badge-danger">Ditolak</span>
+                                @elseif($value->status == 6)
+                                <span class="badge badge-danger">Batal</span>
+                                @endif
+                            </td>
+                            <td>{{ Carbon\Carbon::parse($value->created_at)->isoFormat('dddd, D MMMM Y') }}</td>
+                            <td><a href="{{ route('detail.order'. Auth::user()->getRoleNames()[0], ['transaction'=>$value->id])}}" class="btn btn-primary btn-sm">Detail</a></td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Tidak Ada Pesanan</td>
+                        </tr>
+                        @endforelse
+                    </table>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
+</div>
 </div>
 @endsection
 
