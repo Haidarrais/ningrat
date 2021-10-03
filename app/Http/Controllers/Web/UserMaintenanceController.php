@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use stdClass;
+
+use function PHPSTORM_META\map;
 
 class UserMaintenanceController extends Controller
 {
@@ -28,10 +31,10 @@ class UserMaintenanceController extends Controller
     {
         $month = $this->month;
         $users = User::whereHas('roles', function ($query) {
-            $query->where('name', '!=', 'superadmin')->whereDate('last_upgrade', '<=', Carbon::now()->startOfMonth());
+            $query->where('name', '!=', 'superadmin')->where('name', '!=', 'reseller')->where('name', '!=', 'customer')->where('name', '!=', 'subagent')->whereDate('last_upgrade', '<=', Carbon::now()->startOfMonth());
         })->with('roles')->get();
         $userWithRoleAndOrders = [];
-        
+
         foreach ($users as $index => $user) {
             # code...
             $role = $user->getRoleNames()->first();
@@ -39,9 +42,9 @@ class UserMaintenanceController extends Controller
             $userWithRoleAndOrders[$index]["id"] = $user->id;
             $userWithRoleAndOrders[$index]["role"] = $role;
             $userWithRoleAndOrders[$index]["email"] = $user->email;
-                        // dd(Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year);
-            $user_updated_at =Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year;
-            $minimal_transaction =0;
+            // dd(Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year);
+            $user_updated_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year;
+            $minimal_transaction = 0;
             if ($role == 'distributor') {
                 $minimal_transaction = $user_updated_at > 2019 ?
                     Setting::where('role', 'new-distributor')->first()->value :
@@ -49,14 +52,14 @@ class UserMaintenanceController extends Controller
             } else {
                 $minimal_transaction = Setting::where('role', $role)->first()->value ?? 0;
             }
-            $hirarki = $role == 'reseller'? 
-            User::where('id', $user->id)->get()->pluck('id')->toArray()
-            : 
-            User::where('upper', $user->id)->get()->pluck('id')->toArray();
+            $hirarki = $role == 'reseller' ?
+                User::where('id', $user->id)->get()->pluck('id')->toArray()
+                :
+                User::where('upper', $user->id)->get()->pluck('id')->toArray();
             $d = $this->getMonthTotalTransaction($hirarki, $user);
-            if ($d> $minimal_transaction) {
-               $userWithRoleAndOrders[$index]["status"] = true;
-            }else{
+            if ($d > $minimal_transaction) {
+                $userWithRoleAndOrders[$index]["status"] = true;
+            } else {
                 $userWithRoleAndOrders[$index]["status"] = false;
             }
         }
@@ -109,7 +112,7 @@ class UserMaintenanceController extends Controller
             $minimal_transaction = Setting::where('role', $role)->first()->value ?? 0;
         }
         $hirarki = $role == 'reseller' ?
-        User::where('id', $user->id)->get()->pluck('id')->toArray()
+            User::where('id', $user->id)->get()->pluck('id')->toArray()
             :
             User::where('upper', $user->id)->get()->pluck('id')->toArray();
         $d = $this->getMonthlyTransaction($hirarki, $user, $minimal_transaction);
@@ -144,55 +147,71 @@ class UserMaintenanceController extends Controller
         $role = $request->role;
         $id = $request->id;
         try {
-            if ($role=="subagent"|| $role == "reseller" || $role== "customer") {
-                return response()->json([
-                    'status' => false,
-                    'message' => [
-                        'head'=>'Error',
-                        'body'=>"User ini tidak bisa didowngrade"]
-                ], 500);
-            }else if(Carbon::now()->month!==12 || Carbon::now()->month !== 1){
-                return response()->json([
-                    'status' => false,
-                    'message' => [
-                        'head' => 'Error',
-                        'body' => "Maintenance user hanya dapat dilakukan pada bulan Januari dan Desember"
-                    ]
-                ], 500);
-            }else{
-            $user = User::find($id);
-            switch ($role) {
-                case 'distributor':
-                    $user->removeRole($role);
-                    $user->assignRole('agent+');
-                    break;
-                case 'agent+':
-                    $user->removeRole($role);
-                    $user->assignRole('agent');
-                    break;
-                case 'agent':
-                    $user->removeRole($role);
-                    $user->assignRole('subagent');
-                    break;
-                default:
-                    break;
-            }
-            $user->update(['last_upgrade'=>Carbon::now()]);
-                return response()->json([
-                    'status' => true,
-                    'message' => [
-                        'head' => 'Success',
-                        'body' => 'User berhasil didowngrade!'
-                    ]
-                ], 200);
+            if ($role == "subagent" || $role == "reseller" || $role == "customer") {
+                if ($request->downAll) {
+                    return ['name' => User::find($id)->name, 'status' => false];
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => [
+                            'head' => 'Error',
+                            'body' => "User ini tidak bisa didowngrade"
+                        ]
+                    ], 500);
+                }
+            } else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 1) {
+                if ($request->downAll) {
+                    return ['name'=>User::find($id)->name, 'status'=>false];
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => [
+                            'head' => 'Error',
+                            'body' => "Maintenance user hanya dapat dilakukan pada bulan Januari dan Desember"
+                        ]
+                    ], 500);
+                }
+            } else {
+                $user = User::find($id);
+                switch ($role) {
+                    case 'distributor':
+                        $user->removeRole($role);
+                        $user->assignRole('agent+');
+                        break;
+                    case 'agent+':
+                        $user->removeRole($role);
+                        $user->assignRole('agent');
+                        break;
+                    case 'agent':
+                        $user->removeRole($role);
+                        $user->assignRole('subagent');
+                        break;
+                    default:
+                        break;
+                }
+                $user->update(['last_upgrade' => Carbon::now()]);
+                if ($request->downAll) {
+                    return ['name' => User::find($id)->name, 'status' => true];
+                } else {
+                    return response()->json([
+                        'status' => true,
+                        'message' => [
+                            'head' => 'Success',
+                            'body' => 'User berhasil didowngrade!'
+                        ]
+                    ], 200);
+                }
             }
         } catch (\Throwable $th) {
-            return response()->json([
-                'status' => true,
-                'message' => $th
-            ], 200);
+            if ($request->downAll) {
+                return ['name' => User::find($id)->name, 'status' => false];
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => $th
+                ], 200);
+            }
         }
-      
     }
 
     /**
@@ -206,12 +225,41 @@ class UserMaintenanceController extends Controller
         //
     }
 
-    public function downgradeAll(Request $request){
+    public function downgradeAll(Request $request)
+    {
+        $userIds = $request->user_id;
+        $userRoles = $request->role;
+        $processedData = [];
+        $results = [];
+        for ($i = 0; $i < count($userRoles) ; $i++) {
+            $tempdata = [];
+            $tempdata["id"] = (int)$userIds[$i];
+            $tempdata["role"] = $userRoles[$i];
+            array_push($processedData, $tempdata);
+        }
+        
+        $dataToUpdate = new Request;
+        for ($j = 0; $j < count($processedData) ; $j++) {
+            $dataToUpdate->merge([
+                'role' => $processedData[$j]["role"],
+                'id' => $processedData[$j]["id"],
+                'downAll' => "yes"
+            ]);
+            $res = $this->update($dataToUpdate);
+            array_push($results, $res);
+        }
 
+        return response()->json([
+            'status' => true,
+            'message' => [
+                'head' => 'Success',
+                'body' => $results
+            ]
+        ], 200);
     }
     private function getMonthTotalTransaction($hirarki, $user)
     {
-        
+
         $todaysMonth = Carbon::now()->month;
         $processedOrders = [];
         $orders =  Order::select(
@@ -264,7 +312,7 @@ class UserMaintenanceController extends Controller
             ->groupBy('month')
             ->orderBy('created_at', 'ASC')
             ->get()->toArray();
-    
+
         if ($todaysMonth > 6) {
             $filteredArray = Arr::where($orders, function ($value, $key) {
                 return intval($value['month']) > 6;

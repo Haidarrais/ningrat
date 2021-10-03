@@ -1,3 +1,4 @@
+
 <table class="table table-sm">
   <thead>
     <tr class="text-center">
@@ -12,12 +13,14 @@
   <tbody>
     @php
     foreach ($userWithRoleAndOrders as $key => $value) {
-      $isEmpty = false;
+      $isEmpty = [];
       $index = ++$key;
     if (count($userWithRoleAndOrders)>0 && $value['status']==false) {
       $role = "${value['role']}";
       $params = "showOrderModal(".$value['id'].",".(int)$value['status'].","."'".$role."'".")";
       // $params = "showOrderModal(".$value[`id`].".",".".(int)($value[`status`]) .",".$role.")";
+    echo "<input type='hidden' name='user_id[]' value=${value['id']} />";
+    echo "<input type='hidden' name='role[]' value=${value['role']} />";
     echo"<tr class='text-center'>
       <th scope='row'>
         $index
@@ -32,13 +35,13 @@
       <span class='badge badge-danger' style='cursor: pointer;' onclick=$params><i class='fas fa-thumbs-down'></i></span>
     </td>
     </tr>";
-    $isEmpty = false;
+    array_push($isEmpty, false);
     }
     else {
-      $isEmpty = true;
+      array_push($isEmpty, true);
  }
     }
-    if ($isEmpty) {
+    if (!in_array(true, $isEmpty)) {
       echo"<tr>
             <td colspan='5' class='text-center'>Tidak ada data</td>
           </tr>";

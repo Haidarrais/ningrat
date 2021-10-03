@@ -49,6 +49,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
             Route::get('/user-maintenace', [UserMaintenanceController::class, 'index'])->name('maintenance');
             Route::get('/user-maintenace/{id}', [UserMaintenanceController::class, 'show'])->name('maintenance.show');
             Route::patch('/user-maintenace/update', [UserMaintenanceController::class, 'update'])->name('maintenance.update');
+            Route::post('/user-maintenace/downgrade/all', [UserMaintenanceController::class, 'downgradeAll'])->name('maintenance.downgrade_all');
         });
 
         Route::get('/users/{id}/hirarki', [UserController::class, 'hirarki'])->name('users.hirarki');
