@@ -4,20 +4,51 @@
 <div class="section-body">
   <div class="card">
     <div class="card-header">
-      <div class="ml-auto">
-        <form action="" method="get" class="row">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
-            <div class="input-group-append">
-              <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
+      <div class="row w-100">
+        <div class="col-12">
+          <div class="row">
+            <div class="input-group-append col-6">
+              <button class="btn btn-danger ml-2">Downgrade all</button>
+            </div>
+            <div class="ml-auto col-6">
+              <form action="" method="get" class="row">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
-        </form>
+        </div>
+        <div class="col-12 mt-2">
+          <ul class="nav nav-tabs col-12">
+            <li class="nav-item">
+              <a class="nav-link @if(count($userWithRoleAndOrders)>0)active @endif" data-toggle="tab" href="#bad">Bad User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#good">Good User</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#transfer">Transaksi Transfer</a>
+            </li> -->
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="card-body table-responsive" id="table_data">
-      @include('pages.pengaturan.usermaintenance.pagination')
-    </div>
+    <div class="tab-content">
+    <div id="bad"class="container active tab-pane">
+      <div class="card-body table-responsive" id="table_data">
+            @include('pages.pengaturan.usermaintenance.pagination')
+          </div>
+        </div>
+        <div id="good" class="container tab-pane">
+          <div class="card-body table-responsive" >
+            {{-- <div class="tab-content"> --}}
+              @include('pages.pengaturan.usermaintenance.pagination-good-user')
+            </div>
+      </div></div>
   </div>
 </div>
 @endsection
@@ -32,7 +63,9 @@
 <script>
   let monthHere = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember'];
   let type
-  // $(document).ready(function() {
+  $(document).ready(function() {
+    refresh_table(URL_NOW);
+  });
   // console.log(monthHere);
   async function showOrderModal(id, status, role) {
     console.log(id);
@@ -82,8 +115,6 @@
   }
 
   async function downGradeUser(id, role) {
-    // var url = "{{route('maintenance.update', ": userId ")}}";
-    // url = url.replace(':userId', id);
     await $axios.patch(`{{ route('maintenance.update') }}`, {
       id: id,
       role: role
@@ -93,11 +124,11 @@
         icon: data.status ? "success" : "error",
         title: data.message.head,
         text: data.message.body,
-      }).then(()=>{
+      }).then(() => {
         removechilderen();
         refresh_table(URL_NOW);
       });
-    }).catch((r,err) => {
+    }).catch((r, err) => {
       console.log(r.response.data);
       // console.log(err);
       $swal.fire({

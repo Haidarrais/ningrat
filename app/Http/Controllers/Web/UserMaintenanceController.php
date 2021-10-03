@@ -39,8 +39,8 @@ class UserMaintenanceController extends Controller
             $userWithRoleAndOrders[$index]["id"] = $user->id;
             $userWithRoleAndOrders[$index]["role"] = $role;
             $userWithRoleAndOrders[$index]["email"] = $user->email;
-                        
-            $user_updated_at = $user->updated_at->year;
+                        // dd(Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year);
+            $user_updated_at =Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year;
             $minimal_transaction =0;
             if ($role == 'distributor') {
                 $minimal_transaction = $user_updated_at > 2019 ?
@@ -96,7 +96,9 @@ class UserMaintenanceController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        $user_updated_at = $user->updated_at->year;
+        // dd($user);
+        // return $user;
+        $user_updated_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year;
         $minimal_transaction = 0;
         $role = $user->getRoleNames()->first();
         if ($role == 'distributor') {
@@ -149,6 +151,14 @@ class UserMaintenanceController extends Controller
                         'head'=>'Error',
                         'body'=>"User ini tidak bisa didowngrade"]
                 ], 500);
+            }else if(Carbon::now()->month!==12 || Carbon::now()->month !== 1){
+                return response()->json([
+                    'status' => false,
+                    'message' => [
+                        'head' => 'Error',
+                        'body' => "Maintenance user hanya dapat dilakukan pada bulan Januari dan Desember"
+                    ]
+                ], 500);
             }else{
             $user = User::find($id);
             switch ($role) {
@@ -196,6 +206,9 @@ class UserMaintenanceController extends Controller
         //
     }
 
+    public function downgradeAll(Request $request){
+
+    }
     private function getMonthTotalTransaction($hirarki, $user)
     {
         

@@ -10,33 +10,39 @@
     </tr>
   </thead>
   <tbody>
-    @forelse ($userWithRoleAndOrders as $key => $value)
-    <tr class="text-center">
-      <th scope="row">
-        {{$key+1}}
-      </th>
-      <td>{{ $value["name"] }}</td>
-      <td>{{ $value["email"] }}</td>
-      <td>{{$value["role"]}}</td>
-      <td>
-        @if ($value["status"])
-        <span class="badge badge-success">Good</span>
-        @else
-        <span class="badge badge-danger">Bad</span>
-        @endif
-      </td>
-      <td>
-        @if ($value["status"])
-        <span class="badge badge-success" style="cursor: pointer;" onclick="showOrderModal('{{ $value['id'] }}','{{ $value['status'] }}','{{$value['role']}}')"><i class="fas fa-thumbs-up"></i></span>
-        @else
-        <span class="badge badge-danger" style="cursor: pointer;" onclick="showOrderModal('{{ $value['id'] }}','{{ $value['status'] }}','{{$value['role']}}')"><i class="fas fa-thumbs-down"></i></span>
-        @endif
-      </td>
-    </tr>
-    @empty
-    <tr>
-      <td colspan="5" class="text-center">Tidak ada data</td>
-    </tr>
-    @endforelse
+    @php
+    foreach ($userWithRoleAndOrders as $key => $value) {
+      $isEmpty = false;
+      $index = ++$key;
+    if (count($userWithRoleAndOrders)>0 && $value['status']==false) {
+      $role = "${value['role']}";
+      $params = "showOrderModal(".$value['id'].",".(int)$value['status'].","."'".$role."'".")";
+      // $params = "showOrderModal(".$value[`id`].".",".".(int)($value[`status`]) .",".$role.")";
+    echo"<tr class='text-center'>
+      <th scope='row'>
+        $index
+    </th>
+    <td>".$value['name']."</td>
+    <td> ".$value['email']."</td>
+    <td>".$value['role']."</td>
+    <td>
+      <span class='badge badge-danger'>Bad</span>
+    </td>
+    <td>
+      <span class='badge badge-danger' style='cursor: pointer;' onclick=$params><i class='fas fa-thumbs-down'></i></span>
+    </td>
+    </tr>";
+    $isEmpty = false;
+    }
+    else {
+      $isEmpty = true;
+ }
+    }
+    if ($isEmpty) {
+      echo"<tr>
+            <td colspan='5' class='text-center'>Tidak ada data</td>
+          </tr>";
+    }
+    @endphp
   </tbody>
 </table>

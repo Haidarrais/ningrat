@@ -82,7 +82,7 @@ class OrderController extends Controller
         $user = Auth::user();
         $role = $user->getRoleNames()->first();
         $discount = MasterDiscount::where('status', 1)->latest()->first();
-        $user_updated_at = $user->updated_at->year;
+        $user_updated_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year;
         $minimal_transaction = 0;
         $monthly_min_transaction = 0;
         $discount_role_based = 0;
