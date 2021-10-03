@@ -1,4 +1,4 @@
-<table class="table product-table text-center">
+<table class="table_order table product-table text-center" style="min-width: max-content;">
   <thead>
     <tr>
       <th>#</th>
@@ -9,18 +9,18 @@
       <th>Total</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="tbody" style="height: 400px !important;display:block;">
     <input type="hidden" name="ongkir-discount" value="0" readonly>
     <input type="hidden" name="discount" value="0" readonly>
     <!-- <input type="hidden" name="discount" value="0" id="discount"> -->
     <input type="hidden" value="0" id="inputWeight">
     @forelse ($products as $key => $value)
     <input type="hidden" name="id[]" value="{{ $value->product_id }}">
-    <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->category_id }}">
-    <tr>
+    <tr id="displayer">
+      <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->product->category_id }}" class="category_product">
       <td>{{ $loop->iteration }}</td>
       <td><img src="{{ asset('upload/product').'/'.$value->product->image }}" alt="{{ $value->product->image }}" class="img-fluid" width="200"></td>
-      <td>{{ $value->product->name }}</td>
+      <td class="product_name">{{ $value->product->name }}</td>
       @if ($discount =
       $value->discount()->where('user_id', $value->user_id)->where('status', 1)->first())
       @php
@@ -75,4 +75,3 @@
     @endforelse
   </tbody>
 </table>
-{!!$products->links()!!}

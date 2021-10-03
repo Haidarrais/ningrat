@@ -2,16 +2,22 @@
 
 @section('content')
 <div class="section-body">
-
     <div class="row">
         <div class="col-12">
             <div class="card">
-
                 <div class="card-body overflow-auto">
-                    <div class="d-flex justify-content-center">
-                        <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
-                            Total Belanja anda bulan ini adalah {{"Rp " . number_format($this_month_total_transaction,2,',','.')}}
-                        </span>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 mt-2">
+                            <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
+                                Total Belanja anda bulan ini adalah {{"Rp " . number_format($this_month_total_transaction,2,',','.')}}
+                            </span>
+
+                        </div>
+                        <div class="col-lg-6 col-md-12 mt-2">
+                            <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-warning @endif text-center" style="font-size: 14px;font-weight:bold;">
+                                Minimal Belanja anda perbulan adalah {{"Rp " . number_format($monthly_min_transaction,2,',','.')}}
+                            </span>
+                        </div>
                         <!-- <div>
                             <button id="showMontlyTransaction" class="btn btn-success btn-sm">Detail</button>
 
@@ -26,16 +32,22 @@
             @role('superadmin')
             @else
             @endrole
-            <button class="btn btn-outline-primary ml-2" onclick="refresh_table(URL_NOW)"><i class="fas fa-sync"></i>Refresh</button>
-            <div class="ml-auto">
-                <form action="" method="get" class="row">
+            <div class="row">
+                <div class="input-group mb-3">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
+                        <select name="product_category" id="product_category" class="form-control" onchange="onchangeProductType(this.value)"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="ml-auto">
+                <div class="row">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" oninput="onchangeProductType(this.value)" name="keyword" placeholder="Nama Produk" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary"><i class="fas fa-search"></i>Cari</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <div class="card-body overflow-auto">
@@ -71,7 +83,7 @@
                         Subsidi Ongkir
                         <input disabled name="" id="displayOngkirDiscount" class="form-control" value="0">
                     </div>
-         
+
                     <div class="col-md-6 d-none" id="isUserGetDiscount">
                         Anda berhak mendapatkan diskon sebesar {{$discount_role_based}}%
                         <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
@@ -213,7 +225,22 @@
                     })
                     $("#courier").html(html)
                 })
-        })
+        });
+        //getcategory
+        new Promise((resolve, reject) => {
+            $axios.get(`{{ route('api.get_category') }}`)
+                .then(({
+                    data
+                }) => {
+                    let html = `<option selected disabled value="first">== Filter Category ==</option>`
+                    let dataArr = data.data;
+                    dataArr.map((item) => {
+                        html += `<option value="${item.id}">${item.name}</option>`
+
+                    })
+                    $("#product_category").html(html)
+                })
+        });
 
         $("#btn-courier").on('click', () => {
             let local_weight = $("#inputWeight").val()
@@ -334,7 +361,7 @@
                 $("#syarat").addClass('border-success')
             }
 
-            if (uhek + thisMonthTotalTransaction > minTransation) {
+            if (uhek + thisMonthTotalTransaction > monthlyMinimalTransaction) {
                 $("input[name='discount']").val(discountFromRole);
                 console.log("before discount", uhek);
 
@@ -393,5 +420,69 @@
             }
         });
     });
+
+    function onchangeProductType(id) {
+        console.log(isNaN(parseInt(id)));
+        let arrayH = !isNaN(parseInt(id)) ? $(".category_product").toArray() : $(".product_name").toArray();
+        !isNaN(parseInt(id)) ? categoryFilter(arrayH, id) : nameFilter(arrayH, id);
+    }
+
+    function categoryFilter(arrayH, id) {
+        let checkMatching = true;
+        const warnP = document.createElement('p');
+        arrayH.forEach((item) => {
+            if (item.value === "first") {
+                return;
+            }
+            if (item.value !== id) {
+                item.parentElement.classList.add('d-none');
+                checkMatching = false;
+            } else {
+                item.parentElement.classList.remove('d-none');
+                checkMatching = true;
+            }
+            let warnElement = document.getElementById("showWarn");
+            if (!checkMatching) {
+                if (warnElement === null) {
+                    warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
+                    item.parentElement.parentElement.appendChild(warnP);
+                }
+            } else {
+                if (warnElement) {
+                    let tbody = document.getElementById("tbody");
+                    tbody.removeChild(warnElement.parentNode);
+
+                }
+            }
+        });
+    }
+
+    function nameFilter(arrayH, id) {
+        let checkMatching = [];
+        const warnP = document.createElement('p');
+
+        arrayH.map((item) => {
+            // console.log("aaaa", );
+            if (!(item.innerHTML.toLowerCase().includes(id.toLowerCase()))) {
+                item.parentElement.classList.add('d-none');
+                checkMatching.push(false);
+            } else {
+                item.parentElement.classList.remove('d-none');
+                checkMatching.push(true);
+            }
+            let warnElement = document.getElementById("showWarn");
+            if (!checkMatching.includes(true)) {
+                if (warnElement === null) {
+                    warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
+                    item.parentElement.parentElement.appendChild(warnP);
+                }
+            } else {
+                if (warnElement) {
+                    let tbody = document.getElementById("tbody");
+                    tbody.removeChild(warnElement.parentNode);
+                }
+            }
+        });
+    }
 </script>
 @endsection

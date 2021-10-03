@@ -6,17 +6,17 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body ">
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="col-12">
+                <div class="card-body overflow-auto">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 mt-2">
                             <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
                                 Total Belanja anda bulan ini adalah {{"Rp " . number_format($this_month_total_transaction,2,',','.')}}
                             </span>
 
                         </div>
-                        <div class="col-12">
-                            <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
-                                Total Belanja anda bulan ini adalah {{"Rp " . number_format($monthly_min_transaction,2,',','.')}}
+                        <div class="col-lg-6 col-md-12 mt-2">
+                            <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-warning @endif text-center" style="font-size: 14px;font-weight:bold;">
+                                Minimal Belanja anda perbulan adalah {{"Rp " . number_format($monthly_min_transaction,2,',','.')}}
                             </span>
                         </div>
                         <!-- <div>
@@ -31,20 +31,26 @@
 
     <div class="card">
         <div class="card-header">
-            <!-- @role('superadmin')
+            @role('superadmin')
             @else
-            <a class="btn btn-success" href="{{ route('order.create') }}"><i class="fas fa-plus"></i> Tambah Order</a>
-            @endrole -->
-            <button class="btn btn-outline-primary ml-2" onclick="refresh_table(URL_NOW)"><i class="fas fa-sync"></i>Refresh</button>
+            @endrole
+            <div class="row">
+                <div class="input-group mb-3">
+                    <select name="product_category" id="product_category" class="form-control " onchange="onchangeProductType(this.value)"></select>
+                    <!-- <div class="input-group-append">
+                        <button class="btn btn-primary"><i class="fas fa-search"></i>Cari</button>
+                    </div> -->
+                </div>
+            </div>
             <div class="ml-auto">
-                <form action="" method="get" class="row">
+                <div class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Nama Produk" oninput="onchangeProductType(this.value)" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary"><i class="fas fa-search"></i>Cari</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <div class="card-body overflow-auto">
@@ -209,7 +215,7 @@
                     $("#btnTambah").attr('disabled', 'disabled')
                 })
         })
-
+        //getcourier
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_courier') }}`)
                 .then(({
@@ -222,6 +228,22 @@
                     $("#courier").html(html)
                 })
         })
+
+        //getcategory
+        new Promise((resolve, reject) => {
+            $axios.get(`{{ route('api.get_category') }}`)
+                .then(({
+                    data
+                }) => {
+                    let html = `<option selected disabled value="first">== Filter Category ==</option>`
+                    let dataArr = data.data;
+                    dataArr.map((item) => {
+                        html += `<option value="${item.id}">${item.name}</option>`
+
+                    })
+                    $("#product_category").html(html)
+                })
+        });
 
         $("#btn-courier").on('click', () => {
             let local_weight = $("#inputWeight").val()
@@ -383,5 +405,67 @@
         });
     });
     // }
+    function onchangeProductType(id) {
+        let arrayH = !isNaN(id) ? $(".category_product").toArray() : $(".product_name").toArray();
+        !isNaN(parseInt(id)) ? categoryFilter(arrayH, id) : nameFilter(arrayH, id);
+    }
+
+    function categoryFilter(arrayH, id) {
+        let checkMatching = true;
+        const warnP = document.createElement('p');
+        arrayH.forEach((item) => {
+            if (item.value === "first") {
+                return;
+            }
+            if (item.value !== id) {
+                item.parentElement.classList.add('d-none');
+                checkMatching = false;
+            } else {
+                item.parentElement.classList.remove('d-none');
+                checkMatching = true;
+            }
+            let warnElement = document.getElementById("showWarn");
+            if (!checkMatching) {
+                if (warnElement === null) {
+                    warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
+                    item.parentElement.parentElement.appendChild(warnP);
+                }
+            } else {
+                if (warnElement) {
+                    let tbody = document.getElementById("tbody");
+                    tbody.removeChild(warnElement.parentNode);
+
+                }
+            }
+        });
+    }
+
+    function nameFilter(arrayH, id) {
+        let checkMatching = [];
+        const warnP = document.createElement('p');
+
+        arrayH.map((item) => {
+            // console.log("aaaa", );
+            if (!(item.innerHTML.toLowerCase().includes(id.toLowerCase()))) {
+                item.parentElement.classList.add('d-none');
+                checkMatching.push(false);
+            } else {
+                item.parentElement.classList.remove('d-none');
+                checkMatching.push(true);
+            }
+            let warnElement = document.getElementById("showWarn");
+            if (!checkMatching.includes(true)) {
+                if (warnElement === null) {
+                    warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
+                    item.parentElement.parentElement.appendChild(warnP);
+                }
+            } else {
+                if (warnElement) {
+                    let tbody = document.getElementById("tbody");
+                    tbody.removeChild(warnElement.parentNode);
+                }
+            }
+        });
+    }
 </script>
 @endsection
