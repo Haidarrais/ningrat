@@ -7,25 +7,23 @@
       <div class="row w-100">
         <div class="col-12">
           <div class="row">
-            <div class="input-group-append col-6">
-              <button class="btn btn-danger ml-2">Downgrade all</button>
-            </div>
             <div class="ml-auto col-6">
-              <form action="" method="get" class="row">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
-                  <div class="input-group-append">
-                    <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
-                  </div>
+              {{-- <form action="" method="get" class="row"> --}}
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
+                  value="{{ request()->keyword ?? '' }}">
+                <div class="input-group-append">
+                  <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-12 mt-2">
           <ul class="nav nav-tabs col-12">
             <li class="nav-item">
-              <a class="nav-link @if(count($userWithRoleAndOrders)>0)active @endif" data-toggle="tab" href="#bad">Bad User</a>
+              <a class="nav-link @if(count($userWithRoleAndOrders)>0)active @endif" data-toggle="tab" href="#bad">Bad
+                User</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#good">Good User</a>
@@ -38,17 +36,22 @@
       </div>
     </div>
     <div class="tab-content">
-    <div id="bad"class="container active tab-pane">
-      <div class="card-body table-responsive" id="table_data">
-            @include('pages.pengaturan.usermaintenance.pagination')
-          </div>
+      <div id="bad" class="container active tab-pane">
+        <form id="form-downgrade-once">
+          @csrf
+        <div class="card-body table-responsive" id="table_data">
+          @include('pages.pengaturan.usermaintenance.pagination')
         </div>
-        <div id="good" class="container tab-pane">
-          <div class="card-body table-responsive" >
-            {{-- <div class="tab-content"> --}}
-              @include('pages.pengaturan.usermaintenance.pagination-good-user')
-            </div>
-      </div></div>
+      <button id="buttonSubmit" type="submit" class="btn btn-danger ml-2">Downgrade All</button>
+      </form>
+      </div>
+      <div id="good" class="container tab-pane">
+        <div class="card-body table-responsive">
+          {{-- <div class="tab-content"> --}}
+          @include('pages.pengaturan.usermaintenance.pagination-good-user')
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 @endsection
@@ -60,11 +63,22 @@
 
 @section('js')
 <script src="{{ asset('assets-dashboard/js/page/bootstrap-modal.js') }}"></script>
-<script>
+<script id="a">
   let monthHere = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember'];
-  let type
+  let type;
   $(document).ready(function() {
-    refresh_table(URL_NOW);
+    // $("form").on('submit',function(e){e.preventDefault()})
+    //   $("#form-downgrade-once").on('submit', function(e){
+      //   e.preventDefault();
+      //   alert("aa");
+      // refresh_table(URL_NOW);
+      //   });
+      
+      //   $("#submitForm").click(function(){
+        //     $("#buttonSubmit").click();
+        // });
+        // $("#submitForm").on('click',function(){
+
   });
   // console.log(monthHere);
   async function showOrderModal(id, status, role) {
@@ -145,6 +159,36 @@
       $("#modal_edit").children().remove();
     }, 500);
   }
+$("form").on('submit', (e) => {
+e.preventDefault()
+let serializedData = $("#form-downgrade-once").serialize();
+
+new Promise((resolve, reject) => {
+$axios.post(`{{route('maintenance.downgrade_all')}}`, serializedData)
+.then(({data}) => {
+refresh_table(URL_NOW);
+let html = data.message.body.map((item)=>`<p>${item.name} ${item.status?"Berhasil":"Gagal"} diupdate!`);
+
+  toastr.warning(html)
+  })
+  .catch(err => {
+  throwErr(err)
+  })
+  })
+  });
+  // function downGradeAll(){
+    // e.preventDefault();
+  
   // }
+// }
+  // $("#submitForm").click(function(e){
+  //   e.preventDefault();
+  //   // console.log("aa");
+  //  $("#form-downgrade-once").submit();
+  // });
+  // function submitForm(){
+  //   $("#form-downgrade-once").submit();
+  // }
+
 </script>
 @endsection
