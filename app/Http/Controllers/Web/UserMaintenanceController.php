@@ -106,8 +106,8 @@ class UserMaintenanceController extends Controller
         $role = $user->getRoleNames()->first();
         if ($role == 'distributor') {
             $minimal_transaction = $user_updated_at > 2019 ?
-                Setting::where('role', 'new-distributor')->first()->value :
-                Setting::where('role', 'old-distributor')->first()->value;
+                Setting::where('role', 'new-distributor')->first()->value ??0:
+                Setting::where('role', 'old-distributor')->first()->value??0;
         } else {
             $minimal_transaction = Setting::where('role', $role)->first()->value ?? 0;
         }
@@ -160,19 +160,20 @@ class UserMaintenanceController extends Controller
                     ], 500);
                 }
             }
-            //  else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 1) {
-            //     if ($request->downAll) {
-            //         return ['name'=>User::find($id)->name, 'status'=>false];
-            //     } else {
-            //         return response()->json([
-            //             'status' => false,
-            //             'message' => [
-            //                 'head' => 'Error',
-            //                 'body' => "Maintenance user hanya dapat dilakukan pada bulan Januari dan Desember"
-            //             ]
-            //         ], 500);
-            //     }
-            // } 
+            // downgrade user hanya bisa dilakukan di bulan juni dan desember
+             else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 6) {
+                if ($request->downAll) {
+                    return ['name'=>User::find($id)->name, 'status'=>false];
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => [
+                            'head' => 'Error',
+                            'body' => "Maintenance user hanya dapat dilakukan pada bulan Januari dan Desember"
+                        ]
+                    ], 500);
+                }
+            } 
             else {
                 $user = User::find($id);
                 switch ($role) {
