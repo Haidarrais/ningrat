@@ -1,4 +1,4 @@
-<table class="table_order table product-table text-center" style="min-width: max-content;">
+<table class="table_order table product-table text-center border-bottom" style="min-width: max-content;">
   <thead>
     <tr>
       <th>#</th>

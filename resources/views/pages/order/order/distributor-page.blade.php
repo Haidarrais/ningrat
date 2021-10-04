@@ -59,7 +59,7 @@
                 <div class="" id="table_data">
                     @include('pages.order.order.paginationdistributor')
                 </div>
-                <div class="row">
+                <div class="row pt-4">
                     <div class="col-md-3">
                         <select name="courier" id="courier" class="form-control select2"></select>
                     </div>
@@ -89,7 +89,7 @@
                         <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
                     </div>
                 </div>
-                <button class="btn btn-success float-right" id="btn-simpan">Order</button>
+                <button class="btn btn-success float-right mt-4" id="btn-simpan">Order</button>
             </form>
         </div>
     </div>
