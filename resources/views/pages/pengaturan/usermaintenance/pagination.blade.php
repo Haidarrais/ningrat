@@ -41,7 +41,7 @@
       array_push($isEmpty, true);
  }
     }
-    if (!in_array(false, $isEmpty)) {
+    if (!in_array(true, $isEmpty)) {
       echo"<tr>
             <td colspan='5' class='text-center'>Tidak ada data</td>
           </tr>";

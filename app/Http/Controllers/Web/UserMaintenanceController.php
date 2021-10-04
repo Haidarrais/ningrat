@@ -159,19 +159,21 @@ class UserMaintenanceController extends Controller
                         ]
                     ], 500);
                 }
-            } else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 1) {
-                if ($request->downAll) {
-                    return ['name'=>User::find($id)->name, 'status'=>false];
-                } else {
-                    return response()->json([
-                        'status' => false,
-                        'message' => [
-                            'head' => 'Error',
-                            'body' => "Maintenance user hanya dapat dilakukan pada bulan Januari dan Desember"
-                        ]
-                    ], 500);
-                }
-            } else {
+            }
+            //  else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 1) {
+            //     if ($request->downAll) {
+            //         return ['name'=>User::find($id)->name, 'status'=>false];
+            //     } else {
+            //         return response()->json([
+            //             'status' => false,
+            //             'message' => [
+            //                 'head' => 'Error',
+            //                 'body' => "Maintenance user hanya dapat dilakukan pada bulan Januari dan Desember"
+            //             ]
+            //         ], 500);
+            //     }
+            // } 
+            else {
                 $user = User::find($id);
                 switch ($role) {
                     case 'distributor':

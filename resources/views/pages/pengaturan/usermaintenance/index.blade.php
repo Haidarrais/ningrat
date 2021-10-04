@@ -90,7 +90,7 @@
   async function showOrderModal(id, status, role) {
     console.log(id);
     let tempdata = ['100', '1111']
-    var urlHere = "{{route('maintenance.show', ": userId ")}}";
+    var urlHere = "{{route('maintenance.show', ":userId ")}}";
     urlHere = urlHere.replace(':userId', id);
     let html = "";
     let buttons = status ? `<button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>` : `<button type="button" onclick="downGradeUser(${id},'${role}')" class="btn btn-outline-danger">Downgrade Now!</button> <button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>`
@@ -135,28 +135,41 @@
   }
 
   async function downGradeUser(id, role) {
-    await $axios.patch(`{{ route('maintenance.update') }}`, {
-      id: id,
-      role: role
-    }).then((response) => {
-      let data = response.data;
-      $swal.fire({
-        icon: data.status ? "success" : "error",
-        title: data.message.head,
-        text: data.message.body,
-      }).then(() => {
-        removechilderen();
-        refresh_table(URL_NOW);
-      });
-    }).catch((r, err) => {
-      console.log(r.response.data);
-      // console.log(err);
-      $swal.fire({
-        icon: 'error',
-        title: r.response.data.message.head,
-        text: r.response.data.message.body,
-      });
-    });
+    $swal.fire({
+      title: 'Yakin?',
+      text: "Anda akan mendowngrade user ini",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Tidak',
+      confirmButtonText: 'Ya!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await $axios.patch(`{{ route('maintenance.update') }}`, {
+          id: id,
+          role: role
+        }).then((response) => {
+          let data = response.data;
+          $swal.fire({
+            icon: data.status ? "success" : "error",
+            title: data.message.head,
+            text: data.message.body,
+          }).then(() => {
+            removechilderen();
+            refresh_table(URL_NOW);
+          });
+        }).catch((r, err) => {
+          console.log(r.response.data);
+          // console.log(err);
+          $swal.fire({
+            icon: 'error',
+            title: r.response.data.message.head,
+            text: r.response.data.message.body,
+          });
+        });
+      }
+    })
   }
 
   function removechilderen() {
@@ -168,31 +181,43 @@
   $("form").on('submit', (e) => {
     e.preventDefault()
     let serializedData = $("#form-downgrade-once").serialize();
-
-    new Promise((resolve, reject) => {
-      $axios.post(`{{route('maintenance.downgrade_all')}}`, serializedData)
-        .then(({
-          data
-        }) => {
-          refresh_table(URL_NOW);
-          let html = '';
-          var br = document.createElement("br");
-          data.message.body.map((item) => {
-            html += `${item.name} ${item.status?"Berhasil":"Gagal"} didowngrade!\n`
-          });
-
-          // console.log(html);
-          toastr.warning(html)
-          // $("#swal2-content").appendChild("break-it");
-          // $swal.fire({
-          //   icon: 'error',
-          //   title: 'Oops...',
-          //   text: html,
-          // });
+    $swal.fire({
+      title: 'Yakin?',
+      text: "Anda akan mendowngrade semua user",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Tidak',
+      confirmButtonText: 'Ya!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        new Promise((resolve, reject) => {
+          $axios.post(`{{route('maintenance.downgrade_all')}}`, serializedData)
+            .then(({
+              data
+            }) => {
+              refresh_table(URL_NOW);
+              let html = '';
+              var br = document.createElement("br");
+              data.message.body.map((item) => {
+                html += `${item.name} ${item.status?"Berhasil":"Gagal"} didowngrade!`
+              });
+  
+              // console.log(html);
+              toastr.warning(html)
+              // $("#swal2-content").appendChild("break-it");
+              // $swal.fire({
+              //   icon: 'error',
+              //   title: 'Oops...',
+              //   text: html,
+              // });
+            })
+            .catch(err => {
+              throwErr(err)
+            })
         })
-        .catch(err => {
-          throwErr(err)
-        })
+      }
     })
   });
   // function downGradeAll(){
