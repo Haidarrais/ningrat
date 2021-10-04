@@ -19,7 +19,7 @@
 
 .table_order tbody {
     height: 120px;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .table_order thead {
@@ -39,6 +39,3 @@ justify-content:space-around;
 .table_order tbody td{
  flex-basis:15%;
 }
-/* #displayer{
-  display:flex;
-} */

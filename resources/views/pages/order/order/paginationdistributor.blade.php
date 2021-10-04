@@ -4,7 +4,7 @@
             <th>#</th>
             <th>Gambar</th>
             <th>Nama Produk</th>
-            <th>Harga</th>
+            <th class="qty">Harga</th>
             <th>Jumlah</th>
             <th>Total</th>
         </tr>
@@ -24,7 +24,7 @@
                 {{ number_format($value->price) }}
             </td>
             <td>
-                <input name="qty[]" oninput="onchangePrice({{ $value->id }},1000)" type="number" id="total-{{ $value->id }}" class="form-control qty text-center" value="0" min="0">
+                <input  name="qty[]" oninput="onchangePrice({{ $value->id }},1000)" type="number" id="total-{{ $value->id }}" class="form-control qty text-center" value="0" min="0">
             </td>
             <input type="hidden" name="price[]" id="input-total-{{ $value->id }}">
             <td id="field-total-{{ $value->id }}" class="field-total">-</td>

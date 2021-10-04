@@ -50,46 +50,47 @@
                 </div>
             </div>
         </div>
-        <div class="card-body overflow-auto">
+        <div class="card-body">
             <form action="" method="POST" id="formTambah">
                 @csrf
+                <div class="overflow-auto">
+                    <input type="hidden" name="ongkir-discount" value="0" readonly>
+                    <input type="hidden" name="discount" value="0" readonly>
+                    <div class="" id="table_data">
+                        @include('pages.order.order.paginationdistributor')
+                    </div>
+                </div>
+                    <div class="row pt-4">
+                        <div class="col-md-3">
+                            <select name="courier" id="courier" class="form-control select2"></select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-success" id="btn-courier">Cek Ongkir</button>
+                        </div>
+                        <div class="col-md-3">
+                            Total Belanja
+                            <input disabled name="" id="totalSemua" class="form-control">
+                            <input name="m" hidden id="totalSemuaInt" class="form-control" value="0">
+                        </div>
+                        <div class="col-md-3">
+                            Minimal Belanja({{Auth::user()->getRoleNames()->first()}})
+                            <input disabled name="" id="syarat" class="form-control" value="{{"Rp " . number_format($minimal_transaction,2,',','.')}}">
+                        </div>
+                        <div class="col-md-12 mt-2" id="fieldCourier">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            Subsidi Ongkir
+                            <input disabled name="" id="displayOngkirDiscount" class="form-control" value="0">
+                        </div>
 
-                <input type="hidden" name="ongkir-discount" value="0" readonly>
-                <input type="hidden" name="discount" value="0" readonly>
-                <div class="" id="table_data">
-                    @include('pages.order.order.paginationdistributor')
-                </div>
-                <div class="row pt-4">
-                    <div class="col-md-3">
-                        <select name="courier" id="courier" class="form-control select2"></select>
+                        <div class="col-md-6 d-none" id="isUserGetDiscount">
+                            Anda berhak mendapatkan diskon sebesar {{$discount_role_based}}%
+                            <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-success" id="btn-courier">Cek Ongkir</button>
-                    </div>
-                    <div class="col-md-3">
-                        Total Belanja
-                        <input disabled name="" id="totalSemua" class="form-control">
-                        <input name="m" hidden id="totalSemuaInt" class="form-control" value="0">
-                    </div>
-                    <div class="col-md-3">
-                        Minimal Belanja({{Auth::user()->getRoleNames()->first()}})
-                        <input disabled name="" id="syarat" class="form-control" value="{{"Rp " . number_format($minimal_transaction,2,',','.')}}">
-                    </div>
-                    <div class="col-md-12 mt-2" id="fieldCourier">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        Subsidi Ongkir
-                        <input disabled name="" id="displayOngkirDiscount" class="form-control" value="0">
-                    </div>
-
-                    <div class="col-md-6 d-none" id="isUserGetDiscount">
-                        Anda berhak mendapatkan diskon sebesar {{$discount_role_based}}%
-                        <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
-                    </div>
-                </div>
-                <button class="btn btn-success float-right mt-4" id="btn-simpan">Order</button>
+                    <button class="btn btn-success float-right mt-4" id="btn-simpan">Order</button>
             </form>
         </div>
     </div>
@@ -227,19 +228,21 @@
                 })
         });
         //getcategory
+
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_category') }}`)
                 .then(({
                     data
                 }) => {
-                    let html = `<option selected disabled value="first">== Filter Category ==</option>`
+                    loading('show', $("#product_category"));
+                    let html = `<option selected disabled value="first">== Filter Category ==</option> <option value="0">Tampilkan Semua</option>`
                     let dataArr = data.data;
                     dataArr.map((item) => {
                         html += `<option value="${item.id}">${item.name}</option>`
 
                     })
                     $("#product_category").html(html)
-                })
+                }).then(() => loading('hide', $("#product_category")))
         });
 
         $("#btn-courier").on('click', () => {
@@ -399,27 +402,6 @@
         weight += prod_weight * total;
         $('#inputWeight').val(weight);
     }
-    $('html').on('click', '.pagination a', function(e) {
-        e.preventDefault();
-        // console.log($(".pagination a"));
-        var url = $(this).attr('href');
-        $swal.fire({
-            title: 'Perhatian!',
-            text: "Pastikan anda sudah memilih semua produk yg anda butuhkan di halaman ini terlebih dahulu",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Belum',
-            confirmButtonText: 'Sudah!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $axios.get(url).then(() => {
-                    refresh_table(url);
-                });
-            }
-        });
-    });
 
     function onchangeProductType(id) {
         // console.log(isNaN(parseInt(id)));
@@ -430,31 +412,45 @@
     function categoryFilter(arrayH, id) {
         let checkMatching = [];
         const warnP = document.createElement('p');
-        arrayH.forEach((item) => {
-            if (item.value === "first") {
+        // console.log(parseInt(id) === 0);
+        for (let index = 0; index < arrayH.length; index++) {
+            if (arrayH[index].value === "first") {
                 return;
             }
-            if (item.value !== id) {
-                item.parentElement.classList.add('d-none');
+            if (parseInt(id) === 0) {
+                arrayH[index].parentElement.classList.remove('d-none');
+                let warnElement = document.getElementById("showWarn");
+                if (warnElement !== null) {
+                    let tbody = document.getElementById("tbody");
+                    tbody.removeChild(warnElement.parentNode);
+                }
+                continue;
+            }
+            if (arrayH[index].value !== id) {
+                arrayH[index].parentElement.classList.add('d-none');
                 checkMatching.push(false);
             } else {
-                item.parentElement.classList.remove('d-none');
+                arrayH[index].parentElement.classList.remove('d-none');
                 checkMatching.push(true);
             }
+            // console.log(checkMatching);
             let warnElement = document.getElementById("showWarn");
             if (!checkMatching.includes(true)) {
                 if (warnElement === null) {
                     warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
-                    item.parentElement.parentElement.appendChild(warnP);
+                    arrayH[index].parentElement.parentElement.appendChild(warnP);
                 }
             } else {
                 if (warnElement) {
                     let tbody = document.getElementById("tbody");
                     tbody.removeChild(warnElement.parentNode);
-
                 }
             }
-        });
+
+        }
+        // arrayH.forEach((item) => {
+
+        // });
     }
 
     function nameFilter(arrayH, id) {

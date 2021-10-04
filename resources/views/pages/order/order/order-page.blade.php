@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body overflow-auto">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6 col-md-12 mt-2">
                             <span data-toggle="tooltip" data-placement="right" class="badge @if($this_month_total_transaction>$monthly_min_transaction) badge-success @else badge-danger @endif text-center" style="font-size: 14px;font-weight:bold;" title="@if($this_month_total_transaction<$monthly_min_transaction) Anda belum memenuhi minimal transaksi(selesai) per bulan  @else Selamat anda sudah memenuhi transaksi(selesai) per bulan @endif">
@@ -53,13 +53,15 @@
                 </div>
             </div>
         </div>
-        <div class="card-body overflow-auto">
+        <div class="card-body">
             <form action="" method="POST" id="formTambah">
                 @csrf
-                <input type="hidden" name="ongkir-discount" value="0" readonly>
-                <input type="hidden" name="discount" value="0" readonly>
-                <div class="" id="table_data">
-                    @include('pages.order.order.pagination_create_order')
+                <div class="overflow-auto">
+                    <input type="hidden" name="ongkir-discount" value="0" readonly>
+                    <input type="hidden" name="discount" value="0" readonly>
+                    <div class="" id="table_data">
+                        @include('pages.order.order.pagination_create_order')
+                    </div>
                 </div>
                 <div class="row pt-4">
                     <div class="col-md-3">
@@ -352,7 +354,7 @@
                 $("#displayPriceAfterDiscount").val(`Harga setelah diskon adalah Rp. ${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
                 $("#isUserGetDiscount").removeClass("d-none");
                 // console.log("after discount", (uhek - tempDiscount));
-                console.log($(`input[name="productCategory${id}"]`).val());
+                // console.log($(`input[name="productCategory${id}"]`).val());
 
                 switch ($(`input[name="productCategory${id}"]`).val()) {
                     case "1":
@@ -411,33 +413,47 @@
     }
 
     function categoryFilter(arrayH, id) {
-        let checkMatching = true;
+        let checkMatching = [];
         const warnP = document.createElement('p');
-        arrayH.forEach((item) => {
-            if (item.value === "first") {
+        // console.log(parseInt(id) === 0);
+        for (let index = 0; index < arrayH.length; index++) {
+            if (arrayH[index].value === "first") {
                 return;
             }
-            if (item.value !== id) {
-                item.parentElement.classList.add('d-none');
-                checkMatching = false;
-            } else {
-                item.parentElement.classList.remove('d-none');
-                checkMatching = true;
+            if (parseInt(id) === 0) {
+                arrayH[index].parentElement.classList.remove('d-none');
+                let warnElement = document.getElementById("showWarn");
+                if (warnElement !== null) {
+                    let tbody = document.getElementById("tbody");
+                    tbody.removeChild(warnElement.parentNode);
+                }
+                continue;
             }
+            if (arrayH[index].value !== id) {
+                arrayH[index].parentElement.classList.add('d-none');
+                checkMatching.push(false);
+            } else {
+                arrayH[index].parentElement.classList.remove('d-none');
+                checkMatching.push(true);
+            }
+            // console.log(checkMatching);
             let warnElement = document.getElementById("showWarn");
-            if (!checkMatching) {
+            if (!checkMatching.includes(true)) {
                 if (warnElement === null) {
                     warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
-                    item.parentElement.parentElement.appendChild(warnP);
+                    arrayH[index].parentElement.parentElement.appendChild(warnP);
                 }
             } else {
                 if (warnElement) {
                     let tbody = document.getElementById("tbody");
                     tbody.removeChild(warnElement.parentNode);
-
                 }
             }
-        });
+
+        }
+        // arrayH.forEach((item) => {
+
+        // });
     }
 
     function nameFilter(arrayH, id) {
