@@ -428,7 +428,7 @@
     }
 
     function categoryFilter(arrayH, id) {
-        let checkMatching = true;
+        let checkMatching = [];
         const warnP = document.createElement('p');
         arrayH.forEach((item) => {
             if (item.value === "first") {
@@ -436,13 +436,13 @@
             }
             if (item.value !== id) {
                 item.parentElement.classList.add('d-none');
-                checkMatching = false;
+                checkMatching.push(false);
             } else {
                 item.parentElement.classList.remove('d-none');
-                checkMatching = true;
+                checkMatching.push(true);
             }
             let warnElement = document.getElementById("showWarn");
-            if (!checkMatching) {
+            if (!checkMatching.includes(true)) {
                 if (warnElement === null) {
                     warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
                     item.parentElement.parentElement.appendChild(warnP);
