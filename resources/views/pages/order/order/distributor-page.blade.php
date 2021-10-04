@@ -363,7 +363,7 @@
 
             if (uhek + thisMonthTotalTransaction > monthlyMinimalTransaction) {
                 $("input[name='discount']").val(discountFromRole);
-                console.log("before discount", uhek);
+                // console.log("before discount", uhek);
 
                 let tempDiscount = uhek * (discountFromRole / 100);
                 $("#displayPriceAfterDiscount").val(`Harga setelah diskon adalah Rp. ${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
@@ -384,7 +384,7 @@
                         break;
                 }
                 $("input[name='ongkir-discount']").val(discount_ongkir);
-                console.log(discount_ongkir);
+                // console.log(discount_ongkir);
                 $("#displayOngkirDiscount").val(`Rp. ${discount_ongkir.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
             } else {
                 $("#isUserGetDiscount").addClass("d-none");
@@ -401,7 +401,7 @@
     }
     $('html').on('click', '.pagination a', function(e) {
         e.preventDefault();
-        console.log($(".pagination a"));
+        // console.log($(".pagination a"));
         var url = $(this).attr('href');
         $swal.fire({
             title: 'Perhatian!',
@@ -422,7 +422,7 @@
     });
 
     function onchangeProductType(id) {
-        console.log(isNaN(parseInt(id)));
+        // console.log(isNaN(parseInt(id)));
         let arrayH = !isNaN(parseInt(id)) ? $(".category_product").toArray() : $(".product_name").toArray();
         !isNaN(parseInt(id)) ? categoryFilter(arrayH, id) : nameFilter(arrayH, id);
     }

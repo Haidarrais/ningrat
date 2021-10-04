@@ -143,7 +143,10 @@ class OrderController extends Controller
             $user_id = Auth::user()->id;
             $user = User::with('member')->find($user_id);
             $data = $request->all();
-            // dd($data);
+            // dd([
+            //     'data'=>$data,
+            //     'data[]id'=>$data['id']
+            // ]);
             if(!$user->member->city_id) {
                 return response()->json([
                     'status' => true,
@@ -183,7 +186,7 @@ class OrderController extends Controller
 //                $temp_data['created_at'] = now();
 //                $temp_data['updated_at'] = now();
                 // $price += $product->price * $data['qty'][$key];
-                $price += $data['price'][$key] * $data['qty'][$key];
+                $price += $data['price'][$key];
                 array_push($order_details, $temp_data);
             }
             OrderDetail::insert($order_details);
