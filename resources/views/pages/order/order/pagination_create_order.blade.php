@@ -9,7 +9,7 @@
       <th>Total</th>
     </tr>
   </thead>
-  <tbody id="tbody" style="height: 400px !important;display:block;" class="pt-2">
+  <tbody id="tbody" style="height: 400px !important;display:block;" class="pt-4">
     <input type="hidden" name="ongkir-discount" value="0" readonly>
     <input type="hidden" name="discount" value="0" readonly>
     <!-- <input type="hidden" name="discount" value="0" id="discount"> -->

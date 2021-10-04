@@ -9,7 +9,7 @@
             <th>Total</th>
         </tr>
     </thead>
-    <tbody id="tbody" style="height: 400px !important;display:block;" class="pt-2">
+    <tbody id="tbody" style="height: 400px !important;display:block;" class="pt-4">
         <!-- <input type="hidden" value="0" name="discount" id="discount"> -->
         <input type="hidden" value="0" id="inputWeight">
         @forelse ($products as $key => $value)
