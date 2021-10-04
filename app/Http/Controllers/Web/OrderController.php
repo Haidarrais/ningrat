@@ -401,7 +401,7 @@ class OrderController extends Controller
         $orders =  Order::select(
             DB::raw('sum(subtotal) as sums'),
             DB::raw("DATE_FORMAT(created_at,'%m') as month")
-        )->whereIn('user_id', $hirarki)
+        )
             ->orWhere('user_id', $user->id)
             ->where('status', 4)
             ->whereMonth('created_at', $todaysMonth)
