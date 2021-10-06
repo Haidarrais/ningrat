@@ -15,6 +15,7 @@
         @forelse ($products as $key => $value)
         <input type="hidden" name="id[]" value="{{ $value->id }}">
         <tr id="displayer">
+            <input type="hidden" name="ongkir-per-category-{{$value->id}}" value="{{ $value->category->discount->value??0}}">
             <input type="hidden" class="category_product" name="productCategory{{$value->id}}" value="{{ $value->category_id }}" id="category_product">
             <td>{{ $loop->iteration }}</td>
             <td><img src="{{ asset('upload/product').'/'.$value->image }}" alt="{{ $value->image }}" class="img-fluid" width="200"></td>
@@ -24,7 +25,9 @@
                 {{ number_format($value->price) }}
             </td>
             <td>
-                <input  name="qty[]" oninput="onchangePrice({{ $value->id }},1000)" type="number" id="total-{{ $value->id }}" class="form-control qty text-center" value="0" min="0">
+                <input name="qty-old[]" type="hidden" id="total-old-{{ $value->id }}" class="form-control qty text-center" value="0" min="0">
+
+                <input name="qty[]" oninput="onchangePrice({{ $value->id }},1000)" type="number" id="total-{{ $value->id }}" class="form-control qty text-center" value="0" min="0">
             </td>
             <input type="hidden" name="price[]" id="input-total-{{ $value->id }}">
             <td id="field-total-{{ $value->id }}" class="field-total">-</td>

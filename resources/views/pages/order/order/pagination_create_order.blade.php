@@ -16,6 +16,7 @@
     <input type="hidden" value="0" id="inputWeight">
     @forelse ($products as $key => $value)
     <input type="hidden" name="id[]" value="{{ $value->product_id }}">
+    <input type="hidden" name="ongkir-per-category-{{$value->product_id}}" value="{{ $value->product->category->discount->value }}">
     <tr id="displayer">
       <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->product->category_id }}" class="category_product">
       <td>{{ $loop->iteration }}</td>
