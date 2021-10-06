@@ -143,7 +143,10 @@ class OrderController extends Controller
             $user_id = Auth::user()->id;
             $user = User::with('member')->find($user_id);
             $data = $request->all();
-            // dd($data);
+            // dd([
+            //     'data'=>$data,
+            //     'data[]id'=>$data['id']
+            // ]);
             if(!$user->member->city_id) {
                 return response()->json([
                     'status' => true,
@@ -183,7 +186,7 @@ class OrderController extends Controller
 //                $temp_data['created_at'] = now();
 //                $temp_data['updated_at'] = now();
                 // $price += $product->price * $data['qty'][$key];
-                $price += $data['price'][$key] * $data['qty'][$key];
+                $price += $data['price'][$key];
                 array_push($order_details, $temp_data);
             }
             OrderDetail::insert($order_details);
@@ -401,7 +404,7 @@ class OrderController extends Controller
         $orders =  Order::select(
             DB::raw('sum(subtotal) as sums'),
             DB::raw("DATE_FORMAT(created_at,'%m') as month")
-        )->whereIn('user_id', $hirarki)
+        )
             ->orWhere('user_id', $user->id)
             ->where('status', 4)
             ->whereMonth('created_at', $todaysMonth)

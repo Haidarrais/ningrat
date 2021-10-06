@@ -4,12 +4,11 @@
 <div class="section-body">
     <div class="card">
         <div class="card-header">
-            <button class="btn btn-success" id="btnTambah"><i class="fas fa-plus"></i> Tambah Kategori</button>
+            <button class="btn btn-success" id="btnTambah"><i class="fas fa-plus"></i> Tambah Subsidi</button>
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
-                            value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
                         </div>
@@ -18,7 +17,7 @@
             </div>
         </div>
         <div class="card-body table-responsive" id="table_data">
-            @include('pages.master.category.pagination')
+            @include('pages.master.category_discount.pagination')
         </div>
     </div>
 </div>
@@ -38,13 +37,13 @@
                 @csrf
                 <input type="hidden" name="id" id="inputID">
                 <div class="modal-body">
-                    <!-- <div class="form-group">
-                        <label for="selectSubKategori">Sub Kategori</label>
-                        <select name="parent_id" id="selectSubKategori" class="form-control"></select>
-                    </div> -->
                     <div class="form-group">
-                        <label for="inputName">Nama Kategori</label>
-                        <input type="text" name="name" id="inputName" class="form-control" required>
+                        <label for="selectSubKategori">Pilih Kategori</label>
+                        <select name="category_id" id="selectSubKategori" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputValue">Diskon</label>
+                        <input type="number" name="value" id="inputValue" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
@@ -75,10 +74,12 @@
             e.preventDefault()
             let serializedData = $("#formTambah").serialize()
 
-            if(type == "STORE") {
+            if (type == "STORE") {
                 new Promise((resolve, reject) => {
-                    $axios.post(`{{ route('category.store') }}`, serializedData)
-                        .then(({data}) => {
+                    $axios.post(`{{ route('subsidi-ongkir.store') }}`, serializedData)
+                        .then(({
+                            data
+                        }) => {
                             $('#modal_tambah').modal('hide')
                             refresh_get_category()
                             refresh_table(URL_NOW)
@@ -92,11 +93,13 @@
                             throwErr(err)
                         })
                 })
-            } else if(type == "UPDATE") {
+            } else if (type == "UPDATE") {
                 let id_category = $("#inputID").val()
                 new Promise((resolve, reject) => {
                     $axios.put(`${URL_NOW}/${id_category}`, serializedData)
-                        .then(({data}) => {
+                        .then(({
+                            data
+                        }) => {
                             $('#modal_tambah').modal('hide')
                             refresh_get_category()
                             refresh_table(URL_NOW)
@@ -117,14 +120,16 @@
     const editData = id => {
         new Promise((resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let category = data.data
                     type = 'UPDATE'
                     $("#formTambah")[0].reset()
                     $("#inputID").val(category.id)
                     $("#modalTitle").html('Update Kategori')
-                    if(category.parent_id) $("#selectSubKategori").val(category.parent_id)
-                    $("#inputName").val(category.name)
+                    if (category.category_id) $("#selectSubKategori").val(category.category_id)
+                    $("#inputValue").val(category.value)
                     $('#modal_tambah').modal('show')
                 })
                 .catch(err => {
@@ -153,7 +158,9 @@
                 if (result.isConfirmed) {
                     new Promise((resolve, reject) => {
                         $axios.delete(`${URL_NOW}/${id}`)
-                            .then(({data}) => {
+                            .then(({
+                                data
+                            }) => {
                                 $swal.fire({
                                     icon: 'success',
                                     title: data.message.head,
@@ -177,8 +184,10 @@
     const refresh_get_category = () => {
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_category') }}`)
-                .then(({data}) => {
-                    let option = '<option value="">== Kosongkan Sub Kategori ==</option>'
+                .then(({
+                    data
+                }) => {
+                    let option = '<option value="">== Kategori ==</option>'
                     $.each(data.data, (i, e) => {
                         option += `<option value="${e.id}">${e.name}</option>`
                     })

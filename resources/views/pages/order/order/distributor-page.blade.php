@@ -50,16 +50,17 @@
                 </div>
             </div>
         </div>
-        <div class="card-body overflow-auto">
+        <div class="card-body">
             <form action="" method="POST" id="formTambah">
                 @csrf
-
-                <input type="hidden" name="ongkir-discount" value="0" readonly>
-                <input type="hidden" name="discount" value="0" readonly>
-                <div class="" id="table_data">
-                    @include('pages.order.order.paginationdistributor')
+                <div class="overflow-auto">
+                    <input type="hidden" name="ongkir-discount" value="0" readonly>
+                    <input type="hidden" name="discount" value="0" readonly>
+                    <div class="" id="table_data">
+                        @include('pages.order.order.paginationdistributor')
+                    </div>
                 </div>
-                <div class="row">
+                <div class="row pt-4">
                     <div class="col-md-3">
                         <select name="courier" id="courier" class="form-control select2"></select>
                     </div>
@@ -79,7 +80,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-none" id="isUserGetSubsidy">
                         Subsidi Ongkir
                         <input disabled name="" id="displayOngkirDiscount" class="form-control" value="0">
                     </div>
@@ -89,7 +90,7 @@
                         <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
                     </div>
                 </div>
-                <button class="btn btn-success float-right" id="btn-simpan">Order</button>
+                <button class="btn btn-success float-right mt-4" id="btn-simpan">Order</button>
             </form>
         </div>
     </div>
@@ -149,7 +150,6 @@
     let discountFromRole = parseInt("{{$discount_role_based}}");
     let thisMonthTotalTransaction = parseInt("{{$this_month_total_transaction}}");
     let monthlyMinimalTransaction = parseInt("{{$monthly_min_transaction}}");
-    var totalNominal = [];
     // var uhek = 0;
     $(document).ready(function() {
         $("#formTambah").on('submit', (e) => {
@@ -227,19 +227,21 @@
                 })
         });
         //getcategory
+
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_category') }}`)
                 .then(({
                     data
                 }) => {
-                    let html = `<option selected disabled value="first">== Filter Category ==</option>`
+                    loading('show', $("#product_category"));
+                    let html = `<option selected disabled value="first">== Filter Category ==</option> <option value="0">Tampilkan Semua</option>`
                     let dataArr = data.data;
                     dataArr.map((item) => {
                         html += `<option value="${item.id}">${item.name}</option>`
 
                     })
                     $("#product_category").html(html)
-                })
+                }).then(() => loading('hide', $("#product_category")))
         });
 
         $("#btn-courier").on('click', () => {
@@ -308,12 +310,16 @@
 
     let tempCounter = 0;
     let discount_ongkir = 0;
+    let tempId = 0;
+    var totalNominal = [];
+    let totalWeight = [];
+    let totalDiscountOngkir = [];
 
     function onchangePrice(id, max) {
         let total = parseInt($(`#total-${id}`).val())
         // console.log(total)
         if (total === "NaN") {
-            $(`#total-${id}`).val(1);
+            $(`#total-${id}`).val(0);
             return 0;
         }
         // console.log(parseInt($(`#input-total-${id}`).val())
@@ -342,119 +348,119 @@
                     uhek += totalNominal[i];
                 }
             }
+            console.log(uhek < monthlyMinimalTransaction);
             if (uhek < minTransation) {
                 $("#totalSemua").addClass('border-danger')
                 $("#syarat").addClass('border-danger')
-                switch ("{{$role}}") {
-                    case "distributor":
-
-                        break;
-
-                    default:
-                        break;
-                }
-                $("input[name='discount']").val();
+                $("#displayPriceAfterDiscount").val(`Rp. ${0}`);
+                $("input[name='ongkir-discount']").val(0);
+                $("input[name='discount']").val(0);
+                $("#isUserGetDiscount").addClass("d-none");
+                $("#isUserGetSubsidy").addClass("d-none");
+                $("#displayOngkirDiscount").val(`Rp. 0`);
             } else {
-                $("#totalSemua").removeClass('border-danger')
-                $("#totalSemua").addClass('border-success')
-                $("#syarat").removeClass('border-danger')
-                $("#syarat").addClass('border-success')
-            }
-
-            if (uhek + thisMonthTotalTransaction > monthlyMinimalTransaction) {
+                $("input[name='ongkir-discount']").val(discount_ongkir);
                 $("input[name='discount']").val(discountFromRole);
-                console.log("before discount", uhek);
-
+                // console.log("before discount", uhek);
+                $("#isUserGetSubsidy").removeClass("d-none");
                 let tempDiscount = uhek * (discountFromRole / 100);
+                console.log(`${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
                 $("#displayPriceAfterDiscount").val(`Harga setelah diskon adalah Rp. ${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
                 $("#isUserGetDiscount").removeClass("d-none");
                 // console.log("after discount", (uhek - tempDiscount));
                 // console.log($(`input[name="productCategory${id}"]`).val());
-                switch ($(`input[name="productCategory${id}"]`).val()) {
-                    case "1":
-                        discount_ongkir += 1000;
-                        break;
-                    case "2":
-                        discount_ongkir += 1000;
-                        break;
-                    case "3":
-                        discount_ongkir += 500
-                        break;
-                    default:
-                        break;
+                // console.log($(`input[name='ongkir-per-category-${id}']`).val());
+
+                console.log(total);
+                var tempDiscountOngkir = 0;
+                // totalDiscountOngkir[id] = total * price;
+
+
+                if (!isNaN(parseInt($(`input[name='ongkir-per-category-${id}']`).val()))) {
+                    // discount_ongkir = total * parseInt($(`input[name='ongkir-per-category-${id}']`).val());
+                    totalDiscountOngkir[id] = total * parseInt($(`input[name='ongkir-per-category-${id}']`).val());
                 }
+                for (let i = 0; i < totalDiscountOngkir.length; i++) {
+                    if (typeof totalDiscountOngkir[i] == "number") {
+                        tempDiscountOngkir += totalDiscountOngkir[i];
+                    }
+                }
+                discount_ongkir = tempDiscountOngkir;
+
                 $("input[name='ongkir-discount']").val(discount_ongkir);
-                console.log(discount_ongkir);
+                // console.log(discount_ongkir);
                 $("#displayOngkirDiscount").val(`Rp. ${discount_ongkir.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
-            } else {
-                $("#isUserGetDiscount").addClass("d-none");
-                $("#displayPriceAfterDiscount").val(`Rp. ${0}`);
+                $("#totalSemua").removeClass('border-danger');
+                $("#totalSemua").addClass('border-success');
+                $("#syarat").removeClass('border-danger');
+                $("#syarat").addClass('border-success');
+                $("#isUserGetDiscount").removeClass("d-none");
             }
+
             $("#totalSemuaInt").attr('value', `${uhek}`);
             $("#totalSemua").val("Rp " + uhek.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
 
         }
         let prod_weight = parseInt($(`#field-price-${id}`).data('weight'));
-        weight -= prod_weight * (total - 1);
-        weight += prod_weight * total;
+        totalWeight[id] = total * prod_weight;
+        var tempWeight = 0;
+        for (let i = 0; i < totalWeight.length; i++) {
+            if (typeof totalWeight[i] == "number") {
+                tempWeight += totalWeight[i];
+            }
+        }
+        weight = tempWeight;
         $('#inputWeight').val(weight);
     }
-    $('html').on('click', '.pagination a', function(e) {
-        e.preventDefault();
-        console.log($(".pagination a"));
-        var url = $(this).attr('href');
-        $swal.fire({
-            title: 'Perhatian!',
-            text: "Pastikan anda sudah memilih semua produk yg anda butuhkan di halaman ini terlebih dahulu",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Belum',
-            confirmButtonText: 'Sudah!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $axios.get(url).then(() => {
-                    refresh_table(url);
-                });
-            }
-        });
-    });
 
     function onchangeProductType(id) {
-        console.log(isNaN(parseInt(id)));
+        // console.log(isNaN(parseInt(id)));
         let arrayH = !isNaN(parseInt(id)) ? $(".category_product").toArray() : $(".product_name").toArray();
         !isNaN(parseInt(id)) ? categoryFilter(arrayH, id) : nameFilter(arrayH, id);
     }
 
     function categoryFilter(arrayH, id) {
-        let checkMatching = true;
+        let checkMatching = [];
         const warnP = document.createElement('p');
-        arrayH.forEach((item) => {
-            if (item.value === "first") {
+        // console.log(parseInt(id) === 0);
+        for (let index = 0; index < arrayH.length; index++) {
+            if (arrayH[index].value === "first") {
                 return;
             }
-            if (item.value !== id) {
-                item.parentElement.classList.add('d-none');
-                checkMatching = false;
-            } else {
-                item.parentElement.classList.remove('d-none');
-                checkMatching = true;
+            if (parseInt(id) === 0) {
+                arrayH[index].parentElement.classList.remove('d-none');
+                let warnElement = document.getElementById("showWarn");
+                if (warnElement !== null) {
+                    let tbody = document.getElementById("tbody");
+                    tbody.removeChild(warnElement.parentNode);
+                }
+                continue;
             }
+            if (arrayH[index].value !== id) {
+                arrayH[index].parentElement.classList.add('d-none');
+                checkMatching.push(false);
+            } else {
+                arrayH[index].parentElement.classList.remove('d-none');
+                checkMatching.push(true);
+            }
+            // console.log(checkMatching);
             let warnElement = document.getElementById("showWarn");
-            if (!checkMatching) {
+            if (!checkMatching.includes(true)) {
                 if (warnElement === null) {
                     warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
-                    item.parentElement.parentElement.appendChild(warnP);
+                    arrayH[index].parentElement.parentElement.appendChild(warnP);
                 }
             } else {
                 if (warnElement) {
                     let tbody = document.getElementById("tbody");
                     tbody.removeChild(warnElement.parentNode);
-
                 }
             }
-        });
+
+        }
+        // arrayH.forEach((item) => {
+
+        // });
     }
 
     function nameFilter(arrayH, id) {

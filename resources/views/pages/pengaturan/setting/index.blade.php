@@ -42,8 +42,8 @@
                         <select name="key" id="selectKey" class="form-control">
                             <option selected>==Pilih Key==</option>
                             <option value="minimal-belanja" title="atur minimal belanja user sesuai roe">minimal-belanja</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <!-- <option value="2">Two</option>
+                            <option value="3">Three</option> -->
                         </select>
                     </div>
                     <div class="form-group d-none" id="selectRoleWrapper">

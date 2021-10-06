@@ -7538,3 +7538,6 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+th{
+    white-space:nowrap!important;
+}

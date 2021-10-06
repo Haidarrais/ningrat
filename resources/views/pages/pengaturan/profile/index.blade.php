@@ -52,13 +52,7 @@
                                     @endif
                                 @elseif(strpos(Str::lower($value->description), Str::lower("Marketing")) > 0)
                                     {{-- Minimal Jaringan --}}
-                                    @if (User::where('upper', $user->id)->count() >= $value->value)
-                                        @php array_push($upgrade, 'naik') @endphp
-                                        <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
-                                    @else
-                                        @php array_push($upgrade, 'nope') @endphp
-                                        <span class="badge badge-danger badge-pill"><i class="fas fa-times"></i></span>
-                                    @endif
+                                  
                                 @elseif(strpos(Str::lower($value->description), Str::lower("Penjualan")) > 0)
                                     {{-- Omset Penjualan --}}
                                     @if (App\Http\Controllers\Web\ProfileController::get_omset($value->value))

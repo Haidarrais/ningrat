@@ -42,6 +42,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('category.index') }}">Kategori</a></li>
                     <li><a class="nav-link" href="{{ route('product.index') }}">Produk</a></li>
+                    <li><a class="nav-link" href="{{ route('subsidi-ongkir.index') }}">Subsidi Ongkir</a></li>
                     <li><a class="nav-link" href="{{ route('discount.index') }}">Diskon</a></li>
                     <li><a class="nav-link" href="{{ route('royalty.index') }}">Royalty</a></li>
                 </ul>
@@ -61,7 +62,7 @@
                     <li><a class="nav-link" href="{{ route('content.index') }}">Content</a></li>
                     <li><a class="nav-link" href="{{ route('point.index') }}">Point</a></li>
                     <li><a class="nav-link" href="{{ route('reward.index') }}">Reward</a></li>
-                    <li><a class="nav-link" href="{{ route('setting.index') }}">Pengaturan</a></li>
+                    <li><a class="nav-link" href="{{ route('setting.index') }}">Ketentuan Belanja</a></li>
                     <li><a class="nav-link" href="{{ route('maintenance') }}">User Maintenance</a></li>
                 </ul>
                 @else

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category\CategoryStoreRequest;
-use App\Http\Requests\Category\CategoryUpdateRequest;
+use App\Http\Requests\CategoryDiscount\CategoryDiscountStoreRequest;
+use App\Http\Requests\CategoryDiscount\CategoryDiscountUpdateRequest;
+use App\Models\CategoryDiscount;
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Category;
 
-class CategoryController extends Controller
+//========subsidi ongkir controller==========
+class CategoryDiscountController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,20 +19,20 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $query = Category::query();
-        $query->when('keyword', function($q) use($request) {
+        $query = CategoryDiscount::query();
+        $query->when('keyword', function ($q) use ($request) {
             $keyword = $request->keyword;
-            $q->where('name', 'LIKE', "%$keyword%");
+            $q->where('category_id', 'LIKE', "%$keyword%");
         });
-        $query->with('product');
+        $query->with('category');
         // $data1 = $query->first();
         // dd($data1->subCategory->name);
-        
-        $categories = $query->paginate(10);
-        if($request->ajax()) {
-            return view('pages.master.category.pagination', compact('categories', 'data'))->render();
+
+        $category_discounts = $query->paginate(10);
+        if ($request->ajax()) {
+            return view('pages.master.category_discount.pagination', compact('category_discounts', 'data'))->render();
         }
-        return view('pages.master.category.index', compact('categories', 'data'));
+        return view('pages.master.category_discount.index', compact('category_discounts', 'data'));
     }
 
     /**
@@ -51,9 +51,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryStoreRequest $request)
+    public function store(CategoryDiscountStoreRequest $request)
     {
-        Category::create($request->except(['id']));
+        CategoryDiscount::create($request->except(['id']));
         return response()->json([
             'status' => true,
             'message' => [
@@ -71,10 +71,10 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
+        $category_discounts = CategoryDiscount::find($id);
         return response()->json([
             'status' => true,
-            'data' => $category
+            'data' => $category_discounts
         ], 200);
     }
 
@@ -96,10 +96,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryUpdateRequest $request, $id)
+    public function update(CategoryDiscountUpdateRequest $request, $id)
     {
-        $category = Category::find($id);
-        $category->update($request->all());
+        $category_discounts = CategoryDiscount::find($id);
+        $category_discounts->update($request->all());
         return response()->json([
             'status' => true,
             'message' => [
@@ -117,19 +117,19 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        // dd($category->product);
-        if (count($category->product)>0) {
-            return response()->json([
-                'status' => false,
-                'message' => [
-                    'head' => 'Gagal',
-                    'body' => 'Kategori sudah digunakan pada data produk'
-                ]
-            ], 500);
-        }
+        $category_discounts = CategoryDiscount::find($id);
+        // dd($category_discounts->product);
+        // if (count($category_discounts->product) > 0) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => [
+        //             'head' => 'Gagal',
+        //             'body' => 'Kategori sudah digunakan pada data produk'
+        //         ]
+        //     ], 500);
+        // }
 
-        $category->delete();
+        $category_discounts->delete();
         return response()->json([
             'status' => true,
             'message' => [
