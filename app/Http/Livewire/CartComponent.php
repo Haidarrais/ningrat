@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Cart;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
@@ -11,6 +11,7 @@ use Kavist\RajaOngkir\Facades\RajaOngkir;
 class CartComponent extends Component
 {
     public $itemQty=[];
+    public $rowId;
 
     public function mount()
     {
@@ -28,18 +29,30 @@ class CartComponent extends Component
             session()->flash('message', 'stock tidak cukup');
         }
     }
+    public function delete()
+    {
+        Cart::remove($this->rowId);
+    }
     public function decreaseQty($rowId)
     {
         $product = Cart::get($rowId);
-        $qty = $product->qty - 1;
-        Cart::update($rowId,$qty);
-        $this->itemQty = Cart::content();
+        $this->rowId = $rowId;
+        if ($product->qty > 1) {
+            $qty = $product->qty - 1;
+            Cart::update($rowId,$qty);
+            $this->itemQty = Cart::content();
+        }
     }
     public function show($rowId)
     {
         foreach ($this->itemQty as $value) {
             $condition = Cart::get($value["rowId"]);
             if ($condition->model->stock >= intval($value["qty"])) {
+                if (intval($value["qty"]) == 0) {
+                    $this->rowId = $rowId;
+                    $value["qty"] = 1;
+                    $this->emit('toggleModal');
+                }
                 Cart::update($value["rowId"],intval($value["qty"]));
                 $this->itemQty = Cart::content();
             }else{

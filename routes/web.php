@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Auth;
 */
 Route::get('/', HomeComponent::class)->name('home.page');
 Route::group(['prefix' => 'reseller','middleware' => ['role:reseller','auth','active']], function() {
-    Route::get('/shop/member-{id}', ShopComponent::class)->name('member.shopr');
+    Route::get('/shop/{name}-{id}', ShopComponent::class)->name('member.shopr');
     Route::get('/member', MemberComponent::class)->name('member.showr');
     Route::get('/shop/categories/{id}', CategoryComponent::class)->name('product.category');
     Route::get('/shop/adprod/{$id}', [ShopComponent::class, 'store']);
@@ -38,7 +38,7 @@ Route::group(['prefix' => 'reseller','middleware' => ['role:reseller','auth','ac
 });
 Route::get('/', HomeComponent::class)->name('home.page');
 Route::group(['prefix' => 'customer','middleware' => ['role:customer','auth','active']], function() {
-    Route::get('/shop/member-{id}', ShopComponent::class)->name('member.shopc');
+    Route::get('/shop/{name}-{id}', ShopComponent::class)->name('member.shopc');
     Route::get('/member', MemberComponent::class)->name('member.showc');
     Route::get('/shop/categories/{id}', CategoryComponent::class)->name('product.category');
     Route::get('/shop/adprod/{$id}', [ShopComponent::class, 'store']);

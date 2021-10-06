@@ -50,9 +50,9 @@
                                             <td class="table-p-name"><a href="product-details.html">{{$item->name}}</a></td>
                                             <td class="table-p-price"><p>Rp.{{ number_format($item->price) }}</p></td>
                                             <td class="table-p-qty">
-                                                <button wire:click.prevert="increaseQty('{{$item->rowId}}')">+</button>
+                                                <button wire:click.prevert="decreaseQty('{{$item->rowId}}')" @if($item->qty == 1) data-toggle="modal" data-target="#exampleModal"@endif>-</button>
                                                 <input value="{{$item->qty}}" name="cart-qty" type="number" wire:model="itemQty.{{$item->rowId}}.qty" wire:change="show('{{$item->rowId}}')" max="{{$item->model->stock}}">
-                                                <button wire:click.prevert="decreaseQty('{{$item->rowId}}')">-</button>
+                                                <button wire:click.prevert="increaseQty('{{$item->rowId}}')">+</button>
                                                 <label for="cart-qty" class="label">Maks : {{$item->model->stock}}</label>
                                             </td>
 
@@ -105,8 +105,48 @@
                     </div>
                 </div>
             </div>
+            <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                <div class="modal-dialog" role="document">
+
+                    <div class="modal-content" style="padding: 10px">
+
+                        <div class="modal-header">
+
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Confirm</h5>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                                 <span aria-hidden="true close-btn">×</span>
+
+                            </button>
+
+                        </div>
+
+                       <div class="modal-body">
+
+                            <p>Are you sure want to delete?</p>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
+
+                            <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal" data-dismiss="modal">Yes, Delete</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
             <!-- Cart Area End -->
             <script>
+                document.addEventListener('livewire:load', function () {
+                    window.livewire.on('toggleModal', () => $('#exampleModal').modal('toggle'));
+                })
                 $(function () {
                 $("inputqty").keydown(function () {
                     // Save old value.

@@ -58,6 +58,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>
                     <li><a class="nav-link" href="{{ route('courier.index') }}">Courier</a></li>
+                    <li><a class="nav-link" href="{{ route('content.index') }}">Content</a></li>
                     <li><a class="nav-link" href="{{ route('point.index') }}">Point</a></li>
                     <li><a class="nav-link" href="{{ route('reward.index') }}">Reward</a></li>
                     <li><a class="nav-link" href="{{ route('setting.index') }}">Pengaturan</a></li>

@@ -59,9 +59,9 @@
                                                     </a>
                                                     <div class="product-hover">
                                                         @if (Auth::user()->isCustomer())
-                                                        <a class="p-cart-btn" href="{{ route('member.shopc', $member->user_id) }}" >Belanja di {{$member->user->name}}</a>
+                                                        <a class="p-cart-btn" href="{{ route('member.shopc', ['id'=>$member->user_id, 'name' => $member->user->name]) }}" >Belanja di {{$member->user->name}}</a>
                                                         @else
-                                                        <a class="p-cart-btn" href="{{ route('member.shopr', $member->user_id) }}" >Belanja di {{$member->user->name}}</a>
+                                                        <a class="p-cart-btn" href="{{ route('member.shopr', ['id'=>$member->user_id, 'name' => $member->user->name]) }}" >Belanja di {{$member->user->name}}</a>
                                                         @endif
                                                     </div>
                                                 </div>

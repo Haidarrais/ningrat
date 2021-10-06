@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Web\RoyaltyController;
 use App\Http\Controllers\Web\SettingController;
 use App\Http\Controllers\Web\CategoryController;
+use App\Http\Controllers\Web\ContentController;
 use App\Http\Controllers\Web\DiscountController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\PageRewardController;
@@ -42,6 +43,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
             Route::resource('/reward', RewardController::class)->except(['create', 'edit']);
             Route::post('/reward/set_status', [RewardController::class, 'set_status'])->name('reward.set_status');
             Route::resource('/point', PointController::class)->except(['create', 'edit']);
+            Route::resource('/content', ContentController::class);
             Route::resource('/setting', SettingController::class)->except(['create', 'edit']);
             Route::get('/view/reward/user', [PageRewardController::class, 'reward_user'])->name('reward.user');
             // Accpet or Reject
