@@ -61,7 +61,7 @@
         <div class="row">
 
           <div class="col-12">
-            <input name="qty[]" oninput="onchangePrice({{ $value->product_id }})" type="number" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0">
+            <input name="qty[]" oninput="onchangePrice({{ $value->product_id }}, '{{$value->stock}}')" type="number" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0">
           </div>
 
         </div>
