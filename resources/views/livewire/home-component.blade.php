@@ -146,75 +146,32 @@
                 </div>
             </div>
         </div>
+        @if (count($testi) >= 4)
         <!-- Testimonial Area Start -->
         <div class="testimonial-area pt-110 pb-95">
             <div class="container">
                 <div class="testimonial-slider-wrapper">
                     <div class="text-carousel text-center">
+                        @foreach ($testi as $testi_text)
                         <div class="slider-text">
                             <span class="testi-quote">
                                 <img src="assets/img/icon/quote.png" alt="">
                             </span>
-                            <p>This is Photoshops version  of Lorem Ipsum. Proin gravida nibh vel velit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. In molestie augue magna. Pellentesque felis lorem, pulvinar sed ero..</p>
+                            <p>{{$testi_text->word}}</p>
                         </div>
-                        <div class="slider-text">
-                            <span class="testi-quote">
-                                <img src="assets/img/icon/quote.png" alt="">
-                            </span>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit tenetur rerum maiores eos fugit dolores neque eius ex eum quo, quis aspernatur odio accusantium architecto, amet repellat.</p>
-                        </div>
-                        <div class="slider-text">
-                            <span class="testi-quote">
-                                <img src="assets/img/icon/quote.png" alt="">
-                            </span>
-                            <p>Reprehenderit tenetur rerum maiores eos fugit dolores neque eius ex eum quo, quis aspernatur odio accusantium architecto, amet repellat Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        </div>
-                        <div class="slider-text">
-                            <span class="testi-quote">
-                                <img src="assets/img/icon/quote.png" alt="">
-                            </span>
-                            <p>This is Photoshops version  of Lorem Ipsum. Proin gravida nibh vel velit.Lorem ipsum dolor sit amet, consectetur adipiscing elit. In molestie augue magna. Pellentesque felis lorem, pulvinar sed ero..</p>
-                        </div>
-                        <div class="slider-text">
-                            <span class="testi-quote">
-                                <img src="assets/img/icon/quote.png" alt="">
-                            </span>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit tenetur rerum maiores eos fugit dolores neque eius ex eum quo, quis aspernatur odio accusantium architecto, amet repellat.</p>
-                        </div>
-                        <div class="slider-text">
-                            <span class="testi-quote">
-                                <img src="assets/img/icon/quote.png" alt="">
-                            </span>
-                            <p>Reprehenderit tenetur rerum maiores eos fugit dolores neque eius ex eum quo, quis aspernatur odio accusantium architecto, amet repellat Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        </div>
+                        @endforeach
                     </div>
                     <div class="image-carousel">
+                        @foreach ($testi as $testi_image)
                         <div class="testi-img">
-                            <img src="assets/img/testimonial/1.png" alt="">
-                            <h4>Dewey Tetzlaff</h4>
+                            <img src="{{ asset('uploads/contents/'. $testi_image->image) }}" alt="" style="width: 94px; height:94px;">
+                            <h4>{{$testi_image->name}}</h4>
+                            <h4 style="font-weight: 0.1;margin-top:-20px;"><small>({{$testi_image->actor}})</small></h4>
                         </div>
-                        <div class="testi-img">
-                            <img src="assets/img/testimonial/2.png" alt="">
-                            <h4>Rebecka Filson</h4>
-                        </div>
-                        <div class="testi-img">
-                            <img src="assets/img/testimonial/3.png" alt="">
-                            <h4>Alva Ono</h4>
-                        </div>
-                        <div class="testi-img">
-                            <img src="assets/img/testimonial/1.png" alt="">
-                            <h4>Dewey Tetzlaff</h4>
-                        </div>
-                        <div class="testi-img">
-                            <img src="assets/img/testimonial/2.png" alt="">
-                            <h4>Rebecka Filson</h4>
-                        </div>
-                        <div class="testi-img">
-                            <img src="assets/img/testimonial/3.png" alt="">
-                            <h4>Alva Ono</h4>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
+        @endif
 </div>
