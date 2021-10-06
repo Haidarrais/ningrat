@@ -24,9 +24,10 @@ class CategoryController extends Controller
             $keyword = $request->keyword;
             $q->where('name', 'LIKE', "%$keyword%");
         });
-        $query->with(['product', 'subCategory']);
+        $query->with('product');
         // $data1 = $query->first();
         // dd($data1->subCategory->name);
+        
         $categories = $query->paginate(10);
         if($request->ajax()) {
             return view('pages.master.category.pagination', compact('categories', 'data'))->render();
@@ -70,7 +71,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::with(['subCategory'])->find($id);
+        $category = Category::find($id);
         return response()->json([
             'status' => true,
             'data' => $category
@@ -117,15 +118,17 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-        if(Category::where('parent_id', $category->id)->count() > 0) {
+        // dd($category->product);
+        if (count($category->product)>0) {
             return response()->json([
                 'status' => false,
                 'message' => [
                     'head' => 'Gagal',
-                    'body' => 'Kategori Masih memiliki anak haram'
+                    'body' => 'Kategori sudah digunakan pada data produk'
                 ]
             ], 500);
         }
+
         $category->delete();
         return response()->json([
             'status' => true,

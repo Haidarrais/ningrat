@@ -38,10 +38,10 @@
                 @csrf
                 <input type="hidden" name="id" id="inputID">
                 <div class="modal-body">
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="selectSubKategori">Sub Kategori</label>
                         <select name="parent_id" id="selectSubKategori" class="form-control"></select>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label for="inputName">Nama Kategori</label>
                         <input type="text" name="name" id="inputName" class="form-control" required>

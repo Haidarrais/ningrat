@@ -2,7 +2,6 @@
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Sub Kategori</th>
             <th scope="col">Nama</th>
             <th scope="col">Total Produk</th>
             <th scope="col">Aksi</th>
@@ -12,7 +11,6 @@
         @forelse ($categories as $key => $value)
             <tr>
                 <th scope="row">{{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}</th>
-                <td class="{{ ($value->subCategory == null) ? 'text-center' : '' }}">{{ ($value->subCategory == null) ? '-' : $value->subCategory->name }}</td>
                 <td>{{ $value->name }}</td>
                 <td>{{ count($value->product) }}</td>
                 <td scope="row">

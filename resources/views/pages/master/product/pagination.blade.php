@@ -15,7 +15,7 @@
             <tr>
                 <th scope="row">{{ ($products->currentpage()-1) * $products->perpage() + $loop->index + 1 }}</th>
                 <td>{{ $value->name }}</td>
-                <td>{{ $value->category->name }}</td>
+                <td>{{ $value->category->name??"" }}</td>
                 <td>Rp. {{ number_format($value->price) }}</td>
                 <td>{{ $value->weight }}</td>
                 <td><img src="{{ asset('upload/product/').'/'. $value->image }}" alt="{{ $value->image }}" class="img-fluid" width="100"></td>
