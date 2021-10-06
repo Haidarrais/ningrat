@@ -8,6 +8,7 @@ use App\Http\Requests\CategoryDiscount\CategoryDiscountUpdateRequest;
 use App\Models\CategoryDiscount;
 use Illuminate\Http\Request;
 
+//========subsidi ongkir controller==========
 class CategoryDiscountController extends Controller
 {
     /**

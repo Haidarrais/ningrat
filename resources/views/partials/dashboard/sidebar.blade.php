@@ -42,7 +42,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('category.index') }}">Kategori</a></li>
                     <li><a class="nav-link" href="{{ route('product.index') }}">Produk</a></li>
-                    <li><a class="nav-link" href="{{ route('diskon-kategori.index') }}">Diskon Kategori</a></li>
+                    <li><a class="nav-link" href="{{ route('subsidi-ongkir.index') }}">Subsidi Ongkir</a></li>
                     <li><a class="nav-link" href="{{ route('discount.index') }}">Diskon</a></li>
                     <li><a class="nav-link" href="{{ route('royalty.index') }}">Royalty</a></li>
                 </ul>

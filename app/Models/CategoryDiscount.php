@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+//========subsidi ongkir berdasarkan kategory
 class CategoryDiscount extends Model
 {
     use HasFactory;

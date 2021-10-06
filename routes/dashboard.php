@@ -63,7 +63,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
     // Pefix Master
     Route::group(['prefix' => 'master', 'middleware' => 'role:superadmin'], function() {
         Route::resource('/category', CategoryController::class);
-        Route::resource('/diskon-kategori', CategoryDiscountController::class);
+        Route::resource('/subsidi-ongkir', CategoryDiscountController::class);
         Route::resource('/royalty', RoyaltyController::class);
         Route::resource('/product', ProductController::class);
         Route::resource('/discount', DiscountController::class);

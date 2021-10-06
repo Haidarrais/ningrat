@@ -4,7 +4,7 @@
 <div class="section-body">
     <div class="card">
         <div class="card-header">
-            <button class="btn btn-success" id="btnTambah"><i class="fas fa-plus"></i> Tambah Diskon</button>
+            <button class="btn btn-success" id="btnTambah"><i class="fas fa-plus"></i> Tambah Subsidi</button>
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
@@ -76,7 +76,7 @@
 
             if (type == "STORE") {
                 new Promise((resolve, reject) => {
-                    $axios.post(`{{ route('diskon-kategori.store') }}`, serializedData)
+                    $axios.post(`{{ route('subsidi-ongkir.store') }}`, serializedData)
                         .then(({
                             data
                         }) => {
