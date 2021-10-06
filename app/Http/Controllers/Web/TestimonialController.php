@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
@@ -14,7 +15,8 @@ class TestimonialController extends Controller
      */
     public function index()
     {
-        //
+        $testimonials = Testimonial::all();
+        return view('pages.pengaturan.testimonial.index', compact('testimonials'));
     }
 
     /**
@@ -35,7 +37,29 @@ class TestimonialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'actor' => 'required',
+            'word' => 'required',
+            'image' => 'image|mimes:png,jpg'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePost = 'IMAGE-TESTIMONIAL'.time().$request->file('image')->getClientOriginalName();
+            $file = $request->image;
+            $fileName = $imagePost;
+            $file->move('uploads/contents',$fileName);
+            $image = $fileName;
+        }
+
+        Testimonial::create([
+            'name' => $request->name,
+            'actor' => $request->actor,
+            'word' => $request->word,
+            'image' => $image,
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil menambahkan testimoni');
     }
 
     /**
@@ -57,7 +81,11 @@ class TestimonialController extends Controller
      */
     public function edit($id)
     {
-        //
+        $testimonial = Testimonial::find($id);
+        return response()->json([
+            'status' => 1,
+            'data' => $testimonial
+        ]);
     }
 
     /**
@@ -69,7 +97,30 @@ class TestimonialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $testimonial = Testimonial::find($id);
+        $request->validate([
+            'name' => 'required',
+            'actor' => 'required',
+            'word' => 'required',
+            'image' => 'image|mimes:png,jpg'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePost = 'IMAGE-TESTIMONIAL'.time().$request->file('image')->getClientOriginalName();
+            $file = $request->image;
+            $fileName = $imagePost;
+            $file->move('uploads/contents',$fileName);
+            $image = $fileName;
+            $testimonial->image = $image;
+        }
+
+        $testimonial->name  = $request->name;
+        $testimonial->actor = $request->actor;
+        $testimonial->word = $request->word;
+
+        $testimonial->save();
+
+        return redirect()->back()->with('success', 'Berhasil update testimonial');
     }
 
     /**
@@ -80,6 +131,7 @@ class TestimonialController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Testimonial::destroy($id);
+        return redirect()->back()->with('success', 'Berhasil hapus testimonial');
     }
 }

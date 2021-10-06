@@ -11,14 +11,12 @@ use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Web\RoyaltyController;
 use App\Http\Controllers\Web\SettingController;
 use App\Http\Controllers\Web\CategoryController;
-<<<<<<< HEAD
 use App\Http\Controllers\Web\ContentController;
-=======
 use App\Http\Controllers\Web\CategoryDiscountController;
->>>>>>> daf54aa024570cf2a2184c020978de671217c66f
 use App\Http\Controllers\Web\DiscountController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\PageRewardController;
+use App\Http\Controllers\Web\TestimonialController;
 use App\Http\Controllers\Web\TransactionController;
 use App\Http\Controllers\Web\UserMaintenanceController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +46,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
             Route::post('/reward/set_status', [RewardController::class, 'set_status'])->name('reward.set_status');
             Route::resource('/point', PointController::class)->except(['create', 'edit']);
             Route::resource('/content', ContentController::class);
+            Route::resource('/testimonial', TestimonialController::class);
             Route::resource('/setting', SettingController::class)->except(['create', 'edit']);
             Route::get('/view/reward/user', [PageRewardController::class, 'reward_user'])->name('reward.user');
             // Accpet or Reject
