@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Web\RoyaltyController;
 use App\Http\Controllers\Web\SettingController;
 use App\Http\Controllers\Web\CategoryController;
+use App\Http\Controllers\Web\CategoryDiscountController;
 use App\Http\Controllers\Web\DiscountController;
 use App\Http\Controllers\Web\DashboardController;
 use App\Http\Controllers\Web\PageRewardController;
@@ -62,6 +63,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
     // Pefix Master
     Route::group(['prefix' => 'master', 'middleware' => 'role:superadmin'], function() {
         Route::resource('/category', CategoryController::class);
+        Route::resource('/diskon-kategori', CategoryDiscountController::class);
         Route::resource('/royalty', RoyaltyController::class);
         Route::resource('/product', ProductController::class);
         Route::resource('/discount', DiscountController::class);
