@@ -34,9 +34,9 @@
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#good">Good User</a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#transfer">Transaksi Transfer</a>
-            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#upgrade">Upgrade Request</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -55,6 +55,12 @@
         <div class="card-body table-responsive">
           {{-- <div class="tab-content"> --}}
           @include('pages.pengaturan.usermaintenance.pagination-good-user')
+        </div>
+      </div>
+      <div id="upgrade" class="container tab-pane">
+        <div class="card-body table-responsive" id="table_data2">
+          {{-- <div class="tab-content"> --}}
+          @include('pages.pengaturan.usermaintenance.upgrade-reqs-pagination')
         </div>
       </div>
     </div>
@@ -203,7 +209,7 @@
               data.message.body.map((item) => {
                 html += `${item.name} ${item.status?"Berhasil":"Gagal"} didowngrade!`
               });
-  
+
               // console.log(html);
               toastr.warning(html)
               // $("#swal2-content").appendChild("break-it");
@@ -220,6 +226,102 @@
       }
     })
   });
+
+  function upgrade(id, role) {
+    $swal.fire({
+      title: 'Yakin?',
+      text: "Anda akan menerima permintaan upgrade?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Tidak',
+      confirmButtonText: 'Ya!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await $axios.patch(`{{ route('maintenance.update') }}`, {
+          id: id,
+          role: role,
+          status_request: true,
+          is_upgrade: true
+        }).then((response) => {
+          let data = response.data;
+          $swal.fire({
+            icon: data.status ? "success" : "error",
+            title: data.message.head,
+            text: data.message.body,
+          }).then(() => {
+            refresh_table(URL_NOW);
+          });
+        }).catch((r, err) => {
+          console.log(r.response.data);
+          // console.log(err);
+          $swal.fire({
+            icon: 'error',
+            title: r.response.data.message.head,
+            text: r.response.data.message.body,
+          });
+        });
+      }
+    });
+  }
+
+  function tolak(id, role) {
+    $swal.fire({
+      title: 'Yakin?',
+      text: "Anda akan menolak permintaan upgrade?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Tidak',
+      confirmButtonText: 'Ya!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await $axios.patch(`{{ route('maintenance.update') }}`, {
+          id: id,
+          role: role,
+          status_request: false,
+          is_upgrade: true
+        }).then((response) => {
+          let data = response.data;
+          $swal.fire({
+            icon: data.status ? "success" : "error",
+            title: data.message.head,
+            text: data.message.body,
+          }).then(() => {
+             new Promise(async(resolve, reject) => {
+              $("#table_data2").LoadingOverlay('show')
+              await $axios.get(`${URL_NOW}/is_accepting_upgrade_req=true`)
+                .then(({
+                  data
+                }) => {
+                  $("#table_data2").LoadingOverlay('hide')
+                  $('#table_data2').html(data)
+                })
+                .catch(err => {
+                  console.log(err)
+                  $("#table_data2").LoadingOverlay('hide')
+                  $swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                  })
+                })
+            })
+          });
+        }).catch((r, err) => {
+          console.log(r.response.data);
+          // console.log(err);
+          $swal.fire({
+            icon: 'error',
+            title: r.response.data.message.head,
+            text: r.response.data.message.body,
+          });
+        });
+      }
+    });
+  }
   // function downGradeAll(){
   // e.preventDefault();
 

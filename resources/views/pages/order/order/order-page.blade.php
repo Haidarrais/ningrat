@@ -227,7 +227,7 @@
                     $.each(data, (i, e) => {
                         html += `<option value="${e.name}">${e.name}</option>`
                     })
-                    $("#courier").html(html)
+                    $("#courier").html(html + `<option value="custom">Lainnya</option>`)
                 })
         })
 
@@ -247,6 +247,36 @@
                 })
         });
 
+
+        $("#courier").on('change', () => {
+            console.log($("#courier").val());
+            if ($("#courier").val() === "custom") {
+                $("#fieldCourier").html(`<input type="text"
+                    name = "text"
+                    placeholder="Masukkan nama jasa kirim" 
+                    class="form-control text-center"
+                    value ="" id="text-custom"  onchange="customInput()">
+                    <input type = "radio"
+                    id = "radius-${0}"
+                    name = "cost"
+                    class = "custom-control-input"
+                    checked="checked"
+                    value = "0">`);
+                $("#btn-simpan").prop("disabled", false)
+            } else {
+                $("#courier").prepend(`<input type="text"
+                    name = "text"
+                    placeholder="Masukkan nama jasa kirim" 
+                    class="form-control text-center"
+                    value ="" id="text-custom"  onchange="customInput()">
+                    <input type = "radio"
+                    id = "radius-${0}"
+                    name = "cost"
+                    class = "custom-control-input"
+                    checked="checked"
+                    value = "0">`);
+            }
+        });
         $("#btn-courier").on('click', () => {
             let local_weight = $("#inputWeight").val()
             if (local_weight <= 0) {
@@ -312,6 +342,11 @@
         })
     });
 
+    function customInput() {
+        console.log("input", $("#text-custom").val());
+        $("#courier").val($("#text-custom").val());
+        console.log("res", $("#courier").val());
+    }
     let tempCounter = 0;
     let discount_ongkir = 0;
     let tempId = 0;
@@ -352,7 +387,6 @@
                     uhek += totalNominal[i];
                 }
             }
-            console.log(uhek < monthlyMinimalTransaction);
             if (uhek < minTransation) {
                 $("#totalSemua").addClass('border-danger')
                 $("#syarat").addClass('border-danger')
@@ -368,14 +402,13 @@
                 // console.log("before discount", uhek);
                 $("#isUserGetSubsidy").removeClass("d-none");
                 let tempDiscount = uhek * (discountFromRole / 100);
-                console.log(`${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
+
                 $("#displayPriceAfterDiscount").val(`Harga setelah diskon adalah Rp. ${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
                 $("#isUserGetDiscount").removeClass("d-none");
                 // console.log("after discount", (uhek - tempDiscount));
                 // console.log($(`input[name="productCategory${id}"]`).val());
                 // console.log($(`input[name='ongkir-per-category-${id}']`).val());
 
-                console.log(total);
                 var tempDiscountOngkir = 0;
                 // totalDiscountOngkir[id] = total * price;
 
@@ -401,7 +434,7 @@
                 $("#isUserGetDiscount").removeClass("d-none");
             }
 
- 
+
             $("#totalSemuaInt").attr('value', `${uhek}`);
             $("#totalSemua").val("Rp " + uhek.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
 

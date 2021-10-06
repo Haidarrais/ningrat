@@ -14,16 +14,43 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Setting;
+use Illuminate\Support\Arr;
 
 class ProfileController extends Controller
 {
+    private $month;
+
+    public function __construct()
+    {
+        $this->month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember'];
+    }
+
     public function index() {
+        // $user = Auth::user();
         $user_id = Auth::id();
         $user = User::with('member.city')->find($user_id);
         $role_id = $user->roles->pluck('id')->first();
-        $role_upgrade = RoleUpgrade::where('role_id', $role_id)->where('status', 1)->get();
-        $status_request = RequestUpgrade::where('user_id', $user->id)->where('status', 1)->first();
-        return view('pages.pengaturan.profile.index', compact('user', 'role_upgrade', 'status_request'));
+        $role = $user->getRoleNames()->first();
+        // $role_upgrade = RoleUpgrade::where('role_id', $role_id)->where('status', 1)->get();
+        $last_upgrade = Carbon::make($user->last_upgrade);
+        $monthDiffFromLastUpgrade = $last_upgrade->diffInMonths(Carbon::now());
+        $user_updated_at = $last_upgrade->year;
+        // $status_request = RequestUpgrade::where('user_id', $user->id)->where('status', 1)->first();
+        if ($role == 'distributor') {
+            $minimal_transaction = $user_updated_at > 2019 ?
+                Setting::where('role', 'new-distributor')->first()->value ?? 0 :
+                Setting::where('role', 'old-distributor')->first()->value ?? 0;
+        } else {
+            $minimal_transaction = Setting::where('role', $role)->first()->value ?? 0;
+        }
+        $d = $this->getMonthlyTransaction( $user);
+        $monthly_transaction = [];
+        $month = $this->month;
+        $check = $this->checkOrderRequirements($d, $minimal_transaction);
+        $checkMitraRequirement = count($check["checkMitraRequirement"]) >= 6 ? true : false;
+        $monthly_transaction = $check["newData"];
+        return view('pages.pengaturan.profile.index', compact('user', 'monthly_transaction','month','checkMitraRequirement', 'monthDiffFromLastUpgrade', 'minimal_transaction'));
     }
 
     public function update(UpdateProfileRequest $request) {
@@ -66,32 +93,55 @@ class ProfileController extends Controller
         $user = Auth::user();
         $role_id = $user->roles->pluck('id')->first();
         $role_upgrade = RoleUpgrade::where('role_id', $role_id)->where('status', 1)->get();
-        $status_upgrade = false;
-        foreach ($role_upgrade as $key => $value) {
-            if(strpos(Str::lower($value->description), Str::lower("Member Setelah Upgrade")) > 0) {
-                $last_upgrade = Carbon::make($user->last_upgrade);
-                if($last_upgrade->diffInMonths(Carbon::now()) >= $value->value) {
-                    $status_upgrade = true;
-                } else {
-                    $status_upgrade = false;
-                    break;
-                }
-            } else if(strpos(Str::lower($value->description), Str::lower("Marketing")) > 0) {
-                if(User::where('upper', $user->id)->count() >= $value->value) {
-                    $status_upgrade = true;
-                } else {
-                    $status_upgrade = false;
-                    break;
-                }
-            } else if(strpos(Str::lower($value->description), Str::lower("Penjualan")) > 0) {
-                if($this->get_omset($value->value)) {
-                    $status_upgrade = true;
-                } else {
-                    $status_upgrade = false;
-                    break;
-                }
-            }
+        $role = $user->getRoleNames()->first();
+        // $role_upgrade = RoleUpgrade::where('role_id', $role_id)->where('status', 1)->get();
+        $last_upgrade = Carbon::make($user->last_upgrade);
+        $monthDiffFromLastUpgrade = $last_upgrade->diffInMonths(Carbon::now());
+        $user_updated_at = $last_upgrade->year;
+        if ($role == 'distributor') {
+            $minimal_transaction = $user_updated_at > 2019 ?
+                Setting::where('role', 'new-distributor')->first()->value ?? 0 :
+                Setting::where('role', 'old-distributor')->first()->value ?? 0;
+        } else {
+            $minimal_transaction = Setting::where('role', $role)->first()->value ?? 0;
         }
+        $d = $this->getMonthlyTransaction($user);
+        $check = $this->checkOrderRequirements($d, $minimal_transaction);
+        // $checkMitraRequirement = count($check["checkMitraRequirement"]) >= 6 ? true : false;
+        $status_upgrade = false;
+        if ($monthDiffFromLastUpgrade < 6) {
+            $status_upgrade = false;
+        }else if(count($check["checkMitraRequirement"]) < 6){
+            $status_upgrade = false;
+
+        }else{
+            $status_upgrade = true;
+        }
+        // foreach ($role_upgrade as $key => $value) {
+        //     if(strpos(Str::lower($value->description), Str::lower("Member Setelah Upgrade")) > 0) {
+        //         $last_upgrade = Carbon::make($user->last_upgrade);
+        //         if($last_upgrade->diffInMonths(Carbon::now()) >= $value->value) {
+        //             $status_upgrade = true;
+        //         } else {
+        //             $status_upgrade = false;
+        //             break;
+        //         }
+        //     } else if(strpos(Str::lower($value->description), Str::lower("Marketing")) > 0) {
+        //         if(User::where('upper', $user->id)->count() >= $value->value) {
+        //             $status_upgrade = true;
+        //         } else {
+        //             $status_upgrade = false;
+        //             break;
+        //         }
+        //     } else if(strpos(Str::lower($value->description), Str::lower("Penjualan")) > 0) {
+        //         if($this->get_omset($value->value)) {
+        //             $status_upgrade = true;
+        //         } else {
+        //             $status_upgrade = false;
+        //             break;
+        //         }
+        //     }
+        // }
 
         if($status_upgrade) {
             RequestUpgrade::updateOrCreate([
@@ -139,4 +189,83 @@ class ProfileController extends Controller
         }
         return $result;
     }
+
+    private function getMonthlyTransaction( $user)
+    {
+        $todaysMonth = Carbon::now()->month;
+        $processedOrders = [];
+        $orders =  Order::select(
+            DB::raw('sum(subtotal) as sums'),
+            DB::raw("DATE_FORMAT(created_at,'%m') as month")
+        )
+            ->orWhere('user_id', $user->id)
+            ->where('status', 4)
+            // ->whereMonth('created_at', 8)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupBy('month')
+            ->orderBy('created_at', 'ASC')
+            ->get()->toArray();
+
+        if ($todaysMonth > 6) {
+            $filteredArray = Arr::where($orders, function ($value, $key) {
+                return intval($value['month']) > 6;
+            });
+
+            // return $filteredArray;
+        } else {
+            $filteredArray = Arr::where($orders, function ($value, $key) {
+                return intval($value['month']) <= 6;
+            });
+            // return $filteredArray;
+        }
+        foreach ($filteredArray as $index => $value) {
+            $processedOrders[intval($filteredArray[$index]["month"])] = $value;
+        }
+        return $processedOrders;
+    }
+    private function checkOrderRequirements($monthly_transaction, $minimal_transaction)
+    {
+        $todaysMonth = Carbon::now()->month;
+        $checkers = [];
+        $newData = [];
+        // dd($monthly_transaction);
+        for ($i = $todaysMonth >= 6 ? 7 : 1; $i <= $todaysMonth; $i++) {
+            try {
+                if ($monthly_transaction[$i]) {
+                    if ($monthly_transaction[$i]["sums"] > $minimal_transaction) {
+                        array_push($checkers, true);
+                        $newData[$i] = $monthly_transaction[$i];
+                        // array_push($newData, $monthly_transaction[$i]);
+                    } else {
+                        array_push($checkers, false);
+                        $fakeData = [
+                            "sums" => 0,
+                        ];
+                        // array_push($newData,$fakeData);
+                        $newData[$i] = $fakeData;
+                    }
+                } else {
+                    array_push($checkers, false);
+                    $fakeData = [
+                        "sums" => 0,
+                    ];
+                    $newData[$i] = $fakeData;
+                }
+                //code...
+            } catch (\Throwable $th) {
+                array_push($checkers, false);
+                $fakeData = [
+                    "sums" => 0,
+                ];
+                $newData[$i] = $fakeData;
+            }
+        }
+        $filteredArray = Arr::where($checkers, function ($value, $key) {
+            return $value == true;
+        });
+        // dd($filteredArray);
+        return [
+            "newData" => $newData,
+            "checkMitraRequirement" =>  $filteredArray
+        ];}
 }

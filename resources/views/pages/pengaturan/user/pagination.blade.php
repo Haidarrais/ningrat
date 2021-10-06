@@ -23,11 +23,6 @@
                 </td>
                 <td scope="row">
                     @role('superadmin')
-                    @if (isset($value->request_upgrade()->latest()->first()->status))
-                        @if ($value->request_upgrade()->latest()->first()->status == 1)
-                            <button class="btn btn-sm btn-primary" onclick="upgradeUser({{ $value->id }})">Upgrade</button>
-                        @endif
-                    @endif
                     @if ($value->status)
                         <button class="btn-sm btn btn-warning" onclick="setStatusUser({{ $value->id }}, 0)"><i class="fas fa-user-slash"></i></button>
                     @else

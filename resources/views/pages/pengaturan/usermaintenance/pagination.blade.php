@@ -12,10 +12,11 @@
   </thead>
   <tbody>
     @php
-    foreach ($userWithRoleAndOrders as $key => $value) {
       $isEmpty = [];
+    foreach ($userWithRoleAndOrders as $key => $value) {
       $index = ++$key;
-    if (count($userWithRoleAndOrders)>0 && $value['status']==false) {
+    if ($value['status']==false) {
+      array_push($isEmpty, false);
       $role = "${value['role']}";
       $params = "showOrderModal(".$value['id'].",".(int)$value['status'].","."'".$role."'".")";
       // $params = "showOrderModal(".$value[`id`].".",".".(int)($value[`status`]) .",".$role.")";
@@ -35,7 +36,7 @@
       <span class='badge badge-danger' style='cursor: pointer;' onclick=$params><i class='fas fa-thumbs-down'></i></span>
     </td>
     </tr>";
-    array_push($isEmpty, false);
+    
     }
     else {
       array_push($isEmpty, true);

@@ -47,8 +47,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
             Route::get('/view/reward/user', [PageRewardController::class, 'reward_user'])->name('reward.user');
             // Accpet or Reject
             Route::post('/view/reward/set_status', [PageRewardController::class, 'set_status'])->name('reward.user.set_status');
-            Route::get('/user-maintenace', [UserMaintenanceController::class, 'index'])->name('maintenance');
-            Route::get('/user-maintenace/{id}', [UserMaintenanceController::class, 'show'])->name('maintenance.show');
+            Route::get('/user-maintenace/{is_accepting_upgrade_req?}', [UserMaintenanceController::class, 'index'])->name('maintenance');
+            Route::get('/user-maintenace/show/{id}', [UserMaintenanceController::class, 'show'])->name('maintenance.show');
             Route::patch('/user-maintenace/update', [UserMaintenanceController::class, 'update'])->name('maintenance.update');
             Route::post('/user-maintenace/downgrade/all', [UserMaintenanceController::class, 'downgradeAll'])->name('maintenance.downgrade_all');
         });

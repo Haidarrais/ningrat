@@ -348,7 +348,6 @@
                     uhek += totalNominal[i];
                 }
             }
-            console.log(uhek < monthlyMinimalTransaction);
             if (uhek < minTransation) {
                 $("#totalSemua").addClass('border-danger')
                 $("#syarat").addClass('border-danger')
@@ -364,14 +363,12 @@
                 // console.log("before discount", uhek);
                 $("#isUserGetSubsidy").removeClass("d-none");
                 let tempDiscount = uhek * (discountFromRole / 100);
-                console.log(`${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
                 $("#displayPriceAfterDiscount").val(`Harga setelah diskon adalah Rp. ${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
                 $("#isUserGetDiscount").removeClass("d-none");
                 // console.log("after discount", (uhek - tempDiscount));
                 // console.log($(`input[name="productCategory${id}"]`).val());
                 // console.log($(`input[name='ongkir-per-category-${id}']`).val());
 
-                console.log(total);
                 var tempDiscountOngkir = 0;
                 // totalDiscountOngkir[id] = total * price;
 

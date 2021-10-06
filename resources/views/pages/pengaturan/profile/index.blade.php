@@ -5,8 +5,7 @@
     <div class="col-12 col-md-12 col-lg-5">
         <div class="card profile-widget">
             <div class="profile-widget-header">
-                <img alt="image" src="{{ asset('assets-dashboard/img/avatar/avatar-1.png') }}"
-                    class="rounded-circle profile-widget-picture">
+                <img alt="image" src="{{ asset('assets-dashboard/img/avatar/avatar-1.png') }}" class="rounded-circle profile-widget-picture">
                 <div class="profile-widget-items">
                     <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Total Produk</div>
@@ -23,7 +22,8 @@
                 </div>
             </div>
             <div class="profile-widget-description">
-                <div class="profile-widget-name">{{ $user->name }} <div class="text-muted d-inline font-weight-normal">
+                <div class="profile-widget-name">{{ $user->name }}
+                    <div class="text-muted d-inline font-weight-normal">
                         <div class="slash"></div> {{ ucfirst($user->getRoleNames()->first()) }}
                     </div>
                 </div>
@@ -37,47 +37,34 @@
             <div class="card mt-3">
                 <div class="card-body">
                     <ul class="list-group">
-                        @forelse ($role_upgrade as $value)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ $value->description }}
-                                @if (strpos(Str::lower($value->description), Str::lower("Member Setelah Upgrade")) > 0)
-                                    {{-- Minimal Jadi member --}}
-                                    @php $last_upgrade = Carbon::make($user->last_upgrade); @endphp
-                                    @if ($last_upgrade->diffInMonths(Carbon::now()) >= $value->value)
-                                        @php array_push($upgrade, 'naik') @endphp
-                                        <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
-                                    @else
-                                        @php array_push($upgrade, 'nope') @endphp
-                                        <span class="badge badge-danger badge-pill"><i class="fas fa-times"></i></span>
-                                    @endif
-                                @elseif(strpos(Str::lower($value->description), Str::lower("Marketing")) > 0)
-                                    {{-- Minimal Jaringan --}}
-                                  
-                                @elseif(strpos(Str::lower($value->description), Str::lower("Penjualan")) > 0)
-                                    {{-- Omset Penjualan --}}
-                                    @if (App\Http\Controllers\Web\ProfileController::get_omset($value->value))
-                                        @php array_push($upgrade, 'naik') @endphp
-                                        <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
-                                    @else
-                                        @php array_push($upgrade, 'nope') @endphp
-                                        <span class="badge badge-danger badge-pill"><i class="fas fa-times"></i></span>
-                                    @endif
-                                @endif
-                            </li>
-                        @empty
-                        @php array_push($upgrade, 'nope') @endphp
-                        @endforelse
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            6 Bulan Member Setelah Upgrade
+                           @if ($monthDiffFromLastUpgrade>=6)
+                               <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
+                           @else
+                               <span class="badge badge-danger badge-pill"><i class="fas fa-times"></i></span>
+                           @endif
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Omset Penjualan {{rtrim((string)$minimal_transaction, "0")}}jt/bulan selama 6 Bulan 
+                            @if ($checkMitraRequirement)
+                            <span style="cursor: pointer" class="badge badge-success badge-pill showMontlyTransaction">
+                                <i class="fas fa-check"></i></span>
+                            @else
+                            <span style="cursor: pointer" class="badge badge-danger badge-pill showMontlyTransaction"><i class="fas fa-times"></i></span>
+                            @endif
+                        </li>
                     </ul>
                 </div>
                 <div class="card-footer" id="fieldUpgrade">
-                    @if ($status_request)
-                        <p>Anda sudah melakukan request upgrade</p>
+                    @if ($monthDiffFromLastUpgrade<6)
+                    <p>Tunggu {{6 - $monthDiffFromLastUpgrade}} bulan untuk request upgrade</p>
                     @else
-                        @if (in_array('nope', $upgrade))
-                            <button class="btn btn-warning">Anda belum bisa upgrade</button>
-                        @else
-                            <button class="btn btn-success" id="btnUpgrade" onclick="upgrade({{ $user->id }})">Upgrade</button>
-                        @endif
+                    @if (!$checkMitraRequirement)
+                    <button class="btn btn-warning">Anda belum bisa upgrade</button>
+                    @else
+                    <button class="btn btn-success" id="btnUpgrade" onclick="upgrade({{ $user->id }})">Upgrade</button>
+                    @endif
                     @endif
                 </div>
             </div>
@@ -136,7 +123,9 @@
                         </div>
                     </div>
                     <div class="text-center" id="loading" style="display: none">
-                        <div class="lds-heart"><div></div></div>
+                        <div class="lds-heart">
+                            <div></div>
+                        </div>
                     </div>
                     <div class="row" id="fieldAlamat">
                         <div class="form-group col-12">
@@ -172,15 +161,58 @@
     </div>
 </div>
 @endsection
-
+@section('modal')
+    <div class="modal fade" id="modal-detail-monthly" tabindex="-2" role="dialog" aria-labelledby="modal-detail-monthly"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-detail-monthly">Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body p-0 overflow-auto">
+                        <div class="table-responsive table-invoice">
+                            <table class="table table-striped" id="table_data">
+                                <tr>
+                                    <th>Bulan</th>
+                                    <th>Total Transaksi</th>
+                                    <th>Status</th>
+                                </tr>
+                                @foreach ($monthly_transaction as $index => $item)
+                                <tr>
+                                    <td>{{ $month[$index - 1] }}</td>
+                                    <td>{{"Rp " . number_format($item["sums"],2,',','.')}}</td>
+                                    <td>
+                                        <i class="  @if ($item['sums'] > $minimal_transaction)
+                                                          fas fa-thumbs-up text-success
+                                                          @else fas fa-thumbs-down text-danger
+                                                      @endif" style="font-size: 20px"></i>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 @section('css')
-    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/loader.css') }}">
+<link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/loader.css') }}">
 @endsection
 
 @section('js')
-    <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
-    <script>
+<script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+<script>
     const OLD_PROVINCE = `{{ $user->member->city->province->province_id ?? '' }}`
     const OLD_CITY = `{{ $user->member->city_id ?? '' }}`
     const OLD_SUBDISTRICT = `{{ $user->member->subdistrict_id ?? '' }}`
@@ -191,9 +223,9 @@
         $('#subdistricts_id').select2()
         local_loading()
         get_province(OLD_PROVINCE).then(() => {
-            if(OLD_CITY != 0) {
+            if (OLD_CITY != 0) {
                 get_city(OLD_PROVINCE, OLD_CITY).then(() => {
-                    if(OLD_SUBDISTRICT != 0) {
+                    if (OLD_SUBDISTRICT != 0) {
                         get_subdistrict(OLD_CITY, OLD_SUBDISTRICT)
                     }
                     local_unloading()
@@ -217,10 +249,15 @@
 
         $("#form-data").on('submit', e => {
             e.preventDefault()
-            loading('show', '.cardUpdateProfile', {image: '', text: 'Proses Update.....'})
+            loading('show', '.cardUpdateProfile', {
+                image: '',
+                text: 'Proses Update.....'
+            })
             new Promise((resolve, reject) => {
                 $axios.patch(`{{ route('profile.update') }}`, $("#form-data").serialize())
-                    .then(({data}) => {
+                    .then(({
+                        data
+                    }) => {
                         loading('hide', '.cardUpdateProfile')
                         $swal.fire({
                             icon: 'success',
@@ -237,24 +274,34 @@
     })
 
     const local_loading = () => {
-        loading('show', '#fieldAlamat', {image: '', text: "Harap Tunggu"})
+        loading('show', '#fieldAlamat', {
+            image: '',
+            text: "Harap Tunggu"
+        })
         $("#loading").show()
     }
 
     const local_unloading = () => {
-        loading('hide', '#fieldAlamat', {image: '', text: "Harap Tunggu"})
+        loading('hide', '#fieldAlamat', {
+            image: '',
+            text: "Harap Tunggu"
+        })
         $("#loading").hide()
     }
-
+$(".showMontlyTransaction").on("click", () => {
+    $("#modal-detail-monthly").modal("show");
+    })
     const get_province = (id = null) => {
         return new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_provice') }}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let result = data.data
                     $("#province_id").empty()
                     let html = `<option value="" selected disabled>== Pilih Povinsi ==</option>`
                     $.each(result, (id_elemnt, el) => {
-                        if(el.province_id == id) {
+                        if (el.province_id == id) {
                             html += `<option value="${el.province_id}" selected>${el.name}</option>`
                         } else {
                             html += `<option value="${el.province_id}">${el.name}</option>`
@@ -275,12 +322,14 @@
     const get_city = (id, id_city = null) => {
         return new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_city') }}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let result = data.data
                     $("#city_id").empty()
                     let html = `<option value="" selected disabled>== Pilih Kota ==</option>`
                     $.each(result, (id, el) => {
-                        if(el.city_id == id_city) {
+                        if (el.city_id == id_city) {
                             html += `<option value="${el.city_id}" selected>${el.name} - ${el.type}</option>`
                         } else {
                             html += `<option value="${el.city_id}">${el.name} - ${el.type}</option>`
@@ -300,12 +349,14 @@
     const get_subdistrict = (id, id_subdistrict_old) => {
         return new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_subdistict') }}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let result = data.data
                     $("#subdistricts_id").empty()
                     let html = `<option value="" selected disabled>== Pilih Kecamatan ==</option>`
                     $.each(result, (id, el) => {
-                        if(el.subdistrict_id == id_subdistrict_old) {
+                        if (el.subdistrict_id == id_subdistrict_old) {
                             html += `<option value="${el.subdistrict_id}" selected>${el.subdistrict_name}</option>`
                         } else {
                             html += `<option value="${el.subdistrict_id}">${el.subdistrict_name}</option>`
@@ -321,36 +372,38 @@
         })
     }
 
-    @if (!in_array('nope', $upgrade))
+    @if(!in_array('nope', $upgrade))
     const upgrade = id => {
         $swal.fire({
-            title: 'Yakin ?',
-            text: "Ingin upgrade",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                loading('show', "#btnUpgrade")
-                new Promise((resolve, reject) => {
-                    $axios.post(`{{ route('profile.upgrade') }}`)
-                        .then(({data}) => {
-                            loading('hide', "#btnUpgrade")
-                            toastr.success(data.message.head, data.message.body)
-                            $("#fieldUpgrade").html(`<p>Request berhasil dikirim ke admin</p>`)
-                        })
-                        .catch(err =>  {
-                            loading('hide', "#btnUpgrade")
-                            throwErr(err)
-                        })
-                })
-            }
-        })
+                title: 'Yakin ?',
+                text: "Ingin upgrade",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    loading('show', "#btnUpgrade")
+                    new Promise((resolve, reject) => {
+                        $axios.post(`{{ route('profile.upgrade') }}`)
+                            .then(({
+                                data
+                            }) => {
+                                loading('hide', "#btnUpgrade")
+                                toastr.success(data.message.head, data.message.body)
+                                $("#fieldUpgrade").html(`<p>Request berhasil dikirim ke admin</p>`)
+                            })
+                            .catch(err => {
+                                loading('hide', "#btnUpgrade")
+                                throwErr(err)
+                            })
+                    })
+                }
+            })
     }
     @endif
-    </script>
+</script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\RequestUpgrade;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,9 +28,10 @@ class UserMaintenanceController extends Controller
     {
         $this->month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember'];
     }
-    public function index(Request $request)
+    public function index($is_accepting_upgrade_req = null, Request $request)
     {
         $month = $this->month;
+        $request_upgrades = RequestUpgrade::where("status", 1)->get();
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', '!=', 'superadmin')->where('name', '!=', 'reseller')->where('name', '!=', 'customer')->where('name', '!=', 'subagent')->whereDate('last_upgrade', '<=', Carbon::now()->startOfMonth());
         })->with('roles')->get();
@@ -63,10 +65,12 @@ class UserMaintenanceController extends Controller
                 $userWithRoleAndOrders[$index]["status"] = false;
             }
         }
-        if ($request->ajax()) {
-            return view("pages.pengaturan.usermaintenance.pagination", compact('userWithRoleAndOrders', 'month'))->render();
+        if ($request->ajax() && $is_accepting_upgrade_req == null) {
+            return view("pages.pengaturan.usermaintenance.pagination", compact('userWithRoleAndOrders', 'request_upgrades', 'month'))->render();
+        }else if($request->ajax()){
+            return view("pages.pengaturan.usermaintenance.upgrade-reqs-pagination", compact('userWithRoleAndOrders', 'request_upgrades', 'month'))->render();
         }
-        return view("pages.pengaturan.usermaintenance.index", compact('userWithRoleAndOrders', 'month'));
+        return view("pages.pengaturan.usermaintenance.index", compact('userWithRoleAndOrders','request_upgrades', 'month'));
     }
 
     /**
@@ -146,8 +150,22 @@ class UserMaintenanceController extends Controller
     {
         $role = $request->role;
         $id = $request->id;
+        // dd($isUpgrade);
+        $isUpgrade = $request->is_upgrade;
+        $status = $request->status_request;
         try {
-            if ($role == "subagent" || $role == "reseller" || $role == "customer") {
+            // dd($isUpgrade, $status, $role);
+            if( $isUpgrade && $status==false){
+                RequestUpgrade::where("user_id", $id)->update(["status" => 3]);
+                return response()->json([
+                    'status' => true,
+                    'message' => [
+                        'head' => 'Success',
+                        'body' => 'Permintaan berhasil ditolak!'
+                    ]
+                ], 200);
+            }
+            else if ($isUpgrade == null && ($role == "subagent" || $role == "reseller" || $role == "customer")) {
                 if ($request->downAll) {
                     return ['name' => User::find($id)->name, 'status' => false];
                 } else {
@@ -161,40 +179,77 @@ class UserMaintenanceController extends Controller
                 }
             }
             // downgrade user hanya bisa dilakukan di bulan juni dan desember
-             else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 6) {
-                if ($request->downAll) {
-                    return ['name'=>User::find($id)->name, 'status'=>false];
-                } else {
-                    return response()->json([
-                        'status' => false,
-                        'message' => [
-                            'head' => 'Error',
-                            'body' => "Maintenance user hanya dapat dilakukan pada bulan Januari dan Desember"
-                        ]
-                    ], 500);
-                }
-            } 
+            //  else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 6) {
+            //     if ($request->downAll) {
+            //         return ['name'=>User::find($id)->name, 'status'=>false];
+            //     } else {
+            //         return response()->json([
+            //             'status' => false,
+            //             'message' => [
+            //                 'head' => 'Error',
+            //                 'body' => "Maintenance user hanya dapat dilakukan pada bulan Juni dan Desember"
+            //             ]
+            //         ], 500);
+            //     }
+            // } 
             else {
                 $user = User::find($id);
-                switch ($role) {
-                    case 'distributor':
-                        $user->removeRole($role);
-                        $user->assignRole('agent+');
-                        break;
-                    case 'agent+':
-                        $user->removeRole($role);
-                        $user->assignRole('agent');
-                        break;
-                    case 'agent':
-                        $user->removeRole($role);
-                        $user->assignRole('subagent');
-                        break;
-                    default:
-                        break;
+                if ($isUpgrade && $status) {
+                    // if($status) {
+                        switch ($role) {
+                            case 'agent+':
+                                $user->removeRole($role);
+                                $user->assignRole('distributor');
+                                break;
+                            case 'agent':
+                                $user->removeRole($role);
+                                $user->assignRole('agent+');
+                                break;
+                            case 'subagent':
+                                $user->removeRole($role);
+                                $user->assignRole('agent');
+                                break;
+                            default:
+                                return response()->json([
+                                    'status' => false,
+                                    'message' => [
+                                        'head' => 'Error',
+                                        'body' => "User ini tidak bisa upgrade"
+                                    ]
+                                ], 500);
+                                break;
+                        // };
+                        RequestUpgrade::where("user_id", $id)->update(["status" => 2]);
+                    }
+                }else {
+                    switch ($role) {
+                        case 'distributor':
+                            $user->removeRole($role);
+                            $user->assignRole('agent+');
+                            break;
+                        case 'agent+':
+                            $user->removeRole($role);
+                            $user->assignRole('agent');
+                            break;
+                        case 'agent':
+                            $user->removeRole($role);
+                            $user->assignRole('subagent');
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 $user->update(['last_upgrade' => Carbon::now()]);
                 if ($request->downAll) {
                     return ['name' => User::find($id)->name, 'status' => true];
+                }else  if ($isUpgrade && $status){
+                    return response()->json([
+                        'status' => true,
+                        'message' => [
+                            'head' => 'Success',
+                            'body' => 'User berhasil diupgrade!'
+                        ]
+                    ], 200);
                 } else {
                     return response()->json([
                         'status' => true,
