@@ -46,6 +46,16 @@ class CheckoutReseller extends Component
     public function ongkir($ongkir)
     {
         $this->ongkir = $ongkir;
+        $this->alert('success', 'Berhasil Menambahkan Ongkir!', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+      ]);
     }
     public function getOngkir()
     {
@@ -97,6 +107,16 @@ class CheckoutReseller extends Component
             ]);
         }
         Cart::destroy();
+        $this->flash('info', 'Pembelian berhasil silahkan melakukan pembayaran!', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+        ]);
         return redirect()->to('/reseller/profile');
     }
     public function render()

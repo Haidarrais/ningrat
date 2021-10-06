@@ -195,34 +195,16 @@
                                                                 <td>
                                                                     <a href="{{ route('detail.order'. Auth::user()->getRoleNames()[0], ['transaction'=>$transaction->id])}}" class="check-btn sqr-btn btn btn-success">Detail</a>
                                                                     @if ($transaction->status == 0)
-                                                                    <a href="https://wa.me/{{$transaction->seller->member->phone_number}}?text={{$transaction->invoice}}" class="check-btn sqr-btn btn btn-warning">Bayar</a>
+                                                                    <a href="https://wa.me/{{$transaction->seller->member->phone_number}}?text={{$transaction->invoice}} dengan total pembayaran {{$transaction->subtotal}}" class="check-btn sqr-btn btn btn-warning">Bayar</a>
                                                                     @endif
                                                                     @if ($transaction->status == 1)
-                                                                            <button href="#" class="check-btn sqr-btn btn btn-secondary" disabled>Sudah Dibayar</button>
+                                                                        <button href="#" class="check-btn sqr-btn btn btn-secondary" disabled>Sudah Dibayar</button>
                                                                     @endif
                                                                     @if ($transaction->status == 2)
-                                                                        @if ($transaction->waybill)
-                                                                            <a href="{{ route('profile.lacak', ['id'=>$transaction->id]) }}" class="check-btn sqr-btn btn btn-success">Lacak</a>
-                                                                        @else
-                                                                            <button href="#" class="check-btn sqr-btn btn btn-secondary" disabled>Resi Belum Di Input</button>
-                                                                        @endif
-                                                                    <button href="#" class="check-btn sqr-btn btn btn-primary" wire:click='setToDone({{$transaction->id}})'>Diterima</button>
+                                                                    <button href="#" class="check-btn sqr-btn btn btn-primary" wire:click='warnDone({{$transaction->id}})'>Diterima</button>
                                                                     @endif
                                                                 </td>
                                                             </tr>
-                                                            @if ($waybill)
-                                                            @if ($transaction->id == ($key+1))
-                                                                <tr class="timeline">
-                                                                    <ol>
-                                                                        <li>Item 1</li>
-                                                                        <li>Item 2</li>
-                                                                        <li>Item 3</li>
-                                                                        <li>Item 4</li>
-                                                                        <li>Item 5</li>
-                                                                    </ol>
-                                                                </tr>
-                                                            @endif
-                                                            @endif
                                                         @endforeach
                                                     </tbody>
                                                 </table>

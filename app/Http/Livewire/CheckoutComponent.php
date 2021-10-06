@@ -14,6 +14,7 @@ class CheckoutComponent extends Component
 {
     public Transaction $transaction;
     public $buyers;
+    public $discount;
     public $sellerlocation;
     public $sellerid;
     public $numeric = "1234567890";
@@ -34,6 +35,16 @@ class CheckoutComponent extends Component
     public function ongkir($ongkir)
     {
         $this->ongkir = $ongkir;
+        $this->alert('success', 'Berhasil Menambahkan Ongkir!', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+      ]);
     }
     public function getOngkir()
     {

@@ -77,6 +77,9 @@
             }
         </style>
         @livewireScripts
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+        </script>
         @yield('modal')
+        <x-livewire-alert::scripts />
     </body>
 </html>

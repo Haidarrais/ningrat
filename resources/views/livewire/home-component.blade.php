@@ -1,6 +1,14 @@
 <div>
             <div class="ht-hero-section fix">
             <div class="ht-hero-slider">
+                @if (!$carousel->isEmpty())
+                @foreach ($carousel as $crsl)
+                    <div class="ht-single-slide" style="background-image: url('{{ asset('uploads/contents/'. $crsl->image) }}')">
+                        <div class="ht-hero-content-one container">
+                        </div>
+                    </div>
+                @endforeach
+                @else
                 <!-- Single Slide Start -->
                 <div class="ht-single-slide" style="background-image: url(assets/img/slider/4.jpg)">
                     <div class="ht-hero-content-one container">
@@ -13,6 +21,7 @@
 
                     </div>
                 </div>
+                @endif
                 <!-- Single Slide End -->
             </div>
         </div>
@@ -45,16 +54,26 @@
         <div class="shop-banner-area pt-60 pb-60">
             <div class="container">
                 <div class="row">
+                    @if (!$banner->isEmpty())
+                    @foreach ($banner as $bnr)
+                        <div class="col-md-6">
+                            <div class="shop-banner-img">
+                                <a href="#"><img src="{{ asset('uploads/contents/'. $bnr->image) }}" alt=""></a>
+                            </div>
+                        </div>
+                    @endforeach
+                    @else
                     <div class="col-md-6">
                         <div class="shop-banner-img">
-                            <a href="shop.html"><img src="assets/img/banner/2.jpg" alt=""></a>
+                            <a href="#"><img src="assets/img/banner/2.jpg" alt=""></a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="shop-banner-img">
-                            <a href="shop.html"><img src="assets/img/banner/3.jpg" alt=""></a>
+                            <a href="#"><img src="assets/img/banner/3.jpg" alt=""></a>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

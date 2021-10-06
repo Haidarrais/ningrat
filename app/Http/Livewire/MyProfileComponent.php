@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Http;
 
 class MyProfileComponent extends Component
 {
-    public $status;
+    public $status, $setToDone;
     public $province;
     public $city;
     public $subdistrict;
@@ -23,6 +23,12 @@ class MyProfileComponent extends Component
     public $cities;
     public $waybill=array();
     public $transactions;
+
+    protected $listeners = [
+        'setToDone',
+        'cancelled'
+    ];
+
     public function mount()
     {
         $this->province = Auth::user()->member->city->province_id ?? " ";
@@ -42,7 +48,29 @@ class MyProfileComponent extends Component
         $result = $res['result'];
         return view('livewire.my-orders-component', compact('result', 'transaction'))->layout('layouts.main');
     }
-    public function setToDone($id) {
+    public function warnDone($id){
+        $this->setToDone = $id;
+        $this->confirm('Apakah anda Yakin?', [
+            'toast' => false,
+            'position' => 'center',
+            'showConfirmButton' => true,
+            'cancelButtonText' => "Nope",
+            'onConfirmed' => 'setToDone',
+            'onCancelled' => 'cancelled'
+        ]);
+    }
+    public function setToDone() {
+        $id = $this->setToDone;
+        $this->alert('success', 'Terima kasih! proses transaksi telah selesai', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+        ]);
         Transaction::where('id', $id)->update(['status' => 4]);
         $stock = TransactionDetail::where('transaction_id', $id)->get();
         foreach ($stock as $stck) {
