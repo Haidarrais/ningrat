@@ -109,8 +109,8 @@
                                                     <a>
                                                         <img src="{{ asset('upload/product/' . $prod->image)}}" alt=""
                                                         style="display: block;
-                                                        max-width:256px;
-                                                        max-height:256px;
+                                                        max-width:600px;
+                                                        max-height:600px;
                                                         width: auto;
                                                         height: auto;">
                                                     </a>
