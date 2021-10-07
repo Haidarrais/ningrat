@@ -103,12 +103,7 @@
                             <div class="product-carousel">
                                 @foreach ($product as $key => $prod)
                                     @if ($cat2->id === $prod->category_id)
-                                        @php
-                                            $mod = $key%2;
-                                        @endphp
-                                        @if ($mod == 0)
                                         <div class="custom-col">
-                                        @endif
                                             <div class="single-product-item">
                                                 <div class="product-image">
                                                     <a>
@@ -134,9 +129,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        @if ($mod == 1)
                                         </div>
-                                        @endif
                                     @endif
                                 @endforeach
                             </div>
