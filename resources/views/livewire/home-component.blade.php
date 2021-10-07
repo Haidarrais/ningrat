@@ -107,7 +107,12 @@
                                             <div class="single-product-item">
                                                 <div class="product-image">
                                                     <a>
-                                                        <img src="{{ asset('upload/product/' . $prod->image)}}" alt="">
+                                                        <img src="{{ asset('upload/product/' . $prod->image)}}" alt=""
+                                                        style="display: block;
+                                                        max-width:100%;
+                                                        max-height:100%;
+                                                        width: auto;
+                                                        height: auto;">
                                                     </a>
                                                     <div class="product-hover">
                                                         @if (auth()->user() && auth()->user()->isCustomer())
