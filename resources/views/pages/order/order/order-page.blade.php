@@ -249,10 +249,11 @@
 
 
         $("#courier").on('change', () => {
-            console.log($("#courier").val());
             if ($("#courier").val() === "custom") {
-                $("#fieldCourier").html(`<input type="text"
-                    name = "text"
+                $("#fieldCourier").removeClass("col-md-12");
+                $("#fieldCourier").addClass("col-md-3");
+                $("#fieldCourier").append($(`<div><input type="text"
+                    name ="courier"
                     placeholder="Masukkan nama jasa kirim" 
                     class="form-control text-center"
                     value ="" id="text-custom"  onchange="customInput()">
@@ -261,20 +262,13 @@
                     name = "cost"
                     class = "custom-control-input"
                     checked="checked"
-                    value = "0">`);
-                $("#btn-simpan").prop("disabled", false)
+                    value = "0"></div>`));
+                $("#btn-simpan").prop("disabled", false);
             } else {
-                $("#courier").prepend(`<input type="text"
-                    name = "text"
-                    placeholder="Masukkan nama jasa kirim" 
-                    class="form-control text-center"
-                    value ="" id="text-custom"  onchange="customInput()">
-                    <input type = "radio"
-                    id = "radius-${0}"
-                    name = "cost"
-                    class = "custom-control-input"
-                    checked="checked"
-                    value = "0">`);
+                $("#fieldCourier").removeClass("col-md-3");
+                $("#fieldCourier").addClass("col-md-12");
+                $("#btn-simpan").prop("disabled", true)
+                $("#fieldCourier").children("div").remove();
             }
         });
         $("#btn-courier").on('click', () => {

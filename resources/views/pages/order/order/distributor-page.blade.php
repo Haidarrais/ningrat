@@ -223,7 +223,7 @@
                     $.each(data, (i, e) => {
                         html += `<option value="${e.name}">${e.name}</option>`
                     })
-                    $("#courier").html(html)
+                    $("#courier").html(html + `<option value="custom">Lainnya</option>`)
                 })
         });
         //getcategory
@@ -305,7 +305,30 @@
                         loading('hide', $("#btn-courier"))
                     })
             })
-        })
+        });
+        $("#courier").on('change', () => {
+            if ($("#courier").val() === "custom") {
+                $("#fieldCourier").removeClass("col-md-12");
+                $("#fieldCourier").addClass("col-md-3");
+                $("#fieldCourier").append($(`<div><input type="text"
+                    name ="courier"
+                    placeholder="Masukkan nama jasa kirim" 
+                    class="form-control text-center"
+                    value ="" id="text-custom"  onchange="customInput()">
+                    <input type = "radio"
+                    id = "radius-${0}"
+                    name = "cost"
+                    class = "custom-control-input"
+                    checked="checked"
+                    value = "0"></div>`));
+                $("#btn-simpan").prop("disabled", false);
+            } else {
+                $("#fieldCourier").removeClass("col-md-3");
+                $("#fieldCourier").addClass("col-md-12");
+                $("#btn-simpan").prop("disabled", true)
+                $("#fieldCourier").children("div").remove();
+            }
+        });
     })
 
     let tempCounter = 0;
