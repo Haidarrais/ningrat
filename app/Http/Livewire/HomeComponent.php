@@ -24,11 +24,11 @@ class HomeComponent extends Component
         $carousel   = Content::where('content_type', '=', '1')->get();
         $banner     = Content::where('content_type', '=', '2')->limit(2)->get();
         $testi = Testimonial::all();
-        $categories = DB::table('categories')
-            ->join('products', 'categories.id', '=', 'products.category_id')
-            ->select('categories.name as cname', 'products.category_id', 'products.name as pname', DB::raw('count(products.id) as count'))
-            ->groupBy('products.category_id')
-            ->get();
+        // $categories = DB::table('categories')
+        //     ->join('products', 'categories.id', '=', 'products.category_id')
+        //     ->select('categories.name as cname', 'products.category_id', 'products.name as pname', DB::raw('count(products.id) as count'))
+        //     ->groupBy('products.category_id')
+        //     ->get();
         $cat = Category::all();
         $product = Product::all();
         return view('livewire.home-component', ['categories' => $categories, 'cat' => $cat, 'product' => $product, 'carousel' => $carousel, 'banner' => $banner, 'testi' => $testi])->layout('layouts.main');

@@ -96,6 +96,7 @@
                         @endif
                     @endforeach
                 </div>
+                {{dd($cat)}}
                 <div class="tab-content text-center">
                     @foreach ($cat as $key => $cat2)
                      @if(count($cat1->product)>0)
