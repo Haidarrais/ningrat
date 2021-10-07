@@ -119,4 +119,29 @@ class DiscountController extends Controller
             ]
         ], 200);
     }
+    public function sendUserList($userId, $id)
+    {
+        $discount = MasterDiscount::find($id);
+        $userList = json_decode($discount->userList);
+        if ($userList == null) {
+            $discount->userList = json_encode([$userId]);
+        }else{
+            foreach ($userList as $value) {
+                if ($value == $userId) {
+                    return response()->json([
+                        'status' => 0,
+                        'message' => "User sudah menggunakan discount ini"
+                    ]);
+                }
+            }
+            array_push($userList, $userId);
+            $discount->update(['userList' => $userList]);
+        }
+        $discount->save();
+
+        return response()->json([
+            'status' => 1,
+            'data'  => $discount
+        ]);
+    }
 }

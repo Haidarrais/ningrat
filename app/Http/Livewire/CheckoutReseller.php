@@ -7,6 +7,7 @@ use Cart;
 use Illuminate\Support\Facades\Http;
 use App\Models\Province;
 use App\Models\City;
+use App\Models\MasterDiscount;
 use App\Models\Subdistrict;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
@@ -27,6 +28,7 @@ class CheckoutReseller extends Component
     public $locations;
     public $province;
     public $cities;
+    public $discount, $discounts, $discountOn, $discountNominal, $subtotal;
     public $city;
     public $subdistricts;
     public $subdistrict;
@@ -97,6 +99,9 @@ class CheckoutReseller extends Component
             'status' => 0,
             'royalty' => $royalty ?? 10
         ]);
+        if ($this->discountOn) {
+            app('App\Http\Controllers\Web\DiscountController')->sendUserId(Auth::id(), $this->discount);
+        }
         foreach (Cart::content() as $cart) {
             TransactionDetail::create([
             'transaction_id' => $transaction->id,
@@ -121,6 +126,7 @@ class CheckoutReseller extends Component
     }
     public function render()
     {
+        $this->discounts = MasterDiscount::all();
         if ($this->othercourier!=null) {
             $this->ongkir = 1;
         }
