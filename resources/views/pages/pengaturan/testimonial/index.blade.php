@@ -99,7 +99,7 @@
                     </div>
                     <div class="form-group col-md-12">
                         <label for="">Actor</label>
-                        <input type="text" class="form-control" name="description" id="description_edit">
+                        <input type="text" class="form-control" name="actor" id="description_edit">
                     </div>
                     <div class="form-group col-md-12">
                         <label for="">Word</label>
