@@ -30,6 +30,18 @@ class PointController extends Controller
         if($request->ajax()) {
             return view('pages.pengaturan.point.pagination', compact('points', 'data'))->render();
         }
+        if ($request->keyword) {
+            $query->when('keyword', function ($sub) use ($request) {
+                $keyword = $request->keyword;
+                $sub->where(function ($q) use ($keyword) {
+                   $category = Category::where("name", 'LIKE', $keyword)->first();
+                   if ($category) {
+                       $q->where('category_id', 'LIKE', "%$category->id%");
+                   }
+                });
+            });
+            $points = $query->paginate(10);
+        }
         return view('pages.pengaturan.point.index', compact('points', 'data', 'categories'));
     }
 

@@ -15,7 +15,13 @@ class DiscountController extends Controller
         $query = MasterDiscount::query();
         $query->when('keyword', function($q) use($request) {
             $keyword = $request->keyword;
-            $q->where('name', 'LIKE', "%$keyword%");
+            if (strtolower($keyword)=="aktif" || strtolower($keyword) == "tidak aktif") {
+               $status = strtolower($keyword) == "aktif"?1:0;
+                $q->where('status', 'LIKE', "%$status%");
+            }else{
+
+                $q->where('name', 'LIKE', "%$keyword%")->orWhere('discount', 'LIKE', $keyword);
+            }
         });
         $discounts = $query->paginate(10);
         if($request->ajax()) {

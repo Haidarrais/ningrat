@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-5.7.2/css/all.min.css') }}">
 
     <!-- Template CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/treeflex/dist/css/treeflex.css">
     <link rel="stylesheet" href="{{ asset('assets-dashboard/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets-dashboard/css/components.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">

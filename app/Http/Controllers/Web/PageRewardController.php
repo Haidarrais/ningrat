@@ -12,9 +12,19 @@ use Illuminate\Support\Facades\Auth;
 
 class PageRewardController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         $user = Auth::user();
         $reward = Reward::where("status", 1)->paginate(10);
+        if ($request->keyword) {
+            $query = Reward::query();
+            $query->when('keyword', function ($sub) use ($request) {
+                $keyword = $request->keyword;
+                $sub->where(function ($q) use ($keyword) {
+                    $q->where('name', 'LIKE', "%$keyword%")->where("status", 1);
+                });
+            });
+            $reward = $query->paginate(10);
+        }
         return view('pages.other.reward.index', compact('user', 'reward'));
     }
 
