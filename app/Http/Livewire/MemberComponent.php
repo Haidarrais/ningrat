@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\City;
 use App\Models\Member;
 use App\Models\Province;
+use App\Models\Review;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class MemberComponent extends Component
     }
     public function render()
     {
-        $members = Member::with('user.roles')->with('city')->where('city_id', $this->city)->get();
+        $members = Member::with('user.roles')->with('city', 'avgRating')->where('city_id', $this->city)->get();
         $members_scan = Member::all();
         $dataA=[];
         $dataB=[];
