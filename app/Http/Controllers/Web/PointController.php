@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reward\RewardStoreRequest;
 use App\Http\Requests\Reward\RewardUpdateRequest;
+use App\Http\Requests\Point\PointStoreRequest;
+use App\Http\Requests\Point\PointUpdateRequest;
+
+
 
 class PointController extends Controller
 {
