@@ -38,7 +38,7 @@ class MyProfileComponent extends Component
         $this->subdistrict = Auth::user()->member->subdistrict_id ?? " ";
     }
     public function receiveAlert(){
-        $this->flash('success', 'Terima kasih! sudah mereview kami', [
+        $this->alert('success', 'Terima kasih! sudah mereview kami', [
             'position' =>  'center',
             'timer' =>  3000,
             'toast' =>  true,
