@@ -106,6 +106,28 @@
         top: 50%;
         margin-top: -15px;
     }
+
+    .tf-custom .tf-nc {
+        height: 1em;
+        width: 1em;
+        background-color: dodgerblue;
+        border-color: dodgerblue;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    /* make the horizontal and vertical connectors thick and change their color */
+
+    .tf-custom .tf-nc:before,
+    .tf-custom .tf-nc:after {
+        border-left-color: dodgerblue;
+        border-left-width: 2px;
+    }
+
+    .tf-custom li li:before {
+        border-top-color: dodgerblue;
+        border-top-width: 2px;
+    }
 </style>
 @endsection
 
@@ -116,10 +138,10 @@
         <div class="card header">
             <select name="user" id="user" class="form-control select2" autocomplete="off">
                 @php
-                    $users = User::all();
+                $users = User::all();
                 @endphp
                 @foreach ($users as $value)
-                    <option value="{{ $value->api_token }}" {{ $value->api_token == $user->api_token ? 'selected' : '' }}>{{ $value->name }}</option>
+                <option value="{{ $value->api_token }}" {{ $value->api_token == $user->api_token ? 'selected' : '' }}>{{ $value->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -145,26 +167,86 @@
                                 <small>{{ $child1->getRoleNames()->first() }}</small>
                             </p>
                         </a>
-                    {{-- Generasi 2 --}}
-                    @if ($coutnGen2 = $child1->hirarki->count())
-                    <div class="branch lv2">
-                        @foreach($child1->hirarki as $child2)
-                        <div class="entry {{ $coutnGen2 == 1 ? 'sole' : '' }}">
-                            <a class="text-white" href="{{ route('users.hirarki', base64_encode($child2->api_token)) }}">
-                                <p class="label badge badge-primary badge-round">
-                                    {{ $child2->name }}
-                                    <br>
-                                    <small>{{ $child2->getRoleNames()->first() }}</small>
-                                </p>
-                            </a>
+                        {{-- Generasi 2 --}}
+                        @if ($coutnGen2 = $child1->hirarki->count())
+                        <div class="branch lv2">
+                            @foreach($child1->hirarki as $child2)
+                            <div class="entry {{ $coutnGen2 == 1 ? 'sole' : '' }}">
+                                <a class="text-white" href="{{ route('users.hirarki', base64_encode($child2->api_token)) }}">
+                                    <p class="label badge badge-primary badge-round">
+                                        {{ $child2->name }}
+                                        <br>
+                                        <small>{{ $child2->getRoleNames()->first() }}</small>
+                                    </p>
+                                </a>
+                            </div>
+                            @endforeach
                         </div>
-                        @endforeach
-                    </div>
-                    @endif
+                        @endif
                     </div>
                     @endforeach
                 </div>
                 @endif
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="wrapper">
+                <!-- <a class="text-white" href="{{ route('users.hirarki', base64_encode($user->api_token)) }}">
+                    <p class="label badge badge-primary badge-round">
+                        {{ $user->name }}
+                        <br>
+                        <small>{{ $user->getRoleNames()->first() }}</small>
+                    </p>
+                </a>
+                {{-- Anak secara langsung ? Generasi 1 --}}
+                @if ($countAnak = $user->hirarki->count())
+                <div class="branch lv1">
+                    @foreach($user->hirarki as $child1)
+                    <div class="entry {{ $countAnak == 1 ? 'sole' : '' }}">
+                        <a class="text-white" href="{{ route('users.hirarki', base64_encode($child1->api_token)) }}">
+                            <p class="label badge badge-primary badge-round">
+                                {{ $child1->name }}
+                                <br>
+                                <small>{{ $child1->getRoleNames()->first() }}</small>
+                            </p>
+                        </a>
+                        {{-- Generasi 2 --}}
+                        @if ($coutnGen2 = $child1->hirarki->count())
+                        <div class="branch lv2">
+                            @foreach($child1->hirarki as $child2)
+                            <div class="entry {{ $coutnGen2 == 1 ? 'sole' : '' }}">
+                                <a class="text-white" href="{{ route('users.hirarki', base64_encode($child2->api_token)) }}">
+                                    <p class="label badge badge-primary badge-round">
+                                        {{ $child2->name }}
+                                        <br>
+                                        <small>{{ $child2->getRoleNames()->first() }}</small>
+                                    </p>
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
+                    </div>
+                    @endforeach
+                </div>
+                @endif -->
+                <div class="tf-tree d-flex justify-content-center">
+                    <ul>
+                        <li>
+                            <span class="tf-nc "><a href="{{ route('users.hirarki', base64_encode($user->api_token)) }}">
+                                    <p class="">
+                                        {{ $user->name }}
+                                        <br><small>{{ $user->getRoleNames()->first() }}</small>
+                                    </p>
+                                </a></span>
+                            <ul>
+                                <li><span class=" tf-nc">2</span>
+                                </li>
+                                <li><span class="tf-nc">3</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -184,7 +266,7 @@
     }
 
     $("#user").change(e => {
-        let val = $(e.currentTarget ).val()
+        let val = $(e.currentTarget).val()
         let url = `{{ route('users.hirarki', ['id' => ':api_token']) }}`
         url = url.replace(':api_token', btoa(val))
         console.log(url)
