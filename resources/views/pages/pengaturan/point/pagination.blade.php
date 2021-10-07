@@ -12,7 +12,7 @@
         @forelse ($points as $key => $value)
             <tr>
                 <th scope="row">{{ ($points->currentpage()-1) * $points->perpage() + $loop->index + 1 }}</th>
-                <td>{{ $value->category->name }}</td>
+                <td>{{ $value->category->name??'' }}</td>
                 <td>{{ $value->min }}</td>
                 <td>{{ $value->point }}</td>
                 <td scope="row">
