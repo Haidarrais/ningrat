@@ -67,7 +67,19 @@
                                                 </div>
                                                 <div class="product-text">
                                                     <div class="product-rating">
-                                                        <br>
+                                                        @php
+                                                            $star = 5;
+                                                        @endphp
+                                                        @for ($i = 0; $i < $member->avgRating; $i++)
+                                                            <i class="fa fa-star-o color"></i>
+                                                        @endfor
+                                                        @for ($i = 0; $i < $star-$member->avgRating; $i++)
+                                                            <i class="fa fa-star-o"></i>
+                                                        @endfor
+                                                        {{-- <i class="fa fa-star-o color"></i>
+                                                        <i class="fa fa-star-o color"></i>
+                                                        <i class="fa fa-star-o"></i> --}}
+                                                        ({{number_format($member->avgRating, 1)}})
                                                     </div>
                                                     <h5><a>{{$member->user->name}}</a></h5>
                                                     <div class="pro-price">

@@ -11,6 +11,7 @@ use App\Models\TransactionDetail;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class MyProfileComponent extends Component
 {
@@ -26,7 +27,8 @@ class MyProfileComponent extends Component
 
     protected $listeners = [
         'setToDone',
-        'cancelled'
+        'cancelled',
+        'receiveAlert'
     ];
 
     public function mount()
@@ -34,6 +36,19 @@ class MyProfileComponent extends Component
         $this->province = Auth::user()->member->city->province_id ?? " ";
         $this->city = Auth::user()->member->city_id ?? " ";
         $this->subdistrict = Auth::user()->member->subdistrict_id ?? " ";
+    }
+    public function receiveAlert(){
+        $this->alert('success', 'Terima kasih! sudah mereview kami', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+        ]);
+        return redirect()->back();
     }
     public function lacak($id) {
         $type = strtolower(env('RAJAONGKIR_PACKAGE', 'Key Dari ENV'));
@@ -81,6 +96,10 @@ class MyProfileComponent extends Component
     }
     public function render()
     {
+        if(Session::has('review') == true)
+        {
+            $this->receiveAlert();
+        }
         $userid = Auth::user()->id;
         $this->locations = Province::all();
         $this->cities = City::where('province_id', $this->province)->get();

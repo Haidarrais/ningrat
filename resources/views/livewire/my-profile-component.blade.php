@@ -196,12 +196,14 @@
                                                                     <a href="{{ route('detail.order'. Auth::user()->getRoleNames()[0], ['transaction'=>$transaction->id])}}" class="check-btn sqr-btn btn btn-success">Detail</a>
                                                                     @if ($transaction->status == 0)
                                                                     <a href="https://wa.me/{{$transaction->seller->member->phone_number}}?text={{$transaction->invoice}} dengan total pembayaran {{$transaction->subtotal}}" class="check-btn sqr-btn btn btn-warning">Bayar</a>
-                                                                    @endif
-                                                                    @if ($transaction->status == 1)
+                                                                    @elseif ($transaction->status == 1)
                                                                         <button href="#" class="check-btn sqr-btn btn btn-secondary" disabled>Sudah Dibayar</button>
-                                                                    @endif
-                                                                    @if ($transaction->status == 2)
-                                                                    <button href="#" class="check-btn sqr-btn btn btn-primary" wire:click='warnDone({{$transaction->id}})'>Diterima</button>
+                                                                    @elseif ($transaction->status == 2)
+                                                                        <button href="#" class="check-btn sqr-btn btn btn-primary" wire:click='warnDone({{$transaction->id}})'>Diterima</button>
+                                                                    @elseif($transaction->status == 4)
+                                                                        @if ($transaction->reviewed == 0)
+                                                                            <button href="#" class="check-btn sqr-btn btn btn-primary" onclick="setIndex({{$transaction->id}})">Review</button>
+                                                                        @endif
                                                                     @endif
                                                                 </td>
                                                             </tr>
@@ -230,11 +232,66 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_review" tabindex="-1" role="dialog" aria-labelledby="modal_review" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style="padding: 15px">
+              <h3 class="modal-title">Review</h3>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="" method="POST" id="form-add-review" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body row">
+                    <div class="form-group col-md-12">
+                        <div class="rating"><input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="number" name="transaction_id" class="form-control" id="transaction_review" hidden>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="number" name="buyer_id" class="form-control" id="buyer_review" hidden>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="number" name="member_id" class="form-control" id="member_review" hidden>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
         <script>
             document.addEventListener('livewire:load', function () {
                 $( "#province" ).change(function() {
                 });
+
             })
+            function setIndex(id) {
+                // index = id;
+                // console.log(index);
+                var url = "{{route('review.edit', ":id")}}";
+                url = url.replace(":id", id);
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data) {
+                        console.log(data);
+                        $('#modal_review').modal('show')
+                        $("#transaction_review").val(data.data.id)
+                        $("#member_review").val(data.data.seller_id)
+                        $("#buyer_review").val(data.data.user_id)
+                        var formAction = "{{route('review.store')}}";
+                        $("#form-add-review").attr("action", formAction);
+                    },
+                });
+            };
+
         </script>
 </div>
 
