@@ -96,10 +96,10 @@
                         @endif
                     @endforeach
                 </div>
-                {{dd($cat)}}
                 <div class="tab-content text-center">
                     @foreach ($cat as $key => $cat2)
-                     @if(count($cat1->product)>0)
+                    @if(count($cat1->product)>0)
+                    {{dd(count($cat1->product))}}
                         <div @if ($key === 0) class="tab-pane active show fade" @else class="tab-pane fade" @endif id="tab{{$key+1}}" role="tabpanel">
                             <div class="product-carousel">
                                 @foreach ($product as $key => $prod)
