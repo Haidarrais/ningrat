@@ -106,13 +106,12 @@
                                         <div class="custom-col">
                                             <div class="single-product-item">
                                                 <div class="product-image">
-                                                    <a>
-                                                        <img src="{{ asset('upload/product/' . $prod->image)}}" alt=""
-                                                        style="display: block;
+                                                    <a style="display: block;
                                                         max-width:300px;
                                                         max-height:300px;
                                                         width:300px;
                                                         height:300px;">
+                                                        <img src="{{ asset('upload/product/' . $prod->image)}}" alt="">
                                                     </a>
                                                     <div class="product-hover">
                                                         @if (auth()->user() && auth()->user()->isCustomer())
