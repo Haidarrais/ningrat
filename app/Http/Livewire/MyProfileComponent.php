@@ -96,6 +96,7 @@ class MyProfileComponent extends Component
     }
     public function render()
     {
+        dd(Session::has('review'));
         if(Session::has('review'));
         {
             $this->receiveAlert();
