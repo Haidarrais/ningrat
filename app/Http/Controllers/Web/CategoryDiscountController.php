@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryDiscount\CategoryDiscountStoreRequest;
 use App\Http\Requests\CategoryDiscount\CategoryDiscountUpdateRequest;
+use App\Models\Category;
 use App\Models\CategoryDiscount;
 use Illuminate\Http\Request;
 
@@ -20,14 +21,21 @@ class CategoryDiscountController extends Controller
     {
         $data = $request->all();
         $query = CategoryDiscount::query();
-        $query->when('keyword', function ($q) use ($request) {
-            $keyword = $request->keyword;
-            $q->where('category_id', 'LIKE', "%$keyword%");
-        });
+        if ($request->keyword) {
+            $query->when('keyword', function ($sub) use ($request) {
+                $keyword = $request->keyword;
+                $sub->where(function ($q) use ($keyword) {
+                    $category = Category::where("name", 'LIKE', $keyword)->first();
+                    if ($category) {
+                        $q->where('category_id', 'LIKE', "%$category->id%")
+                      ;
+                    }
+                    $q->where('value', 'LIKE', "%$keyword%");
+                });
+            });
+        }
+  
         $query->with('category');
-        // $data1 = $query->first();
-        // dd($data1->subCategory->name);
-
         $category_discounts = $query->paginate(10);
         if ($request->ajax()) {
             return view('pages.master.category_discount.pagination', compact('category_discounts', 'data'))->render();

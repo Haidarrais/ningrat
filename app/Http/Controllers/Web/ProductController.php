@@ -23,11 +23,12 @@ class ProductController extends Controller
         $data = $request->all();
         $query = Product::query();
         $query->when('keyword', function($q) use($request) {
+            
             $keyword = $request->keyword;
-            $q->where('name', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
-                ->orWhere('price', 'LIKE', "%$keyword%")
-                ->orWhere('weight', 'LIKE', "%$keyword%");
+            $q->where('name', 'LIKE', "%".$keyword."%")
+                ->orWhere('description', 'LIKE', "%".$keyword."%")
+                ->orWhere('price', 'LIKE', "%".$keyword."%")
+                ->orWhere('weight', 'LIKE', "%".$keyword."%");
         });
         $query->with(['category']);
         $products = $query->paginate(10);
