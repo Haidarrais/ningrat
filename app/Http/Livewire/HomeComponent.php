@@ -31,6 +31,6 @@ class HomeComponent extends Component
         //     ->get();
         $cat = Category::all();
         $product = Product::all();
-        return view('livewire.home-component', ['categories' => $categories, 'cat' => $cat, 'product' => $product, 'carousel' => $carousel, 'banner' => $banner, 'testi' => $testi])->layout('layouts.main');
+        return view('livewire.home-component', ['cat' => $cat, 'product' => $product, 'carousel' => $carousel, 'banner' => $banner, 'testi' => $testi])->layout('layouts.main');
     }
 }
