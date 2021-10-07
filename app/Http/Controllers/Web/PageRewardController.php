@@ -18,10 +18,21 @@ class PageRewardController extends Controller
         return view('pages.other.reward.index', compact('user', 'reward'));
     }
 
-    public function reward_user() {
+    public function reward_user(Request $request) {
         $no = 1;
-        $users = User::whereHas('reward')->with('reward')->get();
-        return view('pages.pengaturan.reward.user_reward', compact('users', 'no'));
+        $users = User::whereHas('reward')->with('reward')->paginate(5);
+        if($request->keyword){
+            $query = User::query();
+            $query->when('keyword', function ($sub) use ($request) {
+                $keyword = $request->keyword;
+                $sub->where(function ($q) use ($keyword) {
+                    $q->where('name', 'LIKE', "%$keyword%")->whereHas('reward')->with('reward');
+                });
+            });
+            $users = $query->paginate(5);
+        }
+        // dd($users);
+        return view('pages.pengaturan.reward.user_reward')->with(["users"=>$users, "no"=>$no]);
     }
 
     /** Ajax */
