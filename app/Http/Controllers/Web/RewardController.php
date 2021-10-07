@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reward\RewardStoreRequest;
 use App\Http\Requests\Reward\RewardUpdateRequest;
 
+use function PHPUnit\Framework\isNan;
+
 class RewardController extends Controller
 {
     /**
@@ -22,6 +24,27 @@ class RewardController extends Controller
         $rewards = $query->paginate(10);
         if($request->ajax()) {
             return view('pages.pengaturan.reward.pagination', compact('rewards', 'data'))->render();
+        }
+        if ($request->keyword) {
+            $query = Reward::query();
+            $status = 3;
+            if (strtolower($request->keyword) =="aktif" || strtolower($request->keyword) == "tidak aktif") {
+                $query->when('keyword', function ($sub) use ($request) {
+                    $keyword = $request->keyword;
+                    $sub->where(function ($q) use ($keyword) {
+                        $status = strtolower($keyword) == "aktif"?1:0;
+                        $q->where('status', 'LIKE', "%".$status."%");
+                    });
+                });
+            }else{
+                $query->when('keyword', function ($sub) use ($request) {
+                    $keyword = $request->keyword;
+                    $sub->where(function ($q) use ($keyword) {
+                        $q->where('name', 'LIKE', "%".$keyword."%");
+                    });
+                });
+            }
+            $rewards = $query->paginate(10);
         }
         return view('pages.pengaturan.reward.index', compact('rewards', 'data'));
     }

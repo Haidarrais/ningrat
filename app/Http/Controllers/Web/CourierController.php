@@ -14,7 +14,16 @@ class CourierController extends Controller
         if($request->ajax()) {
             return view('pages.pengaturan.courier.pagination', compact('couriers'))->render();
         }
-        return view('pages.pengaturan.courier.index', compact('couriers'));
+        if ($request->keyword) {
+            $query->when('keyword', function ($sub) use ($request) {
+                $keyword = $request->keyword;
+                $sub->where(function ($q) use ($keyword) {
+                    $q->where('name', 'LIKE', "%$keyword%");
+                });
+            });
+            $couriers = $query->paginate(10);
+        }
+        return view('pages.pengaturan.courier.index')->with('couriers',$couriers);
     }
 
     public function set_status(Request $request) {

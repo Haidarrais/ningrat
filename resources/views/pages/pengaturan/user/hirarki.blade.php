@@ -107,16 +107,44 @@
         margin-top: -15px;
     }
 
-    .tf-custom .tf-nc {
+    /* .tf-custom .tf-nc {
         height: 1em;
         width: 1em;
         background-color: dodgerblue;
         border-color: dodgerblue;
         padding: 0;
         border-radius: 50%;
+    } */
+
+    .tf-nc{
+        width: 160px;
+    }
+    /* make the horizontal and vertical connectors thick and change their color */
+    .tf-tree .tf-nc,
+    .tf-tree .tf-node-content {
+        background-color: #6777ef;
+        color: white;
+        border: 2px solid #eee9dc;
+        border-radius: 15px;
     }
 
-    /* make the horizontal and vertical connectors thick and change their color */
+    .tf-tree .tf-nc,
+    .tf-tree .tf-node-content:hover {
+        text-decoration: none;
+    }
+
+    .tf-tree .tf-nc p {
+        text-decoration: none;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tf-tree .tf-nc p:hover {
+        color: white;
+        text-decoration: none;
+    }
 
     .tf-custom .tf-nc:before,
     .tf-custom .tf-nc:after {
@@ -148,88 +176,6 @@
         @endrole
         <div class="card-body">
             <div id="wrapper">
-                <a class="text-white" href="{{ route('users.hirarki', base64_encode($user->api_token)) }}">
-                    <p class="label badge badge-primary badge-round">
-                        {{ $user->name }}
-                        <br>
-                        <small>{{ $user->getRoleNames()->first() }}</small>
-                    </p>
-                </a>
-                {{-- Anak secara langsung ? Generasi 1 --}}
-                @if ($countAnak = $user->hirarki->count())
-                <div class="branch lv1">
-                    @foreach($user->hirarki as $child1)
-                    <div class="entry {{ $countAnak == 1 ? 'sole' : '' }}">
-                        <a class="text-white" href="{{ route('users.hirarki', base64_encode($child1->api_token)) }}">
-                            <p class="label badge badge-primary badge-round">
-                                {{ $child1->name }}
-                                <br>
-                                <small>{{ $child1->getRoleNames()->first() }}</small>
-                            </p>
-                        </a>
-                        {{-- Generasi 2 --}}
-                        @if ($coutnGen2 = $child1->hirarki->count())
-                        <div class="branch lv2">
-                            @foreach($child1->hirarki as $child2)
-                            <div class="entry {{ $coutnGen2 == 1 ? 'sole' : '' }}">
-                                <a class="text-white" href="{{ route('users.hirarki', base64_encode($child2->api_token)) }}">
-                                    <p class="label badge badge-primary badge-round">
-                                        {{ $child2->name }}
-                                        <br>
-                                        <small>{{ $child2->getRoleNames()->first() }}</small>
-                                    </p>
-                                </a>
-                            </div>
-                            @endforeach
-                        </div>
-                        @endif
-                    </div>
-                    @endforeach
-                </div>
-                @endif
-            </div>
-        </div>
-        <div class="card-body">
-            <div id="wrapper">
-                <!-- <a class="text-white" href="{{ route('users.hirarki', base64_encode($user->api_token)) }}">
-                    <p class="label badge badge-primary badge-round">
-                        {{ $user->name }}
-                        <br>
-                        <small>{{ $user->getRoleNames()->first() }}</small>
-                    </p>
-                </a>
-                {{-- Anak secara langsung ? Generasi 1 --}}
-                @if ($countAnak = $user->hirarki->count())
-                <div class="branch lv1">
-                    @foreach($user->hirarki as $child1)
-                    <div class="entry {{ $countAnak == 1 ? 'sole' : '' }}">
-                        <a class="text-white" href="{{ route('users.hirarki', base64_encode($child1->api_token)) }}">
-                            <p class="label badge badge-primary badge-round">
-                                {{ $child1->name }}
-                                <br>
-                                <small>{{ $child1->getRoleNames()->first() }}</small>
-                            </p>
-                        </a>
-                        {{-- Generasi 2 --}}
-                        @if ($coutnGen2 = $child1->hirarki->count())
-                        <div class="branch lv2">
-                            @foreach($child1->hirarki as $child2)
-                            <div class="entry {{ $coutnGen2 == 1 ? 'sole' : '' }}">
-                                <a class="text-white" href="{{ route('users.hirarki', base64_encode($child2->api_token)) }}">
-                                    <p class="label badge badge-primary badge-round">
-                                        {{ $child2->name }}
-                                        <br>
-                                        <small>{{ $child2->getRoleNames()->first() }}</small>
-                                    </p>
-                                </a>
-                            </div>
-                            @endforeach
-                        </div>
-                        @endif
-                    </div>
-                    @endforeach
-                </div>
-                @endif -->
                 <div class="tf-tree d-flex justify-content-center">
                     <ul>
                         <li>
@@ -239,11 +185,36 @@
                                         <br><small>{{ $user->getRoleNames()->first() }}</small>
                                     </p>
                                 </a></span>
+                            {{-- Anak secara langsung ? Generasi 1 --}}
+                            @if ($countAnak = $user->hirarki->count())
                             <ul>
-                                <li><span class=" tf-nc">2</span>
+                                @foreach($user->hirarki as $child1)
+                                <li>
+                                    <span class="tf-nc"><a href="{{ route('users.hirarki', base64_encode($child1->api_token)) }}">
+                                            <p class="">
+                                                {{ $child1->name }}
+                                                <br><small>{{ $child1->getRoleNames()->first() }}</small>
+                                            </p>
+                                        </a>
+                                </span>
+                                @if ($coutnGen2 = $child1->hirarki->count())
+                                <ul>
+                                    @foreach($child1->hirarki as $child2)
+                                    <li>
+                                        <span class="tf-nc"><a href="{{ route('users.hirarki', base64_encode($child2->api_token)) }}">
+                                                <p class="">
+                                                    {{ $child2->name }}
+                                                    <br><small>{{ $child2->getRoleNames()->first() }}</small>
+                                                </p>
+                                            </a>
+                                        </span></li>
+                                    @endforeach
+                                </ul>
+                                @endif
                                 </li>
-                                <li><span class="tf-nc">3</span></li>
+                                @endforeach
                             </ul>
+                            @endif
                         </li>
                     </ul>
                 </div>

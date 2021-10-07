@@ -7,16 +7,16 @@
             <th scope="col">Action</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="tbody">
         @forelse ($couriers as $key => $value)
         <tr>
             <th scope="row">{{ ($couriers->currentpage()-1) * $couriers->perpage() + $loop->index + 1 }}</th>
             <td>{{ $value->name }}</td>
             <td>
                 @if ($value->status)
-                <span class="badge badge-success">Aktif</span>
+                <span class="filter badge badge-success">Aktif</span>
                 @else
-                <span class="badge badge-danger">Tidak Aktif</span>
+                <span class="filter badge badge-danger">Tidak Aktif</span>
                 @endif
             </td>
             <td>

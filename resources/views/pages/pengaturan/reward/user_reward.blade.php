@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" id="tabled_data">
                 <table class="table table-border table-hover">
                     <thead>
                         <tr>
@@ -163,8 +163,26 @@
             }
         }
     }
-    function categoryFilter(arrayH, id) {
-
-    }
+$('html').on('click', '.pagination a', function(e) {
+    e.preventDefault();
+    // console.log($(".pagination a"));
+    var url = $(this).attr('href');
+    // $swal.fire({
+    // title: 'Perhatian!',
+    // text: "Pastikan anda sudah memilih semua produk yg anda butuhkan di halaman ini terlebih dahulu",
+    // icon: 'warning',
+    // showCancelButton: true,
+    // confirmButtonColor: '#3085d6',
+    // cancelButtonColor: '#d33',
+    // cancelButtonText: 'Belum',
+    // confirmButtonText: 'Sudah!'
+    // }).then((result) => {
+    // if (result.isConfirmed) {
+    $axios.get(url).then(() => {
+    refresh_table(url);
+    });
+    // }
+    // });
+    });
 </script>
 @endsection

@@ -29,6 +29,17 @@ class SettingController extends Controller
         if ($request->ajax()) {
             return view('pages.pengaturan.setting.pagination', compact('roles', 'settings', 'data'))->render();
         }
+        if ($request->keyword) {
+            $query->when('keyword', function ($sub) use ($request) {
+                $keyword = Str::slug($request->keyword);
+                $sub->where(function ($q) use ($keyword) {
+                    $q->where('key', 'LIKE', "%$keyword%")
+                    ->orWhere('value', 'LIKE', "%$keyword%")
+                    ->orWhere('role', 'LIKE', "%$keyword%");
+                });
+            });
+            $settings = $query->paginate(10);
+        }
         return view('pages.pengaturan.setting.index', compact('roles', 'settings', 'data'));
     }
 
