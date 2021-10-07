@@ -109,10 +109,10 @@
                                                     <a>
                                                         <img src="{{ asset('upload/product/' . $prod->image)}}" alt=""
                                                         style="display: block;
-                                                        max-width:600px;
-                                                        max-height:600px;
-                                                        width: auto;
-                                                        height: auto;">
+                                                        max-width:300px;
+                                                        max-height:300px;
+                                                        width:300px;
+                                                        height:300px;">
                                                     </a>
                                                     <div class="product-hover">
                                                         @if (auth()->user() && auth()->user()->isCustomer())
