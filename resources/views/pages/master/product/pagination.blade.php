@@ -23,9 +23,9 @@
             <td><img src="{{ asset('upload/product/').'/'. $value->image??'' }}" alt="{{ $value->image }}" class="img-fluid" width="100"></td>
             <td scope="row">
                 @if ($value->status)
-                <button class="btn-sm btn btn-warning btn-info" onclick="setStatusProduct({{ $value->id }}, 0)"><i class="fas fa-check-circle"></i></button>
+                <button class="btn-sm btn btn-warning btn-info" title="non aktifkan" onclick="setStatusProduct({{ $value->id }}, 0)"><i class="fas fa-check-circle"></i></button>
                 @else
-                <button class="btn-sm btn btn-warning" onclick="setStatusProduct({{ $value->id }}, 1)"><i class="fas fa-times-circle"></i></button>
+                <button class="btn-sm btn btn-warning" onclick="setStatusProduct({{ $value->id }}, 1)" title="aktifkan"><i class="fas fa-times-circle"></i></button>
                 @endif
                 <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                 <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>
