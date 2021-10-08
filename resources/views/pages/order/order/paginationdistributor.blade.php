@@ -19,10 +19,10 @@
             <input type="hidden" class="category_product" name="productCategory{{$value->id}}" value="{{ $value->category_id }}" id="category_product">
             <td>{{ $loop->iteration }}</td>
             <td><img src="{{ asset('upload/product').'/'.$value->image }}" alt="{{ $value->image }}" class="img-fluid" width="200"></td>
-            <td class="product_name">{{ $value->name }}</td>
+            <td class="product_name">{{ $value->name??"" }}</td>
             <td id="field-price-{{ $value->id }}" data-weight="{{ $value->weight }}" data-price="{{ $value->price }}">
                 Rp.
-                {{ number_format($value->price) }}
+                {{ number_format($value->price??0) }}
             </td>
             <td>
                 <input name="qty-old[]" type="hidden" id="total-old-{{ $value->id }}" class="form-control qty text-center" value="0" min="0">

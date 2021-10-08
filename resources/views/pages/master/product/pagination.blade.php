@@ -14,11 +14,11 @@
         @forelse ($products as $key => $value)
             <tr>
                 <th scope="row">{{ ($products->currentpage()-1) * $products->perpage() + $loop->index + 1 }}</th>
-                <td>{{ $value->name }}</td>
+                <td>{{ $value->name??"" }}</td>
                 <td>{{ $value->category->name??"" }}</td>
-                <td>Rp. {{ number_format($value->price) }}</td>
+                <td>Rp. {{ number_format($value->price??0) }}</td>
                 <td>{{ $value->weight }}</td>
-                <td><img src="{{ asset('upload/product/').'/'. $value->image }}" alt="{{ $value->image }}" class="img-fluid" width="100"></td>
+                <td><img src="{{ asset('upload/product/').'/'. $value->image??'' }}" alt="{{ $value->image }}" class="img-fluid" width="100"></td>
                 <td scope="row">
                     <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                     <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>

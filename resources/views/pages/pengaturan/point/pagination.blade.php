@@ -13,8 +13,8 @@
             <tr>
                 <th scope="row">{{ ($points->currentpage()-1) * $points->perpage() + $loop->index + 1 }}</th>
                 <td>{{ $value->category->name??'' }}</td>
-                <td>{{ $value->min }}</td>
-                <td>{{ $value->point }}</td>
+                <td>{{ $value->min??'' }}</td>
+                <td>{{ $value->point??'' }}</td>
                 <td scope="row">
                     <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                     <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>

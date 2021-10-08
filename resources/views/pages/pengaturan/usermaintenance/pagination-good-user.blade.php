@@ -22,9 +22,9 @@
       <th scope='row'>
         $index
       </th>
-      <td>".$value['name']."</td>
-      <td> ".$value['email']."</td>
-      <td>".$value['role']."</td>
+      <td>".$value['name']??''."</td>
+      <td>".$value['email']??''."</td>
+      <td>".$value['role']??''."</td>
       <td>
         <span class='badge badge-success'>Good</span>
       </td>

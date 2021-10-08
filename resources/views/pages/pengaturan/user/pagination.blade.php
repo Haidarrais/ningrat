@@ -12,8 +12,8 @@
         @forelse ($users as $key => $value)
             <tr class="text-center">
                 <th scope="row">{{ ($users->currentpage()-1) * $users->perpage() + $loop->index + 1 }}</th>
-                <td>{{ $value->name }}</td>
-                <td>{{ $value->email }}</td>
+                <td>{{ $value->name??'' }}</td>
+                <td>{{ $value->email??'' }}</td>
                 <td>
                     @if ($value->status)
                         <span class="badge badge-success">Aktif</span>
