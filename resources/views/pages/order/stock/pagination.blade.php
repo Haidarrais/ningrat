@@ -23,9 +23,9 @@
                 <td>{{ $value->stock??"" }}</td>
                 <td>Rp. {{ number_format($value->product->price??0) }}</td>
                 @if($value->member_price)
-                    @php $price = $value->member_price @endphp
+                    @php $price = $value->member_price??0 @endphp
                 @else
-                    @php $price = $value->product->price @endphp
+                    @php $price = $value->product->price??0 @endphp
                 @endif
                 <td>Rp. {{ number_format($price??0) }}</td>
                 <td>{{ $value->discount->discount ?? 0 }} %</td>
@@ -37,7 +37,7 @@
                 @else
                     @php $price_discount = $price @endphp
                 @endif
-                <td>Rp. {{ number_format($price_discount??0) }}</td>
+                <td>Rp. {{ number_format($price_discount) }}</td>
                 <td>
                     @if ($value->status == 0)
                         <span class="badge badge-danger">Tidak Aktif</span>
