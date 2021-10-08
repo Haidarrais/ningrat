@@ -46,7 +46,7 @@
                            @endif
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Repeat order {{rtrim((string)$minimal_transaction, "0")}}jt/bulan selama 6 Bulan 
+                            Repeat order sejumlah {{rtrim((string)$minimal_transaction, "0")}}jt/bulan selama 6 Bulan 
                             @if ($checkMitraRequirement)
                             <span style="cursor: pointer" class="badge badge-success badge-pill showMontlyTransaction">
                                 <i class="fas fa-check"></i></span>
