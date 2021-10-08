@@ -1,6 +1,5 @@
 <table class="table table-sm">
-  <thead>
-    asu
+  <thead> 
     <tr class="text-center">
       <th scope="col">#</th>
       <th scope="col">Nama</th>
