@@ -14,10 +14,10 @@ class CheckoutComponent extends Component
 {
     public Transaction $transaction;
     public $buyers;
-    public $discount;
     public $sellerlocation;
     public $sellerid;
     public $numeric = "1234567890";
+    public $discount, $discounts, $discountOn, $discountNominal, $subtotal;
     public $ongkir;
     public $berat;
     public $courier = null;
@@ -65,7 +65,12 @@ class CheckoutComponent extends Component
     public function save()
     {
         $invoice = "INV-".date('Ymd').substr(str_shuffle($this->numeric), 0, 12);
-
+        if ($this->discountOn) {
+            app('App\Http\Controllers\Web\DiscountController')->sendUserId(Auth::id(), $this->discount);
+            $subtotal = $this->subtotal+$this->ongkir;
+        }else{
+            $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
+        }
         $transaction = Transaction::create([
             'user_id' => $this->buyers->user->id,
             'seller_id' => $this->sellerid,
@@ -92,6 +97,7 @@ class CheckoutComponent extends Component
     }
     public function render()
     {
+        $this->discounts = MasterDiscount::all();
         if ($this->othercourier!=null) {
             $this->ongkir = 1;
         }

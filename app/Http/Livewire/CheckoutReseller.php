@@ -83,6 +83,12 @@ class CheckoutReseller extends Component
         }else{
             $kurir = $this->othercourier;
         }
+        if ($this->discountOn) {
+            app('App\Http\Controllers\Web\DiscountController')->sendUserId(Auth::id(), $this->discount);
+            $subtotal = $this->subtotal+$this->ongkir;
+        }else{
+            $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
+        }
         $royalty = Royalty::latest()->first();
         $transaction = Transaction::create([
             'user_id' => Auth::id(),
@@ -95,13 +101,10 @@ class CheckoutReseller extends Component
             'member_name' =>  Auth::user()->name,
             'member_phone' =>   $this->buyer_phone,
             'member_address' => $this->buyer_address,
-            'subtotal' => Cart::subtotal(2,'.','')+$this->ongkir,
+            'subtotal' => $subtotal,
             'status' => 0,
             'royalty' => $royalty ?? 10
         ]);
-        if ($this->discountOn) {
-            app('App\Http\Controllers\Web\DiscountController')->sendUserId(Auth::id(), $this->discount);
-        }
         foreach (Cart::content() as $cart) {
             TransactionDetail::create([
             'transaction_id' => $transaction->id,

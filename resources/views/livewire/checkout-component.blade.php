@@ -129,10 +129,10 @@
                                         <input type="text" wire:model="othercourier" pattern="[A-Za-z0-9]{2,20}">
                                 </div>
                                 @elseif ($harga)
-                                        <section class="products col-lg-6 col-md-12 col-sm-12 row">
+                                        <section class="products col-lg-12 col-md-12 col-sm-12 row">
                                             <div class="row mt-4">
                                                 @forelse ($harga[0]['costs'] as $r)
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-12 mt-4">
                                                     <div class="card">
                                                         <div class="card-body text-center">
                                                             <div class="col-md-12">
@@ -197,9 +197,19 @@
                                             @endif
                                         </tbody>
                                         <tfoot>
+                                            @if ($discount)
+                                            @php
+                                                $this->discountNominal = Cart::subtotal(2,'.','')*$discount/100;
+                                                $this->subtotal = Cart::subtotal(2,'.','')-$this->discountNominal;
+                                            @endphp
+                                            <tr class="cart-subtotal">
+                                                <th>Discount</th>
+                                                <td><span class="amount">Rp.{{Cart::subtotal(2,'.','')*$discount/100}}</span></td>
+                                            </tr>
+                                            @endif
                                             <tr class="cart-subtotal">
                                                 <th>Cart Subtotal</th>
-                                                <td><span class="amount">Rp.{{Cart::subtotal()}}</span></td>
+                                                <td><span class="amount">Rp.{{$subtotal ?? Cart::subtotal(2,'.','')}}</span></td>
                                             </tr>
                                             <tr class="shipping">
                                                 <th>Shipping</th>
@@ -229,21 +239,29 @@
                                                 <a href="#checkout" data-toggle="collapse" data-parent="#accordion">Cheque Payment</a>
                                             </div>
                                             <div id="checkout" class="collapse show">
-                                                <div class="panel-body">
-                                                    <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel">
-                                            <div class="panel-heading" id="headingTwo">
-                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#billing">
-                                                    PayPal Payment
-                                                    <img src="assets/img/payment-paypa.png" alt="">
-                                                </a>
-                                            </div>
-                                            <div id="billing" class="collapse">
-                                                <div class="panel-body">
-                                                    <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                                                <div class="panel-body row">
+                                                    <div class="col-lg-6">
+                                                        <div class="checkout-form-list">
+                                                            <label for="checkbox">Click below !!!</label><br>
+                                                            <label class="switch">
+                                                                <input type="checkbox" wire:model='discountOn'>
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    @if ($discountOn)
+                                                    <div class="col-lg-6">
+                                                        <div class="checkout-form-list">
+                                                            <label>Pilih Diskon  <span class="required">*</span></label>
+                                                            <select name="discount" id="discount" class="form-control" wire:model="discount">
+                                                                <option value="0" selected>Pilih Discount</option>
+                                                                @foreach ($discounts as $dsc )
+                                                                    <option value="{{$dsc->discount}}">{{$dsc->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
