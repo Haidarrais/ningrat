@@ -18,7 +18,7 @@
                                 <i class="fas fa-shopping-cart"></i>
                             </div>
                             <div class="dropdown-item-desc">
-                                {{ $value->product->name }} Sisa {{ $value->stock }}
+                                {{ $value->product->name??"" }} Sisa {{ $value->stock??"" }}
                             </div>
                         </a>
                     @endforeach
