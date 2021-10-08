@@ -48,8 +48,8 @@
                         @foreach ($user->reward as $value)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $value->name }}</td>
+                            <td>{{ $user->name??'' }}</td>
+                            <td>{{ $value->name??'' }}</td>
                             <td>
                                 @if ($value->pivot->status == 1)
                                 <span class="filter badge badge-success">Disetujui</span>
@@ -59,7 +59,7 @@
                                 <span class="filter badge badge-danger">Belum Disetujui</span>
                                 @endif
                             </td>
-                            <td>{{ Carbon::parse($value->pivot->created_at)->isoFormat("dddd, D MMMM Y") }}</td>
+                            <td>{{ Carbon::parse($value->pivot->created_at)->isoFormat("dddd, D MMMM Y")??'-' }}</td>
                             <td>
                                 @if ($value->pivot->created_at != $value->pivot->updated_at)
                                 {{ Carbon::parse($value->pivot->updated_at)->isoFormat("dddd, D MMMM Y") }}

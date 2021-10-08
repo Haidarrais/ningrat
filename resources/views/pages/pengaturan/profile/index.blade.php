@@ -22,9 +22,9 @@
                 </div>
             </div>
             <div class="profile-widget-description">
-                <div class="profile-widget-name">{{ $user->name }}
+                <div class="profile-widget-name">{{ $user->name??"" }}
                     <div class="text-muted d-inline font-weight-normal">
-                        <div class="slash"></div> {{ ucfirst($user->getRoleNames()->first()) }}
+                        <div class="slash"></div> {{ ucfirst($user->getRoleNames()->first()??'') }}
                     </div>
                 </div>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, deserunt.

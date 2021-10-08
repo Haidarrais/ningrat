@@ -16,8 +16,8 @@
         @forelse ($orders as $key => $value)
         <tr>
             <th scope="row">{{ ($orders->currentpage()-1) * $orders->perpage() + $loop->index + 1 }}</th>
-            <td>{{ $value->member_name }}</td>
-            <td>{{ $value->member_address }}</td>
+            <td>{{ $value->member_name??"" }}</td>
+            <td>{{ $value->member_address??"" }}</td>
             
             <td>Rp. {{ number_format($value->subtotal-($value->subtotal * $value->discount/100) + ($value->cost - $value->subsidy_cost)) }}</td>
             <td>{{$value->discount??0}}%</td>
