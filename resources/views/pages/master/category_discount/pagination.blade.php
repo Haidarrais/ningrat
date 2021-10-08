@@ -11,8 +11,8 @@
         @forelse ($category_discounts as $key => $value)
         <tr>
             <th scope="row">{{ ($category_discounts->currentpage()-1) * $category_discounts->perpage() + $loop->index + 1 }}</th>
-            <td>{{$value->category->name}}</td>
-            <td>Rp. {{number_format($value->value) }}</td>
+            <td>{{$value->category->name??0}}</td>
+            <td>Rp. {{number_format($value->value??0) }}</td>
             <td scope="row">
                 <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                 <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>
