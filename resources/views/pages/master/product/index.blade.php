@@ -245,9 +245,9 @@
     const setStatusProduct = (id, status) => {
         let teks = ``
         if (status) {
-            teks = `Ingin mengaktifkan user ini`
+            teks = `Ingin mengaktifkan produk ini`
         } else {
-            teks = `Ingin menonaktifkan user ini`
+            teks = `Ingin menonaktifkan produk ini`
         }
         $swal.fire({
                 title: 'Yakin?',
@@ -262,9 +262,9 @@
             .then((result) => {
                 if (result.isConfirmed) {
                     new Promise((resolve, reject) => {
-                        let url = `{{ route('product.set_status,'['id' => ':id']) }}`;
+                        let url = `{{ route('product.set_status',['id' => ':id']) }}`;
                         url = url.replace(':id', id);
-                        $axios.post(url)
+                        $axios.patch(url)
                             .then(({
                                 data
                             }) => {
