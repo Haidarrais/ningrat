@@ -160,7 +160,7 @@ class ProductController extends Controller
     public function setStatus($id){
         try {
             $product = Product::find($id);
-            if ($product->status!=null) {
+            if ($product->status==null || $product->status==false) {
                 $product->update(['status'=>true]);
                 return response()->json([
                     'status' => true,
@@ -169,15 +169,16 @@ class ProductController extends Controller
                         'body' => 'Status berhasil diupdate!'
                     ]
                 ], 200);
+            }else{
+                $product->update(['status' => false]);
+                return response()->json([
+                    'status' => true,
+                    'message' => [
+                        'head' => 'Sukses',
+                        'body' => 'Status berhasil diupdate!'
+                    ]
+                ], 200);
             }
-            $product->update(['status' => !$product->status]);
-            return response()->json([
-                'status' => true,
-                'message' => [
-                    'head' => 'Sukses',
-                    'body' => 'Status berhasil diupdate!'
-                ]
-            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
