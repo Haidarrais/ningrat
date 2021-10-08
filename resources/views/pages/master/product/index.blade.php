@@ -8,8 +8,7 @@
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
-                            value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
                         </div>
@@ -77,7 +76,7 @@
 
 @section('js')
 <script src="{{ asset('vendor/autoNumeric.js') }}"></script>
-    <script>
+<script>
     let type
     $(document).ready(function() {
         refresh_get_category()
@@ -99,14 +98,16 @@
             let image = $("#inputImage")[0].files
             FormDataVar.append('image', image[0])
 
-            if(type == "STORE") {
+            if (type == "STORE") {
                 new Promise((resolve, reject) => {
                     $axios.post(`{{ route('product.store') }}`, FormDataVar, {
-                        headers: {
-                            'Content-type': 'multipart/form-data'
-                        }
-                    })
-                        .then(({data}) => {
+                            headers: {
+                                'Content-type': 'multipart/form-data'
+                            }
+                        })
+                        .then(({
+                            data
+                        }) => {
                             $('#modal_tambah').modal('hide')
                             refresh_get_category()
                             refresh_table(URL_NOW)
@@ -120,16 +121,18 @@
                             throwErr(err)
                         })
                 })
-            } else if(type == "UPDATE") {
+            } else if (type == "UPDATE") {
                 let id_product = $("#inputID").val()
                 FormDataVar.append('_method', 'PUT')
                 new Promise((resolve, reject) => {
                     $axios.post(`${URL_NOW}/${id_product}`, FormDataVar, {
-                        headers: {
-                            'Content-type': 'multipart/form-data'
-                        }
-                    })
-                        .then(({data}) => {
+                            headers: {
+                                'Content-type': 'multipart/form-data'
+                            }
+                        })
+                        .then(({
+                            data
+                        }) => {
                             $('#modal_tambah').modal('hide')
                             refresh_get_category()
                             refresh_table(URL_NOW)
@@ -145,12 +148,14 @@
                 })
             }
         })
-    })
+    });
 
     const refresh_get_category = () => {
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_category') }}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let option = '<option value="" disabled selected>== Pilih Kategori ==</option>'
                     $.each(data.data, (i, e) => {
                         option += `<option value="${e.id}">${e.name}</option>`
@@ -170,7 +175,9 @@
     const editData = id => {
         new Promise((resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let product = data.data
                     type = 'UPDATE'
                     $("#formTambah")[0].reset()
@@ -213,7 +220,9 @@
                 if (result.isConfirmed) {
                     new Promise((resolve, reject) => {
                         $axios.delete(`${URL_NOW}/${id}`)
-                            .then(({data}) => {
+                            .then(({
+                                data
+                            }) => {
                                 $swal.fire({
                                     icon: 'success',
                                     title: data.message.head,
@@ -233,5 +242,38 @@
                 }
             })
     }
-    </script>
+    const setStatusProduct = (id, status) => {
+        let teks = ``
+        if (status) {
+            teks = `Ingin mengaktifkan user ini`
+        } else {
+            teks = `Ingin menonaktifkan user ini`
+        }
+        $swal.fire({
+                title: 'Yakin?',
+                text: teks,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    new Promise((resolve, reject) => {
+                        let url = `{{ route('product.set_status,'['id' => ':id']) }}`;
+                        url = url.replace(':id', id);
+                        $axios.post(url)
+                            .then(({
+                                data
+                            }) => {
+                                toastr.success(data.message.head, data.message.body)
+                                refresh_table(URL_NOW)
+                            })
+                    })
+                }
+            })
+    }
+</script>
 @endsection

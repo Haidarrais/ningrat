@@ -22,6 +22,11 @@
             <td>{{ $value->weight }}</td>
             <td><img src="{{ asset('upload/product/').'/'. $value->image??'' }}" alt="{{ $value->image }}" class="img-fluid" width="100"></td>
             <td scope="row">
+                @if ($value->status)
+                <button class="btn-sm btn btn-warning" onclick="setStatusProduct({{ $value->id }}, 0)"><i class="fas fa-user-slash"></i></button>
+                @else
+                <button class="btn-sm btn btn-info" onclick="setStatusProduct({{ $value->id }}, 1)"><i class="fas fa-user-check"></i></button>
+                @endif
                 <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                 <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>
             </td>

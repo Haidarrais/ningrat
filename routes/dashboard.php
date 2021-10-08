@@ -70,6 +70,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
         Route::resource('/subsidi-ongkir', CategoryDiscountController::class);
         Route::resource('/royalty', RoyaltyController::class);
         Route::resource('/product', ProductController::class);
+        Route::patch('product/setStatus/{id}', [ProductController::class, 'setStatus'])->name('product.set_status');
         Route::resource('/discount', DiscountController::class);
         Route::post('/discount/set-status', [DiscountController::class, 'set_status'])->name('discount.set_status');
     });
