@@ -27,7 +27,7 @@
                 @else
                     @php $price = $value->product->price @endphp
                 @endif
-                <td>Rp. {{ number_format($price) }}</td>
+                <td>Rp. {{ number_format($price??0) }}</td>
                 <td>{{ $value->discount->discount ?? 0 }} %</td>
                 @if(isset($value->discount->discount))
                     @php
