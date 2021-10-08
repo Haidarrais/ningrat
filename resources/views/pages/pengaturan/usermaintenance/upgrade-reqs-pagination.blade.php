@@ -23,9 +23,9 @@
       <th scope='row'>
         $index
       </th>
-      <td>".$value->user->name??''."</td>
-      <td>".$value->user->getRoleNames()->first()??''."</td>
-      <td>".$value->role->name??''."</td>
+      <td>".$value->user->name."</td>
+      <td>".$value->user->getRoleNames()->first()."</td>
+      <td>".$value->role->name."</td>
       <td>
         <span class='badge badge-success' title='Terima' style='cursor: pointer;' onclick=$params1><i class='fas fa-arrow-up'></i></span>
         <span class='badge badge-danger' title='Tolak' style='cursor: pointer;' onclick=$params2><i class='fas fa-times'></i></span>
