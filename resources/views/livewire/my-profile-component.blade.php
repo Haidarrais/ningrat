@@ -249,6 +249,9 @@
                         </div>
                     </div>
                     <div class="form-group col-md-12">
+                        <textarea name="word" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group col-md-12">
                         <input type="number" name="transaction_id" class="form-control" id="transaction_review" hidden>
                     </div>
                     <div class="form-group col-md-12">

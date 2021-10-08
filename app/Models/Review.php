@@ -12,7 +12,8 @@ class Review extends Model
         'transaction_id',
         'member_id',
         'buyer_id',
-        'rating'
+        'rating',
+        'word'
     ];
 
     public function transaction(){
