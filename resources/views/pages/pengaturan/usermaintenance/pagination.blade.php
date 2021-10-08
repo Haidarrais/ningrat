@@ -27,7 +27,7 @@
         $index
     </th>
     <td>".$value['name']."</td>
-    <td> ".$value['email']."</td>
+    <td>".$value['email']."</td>
     <td>".$value['role']."</td>
     <td>
       <span class='badge badge-danger'>Bad</span>

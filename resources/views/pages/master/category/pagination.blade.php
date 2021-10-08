@@ -11,8 +11,8 @@
         @forelse ($categories as $key => $value)
             <tr>
                 <th scope="row">{{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}</th>
-                <td>{{ $value->name }}</td>
-                <td>{{ count($value->product) }}</td>
+                <td>{{ $value->name??"unset" }}</td>
+                <td>{{ count($value->product??[]) }}</td>
                 <td scope="row">
                     <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                     <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>

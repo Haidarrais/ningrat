@@ -12,8 +12,8 @@
         @forelse ($rewards as $key => $value)
             <tr>
                 <td scope="row">{{ ($rewards->currentpage()-1) * $rewards->perpage() + $loop->index + 1 }}</td>
-                <td>{{ $value->name }}</td>
-                <td>{{ $value->point }}</td>
+                <td>{{ $value->name??'' }}</td>
+                <td>{{ $value->point??'' }}</td>
                 <td>
                     @if ($value->status)
                         <span class="badge badge-success">Aktif</span>

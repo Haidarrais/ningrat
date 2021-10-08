@@ -18,16 +18,16 @@
         @forelse ($stocks as $key => $value)
             <tr>
                 <th scope="row">{{ ($stocks->currentpage()-1) * $stocks->perpage() + $loop->index + 1 }}</th>
-                <td>{{ $value->product->name }}</td>
-                <td>{{ $value->product->category->name }}</td>
-                <td>{{ $value->stock }}</td>
-                <td>Rp. {{ number_format($value->product->price) }}</td>
+                <td>{{ $value->product->name??"" }}</td>
+                <td>{{ $value->product->category->name??"" }}</td>
+                <td>{{ $value->stock??"" }}</td>
+                <td>Rp. {{ number_format($value->product->price??0) }}</td>
                 @if($value->member_price)
-                    @php $price = $value->member_price @endphp
+                    @php $price = $value->member_price??0 @endphp
                 @else
-                    @php $price = $value->product->price @endphp
+                    @php $price = $value->product->price??0 @endphp
                 @endif
-                <td>Rp. {{ number_format($price) }}</td>
+                <td>Rp. {{ number_format($price??0) }}</td>
                 <td>{{ $value->discount->discount ?? 0 }} %</td>
                 @if(isset($value->discount->discount))
                     @php

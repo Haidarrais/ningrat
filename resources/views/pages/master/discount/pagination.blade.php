@@ -12,8 +12,8 @@
         @forelse ($discounts as $key => $value)
             <tr>
                 <th scope="row">{{ ($discounts->currentpage()-1) * $discounts->perpage() + $loop->index + 1 }}</th>
-                <td>{{ $value->name }}</td>
-                <td>{{ $value->discount }} %</td>
+                <td>{{ $value->name??"Unset" }}</td>
+                <td>{{ $value->discount??0 }} %</td>
                 <td>
                     @if ($value->status == 1)
                         <span class="badge badge-success">Aktif</span>

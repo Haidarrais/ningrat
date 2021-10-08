@@ -21,7 +21,7 @@
       <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->product->category_id }}" class="category_product">
       <td>{{ $loop->iteration }}</td>
       <td><img src="{{ asset('upload/product').'/'.$value->product->image }}" alt="{{ $value->product->image }}" class="img-fluid" width="200"></td>
-      <td class="product_name">{{ $value->product->name }}</td>
+      <td class="product_name">{{ $value->product->name??"" }}</td>
       @if ($discount =
       $value->discount()->where('user_id', $value->user_id)->where('status', 1)->first())
       @php
