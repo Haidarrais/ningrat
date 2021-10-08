@@ -135,6 +135,18 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
+        
+        if (count($product->buyed)>0) {
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'head' => 'Gagal',
+                    'body' => 'Produk yang sudah terbeli tidak bisa dihapus'
+                ]
+            ],
+                500
+            );
+        }
         $product->delete();
         return response()->json([
             'status' => true,
