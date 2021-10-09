@@ -31,7 +31,7 @@ class Product extends Model
 
     public function picture()
     {
-        return $this->belongsTo(ProductPicture::class);
+        return $this->hasMany(ProductPicture::class);
     }
 
     public function category()
