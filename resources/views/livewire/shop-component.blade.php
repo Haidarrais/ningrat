@@ -142,8 +142,12 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
                                             <div class="pro-price">
-                                                <span class="new-price">{{$stock->product->price}}</span>
-                                                <span class="old-price">$122.00</span>
+                                                @if ($stock->discount)
+                                                    <span class="new-price">Rp.{{ number_format($price) }}<</span>
+                                                    <span class="old-price">Rp.{{ number_format($priceold) }}</span>
+                                                @else
+                                                    <span class="new-price">Rp.{{ number_format($price) }}<</span>
+                                                @endif
                                             </div>
                                             <p>{{$stock->description}}</p>
                                             <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
@@ -211,57 +215,21 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="single-slide1" role="tabpanel" aria-labelledby="single-slide-tab-1">
+                                    @foreach ($stock->product->picture as $key => $picture )
+                                    <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
                                         <div class="single-product-img">
-                                            <img src="{{asset('upload/product/' . $stock->product->image)}}" alt="">
+                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="" style="width:480px;height: 480px;">
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="single-slide2" role="tabpanel" aria-labelledby="single-slide-tab-2">
-                                        <div class="single-product-img">
-                                            <img src="assets/img/product/2.jpg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="single-slide3" role="tabpanel" aria-labelledby="single-slide-tab-3">
-                                        <div class="single-product-img">
-                                            <img src="assets/img/product/3.jpg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="single-slide4" role="tabpanel" aria-labelledby="single-slide-tab-4">
-                                        <div class="single-product-img">
-                                            <img src="assets/img/product/4.jpg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="single-slide5" role="tabpanel" aria-labelledby="single-slide-tab-5">
-                                        <div class="single-product-img">
-                                            <img src="assets/img/product/5.jpg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="single-slide6" role="tabpanel" aria-labelledby="single-slide-tab-6">
-                                        <div class="single-product-img">
-                                            <img src="assets/img/product/6.jpg" alt="">
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist">
-                                        <div class="single-tab-menu">
-                                            <a class="active" data-toggle="tab" id="single-slide-tab-1" href="#single-slide1"><img src="assets/img/product/1.jpg" alt=""></a>
-                                        </div>
-                                        <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-2" href="#single-slide2"><img src="assets/img/product/2.jpg" alt=""></a>
-                                        </div>
-                                        <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-3" href="#single-slide3"><img src="assets/img/product/3.jpg" alt=""></a>
-                                        </div>
-                                        <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-4" href="#single-slide4"><img src="assets/img/product/4.jpg" alt=""></a>
-                                        </div>
-                                        <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-5" href="#single-slide5"><img src="assets/img/product/5.jpg" alt=""></a>
-                                        </div>
-                                        <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-6" href="#single-slide6"><img src="assets/img/product/6.jpg" alt=""></a>
-                                        </div>
+                                        @foreach ($stock->product->picture as $key => $picture )
+                                            <div class="single-tab-menu">
+                                                <a @if ($key == 0) class="active sdada" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -269,9 +237,9 @@
                                 <div class="quick-view-text">
                                     <h2>{{$stock->product->name}}</h2>
                                     @if ($stock->discount)
-                                      <h3 class="q-product-price">Rp.{{ number_format($price) }}<span class="old-price">Rp.{{ number_format($priceold) }}</span></h3>
+                                        <h3 class="q-product-price">Rp.{{ number_format($price) }}<span class="old-price">Rp.{{ number_format($priceold) }}</span></h3>
                                     @else
-                                     <h3 class="q-product-price">Rp.{{ number_format($price) }}</span></h3>
+                                        <h3 class="q-product-price">Rp.{{ number_format($price) }}</span></h3>
                                     @endif
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus</p>
                                     <div class="input-cart">
