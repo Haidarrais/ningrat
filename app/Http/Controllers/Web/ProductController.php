@@ -141,7 +141,7 @@ class ProductController extends Controller
                 'status' => false,
                 'message' => [
                     'head' => 'Gagal',
-                    'body' => 'Produk yang sudah terbeli tidak bisa dihapus'
+                    'body' => 'Produk yang sudah tidak bisa dihapus'
                 ]
             ],
                 500
@@ -155,5 +155,38 @@ class ProductController extends Controller
                 'body' => 'Berhasil Hapus Produk'
             ]
         ], 200);
+    }
+
+    public function setStatus($id){
+        try {
+            $product = Product::find($id);
+            if ($product->status==null || $product->status==false) {
+                $product->update(['status'=>true]);
+                return response()->json([
+                    'status' => true,
+                    'message' => [
+                        'head' => 'Sukses',
+                        'body' => 'Status berhasil diupdate!'
+                    ]
+                ], 200);
+            }else{
+                $product->update(['status' => false]);
+                return response()->json([
+                    'status' => true,
+                    'message' => [
+                        'head' => 'Sukses',
+                        'body' => 'Status berhasil diupdate!'
+                    ]
+                ], 200);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'head' => 'Gagal',
+                    'body' => 'Ooops!'
+                ]
+            ], 200);
+        }
     }
 }
