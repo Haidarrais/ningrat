@@ -29,6 +29,11 @@ class Product extends Model
         });
     }
 
+    public function picture()
+    {
+        return $this->belongsTo(ProductPicture::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -37,5 +42,5 @@ class Product extends Model
     public function buyed(){
         return $this->hasMany(OrderDetail::class);
     }
-    
+
 }
