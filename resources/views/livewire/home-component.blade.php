@@ -104,7 +104,7 @@
                                 @foreach ($product as $key => $prod)
                                     @if ($cat2->id === $prod->category_id)
                                         @php
-                                            $img = $prod->picture->first()->image ?? '';
+                                            $img = $prod->picture->first()->image ?? '1.jpg';
                                         @endphp
                                         <div class="custom-col">
                                             <div class="single-product-item">
