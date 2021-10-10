@@ -121,7 +121,7 @@
 
         $('#inputPrice').autoNumeric('init')
 
-        $("#formTambah").on('submit', (e) => {
+        $("#formTambah").on('submit', async (e) => {
             e.preventDefault();
             let FormDataVar = new FormData($("#formTambah")[0]);
             let image = $(".inputImage");
@@ -144,10 +144,10 @@
             //     console.log(pair[1]);
             // }
             // return;
-
+            $("#modal_tambah").LoadingOverlay('show');
             // console.log(FormDataVar);
             if (type == "STORE") {
-                new Promise((resolve, reject) => {
+                await new Promise((resolve, reject) => {
                     $axios.post(`{{ route('product.store') }}`, FormDataVar, {
                             headers: {
                                 'Content-type': 'multipart/form-data'
@@ -172,7 +172,7 @@
             } else if (type == "UPDATE") {
                 let id_product = $("#inputID").val()
                 FormDataVar.append('_method', 'PUT')
-                new Promise((resolve, reject) => {
+                await new Promise((resolve, reject) => {
                     $axios.post(`${URL_NOW}/${id_product}`, FormDataVar, {
                             headers: {
                                 'Content-type': 'multipart/form-data'
@@ -195,6 +195,7 @@
                         })
                 })
             }
+            $("#modal_tambah").LoadingOverlay('hide');
         });
         $(".btn-success-images").click(function() {
             if (countimageinput >= 5) {
@@ -240,7 +241,7 @@
         })
     }
 
-    const editData = id => {
+    const editData = async id => {
         let a = $(".btn-danger-images");
         if (a) {
             for (let index = 0; index < a.length; index++) {
@@ -251,7 +252,7 @@
                 }
             }
         }
-        new Promise((resolve, reject) => {
+        await new Promise(async (resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
                 .then(({
                     data
@@ -278,7 +279,8 @@
                     $("#inputWight").val(product.weight)
                     $("#inputDescription").val(product.description)
                     $(".inputImage").prop('required', false)
-                    $('#modal_tambah').modal('show')
+                    $('#modal_tambah').modal('show');
+
                 })
                 .catch(err => {
                     console.log(err)
@@ -288,7 +290,7 @@
                         text: 'Something went wrong!',
                     })
                 })
-        })
+        });
     }
 
     const deleteData = id => {
