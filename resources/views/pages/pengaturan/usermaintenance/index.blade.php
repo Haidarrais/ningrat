@@ -94,7 +94,7 @@
   async function showOrderModal(id, status, role) {
     console.log(id);
     let tempdata = ['100', '1111']
-    var urlHere = "{{route('maintenance.show', ": userId ")}}";
+    var urlHere = "{{route('maintenance.show', ":userId ")}}";
     urlHere = urlHere.replace(':userId', id);
     let html = "";
     let buttons = status ? `<button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>` : `<button type="button" onclick="downGradeUser(${id},'${role}')" class="btn btn-outline-danger">Downgrade Now!</button> <button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>`
