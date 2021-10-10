@@ -224,7 +224,7 @@
                                     @foreach ($stock->product->picture as $key => $picture )
                                     <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
                                         <div class="single-product-img">
-                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="" style="width:480px;height: 480px;">
+                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
                                         </div>
                                     </div>
                                     @endforeach
