@@ -1,8 +1,9 @@
 <table class="table table-sm">
-  <thead> 
+  <thead>
     <tr class="text-center">
       <th scope="col">#</th>
       <th scope="col">Nama</th>
+      <th scope="col">Email</th>
       <th scope="col">Role</th>
       <th scope="col">Upgrade Ke Role</th>
       <!-- <th scope="col">Status</th> -->
@@ -23,9 +24,10 @@
       <th scope='row'>
         $index
       </th>
-      <td>".$value->user->name."</td>
-      <td>".$value->user->getRoleNames()->first()."</td>
-      <td>".$value->role->name."</td>
+      <td class='user_name'>".$value->user->name."</td>
+      <td class='user_email'>".$value->user->email."</td>
+      <td class='user_role'>".$value->user->getRoleNames()->first()."</td>
+      <td class='user_torole'>".$value->role->name."</td>
       <td>
         <span class='badge badge-success' title='Terima' style='cursor: pointer;' onclick=$params1><i class='fas fa-arrow-up'></i></span>
         <span class='badge badge-danger' title='Tolak' style='cursor: pointer;' onclick=$params2><i class='fas fa-times'></i></span>

@@ -18,13 +18,13 @@
     $role = "${value['role']}";
     $params = "showOrderModal(".$value['id'].",".(int)$value['status'].","."'".$role."'".")";
     // $params = "showOrderModal(".$value[`id`].".",".".(int)($value[`status`]) .",".$role.")";
-    echo"<tr class='text-center'>
+    echo"<tr class='text-center displayer'>
       <th scope='row'>
         $index
       </th>
-      <td>".$value['name']??''."</td>
-      <td>".$value['email']??''."</td>
-      <td>".$value['role']??''."</td>
+      <td class='user_name'>".$value['name']."</td>
+      <td class='user_email'>".$value['email']."</td>
+      <td class='user_role'>".$value['role']."</td>
       <td>
         <span class='badge badge-success'>Good</span>
       </td>

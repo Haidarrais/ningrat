@@ -179,19 +179,19 @@ class UserMaintenanceController extends Controller
                 }
             }
             // downgrade user hanya bisa dilakukan di bulan juni dan desember
-            //  else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 6) {
-            //     if ($request->downAll) {
-            //         return ['name'=>User::find($id)->name, 'status'=>false];
-            //     } else {
-            //         return response()->json([
-            //             'status' => false,
-            //             'message' => [
-            //                 'head' => 'Error',
-            //                 'body' => "Maintenance user hanya dapat dilakukan pada bulan Juni dan Desember"
-            //             ]
-            //         ], 500);
-            //     }
-            // } 
+             else if (Carbon::now()->month !== 12 || Carbon::now()->month !== 6) {
+                if ($request->downAll) {
+                    return ['name'=>User::find($id)->name, 'status'=>false];
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => [
+                            'head' => 'Error',
+                            'body' => "Maintenance user hanya dapat dilakukan pada bulan Juni dan Desember"
+                        ]
+                    ], 500);
+                }
+            } 
             else {
                 $user = User::find($id);
                 if ($isUpgrade && $status) {
