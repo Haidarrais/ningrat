@@ -20,7 +20,13 @@
     <tr id="displayer">
       <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->product->category_id }}" class="category_product">
       <td>{{ $loop->iteration }}</td>
-      <td><img src="{{ asset('upload/product').'/'.$value->product->image }}" alt="{{ $value->product->image }}" class="img-fluid" width="200"></td>
+      @forelse ($value->product->onePicture as $key => $item)
+                  @if ($key<1) <td><img src="{{ asset('upload/product/').'/'.$item->image??'' }}" alt="{{ $value->image }}"
+                      class="img-fluid" width="100"></td>
+                    @endif
+                    @empty
+                    <td>Belum ada foto</td>
+                    @endforelse
       <td class="product_name">{{ $value->product->name??"" }}</td>
       @if ($discount =
       $value->discount()->where('user_id', $value->user_id)->where('status', 1)->first())

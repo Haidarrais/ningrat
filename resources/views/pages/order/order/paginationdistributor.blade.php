@@ -18,7 +18,13 @@
             <input type="hidden" name="ongkir-per-category-{{$value->id}}" value="{{ $value->category->discount->value??0}}">
             <input type="hidden" class="category_product" name="productCategory{{$value->id}}" value="{{ $value->category_id }}" id="category_product">
             <td>{{ $loop->iteration }}</td>
-            <td><img src="{{ asset('upload/product').'/'.$value->image }}" alt="{{ $value->image }}" class="img-fluid" width="200"></td>
+                  @forelse ($value->onePicture as $key => $item)
+                  @if ($key<1) <td><img src="{{ asset('upload/product/').'/'.$item->image??'' }}" alt="{{ $value->image }}"
+                      class="img-fluid" width="100"></td>
+                    @endif
+                    @empty
+                    <td>Belum ada foto</td>
+                    @endforelse
             <td class="product_name">{{ $value->name??"" }}</td>
             <td id="field-price-{{ $value->id }}" data-weight="{{ $value->weight }}" data-price="{{ $value->price }}">
                 Rp.

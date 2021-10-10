@@ -375,7 +375,6 @@
             totalNominal[id] = total * price;
             var uhek = 0;
 
-
             for (let i = 0; i < totalNominal.length; i++) {
                 if (typeof totalNominal[i] == "number") {
                     uhek += totalNominal[i];
