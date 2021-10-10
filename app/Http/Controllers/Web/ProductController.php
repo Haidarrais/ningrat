@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Traits\ImageHandlerTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductStoreRequest;
+use App\Models\ProductPicture;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -30,8 +32,9 @@ class ProductController extends Controller
                 ->orWhere('price', 'LIKE', "%".$keyword."%")
                 ->orWhere('weight', 'LIKE', "%".$keyword."%");
         });
-        $query->with(['category']);
+        $query->with(['category', 'picture', 'onePicture']);
         $products = $query->paginate(10);
+        // dd($products);
         if($request->ajax()) {
             return view('pages.master.product.pagination', compact('products', 'data'))->render();
         }
@@ -56,13 +59,29 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
-        if($request->hasFile('image')) {
-            $imageName = $this->uploadImage($request, $this->pathImage);
+        // $this->uploadImage()
+        $data = $request->except(['id', 'image']);
+        // $data['image'] = $imageName ?? '';
+        $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
+        $product = Product::create($data);
+        if ($request->image) {
+            $images = $request->image;
+            // dd(count($images));
+            $countImages = count($this->countImages($product->id));
+            if ($countImages > 5) {
+                return response()->json([
+                    'status' => true,
+                    'message' => [
+                        'head' => 'Gagal',
+                        'body' => 'Jumlah maksimal foto produk tidak boleh melebihi 5'
+                    ]
+                ], 500);
+            }
+            // if ($request->filenames) {
+            $this->storeImage($images, $product->id);
+            // }
+            // $this->unlinkImage($this->pathImage, $product->image);
         }
-        $data = $request->except(['id']);
-        $data['image'] = $imageName ?? '';
-        $data['price'] = floor(preg_replace('/[Rp. ]/', '', $request->price));
-        Product::create($data);
         return response()->json([
             'status' => true,
             'message' => [
@@ -80,7 +99,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with(['category'])->find($id);
+        $product = Product::with(['category', 'picture', 'onePicture'])->find($id);
         return response()->json([
             'status' => true,
             'data' => $product
@@ -108,13 +127,28 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-        if($request->hasFile('image')) {
-            $imageName = $this->uploadImage($request, $this->pathImage);
-            $this->unlinkImage($this->pathImage, $product->image);
+        // dd($request->all());
+        if($request->image) {
+            $images = $request->image;
+            // dd(count($images));
+            $countImages =count($this->countImages($product->id));
+            if($countImages>5) {
+               return response()->json([
+                   'status' => true,
+                    'message' => [
+                        'head' => 'Gagal',
+                        'body' => 'Jumlah maksimal foto produk tidak boleh melebihi 5'
+                    ]
+               ],500);
+            }
+            // if ($request->filenames) {
+            $this->storeImage($request->image, $product->id);
+            // }
+            // $this->unlinkImage($this->pathImage, $product->image);
         }
-        $data = $request->except(['id']);
-        $data['image'] = $imageName ?? $product->image;
-        $data['price'] = floor(preg_replace('/[Rp. ]/', '', $request->price));
+        $data = $request->except(['id','image']);
+        // $data['image'] = $imageName ?? $product->image;
+        $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
         
         $product->update($data);
         return response()->json([
@@ -146,6 +180,12 @@ class ProductController extends Controller
             ],
                 500
             );
+        }
+
+        $product_images = $this->countImages($product->id);
+        foreach ($product_images as $key => $value) {
+            $this->unlinkImage($this->pathImage, $value->image);
+            $value->delete();
         }
         $product->delete();
         return response()->json([
@@ -187,6 +227,57 @@ class ProductController extends Controller
                     'body' => 'Ooops!'
                 ]
             ], 200);
+        }
+    }
+    private function countImages($product_id){
+        return ProductPicture::where("product_id", $product_id)->get();
+    }
+
+    private function storeImage(array $files, $product_id)
+    {
+        try {
+            for ($i = 0; $i < count($files); $i++) {
+                if (isset($files[$i])) {
+                    $hashedName = $files[$i]->hashName();
+                    $imageName = time() . $hashedName;
+                    // $location = public_path($path);
+                    $files[$i]->move(public_path($this->pathImage), $imageName);
+                    ProductPicture::create([
+                        'product_id' => $product_id,
+                        'image' =>  $imageName,
+                    ]);
+                }
+            }
+            //code...
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+
+        //
+    }
+    
+    public function destroyImage($id)
+    {
+        $product_image = ProductPicture::find($id);
+        try {
+            $image = $product_image->image;
+            File::delete($image);
+            $product_image->delete();
+            return response()->json([
+                'status' => true,
+                'message' => [
+                    'head' => 'Sukses',
+                    'body' => 'Foto berhasil dihapus'
+                ]
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'head' => 'Gagal',
+                    'body' => 'Gagal Menghapus foto'
+                ]
+            ], 500);
         }
     }
 }

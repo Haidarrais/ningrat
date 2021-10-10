@@ -34,6 +34,12 @@ class Product extends Model
         return $this->hasMany(ProductPicture::class);
     }
 
+    public function onePicture()
+    {
+        return $this->hasMany(ProductPicture::class)->oldest();
+    }
+
+
     public function category()
     {
         return $this->belongsTo(Category::class);

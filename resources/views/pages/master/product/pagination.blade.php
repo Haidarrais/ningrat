@@ -20,7 +20,13 @@
             <td>Rp. {{ number_format($value->price??0) }}</td>
             <td>{{ count($value->buyed??0) }}</td>
             <td>{{ $value->weight }}</td>
-            <td><img src="{{ asset('upload/product/').'/'. $value->image??'' }}" alt="{{ $value->image }}" class="img-fluid" width="100"></td>
+            @forelse  ($value->onePicture as $key => $item)
+                @if ($key<1)
+                <td><img src="{{ asset('upload/product/').'/'.$item->image??'' }}" alt="{{ $value->image }}" class="img-fluid" width="100"></td>
+                @endif
+            @empty
+                    <td >Belum ada foto</td>
+            @endforelse
             <td scope="row">
                 @if ($value->status)
                 <button class="btn-sm btn btn-warning btn-info" title="non aktifkan" onclick="setStatusProduct({{ $value->id }}, 0)"><i class="fas fa-check-circle"></i></button>

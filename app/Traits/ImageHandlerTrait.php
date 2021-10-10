@@ -4,16 +4,16 @@ namespace App\Traits;
 use Illuminate\Http\Request;
 
 trait ImageHandlerTrait {
-	public function uploadImage(Request $request, $path) {
-        if ($request->image) {
+	public function uploadImage($image, $path) {
+        if ($image) {
             if (!is_dir(public_path($path))) {
                 mkdir(public_path($path), 0777, $rekursif = true);
             }
-            $imageName = time(). '.' . $request->image->extension();;
+            $imageName = time(). '.' . $image->extension();;
             $location = public_path($path);
-            $request->image->move($location, $imageName);
-            // Image::make($request->image)->save($path.$imageName);
-            $request->image = $imageName;
+            $image->move($location, $imageName);
+            // Image::make($image->image)->save($path.$imageName);
+            $image = $imageName;
             return $imageName;
         }
     }

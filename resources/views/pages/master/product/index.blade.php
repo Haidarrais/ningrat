@@ -58,11 +58,25 @@
                         <textarea name="description" id="inputDescription" cols="30" rows="5" class="form-control"></textarea>
                     </div>
                     <p class="text-danger text-center" id="teksImage" style="display: none">Jangan upload gambar jika tidak ingin mengubahnya</p>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="inputImage">Foto Produk</label>
                         <input type="file" name="image" id="inputImage" class="form-control" required>
+                    </div> -->
+                    <div class="input-group control-group lst increment">
+                        <input type="file" name="image[]" id="inputImage" class="myfrm form-control inputImage">
+                        <div class="input-group-btn">
+                            <button class="btn btn-success btn-success-images" type="button"><i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
+                        </div>
                     </div>
-                    <div id="fieldFoto" style="display: none"></div>
+                    <div class="clone hide" hidden>
+                        <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                            <input type="file" name="image[]" class="myfrm form-control inputImage">
+                            <div class="input-group-btn">
+                                <button class="btn btn-danger btn-danger-images" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="fieldFoto" style="display: none" class="d-flex flex-wrap justify-content-around flex-grow-1"></div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -78,26 +92,60 @@
 <script src="{{ asset('vendor/autoNumeric.js') }}"></script>
 <script>
     let type
+    let countimageinput = 1;
+    var items = $(".hdtuto").length;
     $(document).ready(function() {
         refresh_get_category()
-        $("#btnTambah").on('click', () => {
-            type = 'STORE'
+        $("#btnTambah").on('click', (e) => {
+            let a = $(".btn-danger-images");
+            if (a) {
+                for (let index = 0; index < a.length; index++) {
+                    const element =
+                        a[index];
+                    if (element.parentElement.closest('.cloned')) {
+                        element.parentElement.closest('.cloned').remove();
+                    }
+                }
+            }
+            e.preventDefault();
+            type = 'STORE';
+            countimageinput = 1;
             $("#modalTitle").html('Tambah Produk')
             $("#formTambah")[0].reset()
             $("#fieldFoto").hide()
+            $("#fieldFoto").removeClass('d-flex');
             $("#teksImage").hide()
-            $("#inputImage").prop('required', true)
+            // $(".inputImage").prop('required', true)
             $('#modal_tambah').modal('show')
         })
 
         $('#inputPrice').autoNumeric('init')
 
         $("#formTambah").on('submit', (e) => {
-            e.preventDefault()
-            let FormDataVar = new FormData($("#formTambah")[0])
-            let image = $("#inputImage")[0].files
-            FormDataVar.append('image', image[0])
+            e.preventDefault();
+            let FormDataVar = new FormData($("#formTambah")[0]);
+            let image = $(".inputImage");
+            let tempName = "";
+            // console.log(image.length);
+            // for (let index = 0; index < image.length; index++) {
+            //     if (image[index].files[0]) {
+            //         // console.log(image[index].files[0].name != tempName);
+            //         if (image[index].files[0].name != tempName) {
+            //             FormDataVar.append('image[]', image[index].files[0]);
+            //             if (image[index].files[0].name !== "") {
+            //                 tempName = image[index].files[0].name;
+            //             }
+            //         } else {
 
+            //         }
+            //     }
+            // }
+            // for (var pair of FormDataVar.entries()) {
+            //     console.log(pair[1]);
+            // }
+            // return;
+
+            // console.log(FormDataVar);
             if (type == "STORE") {
                 new Promise((resolve, reject) => {
                     $axios.post(`{{ route('product.store') }}`, FormDataVar, {
@@ -147,7 +195,27 @@
                         })
                 })
             }
-        })
+        });
+        $(".btn-success-images").click(function() {
+            if (countimageinput >= 5) {
+                $swal.fire({
+                    icon: 'warning',
+                    title: "Foto",
+                    text: "Hanya bisa upload maksimal 5 foto"
+                });
+                return;
+            }
+            var lsthmtl = $(".clone").children().clone().addClass('cloned');
+            $(".increment").after(lsthmtl);
+            countimageinput += 1;
+        });
+
+        $("body").on("click", ".btn-danger-images", function() {
+            $(this).parents(".hdtuto").remove();
+            countimageinput -= 1;
+        });
+
+
     });
 
     const refresh_get_category = () => {
@@ -173,6 +241,16 @@
     }
 
     const editData = id => {
+        let a = $(".btn-danger-images");
+        if (a) {
+            for (let index = 0; index < a.length; index++) {
+                const element =
+                    a[index];
+                if (element.parentElement.closest('.cloned')) {
+                    element.parentElement.closest('.cloned').remove();
+                }
+            }
+        }
         new Promise((resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
                 .then(({
@@ -180,10 +258,18 @@
                 }) => {
                     let product = data.data
                     type = 'UPDATE'
-                    $("#formTambah")[0].reset()
-                    $("#inputID").val(product.id)
-                    $("#modalTitle").html('Update Produk')
-                    $('#fieldFoto').html(`<img src="${BASE_URL}/upload/product/${product.image}" alt="${BASE_URL}/upload/product/${product.image}" class="img-fluid" width="300">`)
+                    $("#formTambah")[0].reset();
+                    $("#inputID").val(product.id);
+                    $("#modalTitle").html('Update Produk');
+                    let images = "";
+                    countimageinput = 1;
+                    product.picture.map((item, i) => {
+                        images += `<div class="position-relative mt-2" id="image-${item.id}">
+                        <img src="${BASE_URL}/upload/product/${item.image}" alt="${BASE_URL}/upload/product/${item.image}" class="img-fluid" width="300"><button class="btn btn-sm btn-danger hapus position-absolute" style="top:0;right:0" onclick="deleteImage(${item.id})" type="button"><i class="fas fa-trash-alt"></i></button></div>`
+                        countimageinput++;
+                    });
+                    $('#fieldFoto').html(`${images}`)
+                    $("#fieldFoto").addClass('d-flex');
                     $('#fieldFoto').show()
                     $("#teksImage").show()
                     $("#selectKategori").val(product.category_id)
@@ -191,7 +277,7 @@
                     $("#inputPrice").val(product.price)
                     $("#inputWight").val(product.weight)
                     $("#inputDescription").val(product.description)
-                    $("#inputImage").prop('required', false)
+                    $(".inputImage").prop('required', false)
                     $('#modal_tambah').modal('show')
                 })
                 .catch(err => {
@@ -272,6 +358,36 @@
                                 refresh_table(URL_NOW)
                             })
                     })
+                }
+            })
+    }
+
+    function deleteImage(id) {
+        $swal.fire({
+                title: 'Yakin?',
+                text: "Anda akan menghapus foto ini?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    new Promise((resolve, reject) => {
+                        let url = `{{ route('produt_image.delete',['id' => ':id']) }}`;
+                        url = url.replace(':id', id);
+                        $axios.delete(url)
+                            .then(({
+                                data
+                            }) => {
+                                $(`#image-${id}`).remove();
+                                toastr.success(data.message.head, data.message.body)
+                                refresh_table(URL_NOW);
+                            })
+                    });
+
                 }
             })
     }
