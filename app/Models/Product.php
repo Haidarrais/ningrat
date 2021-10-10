@@ -31,7 +31,7 @@ class Product extends Model
 
     public function picture()
     {
-        return $this->hasMany(ProductPicture::class);
+        return $this->hasMany(ProductPicture::class) ?? null;
     }
 
     public function onePicture()

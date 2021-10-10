@@ -103,15 +103,14 @@
                             <div class="product-carousel">
                                 @foreach ($product as $key => $prod)
                                     @if ($cat2->id === $prod->category_id)
+                                        @php
+                                            $img = $prod->picture->first()->image ?? '';
+                                        @endphp
                                         <div class="custom-col">
                                             <div class="single-product-item">
                                                 <div class="product-image">
-                                                    <a style="display: block;
-                                                        max-width:300px;
-                                                        max-height:300px;
-                                                        width:300px;
-                                                        height:300px;">
-                                                        <img src="{{ asset('upload/product/' . $prod->image)}}" alt="">
+                                                    <a>
+                                                        <img src="{{ asset('upload/product/' . $img)}}" alt="">
                                                     </a>
                                                     <div class="product-hover">
                                                         @if (auth()->user() && auth()->user()->isCustomer())

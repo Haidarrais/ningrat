@@ -59,13 +59,16 @@
                                         }else{
                                             $price = $stock->product->price;
                                         }
+                                        $image = App\Models\ProductPicture::where('product_id', '=', $stock->product->id)->first();
+
+                                        $img = $image->image ?? 'notFound';
                                     @endphp
                                         <div class="custom-col">
 
                                             <div class="single-product-item">
                                                 <div class="product-image">
                                                     <a href="product-details.html">
-                                                        <img src="{{ asset('upload/product/' . $stock->product->image) }}" alt="">
+                                                        <img src="{{ asset('upload/product/' . $img) }}" alt="">
                                                     </a>
                                                     <div class="product-hover">
                                                         <ul class="hover-icon-list">
@@ -75,7 +78,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $stock->product->image) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -114,11 +117,14 @@
                                     }else{
                                         $price = $stock->product->price;
                                     }
+                                    $image = App\Models\ProductPicture::where('product_id', '=', $stock->product->id)->first();
+
+                                    $img = $image->image ?? 'notFound';
                                 @endphp
                                     <div class="single-product-item">
                                         <div class="product-image">
                                             <a href="product-details.html">
-                                                <img src="{{ asset('upload/product/' . $stock->product->image) }}" alt="">
+                                                <img src="{{ asset('upload/product/' . $img) }}" alt="">
                                             </a>
                                             <div class="product-hover">
                                                 <ul class="hover-icon-list">
@@ -128,7 +134,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $stock->product->image) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
