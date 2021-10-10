@@ -156,7 +156,7 @@
                         .then(({
                             data
                         }) => {
-                            // $("#modal_tambah").LoadingOverlay('hide');
+                            $("#modal_tambah").LoadingOverlay('hide');
                             $('#modal_tambah').modal('hide')
                             refresh_get_category()
                             refresh_table(URL_NOW)
@@ -167,7 +167,7 @@
                             })
                         })
                         .catch(err => {
-                            // $("#modal_tambah").LoadingOverlay('hide');
+                            $("#modal_tambah").LoadingOverlay('hide');
                             throwErr(err)
                         })
                 })
@@ -183,7 +183,7 @@
                         .then(({
                             data
                         }) => {
-                            // $("#modal_tambah").LoadingOverlay('hide');
+                            $("#modal_tambah").LoadingOverlay('hide');
                             $('#modal_tambah').modal('hide')
                             refresh_get_category()
                             refresh_table(URL_NOW)
@@ -194,7 +194,7 @@
                             })
                         })
                         .catch(err => {
-                            // $("#modal_tambah").LoadingOverlay('hide');
+                            $("#modal_tambah").LoadingOverlay('hide');
                             throwErr(err)
                         })
                 })
