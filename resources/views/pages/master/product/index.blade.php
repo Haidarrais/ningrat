@@ -144,11 +144,7 @@
             //     console.log(pair[1]);
             // }
             // return;
-            $("#modal_tambah").LoadingOverlay('show', {
-                teks: "Uploading...",
-                progress: true
-
-            });
+            $("#modal_tambah").LoadingOverlay('show');
             // console.log(FormDataVar);
             if (type == "STORE") {
                 await new Promise((resolve, reject) => {
@@ -160,6 +156,7 @@
                         .then(({
                             data
                         }) => {
+                            // $("#modal_tambah").LoadingOverlay('hide');
                             $('#modal_tambah').modal('hide')
                             refresh_get_category()
                             refresh_table(URL_NOW)
@@ -170,6 +167,7 @@
                             })
                         })
                         .catch(err => {
+                            // $("#modal_tambah").LoadingOverlay('hide');
                             throwErr(err)
                         })
                 })
@@ -185,6 +183,7 @@
                         .then(({
                             data
                         }) => {
+                            // $("#modal_tambah").LoadingOverlay('hide');
                             $('#modal_tambah').modal('hide')
                             refresh_get_category()
                             refresh_table(URL_NOW)
@@ -195,6 +194,7 @@
                             })
                         })
                         .catch(err => {
+                            // $("#modal_tambah").LoadingOverlay('hide');
                             throwErr(err)
                         })
                 })
