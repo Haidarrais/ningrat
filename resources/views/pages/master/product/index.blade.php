@@ -144,7 +144,11 @@
             //     console.log(pair[1]);
             // }
             // return;
-            $("#modal_tambah").LoadingOverlay('show');
+            $("#modal_tambah").LoadingOverlay('show', {
+                teks: "Uploading...",
+                progress: true
+
+            });
             // console.log(FormDataVar);
             if (type == "STORE") {
                 await new Promise((resolve, reject) => {
