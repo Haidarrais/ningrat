@@ -61,7 +61,7 @@
                                         }
                                         $image = App\Models\ProductPicture::where('product_id', '=', $stock->product->id)->first();
 
-                                        $img = $image->image ?? 'notFound';
+                                        $img = $image->image ?? '1.jpg';
                                     @endphp
                                         <div class="custom-col">
 
