@@ -250,8 +250,8 @@
                     type: 'GET',
                     url: url,
                     success: function(data) {
-                        console.log(data);
                         data.data.forEach(sendData);
+                        console.log(sendData);
                         function sendData(item, index) {
                         console.log(item.image);
 
