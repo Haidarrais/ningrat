@@ -216,9 +216,8 @@
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
                                 </div>
-                                <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
-                                    </div>
+                                <div class="single-product-menu" id="myTabList{{$stock->product_id}}">
+
                                 </div>
                             </div>
                             <div class="column-right">
@@ -261,8 +260,10 @@
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
-                                htmlL += `<div class="single-tab-menu">
-                                            <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}"" href="#single-slide${key+1}""><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                htmlL += `<div class="nav single-slide-menu" role="tablist" >
+                                            <div class="single-tab-menu">
+                                                <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}"" href="#single-slide${key+1}""><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                            </div>
                                         </div>`
                             }else{
                                 htmlC += `<div class="tab-pane fade" id="single-slide${key+1}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}">
@@ -270,8 +271,10 @@
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
-                                htmlL += `<div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-${key+1}"" href="#single-slide${key+1}""><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                htmlL += `<div class="nav single-slide-menu" role="tablist" >
+                                            <div class="single-tab-menu">
+                                                <a data-toggle="tab" id="single-slide-tab-${key+1}"" href="#single-slide${key+1}""><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                            </div>
                                         </div>`
                             }
                         });
