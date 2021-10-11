@@ -258,11 +258,9 @@
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
         <script>
-            document.addEventListener('livewire:load', function () {
-                function setIndex(id) {
-                    @this.pictureId = id
-                }
-            })
+            function setIndex(id) {
+                @this.pictureId = id
+            }
         </script>
 </div>
 
