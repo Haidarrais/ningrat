@@ -208,6 +208,7 @@
                 $price = $stock->product->price;
             }
         @endphp
+            @if($pictures)
             <div class="modal d-block fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
@@ -255,6 +256,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
 </div>
