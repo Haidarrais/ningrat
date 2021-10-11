@@ -255,17 +255,8 @@
                         let picture = data.data
                         let htmlC = ``
                         let htmlL = ``
-                        $.each(picture, (element, index) => {
-                            if (index == 0) {
-                                htmlC = `<div class="tab-pane fade show active" id="single-slide${index+1}" role="tabpanel" aria-labelledby="single-slide-tab-${index+1}">
-                                            <div class="single-product-img">
-                                                <img src="{{ asset('upload/product/'. "${element.image}") }}" alt="tidak ada gambar">
-                                            </div>
-                                        </div>`
-                                htmlL = `<div class="single-tab-menu">
-                                            <a class="active" data-toggle="tab" id="single-slide-tab-${index+1}"" href="#single-slide${index+1}""><img src="{{ asset('upload/product/'. "${element.image}") }}" alt="" ></a>
-                                        </div>`
-                            }
+                        $.each(picture, (key, value) => {
+                            ${value};
                         });
                     }
                 });
