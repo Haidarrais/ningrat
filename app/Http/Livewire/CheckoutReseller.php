@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Controllers\Web\DiscountController;
 use Livewire\Component;
 use Cart;
 use Illuminate\Support\Facades\Http;
@@ -84,7 +85,7 @@ class CheckoutReseller extends Component
             $kurir = $this->othercourier;
         }
         if ($this->discountOn) {
-            app('App\Http\Controllers\Web\DiscountController')->sendUserId(Auth::id(), $this->discount);
+            DiscountController::sendUserId(Auth::id(), $this->discount);
             $subtotal = $this->subtotal+$this->ongkir;
         }else{
             $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
