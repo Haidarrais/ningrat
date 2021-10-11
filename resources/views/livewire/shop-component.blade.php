@@ -216,6 +216,7 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
+                                    {{var_dump($pictures)}}
                                     @if ($pictureId)
                                     @foreach ($pictures as $key => $picture )
                                         <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
