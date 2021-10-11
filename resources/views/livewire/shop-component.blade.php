@@ -215,26 +215,8 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
-                                    @if ($pictureId)
-                                    @foreach ($pictures as $key => $picture )
-                                    <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
-                                        <div class="single-product-img">
-                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                    @endif
                                 </div>
-                                <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist">
-                                        @if ($pictureId)
-                                        @foreach ($pictures as $key => $picture )
-                                            <div class="single-tab-menu">
-                                                <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
-                                            </div>
-                                        @endforeach
-                                        @endif
-                                    </div>
+                                <div class="single-product-menu" id="myTabPanel">
                                 </div>
                             </div>
                             <div class="column-right">
@@ -269,9 +251,19 @@
                     url: url,
                     success: function(data) {
                         console.log(data);
-                        data.data.forEach(element => {
-                            console.log(element.image);
-                        });
+                        data.data.forEach(sendData);
+                        document.getElementById("myTabContent").innerHTML = tabContent;
+                        document.getElementById("myTabPanel").innerHTML = tabPanel;
+
+                        function sendData(item, index) {
+                            if (index = 0) {
+                                tabPanel += "<div class='nav single-slide-menu' role='tablist'><div class='single-tab-menu'><a class='active' data-toggle='tab' id='single-slide-tab-"+ index+1 +"' href='#single-slide"+ index+1 +"'><img src='{{ asset('upload/product/'.'"+ item.image +"') }}' alt='' ></a></div></div>";
+                                tabContent += "<div class='tab-pane fade show active' id='single-slide"+ index+1 +"' role='tabpanel' aria-labelledby='single-slide-tab-"+ index+1 +"'>" + "<div class='single-product-img'>" + "<img src='{{ asset('upload/product/'.'"+ item.image +"')}}'>" + "</div></div>";
+                            }else{
+                                tabPanel += "<div class='nav single-slide-menu' role='tablist'><div class='single-tab-menu'><a data-toggle='tab' id='single-slide-tab-"+ index+1 +"' href='#single-slide"+ index+1 +"'><img src='{{ asset('upload/product/'.'"+ item.image +"') }}' alt='' ></a></div></div>";
+                                tabContent += "<div class='tab-pane fade' id='single-slide"+ index+1 +"' role='tabpanel' aria-labelledby='single-slide-tab-"+ index+1 +"'>" + "<div class='single-product-img'>" + "<img src='{{ asset('upload/product/'.'"+ item.image +"')}}'>" + "</div></div>";
+                            }
+                        }
                     },
                 });
             }
