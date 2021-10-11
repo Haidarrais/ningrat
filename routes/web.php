@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\ReviewController;
 use App\Http\Livewire\CartComponent;
 use App\Http\Livewire\CategoryComponent;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 Route::get('/', HomeComponent::class)->name('home.page');
+Route::get('/pictures', [ProductController::class, 'pictureShow'])->middleware('auth')->name('picture.show');
 Route::resource('review', ReviewController::class)->middleware('auth');
 Route::group(['prefix' => 'reseller','middleware' => ['role:reseller','auth','active']], function() {
     Route::get('/shop/{name}-{id}', ShopComponent::class)->name('member.shopr');

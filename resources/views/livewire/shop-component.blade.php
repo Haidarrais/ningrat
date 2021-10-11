@@ -260,8 +260,17 @@
         <!-- END QUICKVIEW PRODUCT -->
         <script>
             function setIndex(id) {
-                index = id;
-                $("#pictureId").val(index);
+                // index = id;
+                // console.log(index);
+                var url = "{{route('picture.show', ":id")}}";
+                url = url.replace(":id", id);
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data) {
+                        console.log(data);
+                    },
+                });
             }
         </script>
 </div>

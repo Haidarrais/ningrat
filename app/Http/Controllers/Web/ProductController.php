@@ -25,7 +25,7 @@ class ProductController extends Controller
         $data = $request->all();
         $query = Product::query();
         $query->when('keyword', function($q) use($request) {
-            
+
             $keyword = $request->keyword;
             $q->where('name', 'LIKE', "%".$keyword."%")
                 ->orWhere('description', 'LIKE', "%".$keyword."%")
@@ -147,7 +147,7 @@ class ProductController extends Controller
         $data = $request->except(['id','image']);
         // $data['image'] = $imageName ?? $product->image;
         $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
-        
+
         $product->update($data);
         return response()->json([
             'status' => true,
@@ -167,7 +167,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
-        
+
         if (count($product->buyed)>0) {
             return response()->json([
                 'status' => false,
@@ -253,7 +253,14 @@ class ProductController extends Controller
 
         //
     }
-    
+    public function pictureShow($id)
+    {
+        $data = ProductPicture::where('product_id', '=', $id)->get();
+        return response()->json([
+            'status'    => 0,
+            'data'      => $data
+        ]);
+    }
     public function destroyImage($id)
     {
         $product_image = ProductPicture::find($id);
