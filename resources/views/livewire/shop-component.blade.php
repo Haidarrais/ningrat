@@ -215,13 +215,15 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
-                                    @foreach ($this->pictures as $key => $picture )
+                                    @if ($pictures)
+                                    @foreach ($pictures as $key => $picture )
                                     <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
                                         <div class="single-product-img">
                                             <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
                                         </div>
                                     </div>
                                     @endforeach
+                                    @endif
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist">
