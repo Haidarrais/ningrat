@@ -66,6 +66,7 @@
                             </div>
                             <div class="col-lg-8">
                                 <div class="single-footer-widget">
+                                    <h4>Temukan kami : </h4>
                                     <div class="container-fluid">
                                         <div class="map-responsive">
                                         <iframe src="https://maps.google.com/maps?q=Malang&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
