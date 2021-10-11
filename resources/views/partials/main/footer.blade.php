@@ -66,28 +66,11 @@
                             </div>
                             <div class="col-lg-2 col-md-3">
                                 <div class="single-footer-widget">
-                                    <h3>Products</h3>
-                                    <ul class="footer-widget-list">
-                                        <li><a href="shop.html">Prices drop</a></li>
-                                        <li><a href="shop.html">New products</a></li>
-                                        <li><a href="shop.html">Best sales</a></li>
-                                        <li><a href="shop.html">Stores</a></li>
-                                        <li><a href="#">Login</a></li>
-                                        <li><a href="#">My Account</a></li>
-                                    </ul>
+
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-3">
                                 <div class="single-footer-widget">
-                                    <h3>Our company</h3>
-                                    <ul class="footer-widget-list">
-                                        <li><a href="#">Delivery</a></li>
-                                        <li><a href="#">Legal Notice</a></li>
-                                        <li><a href="#">Documentation</a></li>
-                                        <li><a href="#">Secure payment</a></li>
-                                        <li><a href="contact.html">Contact us</a></li>
-                                        <li><a href="shop.html">Stores</a></li>
-                                    </ul>
                                 </div>
                             </div>
                             <div class="col-lg-4">
