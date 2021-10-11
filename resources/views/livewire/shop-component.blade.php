@@ -254,14 +254,16 @@
                         data.data.forEach(sendData);
                         document.getElementById("myTabContent").innerHTML = tabContent;
                         document.getElementById("myTabPanel").innerHTML = tabPanel;
+                        console.log(tabContent);
+                        console.log(tabPanel);
 
                         function sendData(item, index) {
                             if (index = 0) {
-                                tabPanel += "<div class='nav single-slide-menu' role='tablist'><div class='single-tab-menu'><a class='active' data-toggle='tab' id='single-slide-tab-"+ index+1 +"' href='#single-slide"+ index+1 +"'><img src='{{ asset('upload/product/'.'"+ item.image +"') }}' alt='' ></a></div></div>";
                                 tabContent += "<div class='tab-pane fade show active' id='single-slide"+ index+1 +"' role='tabpanel' aria-labelledby='single-slide-tab-"+ index+1 +"'>" + "<div class='single-product-img'>" + "<img src='{{ asset('upload/product/'.'"+ item.image +"')}}'>" + "</div></div>";
+                                tabPanel += "<div class='nav single-slide-menu' role='tablist'><div class='single-tab-menu'><a class='active' data-toggle='tab' id='single-slide-tab-"+ index+1 +"' href='#single-slide"+ index+1 +"'><img src='{{ asset('upload/product/'.'"+ item.image +"') }}' alt='' ></a></div></div>";
                             }else{
-                                tabPanel += "<div class='nav single-slide-menu' role='tablist'><div class='single-tab-menu'><a data-toggle='tab' id='single-slide-tab-"+ index+1 +"' href='#single-slide"+ index+1 +"'><img src='{{ asset('upload/product/'.'"+ item.image +"') }}' alt='' ></a></div></div>";
                                 tabContent += "<div class='tab-pane fade' id='single-slide"+ index+1 +"' role='tabpanel' aria-labelledby='single-slide-tab-"+ index+1 +"'>" + "<div class='single-product-img'>" + "<img src='{{ asset('upload/product/'.'"+ item.image +"')}}'>" + "</div></div>";
+                                tabPanel += "<div class='nav single-slide-menu' role='tablist'><div class='single-tab-menu'><a data-toggle='tab' id='single-slide-tab-"+ index+1 +"' href='#single-slide"+ index+1 +"'><img src='{{ asset('upload/product/'.'"+ item.image +"') }}' alt='' ></a></div></div>";
                             }
                         }
                     },
