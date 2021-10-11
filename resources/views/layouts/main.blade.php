@@ -18,8 +18,11 @@
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <script src="{{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
         <style>
-            .scroll-y{
-                overflow-y: scroll !important;
+             .modal{
+                overflow:hidden;
+            }
+            .modal-body{
+                overflow:auto;
             }
         </style>
     </head>
