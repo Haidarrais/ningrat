@@ -41,6 +41,19 @@
         <script src="{{ asset('assets/js/main.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
         <style>
+            .map-responsive{
+                overflow:hidden;
+                padding-bottom:50%;
+                position:relative;
+                height:0;
+            }
+            .map-responsive iframe{
+                left:0;
+                top:0;
+                height:100%;
+                width:100%;
+                position:absolute;
+            }
             button:disabled {
                 cursor: not-allowed;
                 pointer-events: all !important;
