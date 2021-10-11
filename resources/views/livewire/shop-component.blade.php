@@ -215,9 +215,17 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
+                                    <div class="tab-pane fade show active" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
+                                        <div class="single-product-img">
+                                            <img src="" alt="">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
+                                        <div class="single-tab-menu">
+                                            <a data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide"><img src="" alt="" ></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +269,7 @@
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
-                                htmlL += `<div class="single-tab-menu" style="width:193px;display:flex;">
+                                htmlL += `<div class="single-tab-menu">
                                             <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
                                         </div>`
                             }else{
@@ -270,7 +278,7 @@
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
-                                htmlL += `<div class="single-tab-menu" style="width:193px;display:flex;">
+                                htmlL += `<div class="single-tab-menu">
                                             <a data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
                                         </div>`
                             }
