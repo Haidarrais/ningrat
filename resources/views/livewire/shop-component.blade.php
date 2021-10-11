@@ -208,7 +208,7 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
+            <div class="modal fade productModal" id="productModal{{$stock->id}}" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
@@ -266,7 +266,7 @@
                                         </div>`
                             }
                             console.log(htmlL);
-                            $(`.productModal${id}`).modal('show')
+                            $(`#productModal${id}`).modal('show')
                             $("#myTabContent").html(htmlC)
                             $("#myTabList").html(htmlL)
                         });
