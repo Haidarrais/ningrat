@@ -247,7 +247,7 @@
                                     @else
                                         <h3 class="q-product-price">Rp.{{ number_format($price) }}</span></h3>
                                     @endif
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus</p>
+                                    <p>{{$stock->product->description}}</p>
                                     <div class="input-cart">
                                         <input value="1" type="number">
                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
