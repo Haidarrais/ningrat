@@ -255,8 +255,8 @@
                         let picture = data.data
                         let htmlC = ``
                         let htmlL = ``
-                        $.forEach(picture, (element, index) => {
-                            console.log($index);
+                        $.forEach(picture, (key, value) => {
+                            console.log(value);
                         });
                     }
                 });
