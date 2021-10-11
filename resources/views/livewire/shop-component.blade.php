@@ -16,6 +16,7 @@
         <div class="shop-area pt-110 pb-100 bg-gray mb-95">
             <div class="container">
                 <div class="row">
+                    <input name="pictureId" id="pictureId" wire:model='pictureId'>
                     <div class="order-xl-2 order-lg-2 col-xl-9 col-lg-8">
                         <div class="ht-product-tab">
                             <div class="ht-tab-content">
@@ -75,7 +76,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->picture_id}})"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -128,7 +129,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->picture_id}})"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -255,7 +256,6 @@
                     </div>
                 </div>
             </div>
-            <input name="pictureId" id="pictureId" wire:model='pictureId'>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
         <script>
