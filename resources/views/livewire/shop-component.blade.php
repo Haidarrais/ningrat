@@ -16,7 +16,7 @@
         <div class="shop-area pt-110 pb-100 bg-gray mb-95">
             <div class="container">
                 <div class="row">
-                    <input name="pictureId" id="pictureId" wire:model='pictureId'>
+                    <input type="hidden" name="pictureId" id="pictureId" wire:model='pictureId'>
                     <div class="order-xl-2 order-lg-2 col-xl-9 col-lg-8">
                         <div class="ht-product-tab">
                             <div class="ht-tab-content">
@@ -218,22 +218,22 @@
                                 <div class="tab-content product-details-large" id="myTabContent">
                                     @if ($pictureId)
                                     @foreach ($pictures as $key => $picture )
-                                    <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
-                                        <div class="single-product-img">
-                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
+                                        <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
+                                            <div class="single-product-img">
+                                                <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
+                                            </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                     @endif
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist">
                                         @if ($pictureId)
-                                        @foreach ($pictures as $key => $picture )
-                                            <div class="single-tab-menu">
-                                                <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
-                                            </div>
-                                        @endforeach
+                                            @foreach ($pictures as $key => $picture )
+                                                <div class="single-tab-menu">
+                                                    <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
+                                                </div>
+                                            @endforeach
                                         @endif
                                     </div>
                                 </div>
