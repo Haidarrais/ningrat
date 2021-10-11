@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex($stock->id)"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -128,7 +128,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex($stock->id)"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -257,18 +257,11 @@
             </div>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
-        @foreach ($stocks as $stock)
         <script>
-            $('a[data-target=#productModal{{$stock->id}}]').click(function(ev) {
-                ev.preventDefault();
-                var target = $(this).attr("href");
-
-                // load the url and show modal on success
-                $("#productModal{{$stock->id}} .modal-content").load(target, function() {
-                    $("#productModal{{$stock->id}}").modal("show");
-                });
-            });
+            function setIndex(id) {
+                index = id;
+                console.log(index);
+            }
         </script>
-        @endforeach
 </div>
 
