@@ -256,7 +256,7 @@
                         let htmlC = ``
                         let htmlL = ``
                         $.each(picture, (key, value) => {
-                            ${value};
+                            console.log(${value});
                         });
                     }
                 });
