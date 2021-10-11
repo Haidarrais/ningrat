@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a onclick="setIndex({{$stock->product_id}}, {{$stock->id}})"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -128,7 +128,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -208,7 +208,7 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal fade" id="productModal{{$stock->id}}" tabindex="-1" role="dialog" aria-labelledby="price" aria-hidden="true">
+            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
@@ -242,7 +242,7 @@
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
         <script>
-            function setIndex(id, sId) {
+            function setIndex(id) {
                 // index = id;
                 // console.log(index);
                 var url = "{{route('picture.show', ":id")}}";
@@ -265,12 +265,9 @@
                                             <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}"" href="#single-slide${key+1}""><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
                                         </div>`
                             }
-                            console.log(htmlL);
-                            console.log(`#productModal${sId}`);
-                            $(`#productModal${sId}`).modal('toggle');
-                            $("#myTabContent").html(htmlC)
-                            $("#myTabList").html(htmlL)
                         });
+                        $("#myTabList").html(htmlL)
+                        $("#myTabContent").html(htmlC)
                     }
                 });
             };
