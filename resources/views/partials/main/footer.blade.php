@@ -92,34 +92,11 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="single-footer-widget">
-                                    <h3>Instagram</h3>
-                                    <div class="instagram-image">
-                                        <div class="single-insta-img">
-                                            <a href="#"><img src="{{ asset('assets/img/instagram/1.jpg') }}" alt=""></a>
-                                        </div>
-                                        <div class="single-insta-img">
-                                            <a href="#"><img src="{{ asset('assets/img/instagram/2.jpg') }}" alt=""></a>
-                                        </div>
-                                        <div class="single-insta-img">
-                                            <a href="#"><img src="{{ asset('assets/img/instagram/3.jpg') }}" alt=""></a>
-                                        </div>
-                                        <div class="single-insta-img">
-                                            <a href="#"><img src="{{ asset('assets/img/instagram/4.jpg') }}" alt=""></a>
-                                        </div>
-                                        <div class="single-insta-img">
-                                            <a href="#"><img src="{{ asset('assets/img/instagram/5.jpg') }}" alt=""></a>
-                                        </div>
-                                        <div class="single-insta-img">
-                                            <a href="#"><img src="{{ asset('assets/img/instagram/6.jpg') }}" alt=""></a>
-                                        </div>
-                                        <div class="single-insta-img">
-                                            <a href="#"><img src="{{ asset('assets/img/instagram/7.jpg') }}" alt=""></a>
-                                        </div>
-                                        <div class="single-insta-img">
-                                            <a href="#"><img src="{{ asset('assets/img/instagram/8.jpg') }}" alt=""></a>
-                                        </div>
+                                    <div class="container-fluid">
+                                        <div class="map-responsive">
+                                        <iframe src="https://maps.google.com/maps?q=Malang&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
                                     </div>
-                                    <a href="#">Follow our instagram <i class="fa fa-angle-double-right"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
