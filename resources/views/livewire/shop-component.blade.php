@@ -247,6 +247,7 @@
                                     @endif
                                     <p>{{$stock->product->description}}</p>
                                     <div class="input-cart">
+                                        <input name="pictureId" id="pictureId" wire:model='pictureId'>
                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                     </div>
                                 </div>
@@ -257,7 +258,6 @@
             </div>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
-        <input type="hidden" name="pictureId" id="pictureId" wire:model='pictureId'>
         <script>
             function setIndex(id) {
                 index = id;
