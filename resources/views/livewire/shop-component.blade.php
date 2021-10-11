@@ -267,8 +267,7 @@
                             }
                             console.log(htmlL);
                             console.log(`#productModal${id}`);
-                            $(`#productModal${id}`).modal('toggle')
-                            $(`#productModal${id}`).modal('show')
+                            $(`#productModal${id}`).toggle()
                             $("#myTabContent").html(htmlC)
                             $("#myTabList").html(htmlL)
                         });
