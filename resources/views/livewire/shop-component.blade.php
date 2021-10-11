@@ -256,7 +256,7 @@
                         let htmlC = ``
                         let htmlL = ``
                         $.each(picture, (key, value) => {
-                            if (index == 0) {
+                            if (key == 0) {
                                 htmlC = `<div class="tab-pane fade show active" id="single-slide${key+1}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}">
                                             <div class="single-product-img">
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
