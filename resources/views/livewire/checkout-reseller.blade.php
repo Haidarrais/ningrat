@@ -214,12 +214,12 @@
                                         <tfoot>
                                             @if ($discount)
                                             @php
-                                                $this->discountNominal = Cart::subtotal(2,'.','')*$discount/100;
+                                                $this->discountNominal = Cart::subtotal(2,'.','')*$discount->discount/100;
                                                 $this->subtotal = Cart::subtotal(2,'.','')-$this->discountNominal;
                                             @endphp
                                             <tr class="cart-subtotal">
                                                 <th>Discount</th>
-                                                <td><span class="amount">Rp.{{Cart::subtotal(2,'.','')*$discount/100}}</span></td>
+                                                <td><span class="amount">Rp.{{Cart::subtotal(2,'.','')*$discount->discount/100}}</span></td>
                                             </tr>
                                             @endif
                                             <tr class="cart-subtotal">
@@ -271,7 +271,7 @@
                                                             <select name="discount" id="discount" class="form-control" wire:model="discount">
                                                                 <option value="0" selected>Pilih Discount</option>
                                                                 @foreach ($discounts as $dsc )
-                                                                    <option value="{{$dsc->discount}}">{{$dsc->name}}</option>
+                                                                    <option value="{{$dsc}}">{{$dsc->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>

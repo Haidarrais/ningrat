@@ -87,7 +87,7 @@ class CheckoutReseller extends Component
             if ($this->discountOn) {
                 if ($this->discount) {
                     $userId = Auth::id();
-                    $discount = MasterDiscount::find($this->discount);
+                    $discount = MasterDiscount::find($this->discount->id);
                     $userList = json_decode($discount->userList);
                     if ($userList == null) {
                         $discount->userList = json_encode([$userId]);
