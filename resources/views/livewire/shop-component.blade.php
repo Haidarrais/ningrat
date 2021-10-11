@@ -215,25 +215,25 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
+                                    @if ($pictureId)
                                     @foreach ($pictures as $key => $picture )
-                                    @if ($picture->product_id == $stock->product_id)
                                     <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
                                         <div class="single-product-img">
                                             <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
                                         </div>
                                     </div>
-                                    @endif
                                     @endforeach
+                                    @endif
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist">
+                                        @if ($pictureId)
                                         @foreach ($pictures as $key => $picture )
-                                        @if ($picture->product_id == $stock->product_id)
                                             <div class="single-tab-menu">
                                                 <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
                                             </div>
-                                        @endif
                                         @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -260,7 +260,7 @@
         <script>
             function setIndex(id) {
                 index = id;
-                console.log(index);
+                @this.pictureId = index;
             }
         </script>
 </div>
