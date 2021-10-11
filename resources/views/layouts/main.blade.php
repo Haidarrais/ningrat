@@ -17,14 +17,6 @@
         <link rel="stylesheet" href="{{ asset('assets/css/plugins.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <script src="{{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
-        <style>
-             .modal{
-                overflow:hidden;
-            }
-            .modal-body{
-                overflow:auto;
-            }
-        </style>
     </head>
     <body>
 
