@@ -17,6 +17,11 @@
         <link rel="stylesheet" href="{{ asset('assets/css/plugins.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <script src="{{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
+        <style>
+            .scroll-y{
+                overflow-y: scroll !important;
+            }
+        </style>
     </head>
     <body>
 
