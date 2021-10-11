@@ -77,10 +77,8 @@ class ProductController extends Controller
                     ]
                 ], 500);
             }
-            // if ($request->filenames) {
             $this->storeImage($images, $product->id);
             // }
-            // $this->unlinkImage($this->pathImage, $product->image);
         }
         return response()->json([
             'status' => true,

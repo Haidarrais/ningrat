@@ -11,20 +11,18 @@
   <div class="card">
     <div class="card-header">
       <div class="row w-100">
-        <!-- <div class="col-12">
-          <div class="row">
-            <div class="ml-auto col-6">
-              {{-- <form action="" method="get" class="row"> --}}
+        <div class="card-header">
+          <div class="ml-auto">
+            <div class="row">
               <div class="input-group mb-3">
-                <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
-                  value="{{ request()->keyword ?? '' }}">
-                <div class="input-group-append">
-                  <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
-                </div>
+                <!-- <div class="input-group-append">
+                  <button class="btn btn-primary"><i class="fas fa-search"></i>Cari</button>
+                </div> -->
+                <input type="text" class="form-control" name="keyword" placeholder="Cari Nama / email / role" oninput="onchangeProductType(this.value)" value="{{ request()->keyword ?? '' }}">
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="col-12 mt-2">
           <ul class="nav nav-tabs col-12">
             <li class="nav-item">
@@ -290,7 +288,7 @@
             title: data.message.head,
             text: data.message.body,
           }).then(() => {
-             new Promise(async(resolve, reject) => {
+            new Promise(async (resolve, reject) => {
               $("#table_data2").LoadingOverlay('show')
               await $axios.get(`${URL_NOW}/is_accepting_upgrade_req=true`)
                 .then(({
@@ -335,5 +333,65 @@
   // function submitForm(){
   //   $("#form-downgrade-once").submit();
   // }
+  function onchangeProductType(id) {
+    // console.log(isNaN(parseInt(id)));
+    let arrayH = $(".user_name").toArray();
+    // !isNaN(parseInt(id)) ? categoryFilter(arrayH, id) : nameFilter(arrayH, id);
+    // }
+    let array_role = $(".user_role").toArray();
+    let array_email = $(".user_email").toArray();
+    // function nameFilter(arrayH, id) {
+    let checkMatching = [];
+    const warnP = document.createElement('p');
+    for (let index = 0; index < arrayH.length; index++) {
+      const item = arrayH[index];
+      const role = array_role[index];
+      const email = array_email[index];
+
+      if (!(item.innerHTML.toLowerCase().includes(id.toLowerCase())) &&
+        !(role.innerHTML.toLowerCase().includes(id.toLowerCase())) &&
+        !(email.innerHTML.toLowerCase().includes(id.toLowerCase()))) {
+        item.parentElement.classList.add('d-none');
+        checkMatching.push(false);
+      } else {
+        item.parentElement.classList.remove('d-none');
+        checkMatching.push(true);
+      }
+      // let warnElement = document.getElementById("showWarn");
+      // if ((!checkMatching.includes(true))) {
+      //   if (warnElement === null) {
+      //     warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
+      //     item.parentElement.parentElement.appendChild(warnP);
+      //   }
+      // } else {
+      //   if (warnElement) {
+      //     let tbody = document.getElementById("tbody");
+      //     tbody.removeChild(warnElement.parentNode);
+      //   }
+      // }
+    }
+    // arrayH.map((item, i) => {
+    //   // console.log("aaaa", );
+    //   if (!(item.innerHTML.toLowerCase().includes(id.toLowerCase()))) {
+    //     item.parentElement.classList.add('d-none');
+    //     checkMatching.push(false);
+    //   } else {
+    //     item.parentElement.classList.remove('d-none');
+    //     checkMatching.push(true);
+    //   }
+    //   let warnElement = document.getElementById("showWarn");
+    //   if (!checkMatching.includes(true)) {
+    //     if (warnElement === null) {
+    //       warnP.innerHTML = `<p id="showWarn" class="text-center">Data tidak ditemukan</p>`
+    //       item.parentElement.parentElement.appendChild(warnP);
+    //     }
+    //   } else {
+    //     if (warnElement) {
+    //       let tbody = document.getElementById("tbody");
+    //       tbody.removeChild(warnElement.parentNode);
+    //     }
+    //   }
+    // });
+  }
 </script>
 @endsection
