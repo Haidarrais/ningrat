@@ -261,7 +261,7 @@
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
-                                htmlL += `<div class="single-tab-menu">
+                                htmlL += `<div class="single-tab-menu" style="width:193px;">
                                             <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
                                         </div>`
                             }else{
@@ -270,7 +270,7 @@
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
-                                htmlL += `<div class="single-tab-menu">
+                                htmlL += `<div class="single-tab-menu" style="width:193px;">
                                             <a data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
                                         </div>`
                             }
