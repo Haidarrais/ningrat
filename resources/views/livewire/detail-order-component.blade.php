@@ -55,7 +55,7 @@
                     <tbody>
                             @foreach ($transactions as $item )
                                 <tr>
-                                    <td class="table-image"><a href="product-details.html"><img src="{{asset('upload/product/'. $item->stock->product->image)}}" alt=""></a></td>
+                                    <td class="table-image"><a href="product-details.html"><img src="{{asset('upload/product/'. $item->stock->product->picture->first()->image)}}" alt="tidak ada gambar"></a></td>
                                     <td class="table-p-name"><a href="product-details.html">{{$item->stock->product->name}}</a></td>
                                     <td class="table-p-price"><p>Rp.{{ number_format($item->stock->product->price) }}</p></td>
                                     <td class="table-p-qty">
