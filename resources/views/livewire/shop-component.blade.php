@@ -255,7 +255,7 @@
                         let picture = data.data
                         let htmlC = ``
                         let htmlL = ``
-                        $.forEach(picture, (key, value) => {
+                        $.each(picture, (key, value) => {
                             console.log(value);
                         });
                     }
