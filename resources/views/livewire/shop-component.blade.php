@@ -265,7 +265,7 @@
                     success: function(data) {
                         console.log(data);
                         data.data.forEach((index, element) => {
-                            console.log(element);
+                            console.log(index);
                         });
                     }
                 });
