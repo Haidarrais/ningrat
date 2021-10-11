@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a onclick="setIndex({{$stock->product_id}}, {{$stock->id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -242,7 +242,7 @@
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
         <script>
-            function setIndex(id) {
+            function setIndex(id, sId) {
                 // index = id;
                 // console.log(index);
                 var url = "{{route('picture.show', ":id")}}";
@@ -266,7 +266,8 @@
                                         </div>`
                             }
                             console.log(htmlL);
-                            console.log(`#productModal${id}`);
+                            console.log(`#productModal${sId}`);
+                            $(`#productModal${sId}`).modal('show');
                             $("#myTabContent").html(htmlC)
                             $("#myTabList").html(htmlL)
                         });
