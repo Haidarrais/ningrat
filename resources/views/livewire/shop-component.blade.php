@@ -252,10 +252,7 @@
                     success: function(data) {
                         console.log(data);
                         data.data.forEach(sendData);
-                        document.getElementById("myTabContent").innerHTML = tabContent;
-                        document.getElementById("myTabPanel").innerHTML = tabPanel;
-                        console.log(tabContent);
-                        console.log(tabPanel);
+                        console.log(sendData);
 
                         function sendData(item, index) {
                             if (index = 0) {
