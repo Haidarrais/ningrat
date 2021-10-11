@@ -15,7 +15,7 @@
                                             </div>
                                             <div class="service-text">
                                                 <h3>Free delivery</h3>
-                                                <p>Nam liber tempor cum soluta nobis eleifend option congue.</p>
+                                                <p>Dapatkan gratis ongkir jika memenuhi syarat.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -26,7 +26,7 @@
                                             </div>
                                             <div class="service-text">
                                                 <h3>Money guarantee</h3>
-                                                <p>Nam liber tempor cum soluta nobis eleifend option congue.</p>
+                                                <p>Jaminan transaksi aman.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -37,7 +37,7 @@
                                             </div>
                                             <div class="service-text">
                                                 <h3>Online support</h3>
-                                                <p>Nam liber tempor cum soluta nobis eleifend option congue.</p>
+                                                <p>CS selalu siap membantu anda.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -56,11 +56,11 @@
                                     <div class="footer-logo">
                                         <a href="#"><img src="{{ asset('assets/img/logo/logo.png') }}" alt=""></a>
                                     </div>
-                                    <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</p>
+                                    <p>Memenuhi kebutuhan anda dengan solusi yang terbaik</p>
                                     <div class="footer-text">
-                                        <span><i class="icon icon-Pointer"></i>Address : No 40 Baria Sreet 133/2, NewYork, USA.</span>
-                                        <span><i class="icon icon-Phone"></i>Phone : +(1234) 567 890</span>
-                                        <span><i class="icon icon-Mail"></i>Email : demo@naturecircle.com</span>
+                                        <span><i class="icon icon-Pointer"></i>Address : Malang, Indonesia.</span>
+                                        <span><i class="icon icon-Phone"></i>Phone : +(62)</span>
+                                        <span><i class="icon icon-Mail"></i>Email : hello@ningratofficial.com</span>
                                     </div>
                                 </div>
                             </div>
@@ -115,9 +115,6 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
-                            <div class="payment-img d-flex justify-content-end">
-                                <img src="{{ asset('assets/img/payment.png') }}" alt="">
-                            </div>
                         </div>
                     </div>
                 </div>
