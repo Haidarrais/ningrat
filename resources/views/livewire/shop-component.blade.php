@@ -212,45 +212,49 @@
                 <div class="modal-dialog modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button> --}}
-                        <div class="quick-view-container modal-body">
-                            <div class="column-left">
-                                <div class="tab-content product-details-large" id="myTabContent">
-                                    @foreach ($stock->product->picture as $key => $picture )
-                                    <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
-                                        <div class="single-product-img">
-                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                                <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist">
+                        <div class="modal-head">
+                            <h4>Detail Produk</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="quick-view-container">
+                                <div class="column-left">
+                                    <div class="tab-content product-details-large" id="myTabContent">
                                         @foreach ($stock->product->picture as $key => $picture )
-                                            <div class="single-tab-menu">
-                                                <a @if ($key == 0) class="active sdada" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
+                                        <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
+                                            <div class="single-product-img">
+                                                <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
                                             </div>
+                                        </div>
                                         @endforeach
                                     </div>
+                                    <div class="single-product-menu">
+                                        <div class="nav single-slide-menu" role="tablist">
+                                            @foreach ($stock->product->picture as $key => $picture )
+                                                <div class="single-tab-menu">
+                                                    <a @if ($key == 0) class="active sdada" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="column-right">
-                                <div class="quick-view-text">
-                                    <h2>{{$stock->product->name}}</h2>
-                                    @if ($stock->discount)
-                                        <h3 class="q-product-price">Rp.{{ number_format($price) }}<span class="old-price">Rp.{{ number_format($priceold) }}</span></h3>
-                                    @else
-                                        <h3 class="q-product-price">Rp.{{ number_format($price) }}</span></h3>
-                                    @endif
-                                    <p>{{$stock->product->description}}</p>
-                                    <div class="input-cart">
-                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                <div class="column-right">
+                                    <div class="quick-view-text">
+                                        <h2>{{$stock->product->name}}</h2>
+                                        @if ($stock->discount)
+                                            <h3 class="q-product-price">Rp.{{ number_format($price) }}<span class="old-price">Rp.{{ number_format($priceold) }}</span></h3>
+                                        @else
+                                            <h3 class="q-product-price">Rp.{{ number_format($price) }}</span></h3>
+                                        @endif
+                                        <p>{{$stock->product->description}}</p>
+                                        <div class="input-cart">
+                                            <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
