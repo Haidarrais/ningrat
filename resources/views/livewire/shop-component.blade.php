@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -88,8 +88,8 @@
                                                         <i class="fa fa-star-o"></i>
                                                         <i class="fa fa-star-o"></i>
                                                     </div> --}}
-                                                    <h6><a href="product-details.html">Stok tersisa : {{$stock->stock}}</a></h6>
-                                                    <h5><a href="product-details.html">{{$stock->product->name}}</a></h5>
+                                                    <h6><a>Stok tersisa : {{$stock->stock}}</a></h6>
+                                                    <h5><a>{{$stock->product->name}}</a></h5>
                                                     <div class="pro-price">
 
                                                         @if ($stock->discount)
@@ -128,12 +128,12 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="product-text">
-                                            <h5><a href="product-details.html">{{$stock->product->name}}</a></h5>
+                                            <h5><a>{{$stock->product->name}}</a></h5>
                                             <div class="product-rating">
                                                 <i class="fa fa-star-o color"></i>
                                                 <i class="fa fa-star-o color"></i>
@@ -253,5 +253,22 @@
             </div>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
+        <script>
+            function setIndex(id) {
+                // index = id;
+                // console.log(index);
+                var url = "{{route('picture.show', ":id")}}";
+                url = url.replace(":id", id);
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data) {
+                        console.log(data);
+                        $.forEach(data.data, (index, element) => {
+                            console.log(${element});
+                        });
+                });
+            };
+        </script>
 </div>
 
