@@ -21,7 +21,6 @@
     <body>
 
         <livewire:header-component />
-        {{$slot ?? ''}}
         {{-- @include('partials.main.hero')
         @include('partials.main.category')
         @include('partials.main.product')
@@ -40,6 +39,7 @@
         <script src="{{ asset('assets/js/ajax-mail.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+        {{$slot ?? ''}}
         <style>
             .map-responsive{
                 overflow:hidden;
