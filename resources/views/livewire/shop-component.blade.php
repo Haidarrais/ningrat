@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product->id}})"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->picture_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -128,7 +128,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product->id}})"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->picture_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -215,8 +215,26 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
+                                    @if ($pictureId)
+                                    @foreach ($pictures as $key => $picture )
+                                    <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
+                                        <div class="single-product-img">
+                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @endif
                                 </div>
-                                <div class="single-product-menu" id="myTabPanel">
+                                <div class="single-product-menu">
+                                    <div class="nav single-slide-menu" role="tablist">
+                                        @if ($pictureId)
+                                        @foreach ($pictures as $key => $picture )
+                                            <div class="single-tab-menu">
+                                                <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
+                                            </div>
+                                        @endforeach
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             <div class="column-right">
@@ -229,7 +247,6 @@
                                     @endif
                                     <p>{{$stock->product->description}}</p>
                                     <div class="input-cart">
-                                        <input name="pictureId" id="pictureId" wire:model='pictureId'>
                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                     </div>
                                 </div>
@@ -238,33 +255,13 @@
                     </div>
                 </div>
             </div>
+            <input name="pictureId" id="pictureId" wire:model='pictureId'>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
         <script>
             function setIndex(id) {
-                // index = id;
-                // console.log(index);
-                var url = "{{route('picture.show', ":id")}}";
-                url = url.replace(":id", id);
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    success: function(data) {
-                        let htmlC = ``
-                        let htmlP = ``
-                        data.data.forEach(item => {
-                            if (index = 0) {
-                                htmlC += '<div class="tab-pane fade show active" id="single-slide'+ index+1 +'" role="tabpanel" aria-labelledby="single-slide-tab-'+ index+1 +'"><div class="single-product-img"><img src="{{ asset("upload/product/'+ item.image +'")}}"></div></div>';
-                                htmlP += '<div class="nav single-slide-menu" role="tablist"><div class="single-tab-menu"><a class="active" data-toggle="tab" id="single-slide-tab-'+ index+1 +'" href="#single-slide'+ index+1 +'"><img src="{{ asset("upload/product/'+ item.image +'") }}" alt="" ></a></div></div>';
-                            }else{
-                                htmlC += '<div class="tab-pane fade" id="single-slide'+ index+1 +'" role="tabpanel" aria-labelledby="single-slide-tab-'+ index+1 +'"><div class="single-product-img"><img src="{{ asset("upload/product/'+ item.image +'")}}"></div></div>';
-                                htmlP += '<div class="nav single-slide-menu" role="tablist"><div class="single-tab-menu"><a data-toggle="tab" id="single-slide-tab-'+ index+1 +'" href="#single-slide'+ index+1 +'"><img src="{{ asset("upload/product/'+ item.image +'") }}" alt="" ></a></div></div>';
-                            }
-                        });
-                        $("myTabContent").html(htmlC)
-                        $("myTabPanel").html(htmlP)
-                    },
-                });
+                index = id;
+                $("#pictureId").val(index);
             }
         </script>
 </div>
