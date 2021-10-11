@@ -214,7 +214,7 @@
                         <div class="modal-head">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body row">
                             <div class="col-md-6">
                                 <div class="tab-content product-details-large" id="myTabContent">
                                     @foreach ($stock->product->picture as $key => $picture )
