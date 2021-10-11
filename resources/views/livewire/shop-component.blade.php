@@ -257,11 +257,11 @@
             </div>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
-        <input type="number" name="pictureId" id="pictureId" wire:model='pictureId' hidden>
+        <input type="hidden" name="pictureId" id="pictureId" wire:model='pictureId'>
         <script>
             function setIndex(id) {
                 index = id;
-                $.('#pictureId').val(index);
+                $("#pictureId").val(index);
             }
         </script>
 </div>
