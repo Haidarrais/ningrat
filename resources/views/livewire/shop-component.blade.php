@@ -215,7 +215,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
                         </div>
                         <div class="modal-body">
-                            <div class="column-left">
+                            <div class="col-md-6">
                                 <div class="tab-content product-details-large" id="myTabContent">
                                     @foreach ($stock->product->picture as $key => $picture )
                                     <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
@@ -235,7 +235,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="column-right">
+                            <div class="col-md-6">
                                 <div class="quick-view-text">
                                     <h2>{{$stock->product->name}}</h2>
                                     @if ($stock->discount)
