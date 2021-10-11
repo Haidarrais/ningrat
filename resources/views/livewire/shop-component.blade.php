@@ -264,7 +264,7 @@
                     url: url,
                     success: function(data) {
                         console.log(data);
-                        $.forEach(data, (index,element) => {
+                        data.data.forEach((index, element) => {
                             console.log(element);
                         });
                     }
