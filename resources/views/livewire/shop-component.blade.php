@@ -250,15 +250,19 @@
                     type: 'GET',
                     url: url,
                     success: function(data) {
+                        let htmlC = ``
+                        let htmlP = ``
                         data.data.forEach(item => {
                             if (index = 0) {
-                                document.getElementById("myTabContent").innerHTML += '<div class="tab-pane fade show active" id="single-slide'+ index+1 +'" role="tabpanel" aria-labelledby="single-slide-tab-'+ index+1 +'"><div class="single-product-img"><img src="#"></div></div>';
-                                document.getElementById("myTabPanel").innerHTML += '<div class="nav single-slide-menu" role="tablist"><div class="single-tab-menu"><a class="active" data-toggle="tab" id="single-slide-tab-'+ index+1 +'" href="#single-slide'+ index+1 +'"><img src="#" alt="" ></a></div></div>';
+                                htmlC += '<div class="tab-pane fade show active" id="single-slide'+ index+1 +'" role="tabpanel" aria-labelledby="single-slide-tab-'+ index+1 +'"><div class="single-product-img"><img src="{{ asset("upload/product/'+ item.image +'")}}"></div></div>';
+                                htmlP += '<div class="nav single-slide-menu" role="tablist"><div class="single-tab-menu"><a class="active" data-toggle="tab" id="single-slide-tab-'+ index+1 +'" href="#single-slide'+ index+1 +'"><img src="{{ asset("upload/product/'+ item.image +'") }}" alt="" ></a></div></div>';
                             }else{
-                                document.getElementById("myTabContent").innerHTML += '<div class="tab-pane fade" id="single-slide'+ index+1 +'" role="tabpanel" aria-labelledby="single-slide-tab-'+ index+1 +'"><div class="single-product-img"><img src="#"></div></div>';
-                                document.getElementById("myTabPanel").innerHTML += '<div class="nav single-slide-menu" role="tablist"><div class="single-tab-menu"><a data-toggle="tab" id="single-slide-tab-'+ index+1 +'" href="#single-slide'+ index+1 +'"><img src="#" alt="" ></a></div></div>';
+                                htmlC += '<div class="tab-pane fade" id="single-slide'+ index+1 +'" role="tabpanel" aria-labelledby="single-slide-tab-'+ index+1 +'"><div class="single-product-img"><img src="{{ asset("upload/product/'+ item.image +'")}}"></div></div>';
+                                htmlP += '<div class="nav single-slide-menu" role="tablist"><div class="single-tab-menu"><a data-toggle="tab" id="single-slide-tab-'+ index+1 +'" href="#single-slide'+ index+1 +'"><img src="{{ asset("upload/product/'+ item.image +'") }}" alt="" ></a></div></div>';
                             }
                         });
+                        $("myTabContent").html(htmlC)
+                        $("myTabPanel").html(htmlP)
                     },
                 });
             }
