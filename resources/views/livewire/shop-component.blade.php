@@ -215,21 +215,9 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
-                                    @foreach ($stock->product->picture as $key => $picture )
-                                    <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
-                                        <div class="single-product-img">
-                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
-                                        </div>
-                                    </div>
-                                    @endforeach
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist">
-                                        @foreach ($stock->product->picture as $key => $picture )
-                                            <div class="single-tab-menu">
-                                                <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
-                                            </div>
-                                        @endforeach
+                                    <div class="nav single-slide-menu" role="tablist" id="myTabList">
                                     </div>
                                 </div>
                             </div>
@@ -264,8 +252,19 @@
                     url: url,
                     success: function(data) {
                         console.log(data);
-                        data.data.forEach((index, element) => {
-                            console.log(index);
+                        let htmlC = ``
+                        let htmlL = ``
+                        data.data.forEach((element, index) => {
+                            if (index == 0) {
+                                htmlC = `<div class="tab-pane fade show active" id="single-slide${index+1}" role="tabpanel" aria-labelledby="single-slide-tab-${index+1}">
+                                            <div class="single-product-img">
+                                                <img src="{{ asset('upload/product/'. ${element.image}) }}" alt="tidak ada gambar">
+                                            </div>
+                                        </div>`
+                                htmlL = `<div class="single-tab-menu">
+                                            <a class="active" data-toggle="tab" id="single-slide-tab-${index+1}"" href="#single-slide${index+1}""><img src="{{ asset('upload/product/'. ${element.image}") }}" alt="" ></a>
+                                        </div>`
+                            }
                         });
                     }
                 });
