@@ -13,7 +13,7 @@ use Symfony\Component\Process\Process;
 class ShopComponent extends Component
 {
     public $sorting;
-    public $pictures;
+    public $pictures, $pictureId;
     public $pageSize;
     public $id_member;
     public $category;
@@ -35,7 +35,7 @@ class ShopComponent extends Component
     }
     public function pictures($id)
     {
-        $this->pictures = ProductPicture::where('product_id', '=', $id)->get();
+        $this->pictureId = $id;
     }
     public function category($category)
     {
@@ -139,6 +139,8 @@ class ShopComponent extends Component
                 ->paginate($this->pageSize);
             }
         }
+        $pictures = ProductPicture::where('product_id', '=', $this->pictureId)->get();
+        $this->pictures = $pictures ?? false;
         $this->categories = Category::all();
         return view('livewire.shop-component',['stocks' => $stocks])->layout('layouts.main');
     }
