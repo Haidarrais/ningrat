@@ -264,6 +264,9 @@
                     url: url,
                     success: function(data) {
                         console.log(data);
+                        $.forEach(data, (index,element) => {
+                            console.log(${element.image});
+                        });
                     }
                 });
             };
