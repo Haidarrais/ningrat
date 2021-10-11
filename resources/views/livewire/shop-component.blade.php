@@ -257,13 +257,13 @@
                         let htmlL = ``
                         $.each(picture, (key, value) => {
                             if (index == 0) {
-                                htmlC = `<div class="tab-pane fade show active" id="single-slide`+ key+1 +`" role="tabpanel" aria-labelledby="single-slide-tab-`+ key+1 +`">
+                                htmlC = `<div class="tab-pane fade show active" id="single-slide`key+1`" role="tabpanel" aria-labelledby="single-slide-tab-`key+1`">
                                             <div class="single-product-img">
-                                                <img src="{{ asset('upload/product/'. `+ value.image +` }}" alt="tidak ada gambar">
+                                                <img src="{{ asset('upload/product/'. `value.image`) }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
                                 htmlL = `<div class="single-tab-menu">
-                                            <a class="active" data-toggle="tab" id="single-slide-tab-`+ key+1 +`"" href="#single-slide`+ key+1 +`""><img src="{{ asset('upload/product/'. `+ value.image +`) }}" alt="" ></a>
+                                            <a class="active" data-toggle="tab" id="single-slide-tab-`key+1`"" href="#single-slide`key+1`""><img src="{{ asset('upload/product/'. `value.image`) }}" alt="" ></a>
                                         </div>`
                             }
                         });
