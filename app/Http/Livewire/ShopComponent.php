@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Category;
+use App\Models\ProductPicture;
 use App\Models\Stock;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,6 +13,7 @@ use Symfony\Component\Process\Process;
 class ShopComponent extends Component
 {
     public $sorting;
+    public $pictures;
     public $pageSize;
     public $id_member;
     public $category;
@@ -30,6 +32,10 @@ class ShopComponent extends Component
         $this->id_member = $id;
         $this->min_price = 50;
         $this->max_price = 1000000;
+    }
+    public function pictures($id)
+    {
+        $this->pictures = ProductPicture::where('product_id', '=', $id)->get();
     }
     public function category($category)
     {
