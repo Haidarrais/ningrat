@@ -214,10 +214,10 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
                         <div class="quick-view-container">
                             <div class="column-left">
-                                <div class="tab-content product-details-large" id="myTabContent">
+                                <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist" id="myTabList">
+                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
                                     </div>
                                 </div>
                             </div>
@@ -266,8 +266,8 @@
                                         </div>`
                             }
                         });
-                        $("#myTabList").html(htmlL)
-                        $("#myTabContent").html(htmlC)
+                        $(`#myTabList${id}`).html(htmlL)
+                        $(`#myTabContent${id}`).html(htmlC)
                     }
                 });
             };
