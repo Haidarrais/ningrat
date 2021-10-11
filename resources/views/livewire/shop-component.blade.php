@@ -257,5 +257,16 @@
             </div>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
+        <script>
+            $("a[data-target=#productModal]").click(function(ev) {
+                ev.preventDefault();
+                var target = $(this).attr("href");
+
+                // load the url and show modal on success
+                $("#productModal .modal-content").load(target, function() {
+                    $("#myModal").modal("show");
+                });
+            });
+        </script>
 </div>
 
