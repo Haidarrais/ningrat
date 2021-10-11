@@ -73,9 +73,6 @@
                                                     <div class="product-hover">
                                                         <ul class="hover-icon-list">
                                                             <li>
-                                                                <a href="wishlist.html"><i class="icon icon-Heart"></i></a>
-                                                            </li>
-                                                            <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
                                                             <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
@@ -123,14 +120,11 @@
                                 @endphp
                                     <div class="single-product-item">
                                         <div class="product-image">
-                                            <a href="product-details.html">
+                                            <a>
                                                 <img src="{{ asset('upload/product/' . $img) }}" alt="">
                                             </a>
                                             <div class="product-hover">
                                                 <ul class="hover-icon-list">
-                                                    <li>
-                                                        <a href="wishlist.html"><i class="icon icon-Heart"></i></a>
-                                                    </li>
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
