@@ -28,6 +28,7 @@
         @include('partials.main.featured')
         @include('partials.main.testimonial')
         @include('partials.main.quickview') --}}
+        {{$slot ?? ''}}
         @yield('content')
 
         @include('partials.main.footer')
@@ -39,7 +40,6 @@
         <script src="{{ asset('assets/js/ajax-mail.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
-        {{$slot ?? ''}}
         <style>
             .map-responsive{
                 overflow:hidden;
