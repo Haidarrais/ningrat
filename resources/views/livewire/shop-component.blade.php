@@ -270,7 +270,7 @@
                     success: function(data) {
                         console.log(data);
                         data.data.forEach(element => {
-                            console.log(element);
+                            console.log(element.image);
                         });
                     },
                 });
