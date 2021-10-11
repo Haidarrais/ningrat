@@ -227,6 +227,7 @@
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist">
+                                        {{var_dump($pictures)}}
                                         @if ($pictureId)
                                         @foreach ($pictures as $key => $picture )
                                             <div class="single-tab-menu">
