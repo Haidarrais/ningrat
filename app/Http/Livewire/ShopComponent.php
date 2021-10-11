@@ -140,7 +140,7 @@ class ShopComponent extends Component
             }
         }
         $pictures = ProductPicture::where('product_id', '=', $this->pictureId)->get();
-        $this->pictures = $pictures;
+        $this->pictures = $pictures ?? false;
         $this->categories = Category::all();
         return view('livewire.shop-component',['stocks' => $stocks])->layout('layouts.main');
     }
