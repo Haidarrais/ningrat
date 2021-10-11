@@ -257,16 +257,18 @@
             </div>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
+        @foreach ($stocks as $stock)
         <script>
-            $("a[data-target=#productModal]").click(function(ev) {
+            $('a[data-target=#productModal{{$stock->id}}]').click(function(ev) {
                 ev.preventDefault();
                 var target = $(this).attr("href");
 
                 // load the url and show modal on success
-                $("#productModal .modal-content").load(target, function() {
-                    $("#myModal").modal("show");
+                $("#productModal{{$stock->id}} .modal-content").load(target, function() {
+                    $("#productModal{{$stock->id}}").modal("show");
                 });
             });
         </script>
+        @endforeach
 </div>
 
