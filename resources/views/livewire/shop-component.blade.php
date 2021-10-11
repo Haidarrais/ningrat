@@ -16,7 +16,6 @@
         <div class="shop-area pt-110 pb-100 bg-gray mb-95">
             <div class="container">
                 <div class="row">
-                    <input type="hidden" name="pictureId" id="pictureId" wire:model='pictureId'>
                     <div class="order-xl-2 order-lg-2 col-xl-9 col-lg-8">
                         <div class="ht-product-tab">
                             <div class="ht-tab-content">
@@ -76,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -129,7 +128,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -209,32 +208,28 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog" wire:ignore.self>
+            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
-                                    @if ($pictureId)
-                                    @foreach ($pictures as $key => $picture )
-                                        <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
-                                            <div class="single-product-img">
-                                                <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
-                                            </div>
+                                    @foreach ($stock->product->picture as $key => $picture )
+                                    <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
+                                        <div class="single-product-img">
+                                            <img src="{{ asset('upload/product/'. $picture->image) }}" alt="">
                                         </div>
+                                    </div>
                                     @endforeach
-                                    @endif
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist">
-                                        @if ($pictureId)
-                                            @foreach ($pictures as $key => $picture )
-                                                <div class="single-tab-menu">
-                                                    <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
-                                                </div>
-                                            @endforeach
-                                        @endif
+                                        @foreach ($stock->product->picture as $key => $picture )
+                                            <div class="single-tab-menu">
+                                                <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -258,13 +253,5 @@
             </div>
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
-        <script>
-            document.addEventListener('livewire:load', function () {
-                function setIndex(id) {
-                    index = id;
-                    @this->pictureId = index;
-                }
-            })
-        </script>
 </div>
 
