@@ -243,28 +243,7 @@
                                     @endif
                                     <p>{{$stock->product->description}}</p>
                                     <div class="input-cart">
-                                        <input value="1" type="number">
                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
-                                    </div>
-                                    <div class="share-product">
-                                        <h4>Share this product</h4>
-                                        <div class="social-link">
-                                            <a href="#" target="_blank" class="facebook">
-                                                <i class="fa fa-facebook"></i>
-                                            </a>
-                                            <a href="#" target="_blank" class="twitter">
-                                                <i class="fa fa-twitter"></i>
-                                            </a>
-                                            <a href="#" target="_blank" class="pinterest">
-                                                <i class="fa fa-pinterest"></i>
-                                            </a>
-                                            <a href="#" target="_blank" class="google">
-                                                <i class="fa fa-google-plus"></i>
-                                            </a>
-                                            <a href="#" target="_blank" class="linkedin">
-                                                <i class="fa fa-linkedin"></i>
-                                            </a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
