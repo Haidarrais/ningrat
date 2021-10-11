@@ -64,16 +64,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-3">
-                                <div class="single-footer-widget">
-
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-3">
-                                <div class="single-footer-widget">
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-8">
                                 <div class="single-footer-widget">
                                     <div class="container-fluid">
                                         <div class="map-responsive">
