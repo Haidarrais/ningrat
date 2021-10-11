@@ -212,7 +212,7 @@
                 <div class="modal-dialog modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
-                        <div class="quick-view-container">
+                        <div class="quick-view-container modal-body">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
                                     @foreach ($stock->product->picture as $key => $picture )
