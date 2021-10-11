@@ -67,7 +67,7 @@
 
                                             <div class="single-product-item">
                                                 <div class="product-image">
-                                                    <a href="product-details.html">
+                                                    <a>
                                                         <img src="{{ asset('upload/product/' . $img) }}" alt="">
                                                     </a>
                                                     <div class="product-hover">
@@ -214,7 +214,7 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
+            <div class="modal fade overflow-auto productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
