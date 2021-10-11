@@ -209,15 +209,13 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
+            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog" wire:ignore.self>
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
-                                    {{var_dump($pictures)}}
-                                    {{var_dump($pictureId)}}
                                     @if ($pictureId)
                                     @foreach ($pictures as $key => $picture )
                                         <div class="tab-pane fade @if ($key == 0) show active @endif" id="single-slide{{$key+1}}" role="tabpanel" aria-labelledby="single-slide-tab-{{$key+1}}">
@@ -263,7 +261,7 @@
         <script>
             function setIndex(id) {
                 index = id;
-                $("#pictureId").val(index);
+                @this->pictureId = index;
             }
         </script>
 </div>
