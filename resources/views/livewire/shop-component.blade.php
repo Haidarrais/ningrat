@@ -227,7 +227,7 @@
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist">
-                                        @foreach ($stock->product->picture as $key => $picture )
+                                        @foreach ($pictures as $key => $picture )
                                             <div class="single-tab-menu">
                                                 <a @if ($key == 0) class="active" @endif data-toggle="tab" id="single-slide-tab-{{$key+1}}" href="#single-slide{{$key+1}}"><img src="{{ asset('upload/product/'. $picture->image) }}" alt="" ></a>
                                             </div>
