@@ -264,6 +264,7 @@
                     url: url,
                     success: function(data) {
                         console.log(data);
+                    }
                 });
             };
         </script>
