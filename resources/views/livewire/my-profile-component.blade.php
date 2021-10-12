@@ -106,7 +106,7 @@
                                                         <legend>Address</legend>
                                                         <div class="single-input-item">
                                                             <div class="checkout-form-list">
-                                                                <label class='col-6' for="">Provinsi</label>
+                                                                <label class='col-6' for="">Provinsi <div class="lds-ripple" wire:loading wire:target="province"><div></div><div></div></div></label>
                                                                 <select class="form-control col-12" name="province_id" id="province" wire:model="province">
                                                                     <option value="selected" selected>--Pilih Provinsi--</option>
                                                                     @foreach ($locations as $location )
@@ -117,7 +117,7 @@
                                                         </div>
                                                         <div class="single-input-item">
                                                             <div class="checkout-form-list">
-                                                                <label class='col-6' for="">Kabupaten/Kota</label>
+                                                                <label class='col-6' for="">Kabupaten/Kota <div class="lds-ripple" wire:loading wire:target="city"><div></div><div></div></div></label>
                                                                 <select class="form-control col-12" name="city_id" id="city" wire:model="city">
                                                                     <option value="selected" selected>--Pilih Kota--</option>
                                                                     @foreach ($cities as $city)
@@ -128,7 +128,7 @@
                                                         </div>
                                                         <div class="single-input-item">
                                                             <div class="checkout-form-list">
-                                                                <label class='col-6' for="">Kecamatan</label>
+                                                                <label class='col-6' for="">Kecamatan <div class="lds-ripple" wire:loading wire:target="subdistrict"><div></div><div></div></div></label>
                                                                 <select class="form-control col-12" name="subdistrict_id" id="subdistrict" wire:model="subdistrict">
                                                                     <option value="selected" selected>--Pilih Kecamatan--</option>
                                                                     @foreach ($subdistricts as $subdistrict)
