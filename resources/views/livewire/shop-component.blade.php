@@ -284,7 +284,7 @@
                     }
                 });
                 $(`#productModal${sId}`).on('show.bs.modal', function() {
-                    $('.single-slide-menu').slick({
+                    $('.slider').slick({
                         infinite: true,
                         slidesToShow: 3,
                         slidesToScroll: 1,
