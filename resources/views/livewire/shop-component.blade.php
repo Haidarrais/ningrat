@@ -244,6 +244,13 @@
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
         <script>
+            function getSliderSettings(){
+                return {
+                    infinite: true,
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            }
             function setIndex(id) {
                 // index = id;
                 // console.log(index);
@@ -279,34 +286,8 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
-                        $('.single-slide-menu').slick({
-                            dots: false,
-                            arrows: false,
-                            slidesToShow: 4,
-                            responsive: [
-                                {
-                                    breakpoint: 1200,
-                                    settings: {
-                                        slidesToShow: 3,
-                                        slidesToScroll: 3
-                                    }
-                                },
-                                {
-                                    breakpoint: 991,
-                                    settings: {
-                                        slidesToShow: 3,
-                                        slidesToScroll: 2
-                                    }
-                                },
-                                {
-                                    breakpoint: 480,
-                                    settings: {
-                                        slidesToShow: 3,
-                                        slidesToScroll: 3
-                                    }
-                                }
-                            ]
-                        });
+                        $('.single-slide-menu').slick('unslick');
+                        $('.single-slide-menu')..slick(getSliderSettings());
                         $('.modal').on('shown.bs.modal', function (e) {
                             $('.single-slide-menu').resize();
                         })
