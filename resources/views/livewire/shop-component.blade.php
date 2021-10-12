@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target="#productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -128,7 +128,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target="#productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}}, {{$stock->id}})"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -208,17 +208,24 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal fade productModal{{$stock->id}}" id="productModal{{$stock->id}}" tabindex="-1" role="dialog">
+            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
+                                    <div class="tab-pane fade show active" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
+                                        <div class="single-product-img">
+                                            <img src="" alt="">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
-
+                                        <div class="single-tab-menu">
+                                            <a data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide"><img src="" alt="" ></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +250,7 @@
         @endforeach
         <!-- END QUICKVIEW PRODUCT -->
         <script>
-            function setIndex(id, $sId) {
+            function setIndex(id) {
                 // index = id;
                 // console.log(index);
                 var url = "{{route('picture.show', ":id")}}";
@@ -279,41 +286,6 @@
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
                     }
-                });
-                $(`#productModal${sId}`).on('show.bs.modal', function() {
-                    $('.single-slide-menu').slick({
-                        infinite: true,
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        arrows: true,
-
-                        autoplaySpeed: 2000,
-                        responsive: [
-                            {
-                                breakpoint: 1200,
-                                settings: {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1
-                                }
-                            },
-                            {
-                                breakpoint: 1008,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1
-                                }
-                            },
-                            {
-                                breakpoint: 800,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1
-                                }
-                                // settings: "unslick"
-                            }
-
-                        ]
-                    });
                 });
             };
         </script>
