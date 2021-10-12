@@ -250,7 +250,7 @@
                     slidesToShow: 3,
                     slidesToScroll: 1
                 }
-            }
+            };
             function setIndex(id) {
                 // index = id;
                 // console.log(index);
