@@ -218,6 +218,7 @@
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
+
                                     </div>
                                 </div>
                             </div>
@@ -279,44 +280,40 @@
                         $(`#myTabContent${id}`).html(htmlC)
                     }
                 });
-                $('.single-slide-menu').slick({
-                    dots: false,
-                    arrows: false,
-                    slidesToShow: 4,
-                    responsive: [
-                        {
-                            breakpoint: 1200,
-                            settings: {
-                                slidesToShow: 3,
-                                slidesToScroll: 3
+                $(`#productModal${sId}`).on('show.bs.modal', function() {
+                    $('.single-slide-menu').slick({
+                        infinite: true,
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        arrows: true,
+
+                        autoplaySpeed: 2000,
+                        responsive: [
+                            {
+                                breakpoint: 1200,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1
+                                }
+                            },
+                            {
+                                breakpoint: 1008,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            },
+                            {
+                                breakpoint: 800,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                                // settings: "unslick"
                             }
-                        },
-                        {
-                            breakpoint: 991,
-                            settings: {
-                                slidesToShow: 3,
-                                slidesToScroll: 2
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                slidesToShow: 3,
-                                slidesToScroll: 3
-                            }
-                        }
-                    ]
-                });
-                $('.modal').on('shown.bs.modal', function (e) {
-                    $('.single-slide-menu').resize();
-                })
-                $('.single-slide-menu a').on('click',function(e){
-                    e.preventDefault();
-                    var $href = $(this).attr('href');
-                    $('.single-slide-menu a').removeClass('active');
-                    $(this).addClass('active');
-                    $('.product-details-large .tab-pane').removeClass('active show');
-                    $('.product-details-large '+ $href ).addClass('active show');
+
+                        ]
+                    });
                 });
             };
         </script>
