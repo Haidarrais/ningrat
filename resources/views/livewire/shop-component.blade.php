@@ -215,13 +215,9 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
-                                    <div class="tab-pane fade show active" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
-
-                                    </div>
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="slider d-flex" role="tablist" id="myTabList{{$stock->product_id}}">
-
+                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
                                     </div>
                                 </div>
                             </div>
@@ -265,7 +261,7 @@
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
-                                htmlL += `<div class="slide" style="width=100px;">
+                                htmlL += `<div class="single-tab-menu">
                                             <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
                                         </div>`
                             }else{
@@ -274,7 +270,7 @@
                                                 <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
-                                htmlL += `<div class="slide" style="width=100px;">
+                                htmlL += `<div class="single-tab-menu">
                                             <a data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
                                         </div>`
                             }
@@ -283,40 +279,44 @@
                         $(`#myTabContent${id}`).html(htmlC)
                     }
                 });
-                $(`#productModal${sId}`).on('show.bs.modal', function() {
-                    $('.slider').slick({
-                        infinite: true,
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        arrows: true,
-
-                        autoplaySpeed: 2000,
-                        responsive: [
-                            {
-                                breakpoint: 1200,
-                                settings: {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1
-                                }
-                            },
-                            {
-                                breakpoint: 1008,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1
-                                }
-                            },
-                            {
-                                breakpoint: 800,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1
-                                }
-                                // settings: "unslick"
+                $('.single-slide-menu').slick({
+                    dots: false,
+                    arrows: false,
+                    slidesToShow: 4,
+                    responsive: [
+                        {
+                            breakpoint: 1200,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3
                             }
-
-                        ]
-                    });
+                        },
+                        {
+                            breakpoint: 991,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 2
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3
+                            }
+                        }
+                    ]
+                });
+                $('.modal').on('shown.bs.modal', function (e) {
+                    $('.single-slide-menu').resize();
+                })
+                $('.single-slide-menu a').on('click',function(e){
+                    e.preventDefault();
+                    var $href = $(this).attr('href');
+                    $('.single-slide-menu a').removeClass('active');
+                    $(this).addClass('active');
+                    $('.product-details-large .tab-pane').removeClass('active show');
+                    $('.product-details-large '+ $href ).addClass('active show');
                 });
             };
         </script>
