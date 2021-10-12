@@ -210,7 +210,7 @@
             }
         </style>
 
-       <div class="lds-ripple d-block" wire:loading><div></div><div></div></div>
+       <div class="lds-ripple" wire:loading><div></div><div></div></div>
 
         @livewireScripts
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
