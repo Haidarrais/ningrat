@@ -281,8 +281,8 @@
                                         </div>`
                             }
                         });
-                        $(`#myTabList${id}`).html(htmlL);
-                        $(`#myTabContent${id}`).html(htmlC);
+                        $(`#myTabList${id}`).html(htmlL)
+                        $(`#myTabContent${id}`).html(htmlC)
 
                         $('.modal').on('shown.bs.modal', function (e) {
                             $(`#myTabList${id}`).resize();
