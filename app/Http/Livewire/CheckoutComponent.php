@@ -17,7 +17,7 @@ class CheckoutComponent extends Component
     public $sellerlocation;
     public $sellerid;
     public $numeric = "1234567890";
-    public $discount, $discounts, $discountOn, $discountNominal, $subtotal;
+    public $discount, $discountId, $discounts, $discountOn, $discountNominal, $subtotal;
     public $ongkir;
     public $berat;
     public $courier = null;
@@ -121,6 +121,9 @@ class CheckoutComponent extends Component
     }
     public function render()
     {
+        if ($this->discountId) {
+            $this->discount = MasterDiscount::find($this->discountId);
+        }
         $this->discounts = MasterDiscount::all();
         if ($this->othercourier!=null) {
             $this->ongkir = 1;

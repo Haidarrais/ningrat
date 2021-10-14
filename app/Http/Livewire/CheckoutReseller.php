@@ -29,7 +29,7 @@ class CheckoutReseller extends Component
     public $locations;
     public $province;
     public $cities;
-    public $discount, $discounts, $discountOn, $discountNominal, $subtotal;
+    public $discount, $discountId, $discounts, $discountOn, $discountNominal, $subtotal;
     public $city;
     public $subdistricts;
     public $subdistrict;
@@ -154,6 +154,9 @@ class CheckoutReseller extends Component
     }
     public function render()
     {
+        if ($this->discountId) {
+            $this->discount = MasterDiscount::find($this->discountId);
+        }
         $this->discounts = MasterDiscount::all();
         if ($this->othercourier!=null) {
             $this->ongkir = 1;

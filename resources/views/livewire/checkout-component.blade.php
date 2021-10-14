@@ -253,10 +253,10 @@
                                                     <div class="col-lg-6">
                                                         <div class="checkout-form-list">
                                                             <label>Pilih Diskon  <span class="required">*</span></label>
-                                                            <select name="discount" id="discount" class="form-control" wire:model="discount">
+                                                            <select name="discount" id="discount" class="form-control" wire:model="discountId">
                                                                 <option value="0" selected>Pilih Discount</option>
                                                                 @foreach ($discounts as $dsc )
-                                                                    <option value="{{$dsc}}">{{$dsc->name}}</option>
+                                                                    <option value="{{$dsc->id}}">{{$dsc->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
