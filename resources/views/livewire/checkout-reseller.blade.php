@@ -269,7 +269,7 @@
                                                         <div class="checkout-form-list">
                                                             <label>Pilih Diskon  <span class="required">*</span></label>
                                                             <select name="discount" id="discount" class="form-control" wire:model="discountId">
-                                                                <option value="0" selected>Pilih Discount</option>
+                                                                <option value="0" selected aria-disabled="true" class="text-secondary">*harap ilih diskon dibawah ini*</option>
                                                                 @foreach ($discounts as $dsc)
                                                                     <option value="{{$dsc->id}}">{{$dsc->name}}</option>
                                                                 @endforeach
