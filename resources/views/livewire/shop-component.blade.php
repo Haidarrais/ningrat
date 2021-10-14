@@ -283,9 +283,11 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
+                    }
+                });
 
-                        $(`#myTabList${id}`).slick({settings: {unslick :1}});
-                        $(`#myTabList${id}`).slick({
+                $(`#myTabList${id}`).slick({settings: {unslick :1}});
+                $(`#myTabList${id}`).slick({
                             dots: false,
                             arrows: false,
                             slidesToShow: 4,
@@ -312,21 +314,18 @@
                                     }
                                 }
                             ]
-                        });
-                        $('.modal').on('shown.bs.modal', function (e) {
+                });
+                $('.modal').on('shown.bs.modal', function (e) {
                             $(`#myTabList${id}`).resize();
-                        });
-                        $('.single-slide-menu a').on('click',function(e){
+                });
+                $('.single-slide-menu a').on('click',function(e){
                             e.preventDefault();
                             var $href = $(this).attr('href');
                             $('.single-slide-menu a').removeClass('active');
                             $(this).addClass('active');
                             $('.product-details-large .tab-pane').removeClass('active show');
                             $('.product-details-large '+ $href ).addClass('active show');
-                        });
-                    }
                 });
-
             };
         </script>
 </div>
