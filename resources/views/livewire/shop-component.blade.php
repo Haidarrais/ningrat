@@ -249,11 +249,10 @@
         <!-- END QUICKVIEW PRODUCT -->
         @foreach ($stocks as $item)
         <script>
-                let id = <?php echo $item->product_id ?>
                 // index = id;
                 // console.log(index);
                 var url = "{{route('picture.show', ":id")}}";
-                url = url.replace(":id", id);
+                url = url.replace(":id", <?php echo $item->product_id ?>);
                 $.ajax({
                     type: 'GET',
                     url: url,
