@@ -284,37 +284,37 @@
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
 
+                        $(`#myTabList${id}`).slick({settings: {unslick :1}});
+                        $(`#myTabList${id}`).slick({
+                            dots: false,
+                            arrows: false,
+                            slidesToShow: 4,
+                            responsive: [
+                                {
+                                    breakpoint: 1200,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 3
+                                    }
+                                },
+                                {
+                                    breakpoint: 991,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 2
+                                    }
+                                },
+                                {
+                                    breakpoint: 480,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 3
+                                    }
+                                }
+                            ]
+                        });
                         $('.modal').on('shown.bs.modal', function (e) {
                             $(`#myTabList${id}`).resize();
-                            $(`#myTabList${id}`).slick({settings: {unslick :1}});
-                            $(`#myTabList${id}`).slick({
-                                dots: false,
-                                arrows: false,
-                                slidesToShow: 4,
-                                responsive: [
-                                    {
-                                        breakpoint: 1200,
-                                        settings: {
-                                            slidesToShow: 3,
-                                            slidesToScroll: 3
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 991,
-                                        settings: {
-                                            slidesToShow: 3,
-                                            slidesToScroll: 2
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 480,
-                                        settings: {
-                                            slidesToShow: 3,
-                                            slidesToScroll: 3
-                                        }
-                                    }
-                                ]
-                            });
                         });
                         $('.single-slide-menu a').on('click',function(e){
                             e.preventDefault();
