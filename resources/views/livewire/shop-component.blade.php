@@ -202,51 +202,6 @@
             </div>
         </div>
         <!-- Shop Area End -->
-        <!-- QUICKVIEW PRODUCT -->
-        @foreach ($stocks as $stock )
-        @php
-            if ($stock->discount) {
-                $priceold = $stock->product->price;
-                $price = $stock->product->price-($stock->product->price*$stock->discount->discount/100);
-            }else{
-                $price = $stock->product->price;
-            }
-        @endphp
-            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document" style="overflow: unset !important;">
-                    <div class="modal-content">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
-                        <div class="quick-view-container">
-                            <div class="column-left">
-                                <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
-
-                                </div>
-                                <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column-right">
-                                <div class="quick-view-text">
-                                    <h2>{{$stock->product->name}}</h2>
-                                    @if ($stock->discount)
-                                        <h3 class="q-product-price">Rp.{{ number_format($price) }}<span class="old-price">Rp.{{ number_format($priceold) }}</span></h3>
-                                    @else
-                                        <h3 class="q-product-price">Rp.{{ number_format($price) }}</span></h3>
-                                    @endif
-                                    <p>{{$stock->product->description}}</p>
-                                    <div class="input-cart">
-                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-        <!-- END QUICKVIEW PRODUCT -->
 </div>
 
 @push('script')
@@ -294,4 +249,52 @@
             }
         </script>
     @endforeach
+@endpush
+
+@push('modal')
+    <!-- QUICKVIEW PRODUCT -->
+    @foreach ($stocks as $stock )
+        @php
+            if ($stock->discount) {
+                $priceold = $stock->product->price;
+                $price = $stock->product->price-($stock->product->price*$stock->discount->discount/100);
+            }else{
+                $price = $stock->product->price;
+            }
+        @endphp
+            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document" style="overflow: unset !important;">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
+                        <div class="quick-view-container">
+                            <div class="column-left">
+                                <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
+
+                                </div>
+                                <div class="single-product-menu">
+                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column-right">
+                                <div class="quick-view-text">
+                                    <h2>{{$stock->product->name}}</h2>
+                                    @if ($stock->discount)
+                                        <h3 class="q-product-price">Rp.{{ number_format($price) }}<span class="old-price">Rp.{{ number_format($priceold) }}</span></h3>
+                                    @else
+                                        <h3 class="q-product-price">Rp.{{ number_format($price) }}</span></h3>
+                                    @endif
+                                    <p>{{$stock->product->description}}</p>
+                                    <div class="input-cart">
+                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    @endforeach
+    <!-- END QUICKVIEW PRODUCT -->
 @endpush
