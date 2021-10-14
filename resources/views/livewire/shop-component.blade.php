@@ -204,7 +204,7 @@
         <!-- Shop Area End -->
 </div>
 
-@push('script')
+@section('script')
     @foreach ($stocks as $item)
         <script>
             if(window.jQuery)
@@ -249,7 +249,7 @@
             }
         </script>
     @endforeach
-@endpush
+@endsection
 
 @push('modal')
     <!-- QUICKVIEW PRODUCT -->
