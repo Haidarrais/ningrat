@@ -153,7 +153,7 @@
                                                                     <h5>Total berat : {{$berat}} gr</h5>
                                                                     <h5>{{Str::upper($courier) . ' ' . $r['service']}}</h5>
                                                                     <h5>{{$r['description']}}</h5>
-                                                                    <h5>{{$r['cost'][0]['value']}}</h5>
+                                                                    <h5>Rp. {{number_format($r['cost'][0]['value'])}}</h5>
                                                                     <button type="button" class="btn btn-success" wire:click="ongkir({{$r['cost'][0]['value']}})"> Pilih Ongkir </button>
                                                                 </div>
                                                             </div>
@@ -241,7 +241,7 @@
                                             <tr class="order-total">
                                                 <th>Order Total</th>
                                                 <td>
-                                                    <strong><span class="amount">Rp.{{Cart::subtotal(2,'.','')+$ongkir}}</span></strong>
+                                                    <strong><span class="amount">Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</span></strong>
                                                 </td>
                                             </tr>
                                         </tfoot>
