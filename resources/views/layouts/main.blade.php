@@ -221,8 +221,8 @@
         <script src="{{ asset('assets/js/plugins.js') }}"></script>
         <script src="{{ asset('assets/js/ajax-mail.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+        <script src="{{ asset('assets/js/main.js') }}"></script>
         @yield('modal')
         <x-livewire-alert::scripts />
-        <script src="{{ asset('assets/js/main.js') }}"></script>
     </body>
 </html>
