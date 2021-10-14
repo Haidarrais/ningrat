@@ -250,41 +250,43 @@
         @foreach ($stocks as $item)
         <script>
             $(document).ready(function() {
-                var url = "{{route('picture.show', ":id")}}";
-                var id = "<?= $item->product_id ?>";
-                url = url.replace(":id", id);
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    success: function(data) {
-                        let picture = data.data
-                        let htmlC = ``
-                        let htmlL = ``
-                        $.each(picture, (key, value) => {
-                            if (key == 0) {
-                                htmlC += `<div class="tab-pane fade show active" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
-                                            <div class="single-product-img">
-                                                <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
-                                            </div>
-                                        </div>`
-                                htmlL += `<div class="single-tab-menu">
-                                            <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
-                                        </div>`
-                            }else{
-                                htmlC += `<div class="tab-pane fade" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
-                                            <div class="single-product-img">
-                                                <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
-                                            </div>
-                                        </div>`
-                                htmlL += `<div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
-                                        </div>`
-                            }
-                        });
-                        $(`#myTabList${id}`).html(htmlL)
-                        $(`#myTabContent${id}`).html(htmlC)
-                    }
-                });
+                if (jQuery) {
+                    var url = "{{route('picture.show', ":id")}}";
+                    var id = "<?= $item->product_id ?>";
+                    url = url.replace(":id", id);
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        success: function(data) {
+                            let picture = data.data
+                            let htmlC = ``
+                            let htmlL = ``
+                            $.each(picture, (key, value) => {
+                                if (key == 0) {
+                                    htmlC += `<div class="tab-pane fade show active" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
+                                                <div class="single-product-img">
+                                                    <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
+                                                </div>
+                                            </div>`
+                                    htmlL += `<div class="single-tab-menu">
+                                                <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                            </div>`
+                                }else{
+                                    htmlC += `<div class="tab-pane fade" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
+                                                <div class="single-product-img">
+                                                    <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
+                                                </div>
+                                            </div>`
+                                    htmlL += `<div class="single-tab-menu">
+                                                <a data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                            </div>`
+                                }
+                            });
+                            $(`#myTabList${id}`).html(htmlL)
+                            $(`#myTabContent${id}`).html(htmlC)
+                        }
+                    });
+                }
             })
         </script>
         @endforeach
