@@ -214,7 +214,7 @@
                                         <tfoot>
                                             @if ($discount)
                                             @php
-                                                dd($discount->discount);
+                                                dd($discount['discount']);
                                                 $this->discountNominal = Cart::subtotal(2,'.','')*$this->discount->discount/100;
                                                 $this->subtotal = Cart::subtotal(2,'.','')-$this->discountNominal;
                                             @endphp
