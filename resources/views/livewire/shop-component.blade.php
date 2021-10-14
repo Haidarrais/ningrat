@@ -283,48 +283,47 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
-                        if ($(`#myTabList${id}`).html(htmlL)) {
-                            $(`#myTabList${id}`).slick({settings: {unslick :1}});
-                            $(`#myTabList${id}`).slick({
-                                dots: false,
-                                arrows: false,
-                                slidesToShow: 4,
-                                responsive: [
-                                    {
-                                        breakpoint: 1200,
-                                        settings: {
-                                            slidesToShow: 3,
-                                            slidesToScroll: 3
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 991,
-                                        settings: {
-                                            slidesToShow: 3,
-                                            slidesToScroll: 2
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 480,
-                                        settings: {
-                                            slidesToShow: 3,
-                                            slidesToScroll: 3
-                                        }
+
+                        $(`#myTabList${id}`).slick({settings: {unslick :1}});
+                        $(`#myTabList${id}`).slick({
+                            dots: false,
+                            arrows: false,
+                            slidesToShow: 4,
+                            responsive: [
+                                {
+                                    breakpoint: 1200,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 3
                                     }
-                                ]
-                            });
-                            $('.modal').on('shown.bs.modal', function (e) {
-                                $(`#myTabList${id}`).resize();
-                            });
-                            $('.single-slide-menu a').on('click',function(e){
-                                e.preventDefault();
-                                var $href = $(this).attr('href');
-                                $('.single-slide-menu a').removeClass('active');
-                                $(this).addClass('active');
-                                $('.product-details-large .tab-pane').removeClass('active show');
-                                $('.product-details-large '+ $href ).addClass('active show');
-                            });
-                        }
+                                },
+                                {
+                                    breakpoint: 991,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 2
+                                    }
+                                },
+                                {
+                                    breakpoint: 480,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 3
+                                    }
+                                }
+                            ]
+                        }).delay( 1000 );
+                        $('.modal').on('shown.bs.modal', function (e) {
+                            $(`#myTabList${id}`).resize();
+                        });
+                        $('.single-slide-menu a').on('click',function(e){
+                            e.preventDefault();
+                            var $href = $(this).attr('href');
+                            $('.single-slide-menu a').removeClass('active');
+                            $(this).addClass('active');
+                            $('.product-details-large .tab-pane').removeClass('active show');
+                            $('.product-details-large '+ $href ).addClass('active show');
+                        });
                     }
                 });
 
