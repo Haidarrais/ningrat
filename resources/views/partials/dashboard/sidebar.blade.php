@@ -41,7 +41,7 @@
                     <span>Master</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('category.index') }}">Kategori</a></li>
-                    <li><a class="nav-link" href="{{ route('variant.index') }}">Kategori</a></li>
+                    <li><a class="nav-link" href="{{ route('variant.index') }}">Varian</a></li>
                     <li><a class="nav-link" href="{{ route('product.index') }}">Produk</a></li>
                     <li><a class="nav-link" href="{{ route('subsidi-ongkir.index') }}">Subsidi Ongkir</a></li>
                     <li><a class="nav-link" href="{{ route('discount.index') }}">Diskon</a></li>
