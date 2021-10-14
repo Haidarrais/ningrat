@@ -283,9 +283,7 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
-                        $('.single-slide-menu').slick({
-                            settings:"unslick"
-                        });
+                        $('.single-slide-menu').slick({'unslick'});
                         $('.single-slide-menu').slick({
                             dots: false,
                             arrows: false,
@@ -313,7 +311,7 @@
                                     }
                                 }
                             ]
-                        }).delay(200);
+                        });
                         $('.modal').on('shown.bs.modal', function (e) {
                             $('.single-slide-menu').resize();
                         })
