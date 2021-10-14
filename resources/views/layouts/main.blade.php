@@ -16,6 +16,10 @@
         <link rel="stylesheet" href="{{ asset('assets/css/ie7.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/plugins.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+        <!-- Add the slick-theme.css if you want default styling -->
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <!-- Add the slick-theme.css if you want default styling -->
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
         <script src="{{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
     </head>
     <body>
@@ -215,6 +219,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
         </script>
         <script src="{{ asset('assets/js/vendor/jquery-3.2.1.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ asset('assets/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins.js') }}"></script>
