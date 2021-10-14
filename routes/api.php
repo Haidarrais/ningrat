@@ -32,6 +32,7 @@ Route::group(['middleware', ['api_token']], function() {
 
 Route::get('role', [MasterController::class, 'get_role'])->name('api.get_role');
 Route::get('category', [MasterController::class, 'get_category'])->name('api.get_category');
+Route::get('variant', [MasterController::class, 'get_variant'])->name('api.get_variant');
 Route::get('province/{id?}', [MasterController::class, 'get_provice'])->name('api.get_provice');
 Route::get('city/{province_id?}', [MasterController::class, 'get_city'])->name('api.get_city');
 Route::get('subdistict/{city_id?}', [MasterController::class, 'get_subdistict'])->name('api.get_subdistict');

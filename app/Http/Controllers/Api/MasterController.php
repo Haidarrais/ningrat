@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Province;
 use App\Models\Subdistrict;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -21,6 +22,11 @@ class MasterController extends Controller
     public function get_category() {
         $categories = Category::all();
         return new DefaultGetResponse($categories);
+    }
+
+    public function get_variant() {
+        $variants = Variant::all();
+        return new DefaultGetResponse($variants);
     }
 
     public function get_provice(Request $request) {

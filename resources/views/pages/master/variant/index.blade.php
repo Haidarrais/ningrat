@@ -4,7 +4,7 @@
 <div class="section-body">
     <div class="card">
         <div class="card-header">
-            <button class="btn btn-success" id="btnTambah"><i class="fas fa-plus"></i> Tambah Kategori</button>
+            <button class="btn btn-success" id="btnTambah"><i class="fas fa-plus"></i> Tambah Varian</button>
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="card-body table-responsive" id="table_data">
-            @include('pages.master.category.pagination')
+            @include('pages.master.variant.pagination')
         </div>
     </div>
 </div>
@@ -39,12 +39,20 @@
                 <input type="hidden" name="id" id="inputID">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="selectSubKategori">Sub Kategori</label>
-                        <select name="parent_id" id="selectSubKategori" class="form-control"></select>
+                        <label for="selectSubVarian">Sub Varian</label>
+                        <select name="parent_id" id="selectSubVarian" class="form-control"></select>
                     </div>
                     <div class="form-group">
-                        <label for="inputName">Nama Kategori</label>
+                        <label for="inputName">Nama Varian</label>
                         <input type="text" name="name" id="inputName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">Kategori</label>
+                        <select name="category_id" id="inputCategory">
+                            @foreach ($categories as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
@@ -61,12 +69,12 @@
 <script>
     let type
     $(document).ready(function() {
-        // Get All Kategori
-        refresh_get_category()
+        // Get All Varian
+        refresh_get_variant()
 
         $("#btnTambah").on('click', () => {
             type = 'STORE'
-            $("#modalTitle").html('Tambah Kategori')
+            $("#modalTitle").html('Tambah Varian')
             $("#formTambah")[0].reset()
             $('#modal_tambah').modal('show')
         })
@@ -77,10 +85,10 @@
 
             if(type == "STORE") {
                 new Promise((resolve, reject) => {
-                    $axios.post(`{{ route('category.store') }}`, serializedData)
+                    $axios.post(`{{ route('variant.store') }}`, serializedData)
                         .then(({data}) => {
                             $('#modal_tambah').modal('hide')
-                            refresh_get_category()
+                            refresh_get_variant()
                             refresh_table(URL_NOW)
                             $swal.fire({
                                 icon: 'success',
@@ -93,12 +101,12 @@
                         })
                 })
             } else if(type == "UPDATE") {
-                let id_category = $("#inputID").val()
+                let id_variant = $("#inputID").val()
                 new Promise((resolve, reject) => {
-                    $axios.put(`${URL_NOW}/${id_category}`, serializedData)
+                    $axios.put(`${URL_NOW}/${id_variant}`, serializedData)
                         .then(({data}) => {
                             $('#modal_tambah').modal('hide')
-                            refresh_get_category()
+                            refresh_get_variant()
                             refresh_table(URL_NOW)
                             $swal.fire({
                                 icon: 'success',
@@ -118,13 +126,14 @@
         new Promise((resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
                 .then(({data}) => {
-                    let category = data.data
+                    let variant = data.data
                     type = 'UPDATE'
                     $("#formTambah")[0].reset()
-                    $("#inputID").val(category.id)
-                    $("#modalTitle").html('Update Kategori')
-                    if(category.parent_id) $("#selectSubKategori").val(category.parent_id)
-                    $("#inputName").val(category.name)
+                    $("#inputID").val(variant.id)
+                    $("#modalTitle").html('Update Varian')
+                    if(variant.parent_id) $("#selectSubVarian").val(variant.parent_id)
+                    $("#inputName").val(variant.name)
+                    $("#inputCategory").val(variant.category_id)
                     $('#modal_tambah').modal('show')
                 })
                 .catch(err => {
@@ -174,15 +183,15 @@
             })
     }
 
-    const refresh_get_category = () => {
+    const refresh_get_variant = () => {
         new Promise((resolve, reject) => {
-            $axios.get(`{{ route('api.get_category') }}`)
+            $axios.get(`{{ route('api.get_variant') }}`)
                 .then(({data}) => {
-                    let option = '<option value="">== Kosongkan Sub Kategori ==</option>'
+                    let option = '<option value="">== Kosongkan Sub Varian ==</option>'
                     $.each(data.data, (i, e) => {
                         option += `<option value="${e.id}">${e.name}</option>`
                     })
-                    $('#selectSubKategori').html(option)
+                    $('#selectSubVarian').html(option)
                 })
                 .catch(err => {
                     $swal.fire({

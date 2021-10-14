@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Category extends Model
+class Variant extends Model
 {
     use HasFactory;
 
@@ -19,16 +19,13 @@ class Category extends Model
         });
     }
 
-    public function product()
+    public function category()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function subCategory()
+    public function subVariant()
     {
-        return $this->belongsTo(Category::class, 'parent_id', 'id');
-    }
-    public function discount(){
-        return $this->hasOne(CategoryDiscount::class);
+        return $this->belongsTo(Variant::class, 'parent_id', 'id');
     }
 }

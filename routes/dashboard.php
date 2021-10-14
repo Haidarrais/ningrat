@@ -19,6 +19,7 @@ use App\Http\Controllers\Web\PageRewardController;
 use App\Http\Controllers\Web\TestimonialController;
 use App\Http\Controllers\Web\TransactionController;
 use App\Http\Controllers\Web\UserMaintenanceController;
+use App\Http\Controllers\Web\VariantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,6 +68,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
     // Pefix Master
     Route::group(['prefix' => 'master', 'middleware' => 'role:superadmin'], function() {
         Route::resource('/category', CategoryController::class);
+        Route::resource('/variant', VariantController::class);
         Route::resource('/subsidi-ongkir', CategoryDiscountController::class);
         Route::resource('/royalty', RoyaltyController::class);
         Route::resource('/product', ProductController::class);
