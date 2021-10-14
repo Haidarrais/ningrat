@@ -251,7 +251,8 @@
         <script>
             $(document).ready(function() {
                 var url = "{{route('picture.show', ":id")}}";
-                url = url.replace(":id", <?php echo $item->product_id;?>);
+                var id = "<?= $item->product_id ?>";
+                url = url.replace(":id", id);
                 $.ajax({
                     type: 'GET',
                     url: url,
