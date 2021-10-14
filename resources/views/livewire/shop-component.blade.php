@@ -249,7 +249,7 @@
         <!-- END QUICKVIEW PRODUCT -->
         @foreach ($stocks as $item)
         <script>
-            if(!window.jQuery)
+            if(window.jQuery)
             {
                 $(document).ready(function() {
                     var url = "{{route('picture.show', ":id")}}";
