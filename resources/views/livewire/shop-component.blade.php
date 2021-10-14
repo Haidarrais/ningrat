@@ -281,6 +281,8 @@
                                         </div>`
                             }
                         });
+                        $(`#myTabList${id}`).html(htmlL)
+                        $(`#myTabContent${id}`).html(htmlC)
                     }
                 });
 
