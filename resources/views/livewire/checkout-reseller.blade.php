@@ -219,12 +219,12 @@
                                             @endphp
                                             <tr class="cart-subtotal">
                                                 <th>Discount</th>
-                                                <td><span class="amount">Rp.{{Cart::subtotal(2,'.','')*$this->discount->discount/100}}</span></td>
+                                                <td><span class="amount">Rp.{{number_format($this->discountNominal)}}</span></td>
                                             </tr>
                                             @endif
                                             <tr class="cart-subtotal">
                                                 <th>Cart Subtotal</th>
-                                                <td><span class="amount">Rp.{{$subtotal ?? Cart::subtotal(2,'.','')}}</span></td>
+                                                <td><span class="amount">Rp.{{number_format($subtotal) ?? Cart::subtotal(2,'.','')}}</span></td>
                                             </tr>
                                             <tr class="shipping">
                                                 <th>Shipping</th>
