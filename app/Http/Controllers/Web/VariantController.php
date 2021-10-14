@@ -31,9 +31,9 @@ class VariantController extends Controller
         $variants = $query->paginate(10);
         $categories = Category::all();
         if($request->ajax()) {
-            return view('pages.master.category.pagination', compact('variants', 'categories', 'data'))->render();
+            return view('pages.master.variant.pagination', compact('variants', 'categories', 'data'))->render();
         }
-        return view('pages.master.category.index', compact('variants', 'categories', 'data'));
+        return view('pages.master.variant.index', compact('variants', 'categories', 'data'));
     }
 
     /**
@@ -72,10 +72,10 @@ class VariantController extends Controller
      */
     public function show($id)
     {
-        $category = Variant::find($id);
+        $variant = Variant::find($id);
         return response()->json([
             'status' => true,
-            'data' => $category
+            'data' => $variant
         ], 200);
     }
 
@@ -99,8 +99,8 @@ class VariantController extends Controller
      */
     public function update(VariantUpdateRequest $request, $id)
     {
-        $category = Variant::find($id);
-        $category->update($request->all());
+        $variant = Variant::find($id);
+        $variant->update($request->all());
         return response()->json([
             'status' => true,
             'message' => [
@@ -118,19 +118,19 @@ class VariantController extends Controller
      */
     public function destroy($id)
     {
-        $category = Variant::find($id);
-        // dd($category->product);
-        if (count($category->product)>0) {
-            return response()->json([
-                'status' => false,
-                'message' => [
-                    'head' => 'Gagal',
-                    'body' => 'Varian sudah digunakan pada data produk'
-                ]
-            ], 500);
-        }
+        $variant = Variant::find($id);
+        // dd($variant->product);
+        // if (count($variant->product)>0) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => [
+        //             'head' => 'Gagal',
+        //             'body' => 'Varian sudah digunakan pada data produk'
+        //         ]
+        //     ], 500);
+        // }
 
-        $category->delete();
+        $variant->delete();
         return response()->json([
             'status' => true,
             'message' => [

@@ -8,9 +8,9 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($categories as $key => $value)
+        @forelse ($variants as $key => $value)
             <tr>
-                <th scope="row">{{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}</th>
+                <th scope="row">{{ ($variants->currentpage()-1) * $variants->perpage() + $loop->index + 1 }}</th>
                 <td>{{ $value->name??"unset" }}</td>
                 <td>{{$value->category??"unset"}}</td>
                 <td scope="row">
@@ -26,4 +26,4 @@
     </tbody>
 </table>
 
-{{ $categories->appends($data)->links() }}
+{{ $variants->appends($data)->links() }}
