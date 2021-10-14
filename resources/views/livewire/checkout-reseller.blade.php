@@ -224,7 +224,7 @@
                                             @endif
                                             <tr class="cart-subtotal">
                                                 <th>Cart Subtotal</th>
-                                                <td><span class="amount">Rp.{{number_format($this->subtotal) ?? Cart::subtotal(2,'.','')}}</span></td>
+                                                <td><span class="amount">Rp.{{number_format($this->subtotal ?? Cart::subtotal(2,'.',''))}}</span></td>
                                             </tr>
                                             <tr class="shipping">
                                                 <th>Shipping</th>
