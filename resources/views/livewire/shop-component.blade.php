@@ -80,7 +80,7 @@
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
                                                 </div>
-                                                <div class="product-text">
+                                                <div class="product-text p-2">
                                                     {{-- <div class="product-rating">
                                                         <i class="fa fa-star-o color"></i>
                                                         <i class="fa fa-star-o color"></i>
@@ -132,15 +132,16 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="product-text">
+                                        <div class="product-text p-2">
+                                            <h6><a>Stok tersisa : {{$stock->stock}}</a></h6>
                                             <h5><a>{{$stock->product->name}}</a></h5>
-                                            <div class="product-rating">
+                                            {{-- <div class="product-rating">
                                                 <i class="fa fa-star-o color"></i>
                                                 <i class="fa fa-star-o color"></i>
                                                 <i class="fa fa-star-o color"></i>
                                                 <i class="fa fa-star-o"></i>
                                                 <i class="fa fa-star-o"></i>
-                                            </div>
+                                            </div> --}}
                                             <div class="pro-price">
                                                 @if ($stock->discount)
                                                     <span class="new-price">Rp.{{ number_format($price) }}<</span>
