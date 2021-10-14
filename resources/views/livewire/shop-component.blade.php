@@ -313,7 +313,7 @@
                                     }
                                 }
                             ]
-                        });
+                        }).delay(200);
                         $('.modal').on('shown.bs.modal', function (e) {
                             $('.single-slide-menu').resize();
                         })
