@@ -23,7 +23,10 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
-
+    public function variant()
+    {
+        return $this->hasMany(Variant::class);
+    }
     public function subCategory()
     {
         return $this->belongsTo(Category::class, 'parent_id', 'id');
