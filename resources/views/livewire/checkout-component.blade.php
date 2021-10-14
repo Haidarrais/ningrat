@@ -139,7 +139,7 @@
                                                                 <h5>Total berat : {{$berat}} gr</h5>
                                                                 <h5>{{Str::upper($courier) . ' ' . $r['service']}}</h5>
                                                                 <h5>{{$r['description']}}</h5>
-                                                                <h5>{{$r['cost'][0]['value']}}</h5>
+                                                                <h5>Rp. {{number_format($r['cost'][0]['value'])}}</h5>
                                                                 <button type="button" class="btn btn-success" wire:click="ongkir({{$r['cost'][0]['value']}})"> Pilih Ongkir </button>
                                                             </div>
                                                         </div>
@@ -199,17 +199,17 @@
                                         <tfoot>
                                             @if ($discount)
                                             @php
-                                                $this->discountNominal = Cart::subtotal(2,'.','')*$discount->discount/100;
+                                                $this->discountNominal = Cart::subtotal(2,'.','')*$this->discount->discount/100;
                                                 $this->subtotal = Cart::subtotal(2,'.','')-$this->discountNominal;
                                             @endphp
                                             <tr class="cart-subtotal">
                                                 <th>Discount</th>
-                                                <td><span class="amount">Rp.{{Cart::subtotal(2,'.','')*$discount->discount/100}}</span></td>
+                                                <td><span class="amount">Rp.{{number_format($this->discountNominal)}}</span></td>
                                             </tr>
                                             @endif
                                             <tr class="cart-subtotal">
                                                 <th>Cart Subtotal</th>
-                                                <td><span class="amount">Rp.{{$subtotal ?? Cart::subtotal(2,'.','')}}</span></td>
+                                                <td><span class="amount">Rp.{{number_format($this->subtotal ?? Cart::subtotal(2,'.',''))}}</span></td>
                                             </tr>
                                             <tr class="shipping">
                                                 <th>Shipping</th>
@@ -226,7 +226,7 @@
                                             <tr class="order-total">
                                                 <th>Order Total</th>
                                                 <td>
-                                                    <strong><span class="amount">Rp.{{Cart::subtotal(2,'.','')+$ongkir}}</span></strong>
+                                                    <strong><span class="amount">Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</span></strong>
                                                 </td>
                                             </tr>
                                         </tfoot>
