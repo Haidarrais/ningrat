@@ -285,9 +285,9 @@
                         $(`#myTabContent${id}`).html(htmlC)
 
                         $('.modal').on('shown.bs.modal', function (e) {
-                            $('.single-slide-menu').resize();
-                            $('.single-slide-menu').slick({settings: {unslick :1}});
-                            $('.single-slide-menu').slick({
+                            $(`#myTabList${id}`).resize();
+                            $(`#myTabList${id}`).slick({settings: {unslick :1}});
+                            $(`#myTabList${id}`).slick({
                                 dots: false,
                                 arrows: false,
                                 slidesToShow: 4,
