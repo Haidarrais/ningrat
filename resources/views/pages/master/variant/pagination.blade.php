@@ -12,7 +12,7 @@
             <tr>
                 <th scope="row">{{ ($variants->currentpage()-1) * $variants->perpage() + $loop->index + 1 }}</th>
                 <td>{{ $value->name??"unset" }}</td>
-                <td>{{$value->category??"unset"}}</td>
+                <td>{{$value->category->name??"unset"}}</td>
                 <td scope="row">
                     <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                     <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>
