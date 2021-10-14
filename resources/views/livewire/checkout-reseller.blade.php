@@ -214,12 +214,13 @@
                                         <tfoot>
                                             @if ($discount)
                                             @php
-                                                $this->discountNominal = Cart::subtotal(2,'.','')*$discount->discount/100;
+                                                {{dd($discount)}}
+                                                $this->discountNominal = Cart::subtotal(2,'.','')*$this->discount->discount/100;
                                                 $this->subtotal = Cart::subtotal(2,'.','')-$this->discountNominal;
                                             @endphp
                                             <tr class="cart-subtotal">
                                                 <th>Discount</th>
-                                                <td><span class="amount">Rp.{{Cart::subtotal(2,'.','')*$discount->discount/100}}</span></td>
+                                                <td><span class="amount">Rp.{{Cart::subtotal(2,'.','')*$this->discount->discount/100}}</span></td>
                                             </tr>
                                             @endif
                                             <tr class="cart-subtotal">
