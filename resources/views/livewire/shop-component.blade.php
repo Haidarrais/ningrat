@@ -283,7 +283,7 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
-                        $('.single-slide-menu').slick({'unslick'});
+                        $('.single-slide-menu').slick('unslick');
                         $('.single-slide-menu').slick({
                             dots: false,
                             arrows: false,
