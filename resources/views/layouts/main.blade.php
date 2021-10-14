@@ -212,6 +212,7 @@
 
 
         @livewireScripts
+        @stack('modal')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
         </script>
         <script src="{{ asset('assets/js/vendor/jquery-3.2.1.min.js') }}"></script>
@@ -221,7 +222,6 @@
         <script src="{{ asset('assets/js/plugins.js') }}"></script>
         <script src="{{ asset('assets/js/ajax-mail.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
-        @stack('modal')
         <script src="{{ asset('assets/js/main.js') }}"></script>
         @yield('modal')
         <x-livewire-alert::scripts />
