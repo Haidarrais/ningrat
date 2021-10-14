@@ -283,7 +283,6 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
-                        $('.single-slide-menu').slick('unslick');;
                         $('.modal').on('shown.bs.modal', function (e) {
                             $('.single-slide-menu').resize();
                             $('.single-slide-menu').slick({
