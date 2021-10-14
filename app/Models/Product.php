@@ -29,6 +29,10 @@ class Product extends Model
         });
     }
 
+    public function variant(){
+        return $this->belongsTo(Variant::class);
+    }
+
     public function picture()
     {
         return $this->hasMany(ProductPicture::class) ?? null;

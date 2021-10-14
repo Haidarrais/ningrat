@@ -89,7 +89,10 @@
                                                         <i class="fa fa-star-o"></i>
                                                     </div> --}}
                                                     <h6><a>Stok tersisa : {{$stock->stock}}</a></h6>
-                                                    <h5><a>{{$stock->product->name}}</a></h5>
+                                                    <blockquote class="blockquote">
+                                                        <h5 class="mb-0"><a>{{$stock->product->name}}</a></h5>
+                                                        <footer class="blockquote-footer">Varian : {{$stock->product->variant->name ?? "unset"}}</footer>
+                                                    </blockquote>
                                                     <div class="pro-price">
 
                                                         @if ($stock->discount)
@@ -280,7 +283,7 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
-                        $('.single-slide-menu').slick('unslick');
+                        $('.single-slide-menu').slick({unslick:1});
                         $('.single-slide-menu').slick({
                             dots: false,
                             arrows: false,
