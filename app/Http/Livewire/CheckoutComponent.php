@@ -17,7 +17,7 @@ class CheckoutComponent extends Component
     public $sellerlocation;
     public $sellerid;
     public $numeric = "1234567890";
-    public $discount, $discountId, $discounts, $discountOn, $discountNominal, $subtotal;
+    public $discount, $discountId = 0, $discounts, $discountOn, $discountNominal, $subtotal;
     public $ongkir;
     public $berat;
     public $courier = null;

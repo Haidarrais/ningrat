@@ -29,7 +29,7 @@ class CheckoutReseller extends Component
     public $locations;
     public $province;
     public $cities;
-    public $discount, $discountId, $discounts, $discountOn, $discountNominal, $subtotal;
+    public $discount, $discountId = 0, $discounts, $discountOn, $discountNominal, $subtotal;
     public $city;
     public $subdistricts;
     public $subdistrict;
