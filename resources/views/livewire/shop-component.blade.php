@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -131,7 +131,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -249,10 +249,9 @@
         <!-- END QUICKVIEW PRODUCT -->
         @foreach ($stocks as $item)
         <script>
-                // index = id;
-                // console.log(index);
+            $(document).ready(function() {
                 var url = "{{route('picture.show', ":id")}}";
-                url = url.replace(":id", <?php echo $item->product_id ?>);
+                url = url.replace(":id", <?php echo $item->product_id;?>);
                 $.ajax({
                     type: 'GET',
                     url: url,
@@ -285,6 +284,7 @@
                         $(`#myTabContent${id}`).html(htmlC)
                     }
                 });
+            })
         </script>
         @endforeach
 </div>
