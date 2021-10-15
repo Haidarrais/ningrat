@@ -217,6 +217,7 @@
                             type: 'GET',
                             url: url,
                             success: function(data) {
+                                console.log(data);
                                 let picture = data.data
                                 let htmlC = ``
                                 let htmlL = ``
