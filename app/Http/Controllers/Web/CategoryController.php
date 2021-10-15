@@ -16,6 +16,16 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $data = Category::all();
+        foreach ($data as $value) {
+            if (!$value->parent_id) {
+                $value->parent_id = $value->id;
+                $value->save();
+            }
+        }
+    }
     public function index(Request $request)
     {
         $data = $request->all();
@@ -27,7 +37,7 @@ class CategoryController extends Controller
         $query->with('product');
         // $data1 = $query->first();
         // dd($data1->subCategory->name);
-        
+
         $categories = $query->paginate(10);
         if($request->ajax()) {
             return view('pages.master.category.pagination', compact('categories', 'data'))->render();
