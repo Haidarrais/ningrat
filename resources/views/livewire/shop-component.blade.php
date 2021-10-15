@@ -272,7 +272,7 @@
                                         }
                                     ]
                                 });
-                                $('.modal').on('shown.bs.modal', function (e) {
+                                $(`.modal${id}`).on('shown.bs.modal', function (e) {
                                     $(`#myTabList${id}`).resize();
                                 })
                                 $(`.single-slide-menu${id} a`).on('click',function(e){
@@ -302,7 +302,7 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
+            <div class="modal{{$stock->product_id}} fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
