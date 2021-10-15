@@ -16,7 +16,7 @@
                 <td>{{ count($value->product??[]) }}</td>
                 <td>
                     @if ($value->id == $value->parent_id)
-                    <span class="badge badge-primary">Kategori</span>
+                    <span class="badge badge-primary">Kategori Utama</span>
                     @else
                     <span class="badge badge-secondary">Sub Kategori</span>
                     @endif
