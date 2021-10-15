@@ -39,7 +39,7 @@
                 <input type="hidden" name="id" id="inputID">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="selectSubKategori">Sub Kategori</label>
+                        <label for="selectSubKategori">Pilih Kategori Utama</label>
                         <select name="parent_id" id="selectSubKategori" class="form-control"></select>
                     </div>
                     <div class="form-group">
@@ -180,7 +180,9 @@
                 .then(({data}) => {
                     let option = '<option value="">== Kosongkan Sub Kategori ==</option>'
                     $.each(data.data, (i, e) => {
-                        option += `<option value="${e.id}">${e.name}</option>`
+                        if (e.id === e.parent_id) {
+                            option += `<option value="${e.id}">${e.name}</option>`
+                        }
                     })
                     $('#selectSubKategori').html(option)
                 })
