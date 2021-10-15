@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -131,7 +131,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -202,9 +202,126 @@
             </div>
         </div>
         <!-- Shop Area End -->
+        <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document" style="overflow: unset !important;">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
+                    <div class="quick-view-container">
+                        <div class="column-left">
+                            <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
+
+                            </div>
+                            <div class="single-product-menu">
+                                <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column-right">
+                            <div class="quick-view-text">
+                                <h2>{{$stock->product->name}}</h2>
+                                @if ($stock->discount)
+                                    <h3 class="q-product-price">Rp.{{ number_format($price) }}<span class="old-price">Rp.{{ number_format($priceold) }}</span></h3>
+                                @else
+                                    <h3 class="q-product-price">Rp.{{ number_format($price) }}</span></h3>
+                                @endif
+                                <p>{{$stock->product->description}}</p>
+                                <div class="input-cart">
+                                    <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    <!-- END QUICKVIEW PRODUCT -->
+    <script>
+        function setIndex(id) {
+            // index = id;
+            // console.log(index);
+            var url = "{{route('picture.show', ":id")}}";
+            url = url.replace(":id", id);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                    let picture = data.data
+                    let htmlC = ``
+                    let htmlL = ``
+                    $.each(picture, (key, value) => {
+                        if (key == 0) {
+                            htmlC += `<div class="tab-pane fade show active" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
+                                        <div class="single-product-img">
+                                            <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
+                                        </div>
+                                    </div>`
+                            htmlL += `<div class="single-tab-menu">
+                                        <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                    </div>`
+                        }else{
+                            htmlC += `<div class="tab-pane fade" id="single-slide${key+1}${id}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}${id}">
+                                        <div class="single-product-img">
+                                            <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
+                                        </div>
+                                    </div>`
+                            htmlL += `<div class="single-tab-menu">
+                                        <a data-toggle="tab" id="single-slide-tab-${key+1}${id}" href="#single-slide${key+1}${id}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                    </div>`
+                        }
+                    });
+                    $(`#myTabList${id}`).html(htmlL)
+                    $(`#myTabContent${id}`).html(htmlC)
+                    $('.single-slide-menu').slick({
+                        settings:"unslick"
+                    });
+                    $('.single-slide-menu').slick({
+                        dots: false,
+                        arrows: false,
+                        slidesToShow: 4,
+                        responsive: [
+                            {
+                                breakpoint: 1200,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3
+                                }
+                            },
+                            {
+                                breakpoint: 991,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 3,
+                                    slidesToScroll: 3
+                                }
+                            }
+                        ]
+                    });
+                    $('.modal').on('shown.bs.modal', function (e) {
+                        $('.single-slide-menu').resize();
+                    })
+                    $('.single-slide-menu a').on('click',function(e){
+                        e.preventDefault();
+                        var $href = $(this).attr('href');
+                        $('.single-slide-menu a').removeClass('active');
+                        $(this).addClass('active');
+                        $('.product-details-large .tab-pane').removeClass('active show');
+                        $('.product-details-large '+ $href ).addClass('active show');
+                    });
+                }
+            });
+        };
+    </script>
 </div>
 
-@section('script')
+{{-- @section('script')
     @foreach ($stocks as $item)
         <script>
             if(window.jQuery)
@@ -243,46 +360,6 @@
                                 });
                                 $(`#myTabList${id}`).html(htmlL)
                                 $(`#myTabContent${id}`).html(htmlC)
-
-                                $(`#myTabList${id}`).slick({
-                                    dots: false,
-                                    arrows: false,
-                                    slidesToShow: 4,
-                                    responsive: [
-                                        {
-                                            breakpoint: 1200,
-                                            settings: {
-                                                slidesToShow: 3,
-                                                slidesToScroll: 3
-                                            }
-                                        },
-                                        {
-                                            breakpoint: 991,
-                                            settings: {
-                                                slidesToShow: 3,
-                                                slidesToScroll: 2
-                                            }
-                                        },
-                                        {
-                                            breakpoint: 480,
-                                            settings: {
-                                                slidesToShow: 3,
-                                                slidesToScroll: 3
-                                            }
-                                        }
-                                    ]
-                                });
-                                $(`.modal${id}`).on('shown.bs.modal', function (e) {
-                                    $(`#myTabList${id}`).resize();
-                                })
-                                $(`.single-slide-menu${id} a`).on('click',function(e){
-                                    e.preventDefault();
-                                    var $href = $(this).attr('href');
-                                    $('.single-slide-menu a').removeClass('active');
-                                    $(this).addClass('active');
-                                    $('.product-details-large .tab-pane').removeClass('active show');
-                                    $('.product-details-large '+ $href ).addClass('active show');
-                                });
                             }
                         });
                 });
@@ -302,7 +379,7 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal{{$stock->product_id}} fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
+            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
@@ -312,7 +389,7 @@
 
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="nav single-slide-menu{{$stock->product_id}}" role="tablist" id="myTabList{{$stock->product_id}}">
+                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
 
                                     </div>
                                 </div>
@@ -337,4 +414,4 @@
             </div>
     @endforeach
     <!-- END QUICKVIEW PRODUCT -->
-@endpush
+@endpush --}}
