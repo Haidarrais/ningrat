@@ -178,7 +178,7 @@
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_category') }}`)
                 .then(({data}) => {
-                    let option = '<option value="">== Kosongkan Sub Kategori ==</option>'
+                    let option = '<option value="">== Kosongkan Kategori Utama ==</option>'
                     $.each(data.data, (i, e) => {
                         if (e.id === e.parent_id) {
                             option += `<option value="${e.id}">${e.name}</option>`
