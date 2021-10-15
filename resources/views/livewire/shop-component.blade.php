@@ -217,7 +217,6 @@
                             type: 'GET',
                             url: url,
                             success: function(data) {
-                                console.log(data);
                                 let picture = data.data
                                 let htmlC = ``
                                 let htmlL = ``
@@ -276,7 +275,7 @@
                                 $('.modal').on('shown.bs.modal', function (e) {
                                     $(`#myTabList${id}`).resize();
                                 })
-                                $('.single-slide-menu a').on('click',function(e){
+                                $(`.single-slide-menu${id} a`).on('click',function(e){
                                     e.preventDefault();
                                     var $href = $(this).attr('href');
                                     $('.single-slide-menu a').removeClass('active');
@@ -313,7 +312,7 @@
 
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
+                                    <div class="nav single-slide-menu{{$stock->product_id}}" role="tablist" id="myTabList{{$stock->product_id}}">
 
                                     </div>
                                 </div>
