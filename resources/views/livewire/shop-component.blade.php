@@ -221,7 +221,7 @@
 
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
+                                    <div class="nav single-slide-menu sliding{{$stock->product_id}}" role="tablist" id="myTabList{{$stock->product_id}}">
 
                                     </div>
                                 </div>
@@ -314,9 +314,9 @@
                             ]
                         });
                         $('.modal').on('shown.bs.modal', function (e) {
-                            $((`#myTabList${id}`).resize();
+                            $((`.sliding${id}`).resize();
                         })
-                        $((`#myTabList${id} a`).on('click',function(e){
+                        $((`.sliding${id} a`).on('click',function(e){
                             e.preventDefault();
                             var $href = $(this).attr('href');
                             $('.single-slide-menu a').removeClass('active');
