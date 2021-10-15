@@ -18,7 +18,7 @@
                     @if ($value->id == $value->parent_id)
                     <span class="badge badge-primary">Kategori Utama</span>
                     @else
-                    <span class="badge badge-secondary">Sub Kategori</span>
+                    <span class="badge badge-secondary">Sub Kategori : {{$value->subCategory->name ?? "unset"}}</span>
                     @endif
                 </td>
                 <td scope="row">
