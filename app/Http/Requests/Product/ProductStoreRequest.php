@@ -30,6 +30,7 @@ class ProductStoreRequest extends FormRequest
             'image' => 'required',
             'price' => 'required',
             'weight' => 'required|numeric',
+            // 'variant_id' => 'required|numeric'
         ];
     }
 

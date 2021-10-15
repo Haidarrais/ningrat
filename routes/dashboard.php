@@ -69,6 +69,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
     Route::group(['prefix' => 'master', 'middleware' => 'role:superadmin'], function() {
         Route::resource('/category', CategoryController::class);
         Route::resource('/variant', VariantController::class);
+        Route::get('/variants_by_product/{id}', [VariantController::class, 'getVariantCategory'])->name('variants_by_product');
         Route::resource('/subsidi-ongkir', CategoryDiscountController::class);
         Route::resource('/royalty', RoyaltyController::class);
         Route::resource('/product', ProductController::class);

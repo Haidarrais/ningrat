@@ -139,4 +139,15 @@ class VariantController extends Controller
             ]
         ], 200);
     }
+    public function getVariantCategory($id){
+        $variants = Variant::where("category_id", $id)->get();
+        return response()->json([
+            'status' => true,
+            'message' => [
+                'head' => 'Sukses',
+                // 'body' => 'Berhasil Hapus Varian',
+                'data' => $variants
+            ]
+        ], 200);
+    }
 }

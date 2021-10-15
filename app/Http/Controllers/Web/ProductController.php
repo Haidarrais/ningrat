@@ -8,6 +8,7 @@ use App\Traits\ImageHandlerTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Models\ProductPicture;
+use App\Models\Variant;
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
@@ -23,6 +24,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
+        $variants = Variant::all();
         $query = Product::query();
         $query->when('keyword', function($q) use($request) {
 
@@ -36,9 +38,9 @@ class ProductController extends Controller
         $products = $query->paginate(10);
         // dd($products);
         if($request->ajax()) {
-            return view('pages.master.product.pagination', compact('products', 'data'))->render();
+            return view('pages.master.product.pagination', compact('products', 'data', 'variants'))->render();
         }
-        return view('pages.master.product.index', compact('products', 'data'));
+        return view('pages.master.product.index', compact('products', 'data', 'variants'));
     }
 
     /**

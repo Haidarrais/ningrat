@@ -8,7 +8,8 @@
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
+                            value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
                         </div>
@@ -42,12 +43,20 @@
                         <select name="category_id" id="selectKategori" class="form-control" required></select>
                     </div>
                     <div class="form-group">
+                        <label for="selectVariant">Varian</label>
+                        <select name="variant_id" id="selectVariant" class="form-control">
+                            <option id="before_chose_category" value="" selected disabled class="">Pilih kategori dulu
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="inputName">Nama</label>
                         <input type="text" name="name" id="inputName" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="inputPrice">Harga</label>
-                        <input type="text" name="price" id="inputPrice" class="form-control" data-a-sign="Rp. " data-a-dec="," data-a-sep="." required>
+                        <input type="text" name="price" id="inputPrice" class="form-control" data-a-sign="Rp. "
+                            data-a-dec="," data-a-sep="." required>
                     </div>
                     <div class="form-group">
                         <label for="inputWight">Berat</label>
@@ -55,9 +64,11 @@
                     </div>
                     <div class="form-group">
                         <label for="inputDescription">Deskripsi</label>
-                        <textarea name="description" id="inputDescription" cols="30" rows="5" class="form-control"></textarea>
+                        <textarea name="description" id="inputDescription" cols="30" rows="5"
+                            class="form-control"></textarea>
                     </div>
-                    <p class="text-danger text-center" id="teksImage" style="display: none">Jangan upload gambar jika tidak ingin mengubahnya</p>
+                    <p class="text-danger text-center" id="teksImage" style="display: none">Jangan upload gambar jika
+                        tidak ingin mengubahnya</p>
                     <!-- <div class="form-group">
                         <label for="inputImage">Foto Produk</label>
                         <input type="file" name="image" id="inputImage" class="form-control" required>
@@ -65,18 +76,21 @@
                     <div class="input-group control-group lst increment">
                         <input type="file" name="image[]" id="inputImage" class="myfrm form-control inputImage">
                         <div class="input-group-btn">
-                            <button class="btn btn-success btn-success-images" type="button"><i class="fldemo glyphicon glyphicon-plus"></i>Add</button>
+                            <button class="btn btn-success btn-success-images" type="button"><i
+                                    class="fldemo glyphicon glyphicon-plus"></i>Add</button>
                         </div>
                     </div>
                     <div class="clone hide" hidden>
                         <div class="hdtuto control-group lst input-group" style="margin-top:10px">
                             <input type="file" name="image[]" class="myfrm form-control inputImage">
                             <div class="input-group-btn">
-                                <button class="btn btn-danger btn-danger-images" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                                <button class="btn btn-danger btn-danger-images" type="button"><i
+                                        class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
                             </div>
                         </div>
                     </div>
-                    <div id="fieldFoto" style="display: none" class="d-flex flex-wrap justify-content-around flex-grow-1"></div>
+                    <div id="fieldFoto" style="display: none"
+                        class="d-flex flex-wrap justify-content-around flex-grow-1"></div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -147,6 +161,10 @@
             $("#modal_tambah").LoadingOverlay('show');
             // console.log(FormDataVar);
             if (type == "STORE") {
+                for (var pair of FormDataVar.entries()) {
+    console.log(pair[0]+ ', ' + pair[1]); 
+}
+                // return;
                 await new Promise((resolve, reject) => {
                     $axios.post(`{{ route('product.store') }}`, FormDataVar, {
                             headers: {
@@ -231,7 +249,7 @@
                 }) => {
                     let option = '<option value="" disabled selected>== Pilih Kategori ==</option>'
                     $.each(data.data, (i, e) => {
-                        option += `<option value="${e.id}">${e.name}</option>`
+                        option += `<option onclick="triggerVariant(${e.id})" value="${e.id}">${e.name}</option>`
                     })
                     $('#selectKategori').html(option)
                 })
@@ -368,6 +386,39 @@
             })
     }
 
+    const triggerVariant = (id) => {
+        new Promise((resolve, reject) => {
+        let url = `{{ route('variants_by_product',['id' => ':id']) }}`;
+        url = url.replace(':id', id);
+        $axios.get(url)
+        .then(({
+        data
+        }) => {
+        let option = '<option id="pilih_variant" value="" selected disabled>Pilih varian</option>'
+        // let dataH = data;
+        console.log(data);
+        data.message.data.map((item, i)=>{
+                option += `<option value="${item.id}">${item.name}</option>`
+
+        });
+
+        if (data.message.data.length>0) {
+        $('#selectVariant').html(option);
+        }else{
+            $('#selectVariant').html('<option id="pilih_variant" value="" selected disabled>Belum ada variant</option>');
+        }
+        $('#before_chose_category').addClass('d-none');
+            })
+        .catch(err => {
+            console.log(err);
+        $swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        })
+        })
+        })
+        }
     function deleteImage(id) {
         $swal.fire({
                 title: 'Yakin?',
