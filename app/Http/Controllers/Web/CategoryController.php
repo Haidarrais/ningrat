@@ -23,6 +23,7 @@ class CategoryController extends Controller
             if (!$value->parent_id) {
                 $value->parent_id = $value->id;
                 $value->save();
+                return back();
             }
         }
     }
