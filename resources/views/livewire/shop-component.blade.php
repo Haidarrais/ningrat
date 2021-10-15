@@ -244,7 +244,7 @@
                                 $(`#myTabList${id}`).html(htmlL)
                                 $(`#myTabContent${id}`).html(htmlC)
 
-                                $('.single-slide-menu').slick({
+                                $(`#myTabList${id}`).slick({
                                     dots: false,
                                     arrows: false,
                                     slidesToShow: 4,
@@ -271,6 +271,17 @@
                                             }
                                         }
                                     ]
+                                });
+                                $('.modal').on('shown.bs.modal', function (e) {
+                                    $(`#myTabList${id}`).resize();
+                                })
+                                $('.single-slide-menu a').on('click',function(e){
+                                    e.preventDefault();
+                                    var $href = $(this).attr('href');
+                                    $('.single-slide-menu a').removeClass('active');
+                                    $(this).addClass('active');
+                                    $('.product-details-large .tab-pane').removeClass('active show');
+                                    $('.product-details-large '+ $href ).addClass('active show');
                                 });
                             }
                         });
