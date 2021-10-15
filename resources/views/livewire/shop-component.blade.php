@@ -285,7 +285,7 @@
                         $('.single-slide-menu').slick({
                             settings:"unslick"
                         });
-                        $('.single-slide-menu').slick({
+                        $((`#myTabList${id}`).slick({
                             dots: false,
                             arrows: false,
                             slidesToShow: 4,
@@ -314,9 +314,9 @@
                             ]
                         });
                         $('.modal').on('shown.bs.modal', function (e) {
-                            $('.single-slide-menu').resize();
+                            $((`#myTabList${id}`).resize();
                         })
-                        $('.single-slide-menu a').on('click',function(e){
+                        $((`#myTabList${id} a`).on('click',function(e){
                             e.preventDefault();
                             var $href = $(this).attr('href');
                             $('.single-slide-menu a').removeClass('active');
