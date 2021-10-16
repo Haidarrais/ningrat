@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a href="{{ asset('upload/product/' . $img) }}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -131,7 +131,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" data-toggle="modal" data-target=".productModal{{$stock->id}}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a href="{{ asset('upload/product/' . $img) }}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -211,7 +211,7 @@
                 $price = $stock->product->price;
             }
         @endphp
-            <div class="modal fade productModal{{$stock->id}}" id="productModal" tabindex="-1" role="dialog">
+            <div class="modal fade productModal" id="productModal{{$stock->product_id}}" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
@@ -282,6 +282,9 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
+
+                        $(`#productModal${id}`).show()
+
                     }
                 });
             };
