@@ -249,7 +249,7 @@
                             if (key == 0) {
                                 htmlC += `<div class="tab-pane fade show active" id="single-slide${key+1}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}">
                                             <div class="single-product-img">
-                                                <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
+                                                dasdsa
                                             </div>
                                         </div>`
                                 htmlL += `<div class="single-tab-menu">
@@ -262,7 +262,7 @@
                                             </div>
                                         </div>`
                                 htmlL += `<div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-${key+1}" href="#single-slide${key+1}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                    dsada
                                         </div>`
                             }
                         });
@@ -297,6 +297,9 @@
                                 }
                             }]
                         });
+                        $('.modal').on('shown.bs.modal', function (e) {
+                            $('.single-slide-menu').resize();
+                        })
                         $('.single-slide-menu a').on('click',function(e){
                             e.preventDefault();
                             var $href = $(this).attr('href');
