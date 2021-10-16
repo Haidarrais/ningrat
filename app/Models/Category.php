@@ -29,7 +29,7 @@ class Category extends Model
     }
     public function subCategory()
     {
-        $subCategory = Category::where('parent_id', $this->id)
+        $subCategory = Category::where('parent_id', $this->id)->get();
         return $subCategory;
     }
     public function discount(){
