@@ -272,6 +272,8 @@
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
 
+                        $('#productModal').show()
+
                     }
                 });
             };
