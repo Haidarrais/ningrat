@@ -328,7 +328,47 @@
 
                         $('#productModal').modal('show')
 
-                        setTimeout(slickRun, 2000);
+                        $('.single-slide-menu').slick('unslick')
+                        $('.single-slide-menu').slick({
+                            dots: false,
+                            arrows: false,
+                            slidesToShow: 4,
+                            responsive: [
+                                {
+                                    breakpoint: 1200,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 3
+                                    }
+                                },
+                                {
+                                    breakpoint: 991,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 2
+                                    }
+                                },
+                                {
+                                    breakpoint: 480,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 3
+                                    }
+                                }
+                            ]
+                        });
+                        $('.modal').on('shown.bs.modal', function (e) {
+                            $('.single-slide-menu').resize();
+                        })
+                        $('.single-slide-menu a').on('click',function(e){
+                            e.preventDefault();
+                            var $href = $(this).attr('href');
+                            $('.single-slide-menu a').removeClass('active');
+                            $(this).addClass('active');
+                            $('.product-details-large .tab-pane').removeClass('active show');
+                            $('.product-details-large '+ $href ).addClass('active show');
+                        });
+                    }
                     }
                 });
             };
