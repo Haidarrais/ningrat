@@ -266,9 +266,10 @@
                                         </div>`
                             }
                         });
-                        $('#m-product-name').html(data.stock.product.name)
-                        $('#m-product-price').html(data.stock.product.price)
-                        $('#m-product-cart').html(`<a type="button" href="#" class="p-cart-btn default-btn" wire:click="store(${data.stock.id}, '${data.stock.product.name}' , ${data.stock.product.price})">Add to cart</a>`)
+                        console.log(data.stock)
+                        // $('#m-product-name').html(data.stock.product.name)
+                        // $('#m-product-price').html(data.stock.product.price)
+                        // $('#m-product-cart').html(`<a type="button" href="#" class="p-cart-btn default-btn" wire:click="store(${data.stock.id}, '${data.stock.product.name}' , ${data.stock.product.price})">Add to cart</a>`)
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
 
