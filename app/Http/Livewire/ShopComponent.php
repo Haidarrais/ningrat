@@ -139,6 +139,18 @@ class ShopComponent extends Component
                 ->paginate($this->pageSize);
             }
         }
+        if (count($stock)) {
+            $this->alert('info', 'Stok produk pada kategori ini belum tersedia', [
+                'position' =>  'center',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
         $pictures = ProductPicture::where('product_id', '=', $this->pictureId)->get();
         $this->pictures = $pictures ?? false;
         $this->categories = Category::all();
