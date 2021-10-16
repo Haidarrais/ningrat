@@ -172,10 +172,12 @@
                                 <div class="sidebar-widget-option-wrapper">
                                     @foreach ($categories as $category )
                                         <div class="sidebar-widget-option">
+                                            @if ($category->id == $category->parent_id)
                                             <a href="#" wire:click="category({{$category->id}})">{{$category->name}}</a>
-                                            @foreach ($category->subCategory as $sub)
-                                                <a class="ml-2" href="#" wire:click="category({{$sub->id}})">{{$sub->name}}</a>
-                                            @endforeach
+                                                @foreach ($category->subCategory as $sub)
+                                                    <a class="ml-2" href="#" wire:click="category({{$sub->id}})">{{$sub->name}}</a>
+                                                @endforeach
+                                            @endif
                                         </div>
                                     @endforeach
                                     <div class="sidebar-widget-option">
