@@ -171,15 +171,17 @@
                                 <h3>Categories</h3>
                                 <div class="sidebar-widget-option-wrapper">
                                     @foreach ($categories as $category )
-                                        <div class="sidebar-widget-option">
-                                            @if ($category->id == $category->parent_id)
-                                            <a class="text-secondary">{{$category->name}}</a>
-                                            @endif
-                                        </div>
-                                        @foreach ($categories->where('parent_id', '=', $category->id) as $sub)
+                                        @if ($category->id == $category->parent_id)
                                             <div class="sidebar-widget-option">
-                                                <a class="ml-2" href="#" wire:click="category({{$sub->id}})">{{$sub->name}}</a>
+                                                <a href="#" wire:click="category({{$category->id}})">{{$category->name}}</a>
                                             </div>
+                                        @endif
+                                        @foreach ($categories->where('parent_id', '=', $category->id) as $sub)
+                                            @if ($sub->id == $sub->parent_id)
+                                                <div class="sidebar-widget-option">
+                                                    <a class="ml-2" href="#" wire:click="category({{$sub->id}})">{{$sub->name}}</a>
+                                                </div>
+                                            @endif
                                         @endforeach
                                     @endforeach
                                     <div class="sidebar-widget-option">
