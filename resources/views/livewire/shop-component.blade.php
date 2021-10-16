@@ -212,7 +212,7 @@
 
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="nav single-slide-menu slider" role="tablist" id="myTabList">
+                                    <div class="nav single-slide-menu" role="tablist" id="myTabList">
 
                                     </div>
                                 </div>
@@ -283,22 +283,31 @@
 
                         $('#productModal').modal('show')
 
-                        if ($(`#myTabList`)) {
-                            $(".slider").slick({
-                                autoplay: true,
-                                dots: true,
-                                responsive: [{
-                                    breakpoint: 500,
-                                    settings: {
-                                        dots: false,
-                                        arrows: false,
-                                        infinite: false,
-                                        slidesToShow: 2,
-                                        slidesToScroll: 2
-                                    }
-                                }]
-                            });
-                        }
+                        $(".single-slide-menu").slick({
+                            autoplay: true,
+                            dots: true,
+                            responsive: [{
+                                breakpoint: 500,
+                                settings: {
+                                    dots: false,
+                                    arrows: false,
+                                    infinite: false,
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            }]
+                        });
+                        $('.modal').on('shown.bs.modal', function (e) {
+                            $('.single-slide-menu').resize();
+                        })
+                        $('.single-slide-menu a').on('click',function(e){
+                            e.preventDefault();
+                            var $href = $(this).attr('href');
+                            $('.single-slide-menu a').removeClass('active');
+                            $(this).addClass('active');
+                            $('.product-details-large .tab-pane').removeClass('active show');
+                            $('.product-details-large '+ $href ).addClass('active show');
+                        });
 
                     }
                 });
