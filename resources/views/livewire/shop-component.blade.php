@@ -326,6 +326,7 @@
             if(window.jQuery)
             {
                 function slickRun() {
+                    $('.single-slide-menu').slick('unslick')
                     $('.single-slide-menu').slick({
                         dots: false,
                         arrows: false,
