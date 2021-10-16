@@ -326,53 +326,55 @@
         </script>
 </div>
 
-{{-- @section('script')
+@section('script')
     @foreach ($stocks as $item)
         <script>
             if(window.jQuery)
             {
-                $(document).ready(function() {
-                        var url = "{{route('picture.show', ":id")}}";
-                        var id = "<?= $item->product_id ?>";
-                        url = url.replace(":id", id);
-                        $.ajax({
-                            type: 'GET',
-                            url: url,
-                            success: function(data) {
-                                let picture = data.data
-                                let htmlC = ``
-                                let htmlL = ``
-                                $.each(picture, (key, value) => {
-                                    if (key == 0) {
-                                        htmlC += `<div class="tab-pane fade show active" id="single-slide${key+1}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}">
-                                                    <div class="single-product-img">
-                                                        <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
-                                                    </div>
-                                                </div>`
-                                        htmlL += `<div class="single-tab-menu">
-                                                    <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}" href="#single-slide${key+1}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
-                                                </div>`
-                                    }else{
-                                        htmlC += `<div class="tab-pane fade" id="single-slide${key+1}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}">
-                                                    <div class="single-product-img">
-                                                        <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
-                                                    </div>
-                                                </div>`
-                                        htmlL += `<div class="single-tab-menu">
-                                                    <a data-toggle="tab" id="single-slide-tab-${key+1}" href="#single-slide${key+1}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
-                                                </div>`
-                                    }
-                                });
-                                $(`#myTabList`).html(htmlL)
-                                $(`#myTabContent`).html(htmlC)
+                $('.single-slide-menu').slick({
+                    dots: false,
+                    arrows: false,
+                    slidesToShow: 4,
+                    responsive: [
+                        {
+                            breakpoint: 1200,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3
                             }
-                        });
+                        },
+                        {
+                            breakpoint: 991,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 2
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 3
+                            }
+                        }
+                    ]
+                });
+                $('.modal').on('shown.bs.modal', function (e) {
+                    $('.single-slide-menu').resize();
+                })
+                $('.single-slide-menu a').on('click',function(e){
+                    e.preventDefault();
+                    var $href = $(this).attr('href');
+                    $('.single-slide-menu a').removeClass('active');
+                    $(this).addClass('active');
+                    $('.product-details-large .tab-pane').removeClass('active show');
+                    $('.product-details-large '+ $href ).addClass('active show');
                 });
             }
         </script>
     @endforeach
 @endsection
-
+{{--
 @push('modal')
     <!-- QUICKVIEW PRODUCT -->
     @foreach ($stocks as $stock )
