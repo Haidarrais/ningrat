@@ -282,10 +282,10 @@
                         });
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
-                        $(`#myTabList${id}`).slick({
+                        $(`#myTabList${id}`).delay( 800 ).slick({
                             settings:"unslick"
                         });
-                        $(`#myTabList${id}`).slick({
+                        $(`#myTabList${id}`).delay( 1000 ).slick({
                             dots: false,
                             arrows: false,
                             slidesToShow: 4,
@@ -314,7 +314,7 @@
                             ]
                         });
                         $('.modal').on('shown.bs.modal', function (e) {
-                            $(`#myTabList${id}`).resize();
+                            $(`#myTabList${id}`.delay( 1100 )).resize();
                         })
                         $('.single-slide-menu a').on('click',function(e){
                             e.preventDefault();
