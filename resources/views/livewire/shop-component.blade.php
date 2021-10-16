@@ -174,11 +174,13 @@
                                         <div class="sidebar-widget-option">
                                             @if ($category->id == $category->parent_id)
                                             <a href="#" wire:click="category({{$category->id}})">{{$category->name}}</a>
-                                                @foreach ($categories->where('parent_id', '=', $category->id) as $sub)
-                                                    <a class="ml-2" href="#" wire:click="category({{$sub->id}})">{{$sub->name}}</a>
-                                                @endforeach
                                             @endif
                                         </div>
+                                        @foreach ($categories->where('parent_id', '=', $category->id) as $sub)
+                                            <div class="sidebar-widget-option">
+                                                <a class="ml-2" href="#" wire:click="category({{$sub->id}})">{{$sub->name}}</a>
+                                            </div>
+                                        @endforeach
                                     @endforeach
                                     <div class="sidebar-widget-option">
                                         <a href="#" wire:click="category({{0}})">Reset</a>
