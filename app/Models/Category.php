@@ -29,9 +29,6 @@ class Category extends Model
     }
     public function subCategory()
     {
-        $subCategory = Category::whereHas(Category::class, function ($query) {
-            return $query->where('parent_id', '=', 'id');
-        })->get();
         return Category::whereHas(Category::class, function ($query) {
             return $query->where('parent_id', '=', 'id');
         })->get();
