@@ -209,11 +209,17 @@
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
-
+                                    <div class="tab-pane fade" id="single-slide" role="tabpanel" aria-labelledby="single-slide-tab-">
+                                        <div class="single-product-img">
+                                            <img src="" alt="tidak ada gambar">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist" id="myTabList">
-
+                                        <div class="single-tab-menu">
+                                            <a  data-toggle="tab" id="single-slide-tab-" href="#single-slide"><img src="" alt=""></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
