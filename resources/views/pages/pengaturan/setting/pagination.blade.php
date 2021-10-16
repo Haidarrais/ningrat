@@ -17,8 +17,8 @@
             <td>{{ $value->new_key??'' }}</td>
             <td>{{ $value->role??"-" }}</td>
             <td>{{ $value->value??'' }}</td>
-            <td>{{ $value->minimal_transaction??'' }}</td>
-            <td>{{ $value->discount??'' }}%</td>
+            <td>Rp. {{ number_format($value->minimal_transaction)??'' }}</td>
+            <td>Rp. {{ number_format($value->discount)??'' }}%</td>
             <td scope="row">
                 <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                 <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>
