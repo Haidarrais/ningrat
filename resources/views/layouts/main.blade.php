@@ -16,6 +16,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/ie7.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/plugins.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+        <link rel="stylesheet" href="https://rawgit.com/kenwheeler/slick/master/slick/slick.css">
+        <link rel="stylesheet" href="https://rawgit.com/kenwheeler/slick/master/slick/slick-theme.css">
         <script src="{{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
     </head>
     <body>
@@ -215,6 +217,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
         </script>
         <script src="{{ asset('assets/js/vendor/jquery-3.2.1.min.js') }}"></script>
+        <script src="https://rawgit.com/kenwheeler/slick/master/slick/slick.js">
         @yield('script')
         <script src="{{ asset('assets/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
