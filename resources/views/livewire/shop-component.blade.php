@@ -208,11 +208,11 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
                         <div class="quick-view-container">
                             <div class="column-left">
-                                <div class="tab-content product-details-large" id="myTabContent{{$stock->product_id}}">
+                                <div class="tab-content product-details-large" id="myTabContent">
 
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist" id="myTabList{{$stock->product_id}}">
+                                    <div class="nav single-slide-menu" role="tablist" id="myTabList">
 
                                     </div>
                                 </div>
@@ -221,7 +221,7 @@
                                 <div class="quick-view-text">
                                     <h2 id="m-product-name"></h2>
                                         <h3 class="q-product-price" id="m-product-price"></span></h3>
-                                    <p></p>
+                                    <p id="m-product-desc"></p>
                                     <div class="input-cart" id="m-product-cart">
                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                     </div>
@@ -266,11 +266,20 @@
                                         </div>`
                             }
                         });
+                        $('#m-product-name').empty()
+                        $('#m-product-price').empty()
+                        $('#m-product-desc').empty()
+                        $('#m-product-cart').empty()
+                        $('#m-product-cart').empty()
+                        $('#myTabList').empty()
+                        $('#myTabContent').empty()
+                        $('#m-product-cart').empty()
                         $('#m-product-name').html(data.stock.product.name)
                         $('#m-product-price').html(data.stock.product.price)
+                        $('#m-product-desc').html(data.stock.product.description)
                         $('#m-product-cart').html(`<a type="button" href="#" class="p-cart-btn default-btn" wire:click="store(${data.stock.id}, '${data.stock.product.name}' , ${data.stock.product.price})">Add to cart</a>`)
-                        $(`#myTabList${id}`).html(htmlL)
-                        $(`#myTabContent${id}`).html(htmlC)
+                        $(`#myTabList`).html(htmlL)
+                        $(`#myTabContent`).html(htmlC)
 
                         $('#productModal').modal('show')
 
