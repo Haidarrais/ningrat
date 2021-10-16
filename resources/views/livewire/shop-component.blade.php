@@ -369,7 +369,6 @@
                             $('.product-details-large '+ $href ).addClass('active show');
                         });
                     }
-                    }
                 });
             };
         </script>
