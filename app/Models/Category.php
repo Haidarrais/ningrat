@@ -29,7 +29,9 @@ class Category extends Model
     }
     public function subCategory()
     {
-        $subCategory = Category::where('parent_id', $this->id)->get();
+        $subCategory = Category::whereHas('product', function ($query) {
+            return $query->where('parent_id', '=', 'id');
+        })->get();
         return $subCategory;
     }
     public function discount(){
