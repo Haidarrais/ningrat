@@ -249,11 +249,11 @@
                             if (key == 0) {
                                 htmlC += `<div class="tab-pane fade show active" id="single-slide${key+1}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}">
                                             <div class="single-product-img">
-                                                dasdsa
+                                                <img src="{{ asset('upload/product/${value.image}') }}" alt="tidak ada gambar">
                                             </div>
                                         </div>`
                                 htmlL += `<div class="single-tab-menu">
-                                            <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}" href="#single-slide${key+1}"><img src="{{ asset('upload/product/${value.image}') }}" alt="" ></a>
+                                            <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}" href="#single-slide${key+1}"><img src="{{ asset('upload/product/${value.image}') }}" alt=""></a>
                                         </div>`
                             }else{
                                 htmlC += `<div class="tab-pane fade" id="single-slide${key+1}" role="tabpanel" aria-labelledby="single-slide-tab-${key+1}">
@@ -262,14 +262,13 @@
                                             </div>
                                         </div>`
                                 htmlL += `<div class="single-tab-menu">
-                                    dsada
+                                            <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}" href="#single-slide${key+1}"><img src="{{ asset('upload/product/${value.image}') }}" alt=""></a>
                                         </div>`
                             }
                         });
                         $('#m-product-name').empty()
                         $('#m-product-price').empty()
                         $('#m-product-desc').empty()
-                        $('#m-product-cart').empty()
                         $('#m-product-cart').empty()
                         $('#myTabList').empty()
                         $('#myTabContent').empty()
@@ -278,37 +277,10 @@
                         $('#m-product-price').html(data.stock.product.price)
                         $('#m-product-desc').html(data.stock.product.description)
                         $('#m-product-cart').html(`<a type="button" href="#" class="p-cart-btn default-btn" wire:click="store(${data.stock.id}, '${data.stock.product.name}' , ${data.stock.product.price})">Add to cart</a>`)
-                        $(`#myTabList`).html(htmlL)
-                        $(`#myTabContent`).html(htmlC)
+                        $('#myTabList').html(htmlL)
+                        $('#myTabContent').html(htmlC)
 
                         $('#productModal').modal('show')
-
-                        $(".single-slide-menu").slick({
-                            autoplay: true,
-                            dots: true,
-                            responsive: [{
-                                breakpoint: 500,
-                                settings: {
-                                    dots: false,
-                                    arrows: false,
-                                    infinite: false,
-                                    slidesToShow: 2,
-                                    slidesToScroll: 2
-                                }
-                            }]
-                        });
-                        $('.modal').on('shown.bs.modal', function (e) {
-                            $('.single-slide-menu').resize();
-                        })
-                        $('.single-slide-menu a').on('click',function(e){
-                            e.preventDefault();
-                            var $href = $(this).attr('href');
-                            $('.single-slide-menu a').removeClass('active');
-                            $(this).addClass('active');
-                            $('.product-details-large .tab-pane').removeClass('active show');
-                            $('.product-details-large '+ $href ).addClass('active show');
-                        });
-
                     }
                 });
             };
