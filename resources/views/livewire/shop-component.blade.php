@@ -319,7 +319,6 @@
                         $('#myTabList').empty()
                         $('#myTabContent').empty()
                         $('#m-product-cart').empty()
-                        $('.single-slide-menu').slick('unslick')
                         $('#m-product-name').html(data.stock.product.name)
                         $('#m-product-price').html(data.stock.product.price)
                         $('#m-product-desc').html(data.stock.product.description)
