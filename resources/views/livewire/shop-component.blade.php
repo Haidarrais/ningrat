@@ -328,7 +328,7 @@
 
                         $('#productModal').modal('show')
 
-                        if ($('.single-slide-menu').slick()) {
+                        if ($('.slick-initialized')) {
                             $('.single-slide-menu').slick('unslick')
                         }
 
