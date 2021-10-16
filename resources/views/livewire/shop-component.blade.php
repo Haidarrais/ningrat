@@ -297,9 +297,6 @@
                                 }
                             }]
                         });
-                        $('.modal').on('shown.bs.modal', function (e) {
-                            $('.single-slide-menu').resize();
-                        })
                         $('.single-slide-menu a').on('click',function(e){
                             e.preventDefault();
                             var $href = $(this).attr('href');
