@@ -278,7 +278,7 @@
                                         <h3 class="q-product-price" id="m-product-price"></span></h3>
                                     <p id="m-product-desc"></p>
                                     <div class="input-cart" id="m-product-cart">
-                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                        <a type="button" href="#" class="p-cart-btn default-btn">Add to cart</a>
                                     </div>
                                 </div>
                             </div>
