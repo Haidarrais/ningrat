@@ -29,10 +29,12 @@ class Category extends Model
     }
     public function subCategory()
     {
-        $subCategory = Category::whereHas('product', function ($query) {
+        $subCategory = Category::whereHas(Category::class, function ($query) {
             return $query->where('parent_id', '=', 'id');
         })->get();
-        return $subCategory;
+        return Category::whereHas(Category::class, function ($query) {
+            return $query->where('parent_id', '=', 'id');
+        })->get();
     }
     public function discount(){
         return $this->hasOne(CategoryDiscount::class);
