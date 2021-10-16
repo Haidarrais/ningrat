@@ -206,6 +206,7 @@
                 <div class="modal-dialog" role="document" style="overflow: unset !important;">
                     <div class="modal-content">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times"></i></span></button>
+                        <button type="button" class="close" onclick="slickRun()"><span aria-hidden="true"><i class="fa fa-plus"></i></span></button>
                         <div class="quick-view-container">
                             <div class="column-left">
                                 <div class="tab-content product-details-large" id="myTabContent">
@@ -270,7 +271,6 @@
                                     <p id="m-product-desc"></p>
                                     <div class="input-cart" id="m-product-cart">
                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
-                                        <a type="button" class="p-cart-btn default-btn" onclick="slickRun()">Slick</a>
                                     </div>
                                 </div>
                             </div>
