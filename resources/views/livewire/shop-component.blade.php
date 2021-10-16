@@ -177,7 +177,7 @@
                                             </div>
                                         @endif
                                         @foreach ($categories->where('parent_id', '=', $category->id) as $sub)
-                                            @if ($sub->id == $sub->parent_id)
+                                            @if ($sub->id != $sub->parent_id)
                                                 <div class="sidebar-widget-option">
                                                     <a class="ml-2" href="#" wire:click="category({{$sub->id}})">{{$sub->name}}</a>
                                                 </div>
