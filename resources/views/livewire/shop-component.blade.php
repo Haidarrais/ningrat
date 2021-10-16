@@ -283,7 +283,7 @@
                         $(`#myTabList${id}`).html(htmlL)
                         $(`#myTabContent${id}`).html(htmlC)
 
-                        $(`#productModal${id}`).show()
+                        $(`#productModal${id}`).toggle()
 
                     }
                 });
