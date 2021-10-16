@@ -221,8 +221,8 @@
         @yield('script')
         <script src="{{ asset('assets/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-        <script src="https://rawgit.com/kenwheeler/slick/master/slick/slick.js">
         <script src="{{ asset('assets/js/plugins.js') }}"></script>
+        <script src="https://rawgit.com/kenwheeler/slick/master/slick/slick.js">
         <script src="{{ asset('assets/js/ajax-mail.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
         <script src="{{ asset('assets/js/main.js') }}"></script>
