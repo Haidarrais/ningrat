@@ -328,6 +328,10 @@
 
                         $('#productModal').modal('show')
 
+                        if ($('.single-slide-menu').slick()) {
+                            $('.single-slide-menu').slick('unslick')
+                        }
+
                         $('.single-slide-menu').slick({
                             dots: false,
                             arrows: false,
