@@ -75,7 +75,7 @@
                                                             <li>
                                                                 <a href="#"><i class="icon icon-Restart"></i></a>
                                                             </li>
-                                                            <li><a href="{{ asset('upload/product/' . $img) }}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                            <li><a onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                         </ul>
                                                         <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
                                                     </div>
@@ -131,7 +131,7 @@
                                                     <li>
                                                         <a href="#"><i class="icon icon-Restart"></i></a>
                                                     </li>
-                                                    <li><a href="{{ asset('upload/product/' . $img) }}" onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
+                                                    <li><a onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
