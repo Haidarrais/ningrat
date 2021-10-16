@@ -212,7 +212,7 @@
 
                                 </div>
                                 <div class="single-product-menu">
-                                    <div class="nav single-slide-menu" role="tablist" id="myTabList">
+                                    <div class="nav single-slide-menu slider" role="tablist" id="myTabList">
 
                                     </div>
                                 </div>
@@ -284,7 +284,7 @@
                         $('#productModal').modal('show')
 
                         if ($(`#myTabList`)) {
-                            $("#myTabList").slick({
+                            $(".slider").slick({
                                 autoplay: true,
                                 dots: true,
                                 responsive: [{
