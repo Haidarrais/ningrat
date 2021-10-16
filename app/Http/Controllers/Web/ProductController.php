@@ -259,7 +259,7 @@ class ProductController extends Controller
     public function pictureShow($id)
     {
         $data = ProductPicture::where('product_id', '=', $id)->get();
-        $stock = Stock::where('product_id', '=', $id)->get();
+        $stock = Stock::where('product_id', '=', $id)->with('product')->get();
         return response()->json([
             'status'    => 0,
             'data'      => $data,
