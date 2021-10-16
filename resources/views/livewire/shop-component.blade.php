@@ -262,7 +262,7 @@
                                             </div>
                                         </div>`
                                 htmlL += `<div class="single-tab-menu">
-                                            <a class="active" data-toggle="tab" id="single-slide-tab-${key+1}" href="#single-slide${key+1}"><img src="{{ asset('upload/product/${value.image}') }}" alt=""></a>
+                                            <a  data-toggle="tab" id="single-slide-tab-${key+1}" href="#single-slide${key+1}"><img src="{{ asset('upload/product/${value.image}') }}" alt=""></a>
                                         </div>`
                             }
                         });
