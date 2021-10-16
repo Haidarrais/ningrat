@@ -211,54 +211,54 @@
                                 <div class="tab-content product-details-large" id="myTabContent">
                                     <div class="tab-pane fade show active" id="single-slide1" role="tabpanel" aria-labelledby="single-slide-tab-1">
                                         <div class="single-product-img">
-                                            <img src="assets/img/product/1.jpg" alt="">
+                                            <img src="{{asset('assets/img/product/1.jpg')" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="single-slide2" role="tabpanel" aria-labelledby="single-slide-tab-2">
                                         <div class="single-product-img">
-                                            <img src="assets/img/product/2.jpg" alt="">
+                                            <img src="{{asset('assets/img/product/2.jpg')" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="single-slide3" role="tabpanel" aria-labelledby="single-slide-tab-3">
                                         <div class="single-product-img">
-                                            <img src="assets/img/product/3.jpg" alt="">
+                                            <img src="{{asset('assets/img/product/3.jpg')" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="single-slide4" role="tabpanel" aria-labelledby="single-slide-tab-4">
                                         <div class="single-product-img">
-                                            <img src="assets/img/product/4.jpg" alt="">
+                                            <img src="{{asset('assets/img/product/4.jpg')" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="single-slide5" role="tabpanel" aria-labelledby="single-slide-tab-5">
                                         <div class="single-product-img">
-                                            <img src="assets/img/product/5.jpg" alt="">
+                                            <img src="{{asset('assets/img/product/5.jpg')" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="single-slide6" role="tabpanel" aria-labelledby="single-slide-tab-6">
                                         <div class="single-product-img">
-                                            <img src="assets/img/product/6.jpg" alt="">
+                                            <img src="{{asset('assets/img/product/6.jpg')" alt="">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="single-product-menu">
                                     <div class="nav single-slide-menu" role="tablist"  id="myTabList">
                                         <div class="single-tab-menu">
-                                            <a class="active" data-toggle="tab" id="single-slide-tab-1" href="#single-slide1"><img src="assets/img/product/1.jpg" alt=""></a>
+                                            <a class="active" data-toggle="tab" id="single-slide-tab-1" href="#single-slide1"><img src="{{asset('assets/img/product/1.jpg')}}" alt=""></a>
                                         </div>
                                         <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-2" href="#single-slide2"><img src="assets/img/product/2.jpg" alt=""></a>
+                                            <a data-toggle="tab" id="single-slide-tab-2" href="#single-slide2"><img src="{{asset('assets/img/product/2.jpg')}}" alt=""></a>
                                         </div>
                                         <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-3" href="#single-slide3"><img src="assets/img/product/3.jpg" alt=""></a>
+                                            <a data-toggle="tab" id="single-slide-tab-3" href="#single-slide3"><img src="{{asset('assets/img/product/3.jpg')}}" alt=""></a>
                                         </div>
                                         <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-4" href="#single-slide4"><img src="assets/img/product/4.jpg" alt=""></a>
+                                            <a data-toggle="tab" id="single-slide-tab-4" href="#single-slide4"><img src="{{asset('assets/img/product/4.jpg')}}" alt=""></a>
                                         </div>
                                         <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-5" href="#single-slide5"><img src="assets/img/product/5.jpg" alt=""></a>
+                                            <a data-toggle="tab" id="single-slide-tab-5" href="#single-slide5"><img src="{{asset('assets/img/product/5.jpg')}}" alt=""></a>
                                         </div>
                                         <div class="single-tab-menu">
-                                            <a data-toggle="tab" id="single-slide-tab-6" href="#single-slide6"><img src="assets/img/product/6.jpg" alt=""></a>
+                                            <a data-toggle="tab" id="single-slide-tab-6" href="#single-slide6"><img src="{{asset('assets/img/product/6.jpg')}}" alt=""></a>
                                         </div>
                                     </div>
                                 </div>
