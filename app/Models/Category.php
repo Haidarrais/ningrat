@@ -29,7 +29,8 @@ class Category extends Model
     }
     public function subCategory()
     {
-        return $this->belongsTo(Category::class, 'parent_id', 'id');
+        $subCategory = Category::where('parent_id', $this->id)
+        return $subCategory;
     }
     public function discount(){
         return $this->hasOne(CategoryDiscount::class);
