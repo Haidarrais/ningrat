@@ -388,15 +388,20 @@
         console.log('trigger');
             $swal.fire({
                 title: 'Oops',
-                text: "Kategory ini belum memiliki sub kategori",
+                text: "Kategori ini belum memiliki sub kategori, buatlah sub kategori terlebih dahulu",
                 icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Pilih kategori lain',
+                confirmButtonText: 'Oke!'
             }).then((res)=>{
                 if (res.isConfirmed) {
                     if ($("#sub_category_container").hasClass('d-none')) {
                     }else{
                         $("#sub_category_container").addClass('d-none');
                     }
-                    // return;
+                   window.location = "{{ route('category.index') }}";
                 }
             });
             if ($("#sub_category_container").hasClass('d-none')) {

@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\Traits\ImageHandlerTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductStoreRequest;
+use App\Models\Category;
 use App\Models\ProductPicture;
 use App\Models\Stock;
 use App\Models\Variant;
 use Illuminate\Support\Facades\File;
+use stdClass;
 
 class ProductController extends Controller
 {
@@ -28,12 +30,17 @@ class ProductController extends Controller
         $variants = Variant::all();
         $query = Product::query();
         $query->when('keyword', function($q) use($request) {
-
+            $id_cat = new stdClass();
+            $id_cat->id = 0;
             $keyword = $request->keyword;
+            if ($request->keyword) {
+               $id_cat->id = Category::where('name', $request->keyword)->first()->id??0;
+            }
             $q->where('name', 'LIKE', "%".$keyword."%")
                 ->orWhere('description', 'LIKE', "%".$keyword."%")
                 ->orWhere('price', 'LIKE', "%".$keyword."%")
-                ->orWhere('weight', 'LIKE', "%".$keyword."%");
+                ->orWhere('weight', 'LIKE', "%".$keyword."%")
+                ->orWhere('category_id', 'LIKE',"%". $id_cat->id."%");
         });
         $query->with(['category', 'picture', 'onePicture']);
         $products = $query->paginate(10);
@@ -66,7 +73,6 @@ class ProductController extends Controller
         $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
         $data['category_id'] = $data['sub_category'];
         unset($data['sub_category']);
-        dd($data);
         $product = Product::create($data);
         if ($request->image) {
             $images = $request->image;
