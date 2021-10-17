@@ -36,6 +36,7 @@ Route::get('variant', [MasterController::class, 'get_variant'])->name('api.get_v
 Route::get('province/{id?}', [MasterController::class, 'get_provice'])->name('api.get_provice');
 Route::get('city/{province_id?}', [MasterController::class, 'get_city'])->name('api.get_city');
 Route::get('subdistict/{city_id?}', [MasterController::class, 'get_subdistict'])->name('api.get_subdistict');
+Route::get('get_sub_categories/{id?}', [MasterController::class, 'get_sub_categories'])->name('api.get_sub_categories');
 
 Route::post('penjualan', [DataController::class, 'get_penjualan'])->name('api.get_penjualan');
 Route::post('status-penjualan', [DataController::class, 'get_status_penjualan'])->name('api.get_status_penjualan');

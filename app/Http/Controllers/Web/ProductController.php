@@ -64,6 +64,9 @@ class ProductController extends Controller
     {
         $data = $request->except(['id', 'image']);
         $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
+        $data['category_id'] = $data['sub_category'];
+        unset($data['sub_category']);
+        dd($data);
         $product = Product::create($data);
         if ($request->image) {
             $images = $request->image;
