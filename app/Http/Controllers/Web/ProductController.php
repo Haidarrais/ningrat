@@ -61,14 +61,11 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
-        // $this->uploadImage()
         $data = $request->except(['id', 'image']);
-        // $data['image'] = $imageName ?? '';
         $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
         $product = Product::create($data);
         if ($request->image) {
             $images = $request->image;
-            // dd(count($images));
             $countImages = count($this->countImages($product->id));
             if ($countImages > 5) {
                 return response()->json([

@@ -40,7 +40,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="selectKategori">Kategori</label>
-                        <select name="category_id" id="selectKategori" class="form-control" required></select>
+                        <select name="category" id="selectKategori" class="form-control" required></select>
+                    </div>
+                    <div class="form-group d-none">
+                        <label for="selectSubKategori">Sub Kategori</label>
+                        <select name="category_id" id="selectSubKategori" class="form-control" required></select>
                     </div>
                     <div class="form-group">
                         <label for="selectVariant">Varian</label>
@@ -140,31 +144,11 @@
             let FormDataVar = new FormData($("#formTambah")[0]);
             let image = $(".inputImage");
             let tempName = "";
-            // console.log(image.length);
-            // for (let index = 0; index < image.length; index++) {
-            //     if (image[index].files[0]) {
-            //         // console.log(image[index].files[0].name != tempName);
-            //         if (image[index].files[0].name != tempName) {
-            //             FormDataVar.append('image[]', image[index].files[0]);
-            //             if (image[index].files[0].name !== "") {
-            //                 tempName = image[index].files[0].name;
-            //             }
-            //         } else {
-
-            //         }
-            //     }
-            // }
-            // for (var pair of FormDataVar.entries()) {
-            //     console.log(pair[1]);
-            // }
-            // return;
             $("#modal_tambah").LoadingOverlay('show');
-            // console.log(FormDataVar);
             if (type == "STORE") {
                 for (var pair of FormDataVar.entries()) {
-    console.log(pair[0]+ ', ' + pair[1]); 
-}
-                // return;
+                    console.log(pair[0]+ ', ' + pair[1]);
+    }
                 await new Promise((resolve, reject) => {
                     $axios.post(`{{ route('product.store') }}`, FormDataVar, {
                             headers: {
@@ -247,9 +231,10 @@
                 .then(({
                     data
                 }) => {
+                    console.log(data.data);
                     let option = '<option value="" disabled selected>== Pilih Kategori ==</option>'
                     $.each(data.data, (i, e) => {
-                        option += `<option onclick="triggerVariant(${e.id})" value="${e.id}">${e.name}</option>`
+                        option += `<option onclick="triggerVariant(${e.id}, ${e.have_subs})" value="${e.id}">${e.name}</option>`
                     })
                     $('#selectKategori').html(option)
                 })
@@ -386,7 +371,16 @@
             })
     }
 
-    const triggerVariant = (id) => {
+    const triggerVariant = (id, have_subs) => {
+        if (!have_subs) {
+            $swal.fire({
+                title: 'Oops',
+                text: "Kategory ini belum memiliki sub kategori",
+                icon: 'error',
+            });
+            return;
+        }
+        $("#selectVariant").LoadingOverlay('show');
         new Promise((resolve, reject) => {
         let url = `{{ route('variants_by_product',['id' => ':id']) }}`;
         url = url.replace(':id', id);
@@ -395,8 +389,6 @@
         data
         }) => {
         let option = '<option id="pilih_variant" value="" selected disabled>Pilih varian</option>'
-        // let dataH = data;
-        console.log(data);
         data.message.data.map((item, i)=>{
                 option += `<option value="${item.id}">${item.name}</option>`
 
@@ -407,6 +399,7 @@
         }else{
             $('#selectVariant').html('<option id="pilih_variant" value="" selected disabled>Belum ada variant</option>');
         }
+        $("#selectVariant").LoadingOverlay('hide');
         $('#before_chose_category').addClass('d-none');
             })
         .catch(err => {

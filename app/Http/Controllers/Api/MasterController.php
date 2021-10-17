@@ -21,7 +21,17 @@ class MasterController extends Controller
 
     public function get_category() {
         $categories = Category::all();
-        return new DefaultGetResponse($categories);
+        $categories_with_sub = [];
+        foreach ($categories as $key => $value) {
+            $temp_data = $value;
+            $sub = Category::where('parent_id', $value->id)->get();
+            if ($sub) {
+                $temp_data["have_subs"] = true;
+            }
+            $temp_data["have_subs"] = false;
+            array_push($categories_with_sub, $temp_data);
+        }
+        return new DefaultGetResponse($categories_with_sub);
     }
 
     public function get_variant() {
