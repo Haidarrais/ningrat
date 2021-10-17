@@ -16,6 +16,17 @@ class VariantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $data = Variant::all();
+        foreach ($data as $value) {
+            if (!$value->parent_id) {
+                $value->parent_id = $value->id;
+                $value->save();
+                return back();
+            }
+        }
+    }
     public function index(Request $request)
     {
         $data = $request->all();

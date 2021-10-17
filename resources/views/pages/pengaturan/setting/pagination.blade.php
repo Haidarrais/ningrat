@@ -16,8 +16,8 @@
             <th scope="row">{{ ($settings->currentpage()-1) * $settings->perpage() + $loop->index + 1 }}</th>
             <td>{{ $value->new_key??'' }}</td>
             <td>{{ $value->role??"-" }}</td>
-            <td>{{ $value->value??'' }}</td>
-            <td>{{ $value->minimal_transaction??'' }}</td>
+            <td>Rp. {{ number_format($value->value)??'' }}</td>
+            <td>Rp. {{ number_format($value->minimal_transaction)??'' }}</td>
             <td>{{ $value->discount??'' }}%</td>
             <td scope="row">
                 <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>

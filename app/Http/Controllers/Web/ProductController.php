@@ -8,6 +8,7 @@ use App\Traits\ImageHandlerTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Models\ProductPicture;
+use App\Models\Stock;
 use App\Models\Variant;
 use Illuminate\Support\Facades\File;
 
@@ -255,9 +256,11 @@ class ProductController extends Controller
     public function pictureShow($id)
     {
         $data = ProductPicture::where('product_id', '=', $id)->get();
+        $stock = Stock::where('product_id', '=', $id)->with('product')->first();
         return response()->json([
             'status'    => 0,
-            'data'      => $data
+            'data'      => $data,
+            'stock'   => $stock
         ]);
     }
     public function destroyImage($id)
