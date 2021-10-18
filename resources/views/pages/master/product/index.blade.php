@@ -600,20 +600,19 @@ const triggerSubVariant =async (event) =>{
     }
     const getVariantsOnly = ()=>{
         new Promise((resolve, reject) => {
-                let url = `{{ route('variants_by_product',['id' => ':id']) }}`;
-                url = url.replace(':id', "all");
+                let url = "{{ route('api.get_variant')}}";
                 $axios.get(url)
                 .then(({
                 data
                 }) => {
                     console.log(data);
                 let option = '<option id="pilih_variant" value="" selected disabled>Pilih varian</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>';
-                data.message.data.map((item, i)=>{
+                data.data.map((item, i)=>{
                 option += `<option value="${item.id}">${item.name}</option>`
                 
                 });
                 
-                if (data.message.data.length>0) {
+                if (data.data.length>0) {
                 $('#selectVariant').html(option);
                 }else{
                 $('#selectVariant').html('<option id="pilih_variant" value="" selected disabled>Belum ada variant</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>');

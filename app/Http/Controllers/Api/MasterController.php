@@ -27,11 +27,7 @@ class MasterController extends Controller
     }
     public function get_sub_variants($id)
     {
-        if ($id=="all") {
-            $q = Variant::query();
-            $variants = $q->all();
-            return response()->json($variants,200);
-        }
+       
         $subs = Variant::where('parent_id', $id)->where('id', "!=", $id)->get();
 
         return new DefaultGetResponse($subs);
