@@ -300,7 +300,7 @@
                     $("#fieldFoto").addClass('d-flex');
                     $('#fieldFoto').show()
                     $("#teksImage").show()
-                    // console.log(product);
+                    console.log(product);
                     // $("#selectKategori").val(product.category.id.toString())
                     let categorie_dropdowns = $(".category_choices");
                     let data_id = product.category.id
@@ -605,7 +605,7 @@ const triggerSubVariant =async (event) =>{
                 .then(({
                 data
                 }) => {
-                    console.log(data);
+                    // console.log(data);
                 let option = '<option id="pilih_variant" value="" selected disabled>Pilih varian</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>';
                 data.data.map((item, i)=>{
                 option += `<option value="${item.id}">${item.name}</option>`
