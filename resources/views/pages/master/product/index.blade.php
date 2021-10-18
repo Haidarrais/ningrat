@@ -40,7 +40,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="selectKategori">Kategori</label>
-                        <select name="" id="selectKategori" class="form-control" required></select>
+                        <select name="" id="selectKategori" class="form-control" required onchange="triggerVariant(event)"></select>
                     </div>
                     <div class="form-group d-none" id="sub_category_container">
                         <label for="selectSubKategori">Sub Kategori</label>
@@ -239,14 +239,9 @@
                 }) => {
                     let option = '<option value="" disabled selected>== Pilih Kategori ==</option>'
                     $.each(data.data, (i, e) => {
-                        // console.log(e.sub_categories);
-                        // let a = (e.sub_categories.length)>0?e.sub_categories:[];
-                        // if (a.length>2) {
-                        //     a.forEach(element => {
-                        //         a.push(element);
-                        //     });
-                        // }
-                        option += `<option onclick="triggerVariant(${e.id}, ${e.have_subs})" value="${e.id}">${e.name}</option>`
+                        if (e.id === e.parent_id) {
+                        option += `<option value="${e.id},${e.have_subs}">${e.name}</option>`
+                        }
                     })
                     $('#selectKategori').html(option)
                 })
@@ -383,8 +378,11 @@
                 }
             })
     }
-    const triggerVariant = (id, have_subs) => {
-        if (!have_subs) {
+    const triggerVariant = (event) => {
+        let {value} = event.target;
+        let id = value.split(',')[0];
+        let have_subs = value.split(',')[1];
+        if (have_subs === "false") {
         console.log('trigger');
             $swal.fire({
                 title: 'Oops',
