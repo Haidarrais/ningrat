@@ -318,6 +318,7 @@
                         }
                         }
                     }
+                    $("#selectKategori").html(temp);
                     let variant = product.variant;
                     if (product.variant_id!=null) {
                         let option = `<option selected value="${variant.id}">${variant.name}</option>`;
