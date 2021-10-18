@@ -106,7 +106,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with(['category', 'picture', 'onePicture'])->find($id);
+        $product = Product::with(['category', 'picture','variant', 'onePicture'])->find($id);
         return response()->json([
             'status' => true,
             'data' => $product

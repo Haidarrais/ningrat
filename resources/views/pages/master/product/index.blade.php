@@ -46,10 +46,17 @@
                         <label for="selectSubKategori">Sub Kategori</label>
                         <select name="sub_category" id="selectSubKategori" class="form-control" ></select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" >
                         <label for="selectVariant">Varian</label>
-                        <select name="variant_id" id="selectVariant" class="form-control">
+                        <select name="variant_id" id="selectVariant" class="form-control" onchange="triggerSubVariant(event)">
                             <option id="before_chose_category" value="" selected disabled class="">Pilih kategori dulu
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group d-none" id="sub_variant_container">
+                        <label for="selectSubVariant">Sub Varian</label>
+                        <select name="sub_variant_id" id="selectSubVariant" class="form-control">
+                            <option id="before_chose_variant" value="" selected disabled class="">Pilih variant dulu
                             </option>
                         </select>
                     </div>
@@ -134,6 +141,11 @@
             $("#fieldFoto").removeClass('d-flex');
             $("#teksImage").hide()
             // $(".inputImage").prop('required', true)
+            // if ($("#before_chose_category")==null) {
+                // console.log($("#before_chose_category"));
+                // console.log($("#selectKategori"));
+                $("#selectVariant").html('<option id="before_chose_category" value="" selected disabled class="">Pilih kategori dulu</option>');
+            // }
             $('#modal_tambah').modal('show')
         })
 
@@ -237,10 +249,10 @@
                 .then(({
                     data
                 }) => {
-                    let option = '<option value="" disabled selected>== Pilih Kategori ==</option>'
+                    let option = '<option class="category_choices" value="" disabled selected>== Pilih Kategori ==</option>'
                     $.each(data.data, (i, e) => {
                         if (e.id === e.parent_id) {
-                        option += `<option value="${e.id},${e.have_subs}">${e.name}</option>`
+                        option += `<option class="category_choices" value="${e.id},${e.have_subs}">${e.name}</option>`
                         }
                     })
                     $('#selectKategori').html(option)
@@ -288,7 +300,28 @@
                     $("#fieldFoto").addClass('d-flex');
                     $('#fieldFoto').show()
                     $("#teksImage").show()
-                    $("#selectKategori").val(product.sub_category)
+                    // console.log(product);
+                    // $("#selectKategori").val(product.category.id.toString())
+                    let categorie_dropdowns = $(".category_choices");
+                    let data_id = product.category.id
+                    for (let index = 0; index < categorie_dropdowns.length; index++) {
+                        const {value} = categorie_dropdowns[index];
+                        if (value!=="" ) {
+                        let a = value.split(",")[0];
+                        if (parseInt(a) === data_id) {
+                           categorie_dropdowns[index].selected = true;
+                        }
+                        }
+                    }
+                    let variant = product.variant;
+                    if (product.variant_id!=null) {
+                        let option = `<option selected value="${variant.id}">${variant.name}</option>`;
+                        $("#selectVariant").html(option) ;
+                    }else{
+                        let option = `<option selected value="">Varian belum disetting</option>`;
+                        $("#selectVariant").html(option) ;
+                    }
+                    getVariantsOnly();
                     $("#inputName").val(product.name)
                     $("#inputPrice").val(product.price)
                     $("#inputWight").val(product.weight)
@@ -432,7 +465,7 @@
         .then(({
         data
         }) => {
-        let option = '<option id="pilih_variant" value="" selected disabled>Pilih varian</option><option id="pilih_variant" value="">Tanpa variant</option>'
+        let option = '<option id="pilih_variant" value="" selected disabled>Pilih varian</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>'
         data.message.data.map((item, i)=>{
                 option += `<option value="${item.id}">${item.name}</option>`
 
@@ -441,10 +474,10 @@
         if (data.message.data.length>0) {
         $('#selectVariant').html(option);
         }else{
-            $('#selectVariant').html('<option id="pilih_variant" value="" selected disabled>Belum ada variant</option><option id="pilih_variant" value="">Tanpa variant</option>');
+            $('#selectVariant').html('<option id="pilih_variant" value="" selected disabled>Belum ada variant</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>');
         }
         $("#selectVariant").LoadingOverlay('hide');
-        $('#before_chose_category').addClass('d-none');
+        // $('#before_chose_variant').addClass('d-none');
             })
         .catch(err => {
             console.log('trigger data',err);
@@ -494,6 +527,48 @@ let option = '<option id="pilih_subKategori" value="" selected disabled>Pilih Su
         })
         })
 }
+const triggerSubVariant =async (event) =>{
+    let id = event.target.value;
+    if (id==="tanpa" && id === "") {
+        return;
+        $swal.toastr()
+    }
+    $("#selectSubVariant").LoadingOverlay('show');
+        await new Promise((resolve, reject) => {
+        let url = `{{ route('api.get_sub_variants',['id' => ':id']) }}`;
+        url = url.replace(':id', id);
+        $axios.get(url)
+        .then(({
+        data
+        }) => {
+        let option = '<option id="pilih_sub_variant" value="" selected disabled>Pilih Sub Kategori</option>';
+        
+        data.data.map((item)=>{
+        if (item.id!==id) {
+        option += `<option value="${item.id}">${item.name}</option>`;
+        }
+        });
+        
+        
+        if (data.data.length>0) {
+        $('#sub_variant_container').removeClass('d-none');
+        $("#selectSubVariant").html(option);
+        }else{
+        $('#selectSubVariant').html('<option id="pilih_sub_variant" value="" selected disabled>Belum ada sub variant</option>');
+        }
+        $("#selectSubVariant").LoadingOverlay('hide');
+        $('#sub_variant_container').addClass('d-none');
+        })
+        .catch(err => {
+        console.log('get sub',err);
+        $swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        })
+        })
+        });
+}
     function deleteImage(id) {
         $swal.fire({
                 title: 'Yakin?',
@@ -522,6 +597,38 @@ let option = '<option id="pilih_subKategori" value="" selected disabled>Pilih Su
 
                 }
             })
+    }
+    const getVariantsOnly = ()=>{
+        new Promise((resolve, reject) => {
+                let url = `{{ route('variants_by_product',['id' => ':id']) }}`;
+                url = url.replace(':id', "all");
+                $axios.get(url)
+                .then(({
+                data
+                }) => {
+                    console.log(data);
+                let option = '<option id="pilih_variant" value="" selected disabled>Pilih varian</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>';
+                data.message.data.map((item, i)=>{
+                option += `<option value="${item.id}">${item.name}</option>`
+                
+                });
+                
+                if (data.message.data.length>0) {
+                $('#selectVariant').html(option);
+                }else{
+                $('#selectVariant').html('<option id="pilih_variant" value="" selected disabled>Belum ada variant</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>');
+                }
+                // $('#before_chose_variant').addClass('d-none');
+                })
+                .catch(err => {
+                console.log('trigger data',err);
+                $swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                })
+                })
+                })
     }
 </script>
 @endsection

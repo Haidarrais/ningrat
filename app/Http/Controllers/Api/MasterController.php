@@ -20,12 +20,23 @@ class MasterController extends Controller
     }
 
     public function get_sub_categories($id){
-        $category = Category::find($id);
         $subs = Category::where('parent_id',$id)->where('id',"!=",$id)->get();
 
         return new DefaultGetResponse($subs);
 
     }
+    public function get_sub_variants($id)
+    {
+        if ($id=="all") {
+            $q = Variant::query();
+            $variants = $q->all();
+            return response()->json($variants,200);
+        }
+        $subs = Variant::where('parent_id', $id)->where('id', "!=", $id)->get();
+
+        return new DefaultGetResponse($subs);
+    }
+
     public function get_category() {
         $categories = Category::all();
         $categories_with_sub = [];
