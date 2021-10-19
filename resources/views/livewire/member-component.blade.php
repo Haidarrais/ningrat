@@ -107,10 +107,10 @@
     @endphp
     @endif
     <script>
-        let foo = document.getElementById('#member_row');
+        let foo = document.getElementById('member_row');
         console.log(!foo.hasChildNodes());
         if (!foo.hasChildNodes()){
-            document.getElementById('#member_row').innerHTML("<h1>Member di area ini belum ada</h1>");
+            document.getElementById('member_row').innerHTML("<h1>Member di area ini belum ada</h1>");
         }
     </script>
 </div>
