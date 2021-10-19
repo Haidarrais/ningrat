@@ -178,7 +178,7 @@
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_variant') }}`)
                 .then(({data}) => {
-                    let option = '<option value="">== Kosongkan Sub Varian ==</option>'
+                    let option = '<option value="">== Kosongkan Varian Utama==</option>'
                     $.each(data.data, (i, e) => {
                         if (e.id==e.parent_id) {
                             option += `<option value="${e.id}">${e.name}</option>`
