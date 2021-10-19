@@ -309,6 +309,23 @@
                     $('#fieldFoto').show()
                     $("#teksImage").show()
                     console.log(product);
+                    if (product.variant) {
+                        if (variant.id !== variant.parent_id) {
+                            $("#selectSubVariant").val(variant.id);
+                            $("#selectVariant").val(variant.parent_id);
+                        }else{
+                        $("#selectVariant").val(category.id);
+                        }
+                    }
+                    if (product.category) {
+                        if (product.id !== product.parent_id) {
+                            category = product.category;
+                           $("#selectSubKategori").val(category.id);
+                            $("#selectKategori").val(category.parent_id);    
+                            }else{
+                                $("#selectKategori").val(category.id);
+                            }
+                    }
                     // $("#selectKategori").val(product.category_id+"")
                     // let categorie_dropdowns = $(".category_choices");
                     // let data_id = product.category_id;
@@ -331,15 +348,14 @@
                     //     }
                     // }
                     // console.log(temp)
-                    // $("#selectKategori").html(temp);
-                    let variant = product.variant!==null?product.variant:0;
-                    if (product.variant_id!=null) {
-                        let option = `<option selected value="${variant.id}">${variant.name}</option>`;
-                        $("#selectVariant").val(variant.id) ;
-                    }else{
-                        // let option = `<option selected value="">Varian belum disetting</option>`;
-                        // $("#selectVariant").html(option) ;
-                    }
+
+                    // let variant = product.variant!==null?product.variant:0;
+                    // if (product.variant_id!=null) {
+                    //     let option = `<option selected value="${variant.id}">${variant.name}</option>`;
+                    // }else{
+                    //     // let option = `<option selected value="">Varian belum disetting</option>`;
+                    //     // $("#selectVariant").html(option) ;
+                    // }
                     // getVariantsOnly();
                     $("#inputName").val(product.name)
                     $("#inputPrice").val(product.price)
