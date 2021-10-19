@@ -308,27 +308,27 @@
                     $("#teksImage").show()
                     console.log(product);
                     // $("#selectKategori").val(product.category_id+"")
-                    let categorie_dropdowns = $(".category_choices");
-                    let data_id = product.category_id;
-                    let temp = "";
+                    // let categorie_dropdowns = $(".category_choices");
+                    // let data_id = product.category_id;
+                    // let temp = "";
 
-                    for (let index = 0; index < categorie_dropdowns.length; index++) {
-                        const {value} = categorie_dropdowns[index];
-                        if (value!=="" ) {
-                        let a = value.split(",")[0];
-                        if (parseInt(a) === data_id) {
-                            // if (categorie_dropdowns[index]) {
-                            categorie_dropdowns[index].selected = true;
-                            // }
-                            // else{
-                            //     temp+=`<option class="category_choices" selected value="${data_id}">${category.name}</option>`;
-                            // }
-                        }else{
-                            temp+=categorie_dropdowns[index]='';
-                        }
-                        }
-                    }
-                    console.log(temp)
+                    // for (let index = 0; index < categorie_dropdowns.length; index++) {
+                    //     const {value} = categorie_dropdowns[index];
+                    //     if (value!=="" ) {
+                    //     let a = value.split(",")[0];
+                    //     if (parseInt(a) === data_id) {
+                    //         // if (categorie_dropdowns[index]) {
+                    //         categorie_dropdowns[index].selected = true;
+                    //         // }
+                    //         // else{
+                    //         //     temp+=`<option class="category_choices" selected value="${data_id}">${category.name}</option>`;
+                    //         // }
+                    //     }else{
+                    //         temp+=categorie_dropdowns[index]='';
+                    //     }
+                    //     }
+                    // }
+                    // console.log(temp)
                     // $("#selectKategori").html(temp);
                     let variant = product.variant!==null?product.variant:0;
                     if (product.variant_id!=null) {
