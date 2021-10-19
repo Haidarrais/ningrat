@@ -84,43 +84,42 @@ class CheckoutReseller extends Component
         }else{
             $kurir = $this->othercourier;
         }
-        if ($this->discountOn) {
-            if ($this->discount) {
-                $userId = Auth::id();
-                $discount = MasterDiscount::find($this->discount->id);
-                $userList = json_decode($discount->userList);
-                if ($userList == null) {
-                    $discount->userList = json_encode([$userId]);
-                }else{
-                    foreach ($userList as $value) {
-                        if ($value == $userId) {
-                            $this->alert('error', 'gagal user sudah menggunakan diskon ini', [
-                                'position' =>  'center',
-                                'timer' =>  3000,
-                                'toast' =>  true,
-                                'text' =>  '',
-                                'confirmButtonText' =>  'Ok',
-                                'cancelButtonText' =>  'Cancel',
-                                'showCancelButton' =>  false,
-                                'showConfirmButton' =>  false,
-                            ]);
+            if ($this->discountOn) {
+                if ($this->discountId) {
+                    $userId = Auth::id();
+                    $discount = MasterDiscount::find($this->discountId);
+                    $userList = json_decode($discount->userList);
+                    if ($userList == null) {
+                        $discount->userList = json_encode([$userId]);
+                    }else{
+                        foreach ($userList as $value) {
+                            if ($value == $userId) {
+                                $this->alert('error', 'gagal user sudah menggunakan diskon ini', [
+                                    'position' =>  'center',
+                                    'timer' =>  3000,
+                                    'toast' =>  true,
+                                    'text' =>  '',
+                                    'confirmButtonText' =>  'Ok',
+                                    'cancelButtonText' =>  'Cancel',
+                                    'showCancelButton' =>  false,
+                                    'showConfirmButton' =>  false,
+                                ]);
+                            }
                         }
+                        array_push($userList, $userId);
+                        $discount->update(['userList' => $userList]);
                     }
-                    array_push($userList, $userId);
-                    $discount->update(['userList' => $userList]);
+                    $this->alert('sukses', 'berhasil', [
+                        'position' =>  'center',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
                 }
-                $this->flash('sukses', 'berhasil menggunakan diskon', [
-                    'position' =>  'top-end',
-                    'timer' =>  3000,
-                    'toast' =>  true,
-                    'text' =>  '',
-                    'confirmButtonText' =>  'Ok',
-                    'cancelButtonText' =>  'Cancel',
-                    'showCancelButton' =>  false,
-                    'showConfirmButton' =>  false,
-                ]);
-            }
-            $discount->save();
             $subtotal = $this->subtotal+$this->ongkir;
         }else{
             $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
@@ -150,6 +149,9 @@ class CheckoutReseller extends Component
             'qty' => $cart->qty,
             ]);
         }
+        if ($this->discountOn) {
+            $discount->save();
+        }
         Cart::destroy();
         $this->flash('info', 'Pembelian berhasil silahkan melakukan pembayaran!', [
             'position' =>  'center',
@@ -165,6 +167,29 @@ class CheckoutReseller extends Component
     }
     public function render()
     {
+        if ($this->discountOn) {
+            $this->alert('success', 'berhasil diskon sedang aktif', [
+                'position' =>  'center',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }else{
+            $this->alert('info', 'diskon dinonaktifkan', [
+                'position' =>  'center',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
         if ($this->discountId) {
             $this->discount = MasterDiscount::find($this->discountId);
         }

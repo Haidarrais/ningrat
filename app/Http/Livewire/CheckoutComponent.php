@@ -66,32 +66,42 @@ class CheckoutComponent extends Component
     {
         $invoice = "INV-".date('Ymd').substr(str_shuffle($this->numeric), 0, 12);
         if ($this->discountOn) {
-            if ($this->discount) {
+            if ($this->discountId) {
                 $userId = Auth::id();
-                $discount = MasterDiscount::find($this->discount->id);
+                $discount = MasterDiscount::find($this->discountId);
                 $userList = json_decode($discount->userList);
                 if ($userList == null) {
                     $discount->userList = json_encode([$userId]);
                 }else{
                     foreach ($userList as $value) {
                         if ($value == $userId) {
-                            return response()->json([
-                                'status' => 0,
-                                'message' => "User sudah menggunakan discount ini"
+                            $this->alert('error', 'gagal user sudah menggunakan diskon ini', [
+                                'position' =>  'center',
+                                'timer' =>  3000,
+                                'toast' =>  true,
+                                'text' =>  '',
+                                'confirmButtonText' =>  'Ok',
+                                'cancelButtonText' =>  'Cancel',
+                                'showCancelButton' =>  false,
+                                'showConfirmButton' =>  false,
                             ]);
                         }
                     }
                     array_push($userList, $userId);
                     $discount->update(['userList' => $userList]);
                 }
-                $discount->save();
-
-                return response()->json([
-                    'status' => 1,
-                    'data'  => $discount
+                $this->alert('sukses', 'berhasil', [
+                    'position' =>  'center',
+                    'timer' =>  3000,
+                    'toast' =>  true,
+                    'text' =>  '',
+                    'confirmButtonText' =>  'Ok',
+                    'cancelButtonText' =>  'Cancel',
+                    'showCancelButton' =>  false,
+                    'showConfirmButton' =>  false,
                 ]);
             }
-            $subtotal = $this->subtotal+$this->ongkir;
+        $subtotal = $this->subtotal+$this->ongkir;
         }else{
             $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
         }
@@ -116,11 +126,47 @@ class CheckoutComponent extends Component
             'qty' => $cart->qty,
             ]);
         }
+        if ($this->discountOn) {
+            $discount->save();
+        }
         Cart::destroy();
+        $this->flash('info', 'Pembelian berhasil silahkan melakukan pembayaran!', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+        ]);
         return redirect()->to('/customer/profile');
     }
     public function render()
     {
+        if ($this->discountOn) {
+            $this->alert('success', 'berhasil diskon sedang aktif', [
+                'position' =>  'center',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }else{
+            $this->alert('info', 'diskon dinonaktifkan', [
+                'position' =>  'center',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
         if ($this->discountId) {
             $this->discount = MasterDiscount::find($this->discountId);
         }
