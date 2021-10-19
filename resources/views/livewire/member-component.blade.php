@@ -88,8 +88,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @else
-                                        <h1>belum ada member di area ini</h1>
                                     @endif
                                     @endif
                                     @endif
