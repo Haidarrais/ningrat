@@ -45,9 +45,16 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-title">Logged in 5 min ago</div>
+                @unlessrole('reseller')
                 <a href="{{ route('profile.index') }}" class="dropdown-item has-icon">
                     <i class="far fa-user"></i> Profile
                 </a>
+                @endunlessrole
+                @role('reseller')
+                <a href="{{ route('profile.reseller') }}" class="dropdown-item has-icon">
+                    <i class="far fa-user"></i> Profile
+                </a>
+                @endrole
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item has-icon text-danger">
                     <i class="fas fa-sign-out-alt"></i> Logout
