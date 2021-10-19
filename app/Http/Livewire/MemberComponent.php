@@ -22,7 +22,7 @@ class MemberComponent extends Component
     {
         $members = Member::with('user.roles')->whereHas('user.roles', function ($query){
             return $query->where('name', '!=', 'superadmin')->Where('name', '!=', 'customer')->where('name', '!=', 'reseller');
-        })->with('city', 'avgRating')->where('city_id', $this->city)->get();
+        })->with('city', 'avgRating')->get();
         $dataA=[];
         $dataB=[];
         foreach ($members as $value) {
