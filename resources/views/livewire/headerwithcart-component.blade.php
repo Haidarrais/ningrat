@@ -84,7 +84,7 @@
                                                         </div>
                                                         <div class="cart-text-btn">
                                                             <div class="cart-text">
-                                                                <h5><a href="/cart">{{$item->name}}</a></h5>
+                                                                <h5><a>{{$item->name}}</a></h5>
                                                                 <span class="cart-qty">{{$item->qty}}</span>
                                                                 <span class="cart-price">{{$item->price}}</span>
                                                             </div>

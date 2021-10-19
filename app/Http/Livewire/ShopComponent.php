@@ -139,7 +139,7 @@ class ShopComponent extends Component
                 ->paginate($this->pageSize);
             }
         }
-        if (count($stocks)) {
+        if (count($stocks) < 1) {
             $this->alert('info', 'Stok produk pada kategori ini belum tersedia', [
                 'position' =>  'center',
                 'timer' =>  3000,

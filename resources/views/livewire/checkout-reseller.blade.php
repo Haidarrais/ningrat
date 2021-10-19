@@ -283,7 +283,7 @@
                                     </div>
                                     <div class="order-button-payment">
                                         @if ($ongkir)
-                                            <a class="btn default-btn" type="submit" value="Place order" wire:click='save'>Place order</a>
+                                            <a class="btn default-btn" type="submit" value="Place order" wire:click='saveAs'>Place order</a>
                                             @else
                                             <button class="btn default-btn" disabled>Ongkir belum ada</button>
                                         @endif
