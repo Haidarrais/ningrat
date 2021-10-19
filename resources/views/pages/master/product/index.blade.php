@@ -333,7 +333,7 @@
                     let variant = product.variant!==null?product.variant:0;
                     if (product.variant_id!=null) {
                         let option = `<option selected value="${variant.id}">${variant.name}</option>`;
-                        $("#selectVariant").value(variant.id) ;
+                        $("#selectVariant").val(variant.id) ;
                     }else{
                         // let option = `<option selected value="">Varian belum disetting</option>`;
                         // $("#selectVariant").html(option) ;
