@@ -76,7 +76,7 @@ class CheckoutReseller extends Component
             return $this->harga = $result['results'];
         }
     }
-    public function save()
+    public function saveAs()
     {
         $invoice = "INV-".date('Ymd').substr(str_shuffle($this->numeric), 0, 12);
         if ($this->courier != ' ') {
