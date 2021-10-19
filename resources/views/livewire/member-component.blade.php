@@ -85,10 +85,10 @@
                                                 </div>
                                             </div>
                                     </div>
-                                @empty
-                                    <script>
-                                        Livewire.emit('nothing')
-                                    </script>
+                                    @empty
+                                    <div class="w-100 justify-content-center">
+                                        <h4>Belum ada member di area anda</h4>
+                                    </div>
                                 @endforelse
                             </div>
                         </div>
