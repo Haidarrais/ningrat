@@ -543,7 +543,7 @@ const triggerSubVariant =async (event) =>{
         $('#selectSubVariant').html('<option id="pilih_sub_variant" value="" selected disabled>Belum ada sub variant</option>');
         }
         $("#selectSubVariant").LoadingOverlay('hide');
-        $('#sub_variant_container').addClass('d-none');
+        // $('#sub_variant_container').addClass('d-none');
         })
         .catch(err => {
         console.log('get sub',err);
