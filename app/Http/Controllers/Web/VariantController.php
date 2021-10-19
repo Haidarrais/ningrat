@@ -35,7 +35,7 @@ class VariantController extends Controller
             $keyword = $request->keyword;
             $q->where('name', 'LIKE', "%$keyword%");
         });
-        $query->with('category');
+        // $query->with('category');
         // $data1 = $query->first();
         // dd($data1->subVariant->name);
 
