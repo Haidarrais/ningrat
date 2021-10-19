@@ -108,6 +108,7 @@
     @endif
     <script>
     if (window.jQuery) {
+        console.log($('#member_row').is(':empty'));
         if ($('#member_row').is(':empty')){
             $('#member_row').html("<h1>Member di area ini belum ada</h1>")
         }
