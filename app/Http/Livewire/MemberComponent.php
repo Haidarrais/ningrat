@@ -13,10 +13,24 @@ class MemberComponent extends Component
 {
     public $province;
     public $city;
+    protected $listeners = ['nothing'];
     public function mount()
     {
         $this->province = Auth::user()->member->city->province_id ?? '';
         $this->city = Auth::user()->member->city_id ?? '';
+    }
+    public function nothing(){
+        $this->alert('error', 'Mohon maaf untuk saat ini belum ada member di area anda', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+        ]);
+        return redirect()->back();
     }
     public function render()
     {

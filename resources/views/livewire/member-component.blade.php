@@ -47,7 +47,7 @@
                     <div class="ht-product-shop tab-content text-center">
                         <div class="tab-pane active show fade" id="grid" role="tabpanel">
                             <div class="custom-row" id="member_row">
-                                @foreach ($members as $member )
+                                @forelse ($members as $member )
                                         <div class="custom-col">
                                             <div class="single-product-item">
                                                 <div class="product-image">
@@ -85,7 +85,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                @endforeach
+                                        @empty
+                                        {{$this->emit('nothing')}}
+                                @endforelse
                             </div>
                         </div>
                     </div>
