@@ -46,14 +46,6 @@
                         <label for="inputName">Nama Varian</label>
                         <input type="text" name="name" id="inputName" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label for="inputName">Kategori</label>
-                        <select name="category_id" id="inputCategory">
-                            @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -133,7 +125,6 @@
                     $("#modalTitle").html('Update Varian')
                     if(variant.parent_id) $("#selectSubVarian").val(variant.parent_id)
                     $("#inputName").val(variant.name)
-                    $("#inputCategory").val(variant.category_id)
                     $('#modal_tambah').modal('show')
                 })
                 .catch(err => {
