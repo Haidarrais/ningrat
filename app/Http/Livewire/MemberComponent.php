@@ -58,15 +58,9 @@ class MemberComponent extends Component
         foreach ($members_scan as $value) {
             array_push($dataA, $value->city->province_id);
             array_push($dataB, $value->city->city_id);
-            if ($value->city->city_id === Auth::user()->member->city_id) {
-            }
         }
-        if ($this->city === Auth::user()->member->city_id) {
-            if ($members) {
-                $this->emit('nothing');
-            }else{
-                $this->emit('youAreHere');
-            }
+        if ($members) {
+            $this->emit('nothing');
         }
         array_push($dataA, Auth::user()->member->city->province_id);
         array_push($dataB, Auth::user()->member->city_id);
