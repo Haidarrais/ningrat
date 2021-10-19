@@ -13,11 +13,26 @@ class MemberComponent extends Component
 {
     public $province;
     public $city;
-    protected $listeners = ['nothing' => 'doThisIfNothing'];
+    protected $listeners = [
+        'nothing' => 'doThisIfNothing',
+        'youAreHere' => 'doThis'
+    ];
     public function mount()
     {
         $this->province = Auth::user()->member->city->province_id ?? '';
         $this->city = Auth::user()->member->city_id ?? '';
+    }
+    public function doThis(){
+        $this->alert('success', 'Member yang ada di pilihan anda merupakan yang terdekat', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+        ]);
     }
     public function doThisIfNothing(){
         $this->alert('error', 'Mohon maaf untuk saat ini belum ada member di area anda', [
@@ -49,8 +64,12 @@ class MemberComponent extends Component
                 $memberArround = 1;
             }
         }
-        if ($memberArround === 0 && $this->city === Auth::user()->member->city_id) {
-            $this->emit('nothing');
+        if ($this->city === Auth::user()->member->city_id) {
+            if ($memberArround === 0) {
+                $this->emit('nothing');
+            }else{
+                $this->emit('youAreHere');
+            }
         }
         array_push($dataA, Auth::user()->member->city->province_id);
         array_push($dataB, Auth::user()->member->city_id);
