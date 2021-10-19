@@ -167,6 +167,18 @@ class CheckoutReseller extends Component
     }
     public function render()
     {
+        if ($this->discountOn) {
+            $this->alert('sukses', 'berhasil diskon sedang aktif', [
+                'position' =>  'center',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
         if ($this->discountId) {
             $this->discount = MasterDiscount::find($this->discountId);
         }
