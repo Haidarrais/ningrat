@@ -107,9 +107,9 @@
     @endphp
     @endif
     <script>
-        console.log($('#member_row').is(':empty'));
-        if ($('#member_row').is(':empty')){
-            $('#member_row').html("<h1>Member di area ini belum ada</h1>")
-        }
+        console.log(document.getElementById('#member_row').is(':empty'));
+        // if ($('#member_row').is(':empty')){
+        //     $('#member_row').html("<h1>Member di area ini belum ada</h1>")
+        // }
     </script>
 </div>
