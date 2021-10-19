@@ -149,6 +149,9 @@ class CheckoutReseller extends Component
             'qty' => $cart->qty,
             ]);
         }
+        if ($this->discountOn) {
+            $discount->save();
+        }
         Cart::destroy();
         $this->flash('info', 'Pembelian berhasil silahkan melakukan pembayaran!', [
             'position' =>  'center',
