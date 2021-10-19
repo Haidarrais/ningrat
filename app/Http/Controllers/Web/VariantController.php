@@ -131,15 +131,15 @@ class VariantController extends Controller
     {
         $variant = Variant::find($id);
         // dd($variant->product);
-        // if (count($variant->product)>0) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => [
-        //             'head' => 'Gagal',
-        //             'body' => 'Varian sudah digunakan pada data produk'
-        //         ]
-        //     ], 500);
-        // }
+        if (count($variant->product)>0) {
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'head' => 'Gagal',
+                    'body' => 'Varian sudah digunakan pada data produk'
+                ]
+            ], 500);
+        }
 
         $variant->delete();
         return response()->json([
