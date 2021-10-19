@@ -516,7 +516,6 @@ const triggerSubVariant =async (event) =>{
     let id = event.target.value;
     if (id==="tanpa" && id === "") {
         return;
-        $swal.toastr()
     }
     $("#selectSubVariant").LoadingOverlay('show');
         await new Promise((resolve, reject) => {
@@ -526,7 +525,7 @@ const triggerSubVariant =async (event) =>{
         .then(({
         data
         }) => {
-        let option = '<option id="pilih_sub_variant" value="" selected disabled>Pilih Sub Kategori</option>';
+        let option = '<option id="pilih_sub_variant" value="" selected disabled>Pilih Sub Varian</option><option id="pilih_sub_variant" value="" selected >Tanpa Sub varian</option>';
         
         data.data.map((item)=>{
         if (item.id!==id) {
