@@ -39,7 +39,7 @@
                 <input type="hidden" name="id" id="inputID">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="selectSubVarian">Sub Varian</label>
+                        <label for="selectSubVarian">Varian Utama</label>
                         <select name="parent_id" id="selectSubVarian" class="form-control"></select>
                     </div>
                     <div class="form-group">
@@ -180,7 +180,9 @@
                 .then(({data}) => {
                     let option = '<option value="">== Kosongkan Sub Varian ==</option>'
                     $.each(data.data, (i, e) => {
-                        option += `<option value="${e.id}">${e.name}</option>`
+                        if (e.i==e.parent_id) {
+                            option += `<option value="${e.id}">${e.name}</option>`
+                        }
                     })
                     $('#selectSubVarian').html(option)
                 })
