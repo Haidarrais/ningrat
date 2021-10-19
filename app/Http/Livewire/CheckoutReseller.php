@@ -94,9 +94,15 @@ class CheckoutReseller extends Component
                     }else{
                         foreach ($userList as $value) {
                             if ($value == $userId) {
-                                return response()->json([
-                                    'status' => 0,
-                                    'message' => "User sudah menggunakan discount ini"
+                                $this->flash('error', 'gagal user sudah menggunakan diskon ini', [
+                                    'position' =>  'center',
+                                    'timer' =>  3000,
+                                    'toast' =>  true,
+                                    'text' =>  '',
+                                    'confirmButtonText' =>  'Ok',
+                                    'cancelButtonText' =>  'Cancel',
+                                    'showCancelButton' =>  false,
+                                    'showConfirmButton' =>  false,
                                 ]);
                             }
                         }
