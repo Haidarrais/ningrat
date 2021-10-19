@@ -109,8 +109,8 @@
     <script>
         let foo = document.getElementById('#member_row');
         console.log(!foo.hasChildNodes());
-        // if ($('#member_row').is(':empty')){
-        //     $('#member_row').html("<h1>Member di area ini belum ada</h1>")
-        // }
+        if (!foo.hasChildNodes()){
+            document.getElementById('#member_row').innerHTML("<h1>Member di area ini belum ada</h1>");
+        }
     </script>
 </div>
