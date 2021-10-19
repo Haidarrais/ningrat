@@ -22,15 +22,18 @@ class MemberComponent extends Component
     {
         $members = Member::with('user.roles')->whereHas('user.roles', function ($query){
             return $query->where('name', '!=', 'superadmin')->Where('name', '!=', 'customer')->where('name', '!=', 'reseller');
+        })->with('city', 'avgRating')->where('city_id', $this->city)->get();
+        $members_scan = Member::with('user.roles')->whereHas('user.roles', function ($query){
+            return $query->where('name', '!=', 'superadmin')->Where('name', '!=', 'customer')->where('name', '!=', 'reseller');
         })->with('city', 'avgRating')->get();
-        $dataA=[];
-        $dataB=[];
-        foreach ($members as $value) {
+        $dataA=[Auth::user()->member->city->province_id];
+        $dataB=[Auth::user()->member->city_id];
+        foreach ($members_scan as $value) {
             array_push($dataA, $value->city->province_id);
             array_push($dataB, $value->city->city_id);
         }
         $locations = Province::wherein('id', $dataA)->get();
         $cities = City::where('province_id', $this->province)->wherein('city_id', $dataB)->get();
-        return view('livewire.member-component', ['members' => $members, 'locations' => $locations, 'cities' => $cities])->layout('layouts.main');
+        return view('livewire.member-component', ['members' => $members, 'locations' => $locations, 'cities' => $cities, 'members_scan' => $members_scan])->layout('layouts.main');
     }
 }
