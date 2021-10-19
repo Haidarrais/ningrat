@@ -306,12 +306,22 @@
                     $("#fieldFoto").addClass('d-flex');
                     $('#fieldFoto').show()
                     $("#teksImage").show()
-                    console.log(product);
+                    // console.log(product);
                     if (product.variant) {
                         variant = product.variant;
                         if (variant.id !== variant.parent_id) {
-                            $("#selectSubVariant").val(variant.id);
-                            $("#selectVariant").val(variant.parent_id);
+                            // target.value = variant.parent_id;
+                            let a = {
+                                target:{
+                                    value :variant.parent_id
+                                }
+                            }
+                            
+                            triggerSubVariant(a)
+                            setTimeout(() => {
+                                $("#selectSubVariant").val(variant.id);
+                                $("#selectVariant").val(variant.parent_id);
+                            }, 1000);
                         }else{
                         $("#selectVariant").val(variant.id);
                         }
@@ -319,10 +329,12 @@
                     if (product.category) {
                         category = product.category;
                         if (category.id !== category.parent_id) {
-                          await getSubcategories(category.parent_id);
-                           $("#selectSubKategori").val(category.id);
-                           console.log(`${category.parent_id}, true`);
-                            $("#selectKategori").val(`${category.parent_id},true`);    
+                            getSubcategories(category.parent_id)
+                            setTimeout(() => {
+                                $("#selectSubKategori").val(category.id);
+                                //   console.log(`${category.parent_id}, true`);
+                                $("#selectKategori").val(`${category.parent_id},true`);    
+                            }, 1000);
                             }else{
                                 $("#selectKategori").val(category.id);
                             }
@@ -364,7 +376,7 @@
                     $("#inputDescription").val(product.description)
                     $(".inputImage").prop('required', false)
                     $('#modal_tambah').modal('show');
-                    console.log(":okeeeee")
+                    // console.log(":okeeeee")
 
                 })
                 .catch(err => {
@@ -533,6 +545,7 @@ let option = '<option id="pilih_subKategori" value="" selected disabled>Pilih Su
         })
         })
         })
+        return;
 }
 const triggerSubVariant =async (event) =>{
     let id = event.target.value;
