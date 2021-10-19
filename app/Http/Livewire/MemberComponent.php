@@ -21,7 +21,7 @@ class MemberComponent extends Component
     public function render()
     {
         $members = Member::with('user.roles')->whereHas('user.roles', function ($query){
-            return $query->where('name', '!=', 'superadmin')->orWhere('name', '!=', 'customer')->orWhere('name', '!=', 'reseller');
+            return $query->where('name', '!=', 'superadmin')->where('name', '!=', 'customer')->where('name', '!=', 'reseller');
         })->with('city', 'avgRating')->where('city_id', $this->city)->get();
         $members_scan = Member::all();
         $dataA=[];
