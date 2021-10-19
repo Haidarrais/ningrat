@@ -33,7 +33,7 @@ class MemberComponent extends Component
             array_push($dataB, $value->city->city_id);
         }
         array_push($dataA, Auth::user()->member->city->province_id);
-        array_push($dataB, $value->city->city_id);
+        array_push($dataB, Auth::user()->member->city_id);
         $locations = Province::wherein('id', $dataA)->get();
         $cities = City::where('province_id', $this->province)->wherein('city_id', $dataB)->get();
         return view('livewire.member-component', ['members' => $members, 'locations' => $locations, 'cities' => $cities, 'members_scan' => $members_scan])->layout('layouts.main');
