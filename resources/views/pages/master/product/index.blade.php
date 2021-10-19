@@ -61,7 +61,7 @@
                         @endforelse
                         </select>
                     </div>
-                    <div class="form-group d-none" id="sub_variant_container">
+                    <div class="form-group" id="sub_variant_container">
                         <label for="selectSubVariant">Sub Varian</label>
                         <select name="sub_variant_id" id="selectSubVariant" class="form-control">
                             <option id="before_chose_variant" value="" selected disabled class="">Pilih variant dulu
@@ -537,7 +537,7 @@ const triggerSubVariant =async (event) =>{
         
         
         if (data.data.length>0) {
-        $('#sub_variant_container').removeClass('d-none');
+        // $('#sub_variant_container').removeClass('d-none');
         $("#selectSubVariant").html(option);
         }else{
         $('#selectSubVariant').html('<option id="pilih_sub_variant" value="" selected disabled>Belum ada sub variant</option>');
