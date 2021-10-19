@@ -48,9 +48,6 @@
                         <div class="tab-pane active show fade" id="grid" role="tabpanel">
                             <div class="custom-row" id="member_row">
                                 @foreach ($members as $member )
-                                    @if (($member->user->getRoleNames()->first()) != ('customer'))
-                                    @if (($member->user->getRoleNames()->first()) != ('reseller'))
-                                    @if (($member->user->getRoleNames()->first()) != ('superadmin'))
                                         <div class="custom-col">
                                             <div class="single-product-item">
                                                 <div class="product-image">
@@ -88,9 +85,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
-                                    @endif
-                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -106,10 +100,4 @@
         return redirect()->to('/' . $role[0] . '/profile');
     @endphp
     @endif
-    <script>
-        console.log(document.getElementById('#member_row').is(':empty'));
-        // if ($('#member_row').is(':empty')){
-        //     $('#member_row').html("<h1>Member di area ini belum ada</h1>")
-        // }
-    </script>
 </div>
