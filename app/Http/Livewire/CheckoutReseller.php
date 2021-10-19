@@ -84,41 +84,6 @@ class CheckoutReseller extends Component
         }else{
             $kurir = $this->othercourier;
         }
-        if ($this->discountOn) {
-            if ($this->discount) {
-                $userId = Auth::id();
-                $discount = MasterDiscount::find($this->discount->id);
-                $userList = json_decode($discount->userList);
-                if ($userList == null) {
-                    $discount->userList = json_encode([$userId]);
-                }else{
-                    foreach ($userList as $value) {
-                        if ($value == $userId) {
-                            $this->alert('error', 'gagal user sudah menggunakan diskon ini', [
-                                'position' =>  'center',
-                                'timer' =>  3000,
-                                'toast' =>  true,
-                                'text' =>  '',
-                                'confirmButtonText' =>  'Ok',
-                                'cancelButtonText' =>  'Cancel',
-                                'showCancelButton' =>  false,
-                                'showConfirmButton' =>  false,
-                            ]);
-                        }
-                    }
-                    array_push($userList, $userId);
-                    $discount->update(['userList' => $userList]);
-                }
-                $discount->save();
-                return response()->json([
-                    'status' => 1,
-                    'data'  => $discount
-                ]);
-            }
-            $subtotal = $this->subtotal+$this->ongkir;
-        }else{
-            $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
-        }
         $royalty = Royalty::latest()->first();
         $transaction = Transaction::create([
             'user_id' => Auth::id(),
@@ -155,6 +120,47 @@ class CheckoutReseller extends Component
             'showCancelButton' =>  false,
             'showConfirmButton' =>  false,
         ]);
+        if ($this->discountOn) {
+            if ($this->discount) {
+                $userId = Auth::id();
+                $discount = MasterDiscount::find($this->discount->id);
+                $userList = json_decode($discount->userList);
+                if ($userList == null) {
+                    $discount->userList = json_encode([$userId]);
+                }else{
+                    foreach ($userList as $value) {
+                        if ($value == $userId) {
+                            $this->alert('error', 'gagal user sudah menggunakan diskon ini', [
+                                'position' =>  'center',
+                                'timer' =>  3000,
+                                'toast' =>  true,
+                                'text' =>  '',
+                                'confirmButtonText' =>  'Ok',
+                                'cancelButtonText' =>  'Cancel',
+                                'showCancelButton' =>  false,
+                                'showConfirmButton' =>  false,
+                            ]);
+                        }
+                    }
+                    array_push($userList, $userId);
+                    $discount->update(['userList' => $userList]);
+                }
+                $this->flash('sukses', 'berhasil menggunakan diskon', [
+                    'position' =>  'top-end',
+                    'timer' =>  3000,
+                    'toast' =>  true,
+                    'text' =>  '',
+                    'confirmButtonText' =>  'Ok',
+                    'cancelButtonText' =>  'Cancel',
+                    'showCancelButton' =>  false,
+                    'showConfirmButton' =>  false,
+                ]);
+            }
+            $discount->save();
+            $subtotal = $this->subtotal+$this->ongkir;
+        }else{
+            $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
+        }
         return redirect()->to('/reseller/profile');
     }
     public function render()
