@@ -51,6 +51,7 @@
                                     @if (($member->user->getRoleNames()->first()) != ('customer'))
                                     @if (($member->user->getRoleNames()->first()) != ('reseller'))
                                     @if (($member->user->getRoleNames()->first()) != ('superadmin'))
+                                    @if ($member->user->name != null)
                                         <div class="custom-col">
                                             <div class="single-product-item">
                                                 <div class="product-image">
@@ -88,6 +89,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @else
+                                        <div class="justify-content-center">
+                                            <h1>Tidak ada member di area ini</h1>
+                                        </div>
+                                    @endif
                                     @endif
                                     @endif
                                     @endif
