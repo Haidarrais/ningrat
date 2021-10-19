@@ -46,7 +46,7 @@
                     </div>
                     <div class="ht-product-shop tab-content text-center">
                         <div class="tab-pane active show fade" id="grid" role="tabpanel">
-                            <div class="custom-row">
+                            <div class="custom-row" id="member_row">
                                 @foreach ($members as $member )
                                     @if (($member->user->getRoleNames()->first()) != ('customer'))
                                     @if (($member->user->getRoleNames()->first()) != ('reseller'))
@@ -106,4 +106,11 @@
         return redirect()->to('/' . $role[0] . '/profile');
     @endphp
     @endif
+    <script>
+    if (window.jQuery) {
+        if ($('#member_row').is(':empty')){
+            $('#member_row').html("<h1>Member di area ini belum ada</h1>")
+        }
+    }
+    </script>
 </div>
