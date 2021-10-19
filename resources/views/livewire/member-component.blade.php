@@ -107,7 +107,8 @@
     @endphp
     @endif
     <script>
-        console.log(document.getElementById('#member_row').is(':empty'));
+        let foo = document.getElementById('#member_row');
+        console.log(foo.hasChildNodes());
         // if ($('#member_row').is(':empty')){
         //     $('#member_row').html("<h1>Member di area ini belum ada</h1>")
         // }
