@@ -88,11 +88,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @empty
-                                        <div class="justify-content-center">
-                                            <h1>Tidak ada member di area ini</h1>
-                                        </div>
-                                        @endempty
                                     @endif
                                     @endif
                                     @endif
