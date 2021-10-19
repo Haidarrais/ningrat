@@ -88,6 +88,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @else
+                                        <h1>belum ada member di area ini</h1>
                                     @endif
                                     @endif
                                     @endif
@@ -106,11 +108,4 @@
         return redirect()->to('/' . $role[0] . '/profile');
     @endphp
     @endif
-    <script>
-        let foo = document.getElementById('member_row');
-        console.log(!foo.hasChildNodes());
-        if (!foo.hasChildNodes()){
-            document.getElementById('member_row').innerHTML("<h1>Member di area ini belum ada</h1>");
-        }
-    </script>
 </div>
