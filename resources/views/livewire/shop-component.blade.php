@@ -91,7 +91,7 @@
                                                     <h6><a>Stok tersisa : {{$stock->stock}}</a></h6>
                                                     <blockquote class="blockquote">
                                                         <h5 class="mb-0"><a>{{$stock->product->name}}</a></h5>
-                                                        <footer class="blockquote-footer">Varian : {{$stock->product->variant->name ?? "unset"}}</footer>
+                                                        <footer class="blockquote-footer small text-primary">Varian : {{$stock->product->variant->subVariant->name ?? "unset"}} <span class="text-secondary">{{$stock->product->variant->name ?? "unset"}}</span></footer>
                                                     </blockquote>
                                                     <div class="pro-price">
 
