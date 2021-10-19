@@ -94,7 +94,7 @@ class CheckoutReseller extends Component
                     }else{
                         foreach ($userList as $value) {
                             if ($value == $userId) {
-                                $this->flash('error', 'gagal user sudah menggunakan diskon ini', [
+                                $this->alert('error', 'gagal user sudah menggunakan diskon ini', [
                                     'position' =>  'center',
                                     'timer' =>  3000,
                                     'toast' =>  true,
