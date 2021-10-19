@@ -90,7 +90,7 @@ class CheckoutReseller extends Component
                     $discount = MasterDiscount::find($this->discountId);
                     $userList = json_decode($discount->userList);
                     if ($userList == null) {
-                        $discount->update(['userList' => json_encode([$userId])]);
+                        $discount->userList = json_encode([$userId]);
                     }else{
                         foreach ($userList as $value) {
                             if ($value == $userId) {
