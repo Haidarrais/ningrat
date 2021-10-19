@@ -320,7 +320,7 @@
                     }
                     if (product.category) {
                         category = product.category;
-                        if (product.id !== product.parent_id) {
+                        if (category.id !== category.parent_id) {
                            $("#selectSubKategori").val(category.id);
                             $("#selectKategori").val(`${category.parent_id}, true`);    
                             }else{
