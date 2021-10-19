@@ -23,8 +23,8 @@ class MemberComponent extends Component
         $members = Member::with('user.roles')->whereHas('user.roles', function ($query){
             return $query->where('name', '!=', 'superadmin')->Where('name', '!=', 'customer')->where('name', '!=', 'reseller');
         })->with('city', 'avgRating')->where('city_id', $this->city)->get();
-        $dataA=[Auth::user()->member->city->province_id];
-        $dataB=[Auth::user()->member->city_id];
+        $dataA=[];
+        $dataB=[];
         foreach ($members as $value) {
             array_push($dataA, $value->city->province_id);
             array_push($dataB, $value->city->city_id);
