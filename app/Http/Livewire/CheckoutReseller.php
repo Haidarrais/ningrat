@@ -76,7 +76,7 @@ class CheckoutReseller extends Component
             return $this->harga = $result['results'];
         }
     }
-    public function saveAs()
+    public function save()
     {
         $invoice = "INV-".date('Ymd').substr(str_shuffle($this->numeric), 0, 12);
         if ($this->courier != ' ') {
@@ -84,43 +84,42 @@ class CheckoutReseller extends Component
         }else{
             $kurir = $this->othercourier;
         }
-        if ($this->discountOn) {
-            if ($this->discount) {
-                $userId = Auth::id();
-                $discount = MasterDiscount::find($this->discount->id);
-                $userList = json_decode($discount->userList);
-                if ($userList == null) {
-                    $discount->userList = json_encode([$userId]);
-                }else{
-                    foreach ($userList as $value) {
-                        if ($value == $userId) {
-                            $this->alert('error', 'gagal user sudah menggunakan diskon ini', [
-                                'position' =>  'center',
-                                'timer' =>  3000,
-                                'toast' =>  true,
-                                'text' =>  '',
-                                'confirmButtonText' =>  'Ok',
-                                'cancelButtonText' =>  'Cancel',
-                                'showCancelButton' =>  false,
-                                'showConfirmButton' =>  false,
-                            ]);
+            if ($this->discountOn) {
+                if ($this->discountId) {
+                    $userId = Auth::id();
+                    $discount = MasterDiscount::find($this->discountId);
+                    $userList = json_decode($discount->userList);
+                    if ($userList == null) {
+                        $discount->update(['userList' => json_encode([$userId])]);
+                    }else{
+                        foreach ($userList as $value) {
+                            if ($value == $userId) {
+                                $this->alert('error', 'gagal user sudah menggunakan diskon ini', [
+                                    'position' =>  'center',
+                                    'timer' =>  3000,
+                                    'toast' =>  true,
+                                    'text' =>  '',
+                                    'confirmButtonText' =>  'Ok',
+                                    'cancelButtonText' =>  'Cancel',
+                                    'showCancelButton' =>  false,
+                                    'showConfirmButton' =>  false,
+                                ]);
+                            }
                         }
+                        array_push($userList, $userId);
+                        $discount->update(['userList' => $userList]);
                     }
-                    array_push($userList, $userId);
-                    $discount->update(['userList' => $userList]);
+                    $this->alert('sukses', 'berhasil', [
+                        'position' =>  'center',
+                        'timer' =>  3000,
+                        'toast' =>  true,
+                        'text' =>  '',
+                        'confirmButtonText' =>  'Ok',
+                        'cancelButtonText' =>  'Cancel',
+                        'showCancelButton' =>  false,
+                        'showConfirmButton' =>  false,
+                    ]);
                 }
-                $this->flash('sukses', 'berhasil menggunakan diskon', [
-                    'position' =>  'top-end',
-                    'timer' =>  3000,
-                    'toast' =>  true,
-                    'text' =>  '',
-                    'confirmButtonText' =>  'Ok',
-                    'cancelButtonText' =>  'Cancel',
-                    'showCancelButton' =>  false,
-                    'showConfirmButton' =>  false,
-                ]);
-            }
-            $discount->save();
             $subtotal = $this->subtotal+$this->ongkir;
         }else{
             $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
