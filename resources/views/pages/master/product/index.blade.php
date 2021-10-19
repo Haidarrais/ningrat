@@ -43,9 +43,9 @@
                         <select name="" id="selectKategori" class="form-control" required onchange="triggerVariant(event)">
                         </select>
                     </div>
-                    <div class="form-group d-none" id="sub_category_container">
+                    <div class="form-group" id="sub_category_container">
                         <label for="selectSubKategori">Sub Kategori</label>
-                        <select name="sub_category" id="selectSubKategori" class="form-control" ></select>
+                        <select name="sub_category" id="selectSubKategori" class="form-control" ><option id="before_chose_variant" value="" selected disabled class="">Pilih kategori dulu</option></select>
                     </div>
                     <div class="form-group" >
                         <label for="selectVariant">Varian</label>
@@ -289,9 +289,7 @@
         }
         await new Promise(async (resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
-                .then(({
-                    data
-                }) => {
+                .then( async ({data}) => {
                     let product = data.data
                     type = 'UPDATE'
                     $("#formTambah")[0].reset();
@@ -315,12 +313,13 @@
                             $("#selectSubVariant").val(variant.id);
                             $("#selectVariant").val(variant.parent_id);
                         }else{
-                        $("#selectVariant").val(category.id);
+                        $("#selectVariant").val(variant.id);
                         }
                     }
                     if (product.category) {
                         category = product.category;
                         if (category.id !== category.parent_id) {
+                          await getSubcategories(category.id);
                            $("#selectSubKategori").val(category.id);
                            console.log(`${category.parent_id}, true`);
                             $("#selectKategori").val(`${category.parent_id},true`);    
@@ -365,6 +364,7 @@
                     $("#inputDescription").val(product.description)
                     $(".inputImage").prop('required', false)
                     $('#modal_tambah').modal('show');
+                    console.log(":okeeeee")
 
                 })
                 .catch(err => {
@@ -465,22 +465,24 @@
                 confirmButtonText: 'Oke!'
             }).then((res)=>{
                 if (res.isConfirmed) {
-                    if ($("#sub_category_container").hasClass('d-none')) {
-                    }else{
-                        $("#sub_category_container").addClass('d-none');
-                    }
+                    // if ($("#sub_category_container").hasClass('d-none')) {
+                    // }else{
+                    //     $("#sub_category_container").addClass('d-none');
+                    // }
                    window.location = "{{ route('category.index') }}";
                 }
+                    $("#selectSubKategori").html('<option id="before_chose_variant" value="" selected disabled class="">Pilih kategori dulu</option>')
+                
             });
-            if ($("#sub_category_container").hasClass('d-none')) {
-            }else{
-            $("#sub_category_container").addClass('d-none');
-            }
+            // if ($("#sub_category_container").hasClass('d-none')) {
+            // }else{
+            // $("#sub_category_container").addClass('d-none');
+            // }
             // return;
         }else{
-            if ($("#sub_category_container").hasClass('d-none')) {
-            $("#sub_category_container").removeClass('d-none');
-            }
+            // if ($("#sub_category_container").hasClass('d-none')) {
+            // $("#sub_category_container").removeClass('d-none');
+            // }
             getSubcategories(id);
         }
     // let option = '<option id="pilih_subKategori" value="" selected disabled>Pilih varian</option>';
