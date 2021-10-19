@@ -180,7 +180,7 @@
                 .then(({data}) => {
                     let option = '<option value="">== Kosongkan Sub Varian ==</option>'
                     $.each(data.data, (i, e) => {
-                        if (e.i==e.parent_id) {
+                        if (e.id==e.parent_id) {
                             option += `<option value="${e.id}">${e.name}</option>`
                         }
                     })
