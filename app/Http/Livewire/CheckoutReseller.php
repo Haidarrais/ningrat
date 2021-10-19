@@ -84,42 +84,6 @@ class CheckoutReseller extends Component
         }else{
             $kurir = $this->othercourier;
         }
-        $royalty = Royalty::latest()->first();
-        $transaction = Transaction::create([
-            'user_id' => Auth::id(),
-            'seller_id' => $this->sellerid,
-            'city_id' => $this->city,
-            'invoice' => $invoice,
-            'sendto' => $this->buyer_name,
-            'cost' => $this->ongkir,
-            'shipping' => $kurir,
-            'member_name' =>  Auth::user()->name,
-            'member_phone' =>   $this->buyer_phone,
-            'member_address' => $this->buyer_address,
-            'subtotal' => $subtotal,
-            'status' => 0,
-            'royalty' => $royalty ?? 10
-        ]);
-        foreach (Cart::content() as $cart) {
-            TransactionDetail::create([
-            'transaction_id' => $transaction->id,
-            'stock_id' => $cart->id,
-            'price' => $cart->price,
-            'weight' => $cart->options->stock->product->weight,
-            'qty' => $cart->qty,
-            ]);
-        }
-        Cart::destroy();
-        $this->flash('info', 'Pembelian berhasil silahkan melakukan pembayaran!', [
-            'position' =>  'center',
-            'timer' =>  3000,
-            'toast' =>  true,
-            'text' =>  '',
-            'confirmButtonText' =>  'Ok',
-            'cancelButtonText' =>  'Cancel',
-            'showCancelButton' =>  false,
-            'showConfirmButton' =>  false,
-        ]);
         if ($this->discountOn) {
             if ($this->discount) {
                 $userId = Auth::id();
@@ -161,6 +125,42 @@ class CheckoutReseller extends Component
         }else{
             $subtotal = Cart::subtotal(2,'.','')+$this->ongkir;
         }
+        $royalty = Royalty::latest()->first();
+        $transaction = Transaction::create([
+            'user_id' => Auth::id(),
+            'seller_id' => $this->sellerid,
+            'city_id' => $this->city,
+            'invoice' => $invoice,
+            'sendto' => $this->buyer_name,
+            'cost' => $this->ongkir,
+            'shipping' => $kurir,
+            'member_name' =>  Auth::user()->name,
+            'member_phone' =>   $this->buyer_phone,
+            'member_address' => $this->buyer_address,
+            'subtotal' => $subtotal,
+            'status' => 0,
+            'royalty' => $royalty ?? 10
+        ]);
+        foreach (Cart::content() as $cart) {
+            TransactionDetail::create([
+            'transaction_id' => $transaction->id,
+            'stock_id' => $cart->id,
+            'price' => $cart->price,
+            'weight' => $cart->options->stock->product->weight,
+            'qty' => $cart->qty,
+            ]);
+        }
+        Cart::destroy();
+        $this->flash('info', 'Pembelian berhasil silahkan melakukan pembayaran!', [
+            'position' =>  'center',
+            'timer' =>  3000,
+            'toast' =>  true,
+            'text' =>  '',
+            'confirmButtonText' =>  'Ok',
+            'cancelButtonText' =>  'Cancel',
+            'showCancelButton' =>  false,
+            'showConfirmButton' =>  false,
+        ]);
         return redirect()->to('/reseller/profile');
     }
     public function render()
