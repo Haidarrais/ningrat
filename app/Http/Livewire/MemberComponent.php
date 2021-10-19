@@ -11,39 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberComponent extends Component
 {
-    public $province, $city;
-    protected $listeners = [
-        'nothing' => 'doThisIfNothing',
-        'youAreHere' => 'doThis'
-    ];
+    public $province;
+    public $city;
     public function mount()
     {
         $this->province = Auth::user()->member->city->province_id ?? '';
         $this->city = Auth::user()->member->city_id ?? '';
-    }
-    public function doThis(){
-        $this->alert('success', 'Member yang ada di pilihan anda merupakan yang terdekat', [
-            'position' =>  'center',
-            'timer' =>  3000,
-            'toast' =>  true,
-            'text' =>  '',
-            'confirmButtonText' =>  'Ok',
-            'cancelButtonText' =>  'Cancel',
-            'showCancelButton' =>  false,
-            'showConfirmButton' =>  false,
-        ]);
-    }
-    public function doThisIfNothing(){
-        $this->alert('error', 'Mohon maaf untuk saat ini belum ada member di area anda', [
-            'position' =>  'center',
-            'timer' =>  3000,
-            'toast' =>  true,
-            'text' =>  '',
-            'confirmButtonText' =>  'Ok',
-            'cancelButtonText' =>  'Cancel',
-            'showCancelButton' =>  false,
-            'showConfirmButton' =>  false,
-        ]);
     }
     public function render()
     {
@@ -59,11 +32,8 @@ class MemberComponent extends Component
             array_push($dataA, $value->city->province_id);
             array_push($dataB, $value->city->city_id);
         }
-        if (count($members) < 1) {
-            $this->emit('nothing');
-        }
         array_push($dataA, Auth::user()->member->city->province_id);
-        array_push($dataB, Auth::user()->member->city_id);
+        array_push($dataB, $value->city->city_id);
         $locations = Province::wherein('id', $dataA)->get();
         $cities = City::where('province_id', $this->province)->wherein('city_id', $dataB)->get();
         return view('livewire.member-component', ['members' => $members, 'locations' => $locations, 'cities' => $cities, 'members_scan' => $members_scan])->layout('layouts.main');
