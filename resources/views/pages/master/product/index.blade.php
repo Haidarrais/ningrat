@@ -310,6 +310,7 @@
                     $("#teksImage").show()
                     console.log(product);
                     if (product.variant) {
+                        variant = product.variant;
                         if (variant.id !== variant.parent_id) {
                             $("#selectSubVariant").val(variant.id);
                             $("#selectVariant").val(variant.parent_id);
@@ -318,8 +319,8 @@
                         }
                     }
                     if (product.category) {
+                        category = product.category;
                         if (product.id !== product.parent_id) {
-                            category = product.category;
                            $("#selectSubKategori").val(category.id);
                             $("#selectKategori").val(category.parent_id);    
                             }else{
