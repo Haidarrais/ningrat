@@ -11,20 +11,13 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberComponent extends Component
 {
-    public $province, $city, $memberAround;
+    public $province, $city;
     protected $listeners = [
         'nothing' => 'doThisIfNothing',
         'youAreHere' => 'doThis'
     ];
     public function mount()
     {
-        if ($this->city === Auth::user()->member->city_id) {
-            if ($this->memberArround === 0) {
-                $this->emit('nothing');
-            }else{
-                $this->emit('youAreHere');
-            }
-        }
         $this->province = Auth::user()->member->city->province_id ?? '';
         $this->city = Auth::user()->member->city_id ?? '';
     }
@@ -62,12 +55,17 @@ class MemberComponent extends Component
         })->with('city', 'avgRating')->get();
         $dataA=[];
         $dataB=[];
-        $this->memberArround = 0;
         foreach ($members_scan as $value) {
             array_push($dataA, $value->city->province_id);
             array_push($dataB, $value->city->city_id);
             if ($value->city->city_id === Auth::user()->member->city_id) {
-                $this->memberArround = 1;
+            }
+        }
+        if ($this->city === Auth::user()->member->city_id) {
+            if ($members) {
+                $this->emit('nothing');
+            }else{
+                $this->emit('youAreHere');
             }
         }
         array_push($dataA, Auth::user()->member->city->province_id);
