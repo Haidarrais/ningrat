@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $variants = Variant::where('parent_id', 'id')->get();
+        $variants = Variant::all();
         $query = Product::query();
         $query->when('keyword', function($q) use($request) {
             $id_cat = new stdClass();

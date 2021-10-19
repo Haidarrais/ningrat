@@ -53,7 +53,9 @@
                           <option id="pilih_variant" value="" selected disabled>Pilih varian</option>
                         <option id="pilih_variant" value="tanpa">Tanpa variant</option>
                         @forelse ($variants as $variant)
+                        @if ($variant->id==$variant->parent_id)
                         <option value="{{$variant->id}}">{{$variant->name}}</option>
+                        @endif
                         @empty
                         <option id="pilih_variant" value="tanpa">Belum ada variant</option>
                         @endforelse
