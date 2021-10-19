@@ -151,7 +151,7 @@ class VariantController extends Controller
         ], 200);
     }
     public function getVariantCategory($id){
-        $variants = Variant::where("category_id", $id)->get();
+        $variants = Variant::all();
         return response()->json([
             'status' => true,
             'message' => [

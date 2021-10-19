@@ -19,9 +19,9 @@ class Variant extends Model
         });
     }
 
-    public function category()
+    public function product()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Product::class);
     }
 
     public function subVariant()
