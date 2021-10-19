@@ -3,7 +3,6 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nama</th>
-            <th scope="col">Kategori</th>
             <th scope="col">Status</th>
             <th scope="col">Aksi</th>
         </tr>
@@ -13,12 +12,11 @@
             <tr>
                 <th scope="row">{{ ($variants->currentpage()-1) * $variants->perpage() + $loop->index + 1 }}</th>
                 <td>{{ $value->name??"unset" }}</td>
-                <td>{{$value->category->name??"unset"}}</td>
                 <td>
                     @if ($value->id == $value->parent_id)
                     <span class="badge badge-primary">Varian Utama</span>
                     @else
-                    <span class="badge badge-secondary">Sub Varian dari : {{$value->subCategory->name ?? "unset"}}</span>
+                    <span class="badge badge-secondary">Sub Varian dari : {{$value->subVariant->name ?? "unset"}}</span>
                     @endif
                 </td>
                 <td scope="row">

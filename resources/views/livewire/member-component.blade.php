@@ -48,9 +48,6 @@
                         <div class="tab-pane active show fade" id="grid" role="tabpanel">
                             <div class="custom-row" id="member_row">
                                 @foreach ($members as $member )
-                                    @if (($member->user->getRoleNames()->first()) != ('customer'))
-                                    @if (($member->user->getRoleNames()->first()) != ('reseller'))
-                                    @if (($member->user->getRoleNames()->first()) != ('superadmin'))
                                         <div class="custom-col">
                                             <div class="single-product-item">
                                                 <div class="product-image">
@@ -88,9 +85,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
-                                    @endif
-                                    @endif
                                 @endforeach
                             </div>
                         </div>
