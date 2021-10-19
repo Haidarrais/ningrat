@@ -59,8 +59,10 @@ class MemberComponent extends Component
             array_push($dataA, $value->city->province_id);
             array_push($dataB, $value->city->city_id);
         }
-        if ($members) {
-            $this->emit('nothing');
+        if ($this->city === Auth::user()->member->city_id) {
+            if (!$members) {
+                $this->emit('nothing');
+            }
         }
         array_push($dataA, Auth::user()->member->city->province_id);
         array_push($dataB, Auth::user()->member->city_id);
