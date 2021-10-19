@@ -322,7 +322,7 @@
                         category = product.category;
                         if (product.id !== product.parent_id) {
                            $("#selectSubKategori").val(category.id);
-                            $("#selectKategori").val(category.parent_id);    
+                            $("#selectKategori").val(`${category.parent_id}, ${true}`);    
                             }else{
                                 $("#selectKategori").val(category.id);
                             }
