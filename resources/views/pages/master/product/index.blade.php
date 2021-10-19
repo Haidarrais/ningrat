@@ -40,7 +40,8 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="selectKategori">Kategori</label>
-                        <select name="" id="selectKategori" class="form-control" required onchange="triggerVariant(event)"></select>
+                        <select name="" id="selectKategori" class="form-control" required onchange="triggerVariant(event)">
+                        </select>
                     </div>
                     <div class="form-group d-none" id="sub_category_container">
                         <label for="selectSubKategori">Sub Kategori</label>
@@ -49,8 +50,13 @@
                     <div class="form-group" >
                         <label for="selectVariant">Varian</label>
                         <select name="variant_id" id="selectVariant" class="form-control" onchange="triggerSubVariant(event)">
-                            <option id="before_chose_category" value="" selected disabled class="">Pilih kategori dulu
-                            </option>
+                          <option id="pilih_variant" value="" selected disabled>Pilih varian</option>
+                        <option id="pilih_variant" value="tanpa">Tanpa variant</option>
+                        @forelse ($variants as $variant)
+                        <option value="{{$variant->id}}">{{$variant->name}}</option>
+                        @empty
+                        <option id="pilih_variant" value="tanpa">Belum ada variant</option>
+                        @endforelse
                         </select>
                     </div>
                     <div class="form-group d-none" id="sub_variant_container">
@@ -144,7 +150,7 @@
             // if ($("#before_chose_category")==null) {
                 // console.log($("#before_chose_category"));
                 // console.log($("#selectKategori"));
-                $("#selectVariant").html('<option id="before_chose_category" value="" selected disabled class="">Pilih kategori dulu</option>');
+                // $("#selectVariant").html('<option id="before_chose_category" value="" selected disabled class="">Pilih kategori dulu</option>');
             // }
             $('#modal_tambah').modal('show')
         })
@@ -302,37 +308,37 @@
                     $("#teksImage").show()
                     console.log(product);
                     // $("#selectKategori").val(product.category_id+"")
-                    let categorie_dropdowns = $(".category_choices");
-                    let data_id = product.category_id;
-                    let temp = "";
+                    // let categorie_dropdowns = $(".category_choices");
+                    // let data_id = product.category_id;
+                    // let temp = "";
 
-                    for (let index = 0; index < categorie_dropdowns.length; index++) {
-                        const {value} = categorie_dropdowns[index];
-                        if (value!=="" ) {
-                        let a = value.split(",")[0];
-                        if (parseInt(a) === data_id) {
-                            // if (categorie_dropdowns[index]) {
-                            categorie_dropdowns[index].selected = true;
-                            // }
-                            // else{
-                            //     temp+=`<option class="category_choices" selected value="${data_id}">${category.name}</option>`;
-                            // }
-                        }else{
-                            temp+=categorie_dropdowns[index]='';
-                        }
-                        }
-                    }
-                    console.log(temp)
+                    // for (let index = 0; index < categorie_dropdowns.length; index++) {
+                    //     const {value} = categorie_dropdowns[index];
+                    //     if (value!=="" ) {
+                    //     let a = value.split(",")[0];
+                    //     if (parseInt(a) === data_id) {
+                    //         // if (categorie_dropdowns[index]) {
+                    //         categorie_dropdowns[index].selected = true;
+                    //         // }
+                    //         // else{
+                    //         //     temp+=`<option class="category_choices" selected value="${data_id}">${category.name}</option>`;
+                    //         // }
+                    //     }else{
+                    //         temp+=categorie_dropdowns[index]='';
+                    //     }
+                    //     }
+                    // }
+                    // console.log(temp)
                     // $("#selectKategori").html(temp);
-                    let variant = product.variant;
+                    let variant = product.variant!==null?product.variant:0;
                     if (product.variant_id!=null) {
                         let option = `<option selected value="${variant.id}">${variant.name}</option>`;
-                        $("#selectVariant").html(option) ;
+                        $("#selectVariant").val(variant.id) ;
                     }else{
-                        let option = `<option selected value="">Varian belum disetting</option>`;
-                        $("#selectVariant").html(option) ;
+                        // let option = `<option selected value="">Varian belum disetting</option>`;
+                        // $("#selectVariant").html(option) ;
                     }
-                    getVariantsOnly();
+                    // getVariantsOnly();
                     $("#inputName").val(product.name)
                     $("#inputPrice").val(product.price)
                     $("#inputWight").val(product.weight)
@@ -468,40 +474,8 @@
     //get sub categories
     //end categories
     // }
-        $("#selectVariant").LoadingOverlay('show');
-        new Promise((resolve, reject) => {
-        let url = `{{ route('variants_by_product',['id' => ':id']) }}`;
-        url = url.replace(':id', id);
-        $axios.get(url)
-        .then(({
-        data
-        }) => {
-        let option = '<option id="pilih_variant" value="" selected disabled>Pilih varian</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>'
-        data.message.data.map((item, i)=>{
-                option += `<option value="${item.id}">${item.name}</option>`
 
-        });
-
-        if (data.message.data.length>0) {
-        $('#selectVariant').html(option);
-        }else{
-            $('#selectVariant').html('<option id="pilih_variant" value="" selected disabled>Belum ada variant</option><option id="pilih_variant" value="tanpa">Tanpa variant</option>');
         }
-        $("#selectVariant").LoadingOverlay('hide');
-        // $('#before_chose_variant').addClass('d-none');
-            })
-        .catch(err => {
-            console.log('trigger data',err);
-        $swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        })
-        })
-        })
-        }
-        
-
 async function getSubcategories(id) {
     $("#selectSubKategori").LoadingOverlay('show');
    await new Promise((resolve, reject) => {
