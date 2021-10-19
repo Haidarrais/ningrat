@@ -48,7 +48,7 @@
                         <div class="tab-pane active show fade" id="grid" role="tabpanel">
                             <div class="custom-row" id="member_row">
                                 @forelse ($members as $member )
-                                        <div class="custom-col">
+                                    <div class="custom-col">
                                             <div class="single-product-item">
                                                 <div class="product-image">
                                                     <a>
@@ -84,9 +84,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        @empty
-                                        {{$this->emit('nothing')}}
+                                    </div>
+                                @empty
+                                    <script>
+                                        Livewire.emit('nothing')
+                                    </script>
                                 @endforelse
                             </div>
                         </div>
