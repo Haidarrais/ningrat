@@ -92,6 +92,7 @@
                     <div class="col-md-6 d-none" id="isUserGetDiscount">
                         Anda berhak mendapatkan diskon sebesar {{$discount_role_based}}%
                         <input disabled name="" id="displayPriceAfterDiscount" class="form-control" value="0">
+                        <input type="hidden" name="" value="0" id="priceAfterDiscount">
                     </div>
                 </div>
                 <button class="btn btn-success float-right mt-4" id="btn-simpan">Order</button>
@@ -159,7 +160,8 @@
     $(document).ready(function() {
         $("#formTambah").on('submit', (e) => {
             e.preventDefault()
-            let countProducts = parseInt($('#totalSemuaInt').val());
+            // let countProducts = parseInt($('#totalSemuaInt').val());
+            let countProducts = parseInt($('#priceAfterDiscount').val());
             let serializedData = $("#formTambah").serialize()
             if (countProducts < minTransation) {
                 return $swal.fire({
@@ -384,6 +386,7 @@
                 $("#totalSemua").addClass('border-danger')
                 $("#syarat").addClass('border-danger')
                 $("#displayPriceAfterDiscount").val(`Rp. ${0}`);
+                $("#priceAfterDiscount").val(0);
                 $("input[name='ongkir-discount']").val(0);
                 $("input[name='discount']").val(0);
                 $("#isUserGetDiscount").addClass("d-none");
@@ -397,6 +400,7 @@
                 let tempDiscount = uhek * (discountFromRole / 100);
 
                 $("#displayPriceAfterDiscount").val(`Harga setelah diskon adalah Rp. ${(uhek - tempDiscount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`);
+                $("#priceAfterDiscount").val(uhek - tempDiscount);
                 $("#isUserGetDiscount").removeClass("d-none");
                 // console.log("after discount", (uhek - tempDiscount));
                 // console.log($(`input[name="productCategory${id}"]`).val());

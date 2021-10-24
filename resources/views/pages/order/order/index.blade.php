@@ -308,6 +308,61 @@
     }
 
     const kemas = id => {
+        //start cek ongkir
+        let url = `{{ route('order.show', ['order' => ':id']) }}`
+        url = url.replace(':id', id)
+        $axios.get(`${url}`)
+            .then(({
+                data
+            }) => {
+                let order = data.data;
+                if (order.cost == 0 || order.cost == null) {
+                    $swal.fire({
+                        title: `Atur ongkir dahulu`,
+                        text: `Order ini menggunakan custom ongkir dengan nama jasa kirim ${order.shipping}, silahkan masukkan harga ongkir`,
+                        input: 'number',
+                        inputAttributes: {
+                            autocapitalize: 'off',
+                            required: true
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: 'Update',
+                        showLoaderOnConfirm: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        preConfirm: (price) => {
+                            let url = `{{ route('order.set_cost', ['id' => ':id', 'status' => ':status']) }}`
+                            url = url.replace(':id', id)
+                            url = url.replace(':status', DIKEMAS)
+                            return $axios.patch(`${url}`, {
+                                    cost: parseInt(price)!=NaN?parseInt(price):0
+                                })
+                                .then(response => {
+                                    if (response.status !== 200) {
+                                        throw new Error(response.statusText)
+                                    }
+                                    return response
+                                })
+                                .catch(error => {
+                                    $swal.showValidationMessage(
+                                        `Request failed: ${error}`
+                                    )
+                                })
+                        },
+                        allowOutsideClick: () => !$swal.isLoading()
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            separateKemas(id);
+                        }
+                    })
+                } else {
+                    separateKemas(id);
+                }
+            });
+        //end cek ongkir
+    }
+
+    const separateKemas = id => {
         $swal.fire({
                 title: 'Yakin?',
                 text: "Ingin mengemas order ini!",
@@ -620,10 +675,11 @@
         })
     }
     $('html').on('click', '.pagination a', function(e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                $axios.get(url).then(() => {
-                    refresh_table(url);
-                })})
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $axios.get(url).then(() => {
+            refresh_table(url);
+        })
+    })
 </script>
 @endsection

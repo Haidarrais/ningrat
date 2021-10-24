@@ -313,7 +313,28 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user_id = Auth::user()->id;
+        if (User::find($user_id)->getRoleNames()->first() != 'superadmin') {
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'head' => 'Error',
+                    'body' => 'Hmmm'
+                ]
+            ], 200);
+        }else{
+            $order = Order::find($id);
+            $order->update([
+                'cost' => $request->cost
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => [
+                    'head' => 'Berhasil',
+                    'body' => 'Ongkir Berhasil di update'
+                ]
+            ], 200);
+        }
     }
 
     /**

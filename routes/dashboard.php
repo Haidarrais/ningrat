@@ -85,6 +85,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
     Route::group(['prefix' => 'order'], function() {
         Route::resource('/order', OrderController::class);
         Route::get('/order/show-resi/{id}', [OrderController::class, 'show_resi'])->name('order.show_resi');
+        Route::patch('/order/set_cost/{id}', [OrderController::class, 'update'])->name('order.set_cost');
         Route::post('/order/reseller', [OrderController::class, 'store_reseller'])->name('order.store.reseller');
         Route::post('/order/set-resi/{id}', [OrderController::class, 'set_resi'])->name('order.set_resi');
         Route::patch('/order/status/{id}/{status}', [OrderController::class, 'set_status'])->name('order.set_status');
