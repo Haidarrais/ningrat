@@ -241,7 +241,7 @@
                                             <tr class="order-total">
                                                 <th>Order Total</th>
                                                 <td>
-                                                    <strong><span class="amount">Rp.{{number_format($this->subtotal ?? Cart::subtotal(2,'.',''))+$ongkir)}}</span></strong>
+                                                    <strong><span class="amount">Rp.{{number_format($this->subtotal ?? Cart::subtotal(2,'.','')+$ongkir)}}</span></strong>
                                                 </td>
                                             </tr>
                                         </tfoot>
