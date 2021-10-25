@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Livewire;
+
+use App\Models\MasterDiscount;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Member;
@@ -142,7 +144,7 @@ class CheckoutComponent extends Component
         ]);
         return redirect()->to('/customer/profile');
     }
-    public function render()
+    public function discountTrigger()
     {
         if ($this->discountOn) {
             $this->alert('success', 'berhasil diskon sedang aktif', [
@@ -167,6 +169,9 @@ class CheckoutComponent extends Component
                 'showConfirmButton' =>  false,
             ]);
         }
+    }
+    public function render()
+    {
         if ($this->discountId) {
             $this->discount = MasterDiscount::find($this->discountId);
         }

@@ -226,7 +226,7 @@
                                             <tr class="order-total">
                                                 <th>Order Total</th>
                                                 <td>
-                                                    <strong><span class="amount">Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</span></strong>
+                                                    <strong><span class="amount">Rp.{{number_format($this->subtotal ?? Cart::subtotal(2,'.',''))+$ongkir)}}</span></strong>
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -244,7 +244,7 @@
                                                         <div class="checkout-form-list">
                                                             <label for="checkbox">Click below !!!</label><br>
                                                             <label class="switch">
-                                                                <input type="checkbox" wire:model='discountOn'>
+                                                                <input type="checkbox" wire:model='discountOn' wire:click="discountTrigger">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </div>

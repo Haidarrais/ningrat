@@ -165,7 +165,7 @@ class CheckoutReseller extends Component
         ]);
         return redirect()->to('/reseller/profile');
     }
-    public function render()
+    public function discountTrigger()
     {
         if ($this->discountOn) {
             $this->alert('success', 'berhasil diskon sedang aktif', [
@@ -190,6 +190,9 @@ class CheckoutReseller extends Component
                 'showConfirmButton' =>  false,
             ]);
         }
+    }
+    public function render()
+    {
         if ($this->discountId) {
             $this->discount = MasterDiscount::find($this->discountId);
         }
