@@ -19,7 +19,12 @@ class StockController extends Controller
             $stock_reseller = Stock::with(['product', 'user'])->where('user_id', $user_id)->get();
         }
         $user = User::find($user_id);
-        $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', $user_id);
+        if (User::find($user_id)->getRoleNames()->first() == 'superadmin') {
+            $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', $user_id);
+        }else{
+            $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', $user_id);
+
+        }
         $stocks = $query->paginate(10);
         $upper_origin = [];
         $user = User::find($user_id);

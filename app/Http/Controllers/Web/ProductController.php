@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\ProductPicture;
 use App\Models\Stock;
 use App\Models\Variant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use stdClass;
 
@@ -73,8 +74,10 @@ class ProductController extends Controller
         $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
         $data['category_id'] = $data['sub_category'];
         unset($data['sub_category']);
-        $data['variant_id'] = $data['sub_variant_id']? $data['sub_variant_id']: $data['variant_id'];
-        unset($data['sub_variant_id']);
+        if (($data['variant_id']!=null || !$data['variant_id'] || $data['variant_id']!='tanpa') ) {
+            $data['variant_id'] = $data['sub_variant_id']? $data['sub_variant_id']: $data['variant_id'];
+            unset($data['sub_variant_id']);
+        }
         $product = Product::create($data);
         if ($request->image) {
             $images = $request->image;
@@ -90,6 +93,17 @@ class ProductController extends Controller
             }
             $this->storeImage($images, $product->id);
             // }
+        }
+        $user = Auth::user();
+
+        if ($product) {
+            Stock::create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+                'stock' => 1,
+                'status' => 1,
+                'type' => 1
+            ]);
         }
         return response()->json([
             'status' => true,
