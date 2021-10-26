@@ -335,7 +335,7 @@
                             url = url.replace(':id', id)
                             url = url.replace(':status', DIKEMAS)
                             return $axios.patch(`${url}`, {
-                                    cost: parseInt(price)!=NaN?parseInt(price):0
+                                    cost: parseInt(price) != NaN ? parseInt(price) : 0
                                 })
                                 .then(response => {
                                     if (response.status !== 200) {
@@ -603,13 +603,22 @@
                         let total_harga = parseInt(element.price) * parseInt(element.qty)
                         html += `<div class="col-md-6">
                                     <img src="${url_asset}/${element.product.picture[0]?.image}" alt="gambar" class="img-fluid img-thumnail w-20" class="float-left">
+                                    <div class="d-flex justify-between">
                                     <p>${element.product.name}</p>
-                                    <p>${element.qty} Produk (${element.product.weight}) x Rp ${element.price}</p>
+                                    </div>
+                                    <p>${element.qty} Produk (${element.product.weight}) x Rp ${element.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
                                 </div>
                                 <div class="col-md-6" style="border-left: 1px solid gray;">
-                                    <p><strong>Harga Barang</strong></p>
-                                    <p>Rp. ${total_harga}</p>
-                                </div>`
+                                <div>
+                                <p><strong>Harga Barang</strong></p>
+                                <p>Rp. ${total_harga.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
+                                </div>
+                                <div>
+                                  <p><strong>Total Berat Barang</strong></p>
+                                     <p>${element.qty * element.product.weight} Kg</p>
+                                     </div>
+                                </div>
+                                `
                     })
                     $("#fieldDaftarProduk").html(html)
 

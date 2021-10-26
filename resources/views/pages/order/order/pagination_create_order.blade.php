@@ -16,12 +16,12 @@
     <input type="hidden" value="0" id="inputWeight">
     @forelse ($products as $key => $value)
     <input type="hidden" name="id[]" value="{{ $value->product_id }}">
-    <input type="hidden" name="ongkir-per-category-{{$value->product_id}}" value="{{ $value->product->category->discount->value }}">
+    <input type="hidden" name="ongkir-per-category-{{$value->product_id}}" value="{{ $value->product->category->discount->value??0 }}">
     <tr id="displayer">
       <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->product->category_id }}" class="category_product">
       <td>{{ $loop->iteration }}</td>
       @forelse ($value->product->onePicture as $key => $item)
-                  @if ($key<1) <td><img src="{{ asset('upload/product/').'/'.$item->image??'' }}" alt="{{ $value->image }}"
+                  @if ($key<1) <td><img src="{{ asset('upload/product/').'/'.$item->image??'' }}" alt="{{ $item->image }}"
                       class="img-fluid" width="100"></td>
                     @endif
                     @empty

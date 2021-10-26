@@ -348,8 +348,11 @@
         }
         // console.log(parseInt($(`#input-total-${id}`).val())
         // totalNominal += parseInt($(`#input-total-${id}`).val());
-        if (total > max - 1) {
-            return $swal.fire('Gagal', 'Stock hanya ' + max, 'error')
+        if (total > max) {
+            setTimeout(() => {
+                $(`#total-${id}`).val(max);
+            }, 500);
+            return $swal.fire('Gagal', 'Stock hanya ' + max, 'error');
         }
         let price = parseInt($(`#field-price-${id}`).data('price'))
         // let new_total = total + 1

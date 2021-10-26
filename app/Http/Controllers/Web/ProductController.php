@@ -10,6 +10,7 @@ use App\Http\Requests\Product\ProductStoreRequest;
 use App\Models\Category;
 use App\Models\ProductPicture;
 use App\Models\Stock;
+use App\Models\User;
 use App\Models\Variant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -95,12 +96,12 @@ class ProductController extends Controller
             // }
         }
         $user = Auth::user();
-
-        if ($product) {
+        // User::find($user_id) && $request->stock
+        if ($product && User::find($user->id)->getRoleNames()->first() == 'superadmin') {
             Stock::create([
-                'user_id' => $user->id,
+                'user_id' => 'pusat',
                 'product_id' => $product->id,
-                'stock' => 1,
+                'stock' => 100,
                 'status' => 1,
                 'type' => 1
             ]);
