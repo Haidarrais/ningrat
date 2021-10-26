@@ -149,7 +149,13 @@
                         <tr>
                             <td>Stok</td>
                             <td> : </td>
+                            @role('superadmin')
+                            <td>
+                                <input type="number" id="fieldEditStockProduct" type="number" name="stock" value="0"/>
+                            </td>
+                            @else
                             <td id="fieldEditStockProduct"></td>
+                            @endrole
                         </tr>
                         <tr>
                             <td>Harga Minimal</td>
@@ -512,6 +518,11 @@
                     $("#inputIDUpdate").val(result.id)
                     $("#fieldEditProductName").html(result.product.name)
                     $("#fieldEditStockProduct").html(result.stock)
+                    @role('superadmin')
+                    $("#fieldEditStockProduct").val(result.stock)
+                    @else
+                    $("#fieldEditStockProduct").html(result.stock)
+                    @endrole
                     $("#fieldEditMinimalPrice").html(result.product.price)
                     if(result.member_price) {
                         price = result.member_price

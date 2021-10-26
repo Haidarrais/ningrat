@@ -70,6 +70,7 @@ class StockController extends Controller
     }
 
     public function update(Request $request, $id) {
+        $user_id = Auth::user()->id;
         $request->validate([
             'member_price' => 'required|numeric',
             'discount' => 'required|numeric|max:100'
@@ -85,7 +86,11 @@ class StockController extends Controller
                 ]
             ], 500);
         }
-
+        if (User::find($user_id)->getRoleNames()->first() == 'superadmin' && $request->stock) {
+            $stock->update([
+                'stock' => $request->stock
+            ]);
+        }
         $stock->update([
             'member_price' => $request->member_price
         ]);

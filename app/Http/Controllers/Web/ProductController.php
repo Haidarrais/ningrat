@@ -74,7 +74,7 @@ class ProductController extends Controller
         $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
         $data['category_id'] = $data['sub_category'];
         unset($data['sub_category']);
-        if (($data['variant_id']!=null || !$data['variant_id'] || $data['variant_id']!='tanpa') ) {
+        if (($data['variant_id']!=null &&  $data['variant_id']!='tanpa') ) {
             $data['variant_id'] = $data['sub_variant_id']? $data['sub_variant_id']: $data['variant_id'];
             unset($data['sub_variant_id']);
         }
