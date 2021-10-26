@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Variant;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class VariantStoreRequest extends FormRequest
 {
@@ -23,8 +24,14 @@ class VariantStoreRequest extends FormRequest
      */
     public function rules()
     {
+        // $name = $this->request->name;
+        // $parent_id = $this->request->parent_id;
         return [
-            'name' => 'required'
+            'name' => [
+                'required',
+                Rule::unique('variants')->where('parent_id', $this->parent_id)
+                ->where('name', $this->name)
+            ],
         ];
     }
 }

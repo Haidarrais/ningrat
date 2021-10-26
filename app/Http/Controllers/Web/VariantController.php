@@ -65,6 +65,16 @@ class VariantController extends Controller
      */
     public function store(VariantStoreRequest $request)
     {
+        $similar_name = Variant::where('name', $request->name)->get();
+        if (!$request->parent_id && count($similar_name)>0) {
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'head' => 'Gagal',
+                    'body' => 'Nama sudah ada'
+                ]
+            ], 500);
+        }
         Variant::create($request->except(['id']));
         return response()->json([
             'status' => true,
