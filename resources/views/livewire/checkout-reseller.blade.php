@@ -215,7 +215,7 @@
                                             @if ($discount && $discountOn)
                                             @php
                                                 $this->discountNominal = (Cart::subtotal(2,'.','')+$ongkir)*$this->discount->discount/100;
-                                                $this->subtotal = (Cart::subtotal(2,'.','')+ongkir)-$this->discountNominal;
+                                                $this->subtotal = (Cart::subtotal(2,'.','')+$ongkir)-$this->discountNominal;
                                             @endphp
                                             <tr class="cart-subtotal">
                                                 <th>Discount</th>
