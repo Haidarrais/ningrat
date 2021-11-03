@@ -197,7 +197,7 @@
                                             @endif
                                         </tbody>
                                         <tfoot>
-                                            @if ($discount)
+                                            @if ($discount && $discountOn)
                                             @php
                                                 $this->discountNominal = Cart::subtotal(2,'.','')*$this->discount->discount/100;
                                                 $this->subtotal = Cart::subtotal(2,'.','')-$this->discountNominal;
