@@ -42,7 +42,7 @@ class CheckoutReseller extends Component
 
     protected $rules = [
         'buyer_name' => 'required',
-        'buyer_phone' => 'required',
+        'buyer_phone' => 'required|integer',
         'buyer_address' => 'required',
         'province' => 'required',
         'city' => 'required',

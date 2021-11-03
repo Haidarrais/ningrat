@@ -122,7 +122,7 @@
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Phone  <span class="required">*</span></label>
-                                        <input type="text" placeholder="" wire:model="buyer_phone" required/>
+                                        <input type="number" placeholder="" wire:model="buyer_phone" required/>
                                         @error('buyer_phone') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
