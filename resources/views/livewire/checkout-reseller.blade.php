@@ -240,7 +240,7 @@
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Order Total</th>
-                                                <td>
+                                                <td class="pro-price">
                                                     <strong><span class="amount">@if($discount && $discountOn) <span class="old-price small">Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</span> Rp.{{number_format($this->subtotal+$ongkir)}}@else Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}} @endif</span></strong>
                                                 </td>
                                             </tr>

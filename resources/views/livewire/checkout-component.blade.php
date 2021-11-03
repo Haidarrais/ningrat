@@ -217,7 +217,7 @@
                                                     <ul>
                                                         <li>
                                                             <label>
-                                                                <strong><span class="amount">@if($discount && $discountOn) <span class="old-price small">Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</span> Rp.{{number_format($this->subtotal+$ongkir)}}@else Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}} @endif</span></strong>
+                                                                <span class="c-total-price"><span>Flat Rate:</span>@if($ongkir)Rp. {{number_format($ongkir)}}@endif</span>
                                                             </label>
                                                         </li>
                                                     </ul>
@@ -225,8 +225,8 @@
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Order Total</th>
-                                                <td>
-                                                    <strong><span class="amount">Rp.{{number_format($this->subtotal+$ongkir ?? Cart::subtotal(2,'.','')+$ongkir)}}</span></strong>
+                                                <td class="pro-price">
+                                                    <strong><span class="amount">@if($discount && $discountOn) <span class="old-price small">Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</span> Rp.{{number_format($this->subtotal+$ongkir)}}@else Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}} @endif</span></strong>
                                                 </td>
                                             </tr>
                                         </tfoot>
