@@ -102,7 +102,7 @@
                                     <div class="checkout-form-list">
                                         <label class='col-6' for="">Kecamatan</label>
                                         <select class="form-control col-12" name="subdistrict_id" id="subdistrict" wire:model="subdistrict" required>
-                                            <option value="selected" selected>--Pilih Kota--</option>
+                                            <option value="selected" selected>--Pilih Kecamatan--</option>
                                             @if ($city)
                                                 @foreach ($subdistricts as $subdistrict)
                                                     <option value="{{$subdistrict->subdistrict_id}}">{{$subdistrict->subdistrict_name}}</option>
