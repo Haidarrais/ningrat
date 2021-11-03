@@ -217,7 +217,7 @@
                                                     <ul>
                                                         <li>
                                                             <label>
-                                                                <span class="c-total-price"><span>Flat Rate:</span>@if($ongkir) {{$ongkir}} @endif</span>
+                                                                <span class="c-total-price"><span>Flat Rate:</span>@if($ongkir)Rp. {{number_format($ongkir)}} @endif</span>
                                                             </label>
                                                         </li>
                                                     </ul>
