@@ -218,6 +218,10 @@
                                             @endif
                                         </tbody>
                                         <tfoot>
+                                            <tr class="cart-subtotal">
+                                                <th>Cart Subtotal</th>
+                                                <td><span class="amount">Rp.{{number_format(Cart::subtotal(2,'.',''))}}</span></td>
+                                            </tr>
                                             @if ($discount && $discountOn)
                                             @php
                                                 $this->discountNominal = (Cart::subtotal(2,'.','')+$ongkir)*$this->discount->discount/100;
@@ -228,10 +232,6 @@
                                                 <td><span class="amount">Rp.{{number_format($this->discountNominal)}}</span></td>
                                             </tr>
                                             @endif
-                                            <tr class="cart-subtotal">
-                                                <th>Cart Subtotal</th>
-                                                <td><span class="amount">Rp.{{number_format(Cart::subtotal(2,'.',''))}}</span></td>
-                                            </tr>
                                             <tr class="shipping">
                                                 <th>Shipping</th>
                                                 <td>
