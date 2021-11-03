@@ -200,7 +200,7 @@
                                             @if ($discount && $discountOn)
                                             @php
                                                 $this->discountNominal = (Cart::subtotal(2,'.','')+$ongkir)*$this->discount->discount/100;
-                                                $this->subtotal = (Cart::subtotal(2,'.','')+$ongkir)-$this->discountNominal;
+                                                $this->subtotal = Cart::subtotal(2,'.','')-$this->discountNominal;
                                             @endphp
                                             <tr class="cart-subtotal">
                                                 <th>Discount</th>
@@ -226,7 +226,7 @@
                                             <tr class="order-total">
                                                 <th>Order Total</th>
                                                 <td class="pro-price">
-                                                    <strong><span class="amount">@if($discount && $discountOn) <span class="old-price small text-secondary"><del>Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</del></span> Rp.{{number_format($this->subtotal+$ongkir)}}@else Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}} @endif</span></strong>
+                                                    <strong><span class="amount">@if($discount && $discountOn) <span class="old-price small text-secondary"><del>Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</del></span> Rp.{{number_format($this->subtotal+$ongkir)}} @else Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}} @endif</span></strong>
                                                 </td>
                                             </tr>
                                         </tfoot>
