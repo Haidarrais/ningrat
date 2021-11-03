@@ -18,7 +18,7 @@ class DetailOrderComponent extends Component
         $this->enpoint = "https://".$this->type.".rajaongkir.com/api/";
         $this->transaction = $transaction;
         $this->transactions = TransactionDetail::where('transaction_id', '=', $this->transaction)->get();
-        $this->invoice = Transaction::where('id', '=', $this->transaction)->get()->toArray();
+        $this->invoice = Transaction::with('user', 'seller')->where('id', '=', $this->transaction)->get()->toArray();
         $this->waybill = $this->invoice[0]['waybill'];
         $this->courier = $this->invoice[0]['shipping'];
         if($this->waybill){
