@@ -59,7 +59,7 @@
     <!-- checkout-area start -->
     <div class="checkout-area pb-90">
         <div class="container">
-            <form action="#">
+            <form wire:submit.prevent="saveAs">
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="checkbox-form">
@@ -69,6 +69,7 @@
                                     <div class="checkout-form-list">
                                         <label>Name <span class="required">*</span></label>
                                         <input type="text" placeholder="" wire:model="buyer_name"/>
+                                        @error('buyer_name') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="single-input-item col-lg-12">
@@ -80,6 +81,7 @@
                                                 <option value="{{$location->id}}">{{$location->name}}</option>
                                             @endforeach
                                         </select>
+                                        @error('province') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="single-input-item col-lg-12">
@@ -93,6 +95,7 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                        @error('city') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="single-input-item col-lg-12">
@@ -106,18 +109,21 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                        @error('subdistrict') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Address  <span class="required">*</span></label>
                                         <input type="text" placeholder="" wire:model="buyer_address"/>
+                                        @error('buyer_address') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Phone  <span class="required">*</span></label>
                                         <input type="text" placeholder="" wire:model="buyer_phone"/>
+                                        @error('buyer_phone') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 @if($ongkir)
@@ -283,7 +289,7 @@
                                     </div>
                                     <div class="order-button-payment">
                                         @if ($ongkir)
-                                            <a class="btn default-btn" type="submit" value="Place order" wire:click='saveAs'>Place order</a>
+                                            <button class="btn default-btn" type="submit">Place order</button>
                                             @else
                                             <button class="btn default-btn" disabled>Ongkir belum ada</button>
                                         @endif
@@ -295,7 +301,7 @@
                     <button type="submit">Apply coupon</button> -->
 
                 </div>
-                </form>
+            </form>
             </div>
         </div>
         <!-- checkout-area end -->

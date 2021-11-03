@@ -40,6 +40,15 @@ class CheckoutReseller extends Component
     public $buyer_phone;
     public $buyer_address;
 
+    protected $rules = [
+        'buyer_name' => 'required',
+        'buyer_phone' => 'required',
+        'buyer_address' => 'required',
+        'province' => 'required',
+        'city' => 'required',
+        'subdistrict' => 'required',
+    ];
+
     public function mount()
     {
         $this->type = strtolower(env('RAJAONGKIR_PACKAGE', 'Key Dari ENV'));
@@ -78,6 +87,7 @@ class CheckoutReseller extends Component
     }
     public function saveAs()
     {
+        $this->validate();
         $invoice = "INV-".date('Ymd').substr(str_shuffle($this->numeric), 0, 12);
         if ($this->courier != ' ') {
             $kurir = $this->courier;

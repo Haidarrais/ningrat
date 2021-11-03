@@ -28,6 +28,7 @@ class CheckoutComponent extends Component
     public $type;
     public $enpoint;
     public $kurir;
+
     public function mount()
     {
         $this->type = strtolower(env('RAJAONGKIR_PACKAGE', 'Key Dari ENV'));
@@ -66,6 +67,7 @@ class CheckoutComponent extends Component
     }
     public function save()
     {
+        $this->validate();
         $invoice = "INV-".date('Ymd').substr(str_shuffle($this->numeric), 0, 12);
         if ($this->discountOn) {
             if ($this->discountId) {
