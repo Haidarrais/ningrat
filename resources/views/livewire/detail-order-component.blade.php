@@ -19,14 +19,22 @@
             </div>
             <div class="card-body">
               <table>
-                  <tr>
-                      <td>Pembeli (Buyer)  : </td>
-                      <td>{{$invoice[0]['user']['name']}}</td>
-                  </tr>
-                  <tr>
-                    <td>Penjual (Seller)  : </td>
-                    <td>{{$invoice[0]['seller']['name']}}</td>
-                </tr>
+                    <tr>
+                        <td><h4>Pembeli (Buyer)</h4></td>
+                        <td><h5> : {{$invoice[0]['user']['name']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td><h4>Penjual (Seller)</h4></td>
+                        <td><h5> : {{$invoice[0]['seller']['name']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td><h4>Subtotal</h4></td>
+                        <td><h5> : {{$invoice[0]['subtotal']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td><h4>Subtotal</h4></td>
+                        <td><h5> : {{$invoice[0]['discount'] ?? 'tidak ada diskon'}}</h5></td>
+                    </tr>
               </table>
             </div>
           </div>
