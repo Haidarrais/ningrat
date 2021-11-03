@@ -224,7 +224,7 @@
                                             @endif
                                             <tr class="cart-subtotal">
                                                 <th>Cart Subtotal</th>
-                                                <td><span class="amount">Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</span></td>
+                                                <td><span class="amount">Rp.{{number_format(Cart::subtotal(2,'.',''))}}</span></td>
                                             </tr>
                                             <tr class="shipping">
                                                 <th>Shipping</th>
@@ -241,7 +241,7 @@
                                             <tr class="order-total">
                                                 <th>Order Total</th>
                                                 <td>
-                                                    <strong><span class="amount">Rp.{{number_format($this->subtotal ?? Cart::subtotal(2,'.','')+$ongkir)}}</span></strong>
+                                                    <strong><span class="amount">@if($discount && $discountOn) <span class="old-price small">Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}}</span> Rp.{{number_format($this->subtotal+$ongkir)}}@else Rp.{{number_format(Cart::subtotal(2,'.','')+$ongkir)}} @endif</span></strong>
                                                 </td>
                                             </tr>
                                         </tfoot>
