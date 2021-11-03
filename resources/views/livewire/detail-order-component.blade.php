@@ -20,9 +20,13 @@
             <div class="card-body">
               <table>
                   <tr>
-                      <td>Nama</td>
+                      <td>Pembeli (Buyer)  : </td>
                       <td>{{$invoice[0]['user']['name']}}</td>
                   </tr>
+                  <tr>
+                    <td>Penjual (Seller)  : </td>
+                    <td>{{$invoice[0]['seller']['name']}}</td>
+                </tr>
               </table>
             </div>
           </div>
