@@ -68,14 +68,14 @@
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Name <span class="required">*</span></label>
-                                        <input type="text" placeholder="" wire:model="buyer_name"/>
+                                        <input type="text" placeholder="" wire:model="buyer_name" required/>
                                         @error('buyer_name') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="single-input-item col-lg-12">
                                     <div class="checkout-form-list">
                                         <label class='col-6' for="">Provinsi</label>
-                                        <select class="form-control col-12" name="province_id" id="province" wire:model="province">
+                                        <select class="form-control col-12" name="province_id" id="province" wire:model="province" required>
                                             <option value="selected" selected>--Pilih Provinsi--</option>
                                             @foreach ($locations as $location )
                                                 <option value="{{$location->id}}">{{$location->name}}</option>
@@ -87,7 +87,7 @@
                                 <div class="single-input-item col-lg-12">
                                     <div class="checkout-form-list">
                                         <label class='col-6' for="">Kabupaten/Kota</label>
-                                        <select class="form-control col-12" name="city_id" id="city" wire:model="city">
+                                        <select class="form-control col-12" name="city_id" id="city" wire:model="city" required>
                                             <option value="selected" selected>--Pilih Kota--</option>
                                             @if ($province)
                                                 @foreach ($cities as $city)
@@ -101,7 +101,7 @@
                                 <div class="single-input-item col-lg-12">
                                     <div class="checkout-form-list">
                                         <label class='col-6' for="">Kecamatan</label>
-                                        <select class="form-control col-12" name="subdistrict_id" id="subdistrict" wire:model="subdistrict">
+                                        <select class="form-control col-12" name="subdistrict_id" id="subdistrict" wire:model="subdistrict" required>
                                             <option value="selected" selected>--Pilih Kota--</option>
                                             @if ($city)
                                                 @foreach ($subdistricts as $subdistrict)
@@ -115,14 +115,14 @@
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Address  <span class="required">*</span></label>
-                                        <input type="text" placeholder="" wire:model="buyer_address"/>
+                                        <input type="text" placeholder="" wire:model="buyer_address" required/>
                                         @error('buyer_address') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Phone  <span class="required">*</span></label>
-                                        <input type="text" placeholder="" wire:model="buyer_phone"/>
+                                        <input type="text" placeholder="" wire:model="buyer_phone" required/>
                                         @error('buyer_phone') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
