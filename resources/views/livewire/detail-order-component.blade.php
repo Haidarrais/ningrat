@@ -20,20 +20,28 @@
             <div class="card-body">
               <table>
                     <tr>
-                        <td><h4>Pembeli (Buyer)</h4></td>
+                        <td><h5>Pembeli (Buyer)</h5></td>
                         <td><h5> : {{$invoice[0]['user']['name']}}</h5></td>
                     </tr>
                     <tr>
-                        <td><h4>Penjual (Seller)</h4></td>
+                        <td><h5>Dikirim ke</h5></td>
+                        <td><h5> : {{$invoice[0]['sendto']}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Penjual (Seller)</h5></td>
                         <td><h5> : {{$invoice[0]['seller']['name']}}</h5></td>
                     </tr>
                     <tr>
-                        <td><h4>Subtotal</h4></td>
+                        <td><h5>Subtotal</h5></td>
                         <td><h5> : {{$invoice[0]['subtotal']}}</h5></td>
                     </tr>
                     <tr>
-                        <td><h4>Subtotal</h4></td>
+                        <td><h5>Discount</h5></td>
                         <td><h5> : {{$invoice[0]['discount'] ?? 'tidak ada diskon'}}</h5></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Resi pengiriman via {{strtoupper($invoice[0]['shipping'])}}</h5></td>
+                        <td><h5> : {{$invoice[0]['waybill'] ?? 'belum ada resi'}}</h5></td>
                     </tr>
               </table>
             </div>
