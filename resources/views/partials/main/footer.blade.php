@@ -58,7 +58,7 @@
                                     </div>
                                     <p>Memenuhi kebutuhan anda dengan solusi yang terbaik</p>
                                     <div class="footer-text">
-                                        <span><i class="icon icon-Pointer"></i>Address : Malang, Indonesia.</span>
+                                        <span><i class="icon icon-Pointer"></i>Address : Tenggor, Madiopuro, Kec. Sumobito, Kabupaten Jombang, Jawa Timur 61483.</span>
                                         <span><i class="icon icon-Phone"></i>Phone : +(62)</span>
                                         <span><i class="icon icon-Mail"></i>Email : hello@ningratofficial.com</span>
                                     </div>
@@ -69,7 +69,7 @@
                                     <div class="container-fluid text-center">
                                         <h4>Lokasi Kami</h4>
                                         <div class="map-responsive">
-                                        <iframe src="https://maps.google.com/maps?q=Malang&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100px" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                        <iframe src="https://maps.google.com/maps?q=CV Hastaningrat&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100px" frameborder="0" style="border:0" allowfullscreen></iframe>
                                     </div>
                                     </div>
                                 </div>
