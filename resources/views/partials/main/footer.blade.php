@@ -59,7 +59,7 @@
                                     <p>Memenuhi kebutuhan anda dengan solusi yang terbaik</p>
                                     <div class="footer-text">
                                         <span><i class="icon icon-Pointer"></i>Address : Tenggor, Madiopuro, Kec. Sumobito, Kabupaten Jombang, Jawa Timur 61483.</span>
-                                        <span><i class="icon icon-Phone"></i>Phone : +(62)</span>
+                                        <span><i class="icon icon-Phone"></i>Phone : +(62) 85649499491</span>
                                         <span><i class="icon icon-Mail"></i>Email : hello@ningratofficial.com</span>
                                     </div>
                                 </div>
