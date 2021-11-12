@@ -28,7 +28,7 @@ class UserMaintenanceController extends Controller
     {
         $this->month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember'];
     }
-    public function index($is_accepting_upgrade_req = null, Request $request)
+    public function index(Request $request, $is_accepting_upgrade_req = null)
     {
         $month = $this->month;
         $request_upgrades = RequestUpgrade::where("status", 1)->get();
