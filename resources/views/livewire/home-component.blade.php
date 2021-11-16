@@ -1,28 +1,13 @@
 <div>
-            <div class="ht-hero-section fix">
+        <!-- Hero Area Start -->
+        <div class="ht-hero-section fix" wire:ignore>
             <div class="ht-hero-slider">
-                @if (!$carousel->isEmpty())
                 @foreach ($carousel as $crsl)
                     <div class="ht-single-slide" style="background-image: url('{{ asset('uploads/contents/'. $crsl->image) }}')">
                         <div class="ht-hero-content-one container">
                         </div>
                     </div>
                 @endforeach
-                @else
-                <!-- Single Slide Start -->
-                <div class="ht-single-slide" style="background-image: url(assets/img/slider/4.jpg)">
-                    <div class="ht-hero-content-one container">
-                    </div>
-                </div>
-                <!-- Single Slide End -->
-                <!-- Single Slide Start -->
-                <div class="ht-single-slide" style="background-image: url(assets/img/slider/4.jpg)">
-                    <div class="ht-hero-content-one container">
-
-                    </div>
-                </div>
-                @endif
-                <!-- Single Slide End -->
             </div>
         </div>
         <!-- Hero Area End -->

@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $this->month = [ 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember' ];
     }
 
-    public function index($id = null, Request $request) {
+    public function index($id = null) {
         $text_dashboard = null;
         $user = Auth::user();
         $todaysMonth = Carbon::now()->month;
@@ -68,8 +68,12 @@ class DashboardController extends Controller
         if (auth()->user()->isCustomer()) {
             return redirect('/');
         }else{
-            return$request->ajax()?view("pages.paginationds", compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement', 'role', 'monthly_transaction', 'minimal_transaction'))->render():
-             view('pages.index', compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement','role', 'monthly_transaction', 'minimal_transaction'));
+            // return $request->ajax()?view("pages.paginationds", compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement', 'role', 'monthly_transaction', 'minimal_transaction'))->render():
+            //  view('pages.index', compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement','role', 'monthly_transaction', 'minimal_transaction'));
+         return view('pages.index', compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement','role', 'monthly_transaction', 'minimal_transaction'));
+        
+            
+            
         }
     }
 
