@@ -25,7 +25,8 @@ class DashboardController extends Controller
         $this->month = [ 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli ', 'Augustus', 'September', 'Oktober', 'November', 'Desember' ];
     }
 
-    public function index($id = null) {
+
+    public function index(Request $request, $id = null) {
         $text_dashboard = null;
         $user = Auth::user();
         $todaysMonth = Carbon::now()->month;
