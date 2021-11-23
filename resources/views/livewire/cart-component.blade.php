@@ -45,7 +45,7 @@
                                 @endphp
                                     @foreach (Cart::content() as $item )
                                         <tr>
-                                            <td class="table-remove"><button wire:click.prevert="destroyItem('{{$item->rowId}}')"><i class="fa fa-trash {{$item->options->stock->product->id}}"></i></button></td>
+                                            <td class="table-remove"><button wire:click.prevert="destroyItem('{{$item->rowId}}')"><i class="fa fa-trash"></i></button></td>
                                             <td class="table-image"><a href="product-details.html"><img src="{{asset('upload/product/'. $item->options->stock->product->picture->first()->image)}}" alt=""></a></td>
                                             <td class="table-p-name"><a href="product-details.html">{{$item->name}}</a></td>
                                             <td class="table-p-price"><p>Rp.{{ number_format($item->price) }}</p></td>

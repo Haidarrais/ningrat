@@ -172,20 +172,21 @@
                                                 $a = 0;
                                             @endphp
                                             @if (Cart::count() >0)
-                                                @foreach (Cart::content() as $item )
-                                                    <tr class="cart_item">
+                                                @foreach (Cart::content() as $cartItem )
+                                                    <tr class="cart_cartItem">
                                                         <td class="product-name">
-                                                            {{$item->name}} <strong class="product-quantity"> x {{$item->qty}}</strong>
+                                                            {{$cartItem->name}} <strong class="product-quantity"> x {{$cartItem->qty}}</strong>
                                                         </td>
                                                         <td class="product-total">
-                                                            <span class="amount">Rp.{{ number_format($item->subtotal) }}</span>
+                                                            <span class="amount">Rp.{{ number_format($cartItem->subtotal) }}</span>
                                                         </td>
                                                     </tr>
                                                     @php
-                                                        $a = $a + ($item->options->stock->product->weight*$item->qty);
+                                                        dd($cartItem);
+                                                        $a = $a + ($cartItem->options->stock->product->weight*$cartItem->qty);
                                                         $this->berat = $a;
-                                                        $this->sellerlocation = ($item->options->stock->user->member->subdistrict_id);
-                                                        $this->sellerid = ($item->options->stock->user->id);
+                                                        $this->sellerlocation = ($cartItem->options->stock->user->member->subdistrict_id);
+                                                        $this->sellerid = ($cartItem->options->stock->user->id);
                                                     @endphp
                                                 @endforeach
                                             @else
