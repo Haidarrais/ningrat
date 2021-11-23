@@ -33,7 +33,7 @@
                     </tr>
                     <tr>
                         <td><h5>Subtotal</h5></td>
-                        <td><h5> : {{$invoice[0]['subtotal']}}</h5></td>
+                        <td><h5> : {{number_format($invoice[0]['subtotal'])}}</h5></td>
                     </tr>
                     <tr>
                         <td><h5>Discount</h5></td>

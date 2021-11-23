@@ -123,6 +123,8 @@ class CheckoutComponent extends Component
             'member_phone' =>   $this->buyers->phone_number,
             'member_address' => $this->buyers->address,
             'subtotal' => $subtotal,
+            'shipping' => $this->courier,
+            'cost' => $this->ongkir,
             'status' => 0
         ]);
         foreach (Cart::content() as $cart) {
