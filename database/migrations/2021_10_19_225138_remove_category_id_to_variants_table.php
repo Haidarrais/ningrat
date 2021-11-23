@@ -27,7 +27,7 @@ class RemoveCategoryIdToVariantsTable extends Migration
     {
         Schema::table('variants', function (Blueprint $table) {
             //
-            $table->bigInteger('parent_id')->unsigned()->nullable();
+            $table->bigInteger('category_id')->unsigned()->nullable();
         });
     }
 }
