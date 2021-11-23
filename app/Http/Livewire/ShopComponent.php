@@ -85,7 +85,7 @@ class ShopComponent extends Component
             }
             else if ($this->sorting=='price-desc') {
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
-                ->select('stocks.id', 'products.id')
+                ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'DESC')
                 ->where('stock', '>', 0)
                 ->where('category_id', $this->category)
