@@ -30,7 +30,7 @@ class MemberComponent extends Component
         $dataB=[];
         foreach ($members_scan as $value) {
             array_push($dataA, $value->city->province_id);
-            array_push($dataB, $value->city->city_id);
+            array_push($dataB, $value->city_id);
         }
         array_push($dataA, Auth::user()->member->city->province_id);
         array_push($dataB, Auth::user()->member->city_id);
