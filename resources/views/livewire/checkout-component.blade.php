@@ -68,7 +68,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout-form-list">
                                         <label>Name <span class="required">*</span></label>
-                                        <input type="text" name="buyer_name" placeholder="" disabled value="{{$buyers->user->name}}" />
+                                        <input type="text" placeholder="" disabled value="{{$buyers->user->name}}" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -80,25 +80,25 @@
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Address <span class="required">*</span></label>
-                                        <input type="text"  name="buyer_address" placeholder="" disabled value="{{$buyers->address}}" />
+                                        <input type="text" placeholder="" disabled value="{{$buyers->address}}" />
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Subdistrict <span class="required">*</span></label>
-                                        <input type="text"  name="subdistrict" placeholder="" disabled value="{{$buyers->subdistrict->subdistrict_name}}" />
+                                        <input type="text" placeholder="" disabled value="{{$buyers->subdistrict->subdistrict_name}}" />
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>Town / City <span class="required">*</span></label>
-                                        <input type="text"  name="city" placeholder="" disabled value="{{$buyers->city->name}}" />
+                                        <input type="text" placeholder="" disabled value="{{$buyers->city->name}}" />
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="checkout-form-list">
                                         <label>State / County <span class="required">*</span></label>
-                                        <input type="text"  name="province" placeholder="" disabled value="{{$buyers->city->province->name}}"/>
+                                        <input type="text" placeholder="" disabled value="{{$buyers->city->province->name}}"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
