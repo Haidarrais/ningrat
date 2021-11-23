@@ -182,7 +182,8 @@
                                                         </td>
                                                     </tr>
                                                     @php
-                                                        $a = $a + ($cartItem->stock->product->weight*$cartItem->qty);
+                                                        dd($cartItem->stock);
+                                                        // $a = $a + ($cartItem->stock->product->weight*$cartItem->qty);
                                                         $this->berat = $a;
                                                         $this->sellerlocation = $cartItem->stock->user->member->subdistrict_id;
                                                         $this->sellerid = $cartItem->stock->user->id;
