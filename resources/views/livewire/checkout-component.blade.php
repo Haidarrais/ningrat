@@ -182,11 +182,10 @@
                                                         </td>
                                                     </tr>
                                                     @php
-                                                        dd(Auth::user()->member);
-                                                        // $a = $a + ($cartItem->options->stock->product->weight*$cartItem->qty);
-                                                        // $this->berat = $a;
-                                                        // $this->sellerlocation = $cartItem->options->stock->user->member->subdistrict_id;
-                                                        // $this->sellerid = $cartItem->options->stock->user->id;
+                                                        $a = $a + ($cartItem->stock->product->weight*$cartItem->qty);
+                                                        $this->berat = $a;
+                                                        $this->sellerlocation = $cartItem->stock->user->member->subdistrict_id;
+                                                        $this->sellerid = $cartItem->stock->user->id;
                                                     @endphp
                                                 @endforeach
                                             @else
