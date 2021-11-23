@@ -33,11 +33,11 @@
                     </tr>
                     <tr>
                         <td><h5>Subtotal</h5></td>
-                        <td><h5> : {{number_format($invoice[0]['subtotal'])}}</h5></td>
+                        <td><h5> : {{'Rp. ' . number_format($invoice[0]['subtotal'])}}</h5></td>
                     </tr>
                     <tr>
                         <td><h5>Discount</h5></td>
-                        <td><h5> : {{$invoice[0]['discount'] ?? 'tidak ada diskon'}}</h5></td>
+                        <td><h5> : {{$invoice[0]['discount'] . '%' ?? 'tidak ada diskon'}}</h5></td>
                     </tr>
                     <tr>
                         <td><h5>Resi pengiriman via {{strtoupper($invoice[0]['shipping'])}}</h5></td>
