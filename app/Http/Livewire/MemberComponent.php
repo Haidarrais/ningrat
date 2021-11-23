@@ -15,6 +15,13 @@ class MemberComponent extends Component
     public $city;
     public function mount()
     {
+        if (!Auth::user()->member) {
+            if (Auth::user()->roles->name == 'reseller') {
+                return redirect('profile.reseller');
+            }else{
+                return redirect('profile.customer');
+            }
+        }
         $this->province = Auth::user()->member->city->province_id ?? '';
         $this->city = Auth::user()->member->city_id ?? '';
     }
