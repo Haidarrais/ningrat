@@ -77,9 +77,9 @@
                                                     <div class="single-cart-item">
                                                         <div class="cart-img">
                                                             @if (Auth::user()->isCustomer())
-                                                                <a href="{{ route('cart.customer')}}"><img src="{{asset('upload/product/'. $item->options->stock->product->picture->first()->image)}}" alt="" style="max-width: 60px;"></a>
+                                                                <a href="{{ route('cart.customer')}}"><img src="{{asset('upload/product/'. $item->model->product->picture->first()->image)}}" alt="" style="max-width: 60px;"></a>
                                                             @else
-                                                                <a href="{{ route('cart.reseller')}}"><img src="{{asset('upload/product/'. $item->options->stock->product->picture->first()->image)}}" alt="" style="max-width: 60px;"></a>
+                                                                <a href="{{ route('cart.reseller')}}"><img src="{{asset('upload/product/'. $item->model->product->picture->first()->image)}}" alt="" style="max-width: 60px;"></a>
                                                             @endif
                                                         </div>
                                                         <div class="cart-text-btn">

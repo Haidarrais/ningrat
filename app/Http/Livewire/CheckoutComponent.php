@@ -126,7 +126,7 @@ class CheckoutComponent extends Component
             'transaction_id' => $transaction->id,
             'stock_id' => $cart->id,
             'price' => $cart->price,
-            'weight' => $cart->options->stock->product->weight,
+            'weight' => $cart->model->product->weight,
             'qty' => $cart->qty,
             ]);
         }

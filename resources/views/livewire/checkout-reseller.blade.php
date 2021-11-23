@@ -203,10 +203,10 @@
                                                         </td>
                                                     </tr>
                                                     @php
-                                                        $a = $a + ($item->options->stock->product->weight*$item->qty);
+                                                        $a = $a + ($item->model->product->weight*$item->qty);
                                                         $this->berat = $a;
-                                                        $this->sellerlocation = ($item->options->stock->user->member->subdistrict_id);
-                                                        $this->sellerid = ($item->options->stock->user->id);
+                                                        $this->sellerlocation = ($item->model->user->member->subdistrict_id);
+                                                        $this->sellerid = ($item->model->user->id);
                                                     @endphp
                                                 @endforeach
                                             @else
