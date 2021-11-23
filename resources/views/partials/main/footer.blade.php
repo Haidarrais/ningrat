@@ -2,56 +2,11 @@
         <footer class="footer-area">
             <!-- Footer Top Area Start -->
             <div class="footer-top bg-4 pt-120 pb-120">
-                <!-- Service Area Start -->
-                <div class="service-area pt-50">
-                    <div class="container">
-                        <div class="service-container">
-                            <div class="service-content">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4">
-                                        <div class="single-service">
-                                            <div class="service-image">
-                                                <img src="{{ asset('assets/img/icon/rocket.png') }}" alt="">
-                                            </div>
-                                            <div class="service-text">
-                                                <h3>Free delivery</h3>
-                                                <p>Dapatkan gratis ongkir jika memenuhi syarat.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4">
-                                        <div class="single-service">
-                                            <div class="service-image">
-                                                <img src="{{ asset('assets/img/icon/money.png') }}" alt="">
-                                            </div>
-                                            <div class="service-text">
-                                                <h3>Money guarantee</h3>
-                                                <p>Jaminan transaksi aman.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4">
-                                        <div class="single-service">
-                                            <div class="service-image">
-                                                <img src="{{ asset('assets/img/icon/support.png') }}" alt="">
-                                            </div>
-                                            <div class="service-text">
-                                                <h3>Online support</h3>
-                                                <p>CS selalu siap membantu anda.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Service Area End -->
                 <!-- Footer Widget Area Start -->
                 <div class="footer-widget-area">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-4 col-md-4">
                                 <div class="single-footer-widget">
                                     <div class="footer-logo">
                                         <a href="#"><img src="{{ asset('assets/img/logo/logo.png') }}" alt=""></a>
@@ -63,8 +18,19 @@
                                         <span><i class="icon icon-Mail"></i>Email : hello@ningratofficial.com</span>
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="single-service">
+                                    <div class="service-image">
+                                        <img src="{{ asset('assets/img/icon/support.png') }}" alt="">
+                                    </div>
+                                    <div class="service-text mt-4">
+                                        <h3>Online support</h3>
+                                        <p>CS selalu siap membantu anda.</p>
+                                        <a href="https://wa.me/6285649499491" class="btn btn-success">via WhatsApp <i class="fa fa-whatsapp" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-8">
+                            <div class="col-lg-8 col-md-8">
                                 <div class="single-footer-widget">
                                     <div class="container-fluid text-center">
                                         <h4>Lokasi Kami</h4>
