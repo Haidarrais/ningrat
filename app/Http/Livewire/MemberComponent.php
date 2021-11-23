@@ -16,7 +16,7 @@ class MemberComponent extends Component
     public function mount()
     {
         if (!Auth::user()->member) {
-            if (Auth::user()->roles->name == 'reseller') {
+            if (Auth::getRoleNames()->first() == 'reseller') {
                 return redirect('profile.reseller');
             }else{
                 return redirect('profile.customer');
