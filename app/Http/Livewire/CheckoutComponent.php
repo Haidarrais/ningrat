@@ -29,6 +29,15 @@ class CheckoutComponent extends Component
     public $enpoint;
     public $kurir;
 
+    protected $rules = [
+        'buyer_name' => 'required',
+        'buyer_phone' => 'required|integer',
+        'buyer_address' => 'required',
+        'province' => 'required',
+        'city' => 'required',
+        'subdistrict' => 'required',
+    ];
+
     public function mount()
     {
         $this->type = strtolower(env('RAJAONGKIR_PACKAGE', 'Key Dari ENV'));
