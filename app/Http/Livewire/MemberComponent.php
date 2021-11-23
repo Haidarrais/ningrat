@@ -17,9 +17,9 @@ class MemberComponent extends Component
     {
         if (!Auth::user()->member) {
             if (Auth::user()->getRoleNames()->first() == 'reseller') {
-                return redirect('profile.reseller');
+                return redirect()->route('profile.reseller');
             }else{
-                return redirect('profile.customer');
+                return redirect()->route('profile.customer');
             }
         }
         $this->province = Auth::user()->member->city->province_id ?? '';
