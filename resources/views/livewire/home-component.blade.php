@@ -3,7 +3,8 @@
         <div class="ht-hero-section fix" wire:ignore>
             <div class="ht-hero-slider">
                 @foreach ($carousel as $crsl)
-                    <div class="ht-single-slide" style="background-image: url('{{ asset('uploads/contents/'. $crsl->image) }}')">
+                    <div class="ht-single-slide">
+                        <img src="{{ asset('uploads/contents/'. $crsl->image) }}" alt="" class="w-100">
                         <div class="ht-hero-content-one container">
                         </div>
                     </div>
