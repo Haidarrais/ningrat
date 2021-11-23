@@ -30,6 +30,7 @@ class CheckoutComponent extends Component
     public $kurir;
 
     protected $rules = [
+        'ongkir' => 'required',
     ];
 
     public function mount()
