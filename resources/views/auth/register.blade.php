@@ -130,7 +130,7 @@
                             @enderror
                         </div>
                         <div class="form-group col-6">
-                            <label for="mou">File MOU</label>
+                            <label for="mou">File MOU <span class="text-success" id="filedownload"></span></label>
                             <input id="mou" type="file" class="form-control @error('mou') is-invalid @enderror" name="mou" value="{{ old('mou') }}">
                             @error('mou')
                                 <span class="invalid-feedback" role="alert">
@@ -175,6 +175,7 @@
             if ($(this).val() == 2 || $(this).val() == 3 || $(this).val() == 4 || $(this).val() == 5) {
                 $('#col-referral').show();
                 $('#form-tambahan-member').show();
+                $('#filedownload').html(`<a href="{{asset('core/mou/${$(this).val()}.docx')}}">download template</a>`)
             }else{
                 $('#col-referral').hide();
                 $('#form-tambahan-member').hide();

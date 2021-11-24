@@ -75,7 +75,7 @@ class CreateNewUser implements CreatesNewUsers
                 $imagePost = 'File-MOU'.time().$input['mou']->getClientOriginalName();
                 $file = $input['mou'];
                 $fileName = $imagePost;
-                $file->move('uploads/contents',$fileName);
+                $file->move('uploads/mou',$fileName);
                 $image = $fileName;
             }
             $dataMember = [
