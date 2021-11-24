@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
         <div class="login-brand">
-            <img src="{{ asset('assets-dashboard/img/stisla-fill.svg') }}" alt="logo" width="100" class="shadow-light rounded-circle">
+            <img src="{{ asset('assets/img/logo/logo.png') }}" alt="logo" width="100" class="shadow-light">
         </div>
 
         <div class="card card-primary">
@@ -95,7 +95,7 @@
                         </div>
                         <div class="form-group col-6">
                             <label for="nowhatsapp">No. WhatsApp</label>
-                            <input id="nowhatsapp" type="number" class="form-control @error('nowhatsapp') is-invalid @enderror" name="nowhatsapp" value="{{ old('nowhatsapp') }}">
+                            <input id="nowhatsapp" type="number" class="form-control @error('nowhatsapp') is-invalid @enderror" name="nowhatsapp" value="{{ old('nowhatsapp') }}" placeholder="08123456789">
                             @error('nowhatsapp')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="form-group col-6">
                             <label for="instagram">Instagram</label>
-                            <input id="instagram" type="text" class="form-control @error('instagram') is-invalid @enderror" name="instagram" value="{{ old('instagram') }}">
+                            <input id="instagram" type="text" class="form-control @error('instagram') is-invalid @enderror" name="instagram" value="{{ old('instagram') }}" placeholder="'@' username">
                             @error('instagram')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="form-group col-6">
                             <label for="facebook">Facebook</label>
-                            <input id="facebook" type="text" class="form-control @error('facebook') is-invalid @enderror" name="facebook" value="{{ old('facebook') }}">
+                            <input id="facebook" type="text" class="form-control @error('facebook') is-invalid @enderror" name="facebook" value="{{ old('facebook') }}" placeholder="username">
                             @error('facebook')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -122,7 +122,7 @@
                         </div>
                         <div class="form-group col-6">
                             <label for="marketplace">Marketplace</label>
-                            <input id="marketplace" type="text" class="form-control @error('marketplace') is-invalid @enderror" name="marketplace" value="{{ old('marketplace') }}">
+                            <input id="marketplace" type="text" class="form-control @error('marketplace') is-invalid @enderror" name="marketplace" value="{{ old('marketplace') }}" placeholder="Shopee, Tokopedia, dll">
                             @error('marketplace')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
