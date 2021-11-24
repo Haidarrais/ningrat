@@ -46,7 +46,7 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => $this->passwordRules(),
                 'role' => ['required', 'integer'],
                 'mou' => ['required'],
-                'upper' => ['required'],
+                // 'upper' => ['required'],
                 'facebook' => ['required', 'string', 'max:255'],
                 'instagram' => ['required', 'string', 'max:255'],
                 'nowhatsapp' => ['required', 'string', 'max:255'],
@@ -66,13 +66,14 @@ class CreateNewUser implements CreatesNewUsers
 
 
         if(!$upper) {
+            $data['upper'] = 0;
             $data['status'] = 1;
         }
         $user = User::create($data);
         if ($input['role'] == 2 || $input['role'] == 3 || $input['role'] == 4 || $input['role'] == 5) {
-            if ($input->hasFile('image')) {
-                $imagePost = 'File-MOU'.time().$input->file('image')->getClientOriginalName();
-                $file = $input->image;
+            if ($input['mou']) {
+                $imagePost = 'File-MOU'.time().$input['mou']->getClientOriginalName();
+                $file = $input['mou'];
                 $fileName = $imagePost;
                 $file->move('uploads/contents',$fileName);
                 $image = $fileName;
