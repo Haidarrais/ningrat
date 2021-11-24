@@ -20,18 +20,39 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input)
     {
         $upper = null;
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ],
-            'password' => $this->passwordRules(),
-            'role' => 'integer'
-        ])->validate();
+        if ($input['role'] == 6 || $input['role'] == 7) {
+            Validator::make($input, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    Rule::unique(User::class),
+                ],
+                'password' => $this->passwordRules(),
+                'role' => ['required','integer']
+            ])->validate();
+        }else{
+            Validator::make($input, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => [
+                    'required',
+                    'string',
+                    'email',
+                    'max:255',
+                    Rule::unique(User::class),
+                ],
+                'password' => $this->passwordRules(),
+                'role' => ['required', 'integer'],
+                'mou' => ['required'],
+                'upper' => ['required'],
+                'facebook' => ['required', 'string', 'max:255'],
+                'instagram' => ['required', 'string', 'max:255'],
+                'nowhatsapp' => ['required', 'string', 'max:255'],
+                'marketplace' => ['required', 'string', 'max:255'],
+            ])->validate();
+        }
 
         $data = [
             'name' => $input['name'],
@@ -44,11 +65,30 @@ class CreateNewUser implements CreatesNewUsers
         }
 
 
-        if($upper) {
-            $data['upper'] = $upper->id;
+        if(!$upper) {
             $data['status'] = 1;
         }
         $user = User::create($data);
+        if ($input['role'] == 2 || $input['role'] == 3 || $input['role'] == 4 || $input['role'] == 5) {
+            if ($input->hasFile('image')) {
+                $imagePost = 'File-MOU'.time().$input->file('image')->getClientOriginalName();
+                $file = $input->image;
+                $fileName = $imagePost;
+                $file->move('uploads/contents',$fileName);
+                $image = $fileName;
+            }
+            $dataMember = [
+                'mou'   => $image,
+                'marketplace'   => $input['marketplace'],
+                'instagram'   => $input['instagram'],
+                'facebook'   => $input['facebook'],
+                'nowhatsapp'   => $input['nowhatsapp'],
+                'ttl'   => $input['ttl'],
+            ];
+            $user->member()->updateOrCreate([
+                'user_id' => $user->id,
+            ], $dataMember);
+        }
 
         $user->assignRole($input['role']);
 

@@ -15,7 +15,7 @@
             </div>
 
             <div class="card-body">
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="form-group col-6">
@@ -59,8 +59,8 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-6">
-                            <label for="kode_referal">Kode Referal <small class="text-danger">Optional</small></label>
+                        <div class="form-group col-6" id="col-referral">
+                            <label for="kode_referal">Kode Referal</label>
                             <input id="kode_referal" type="text" class="form-control @error('kode_referal') is-invalid @enderror" name="kode_referal" value="{{ old('kode_referal') }}">
                             @error('kode_referal')
                                 <span class="invalid-feedback" role="alert">
@@ -70,13 +70,69 @@
                         </div>
                         <div class="form-group col-6">
                             <label for="level">Level</label>
-                            <select name="role" id="level" class="form-control @error('role') is-invalid @enderror">
+                            <select name="role" id="level" class="form-control @error('role') is-invalid @enderror"  value="{{ old('role') }}">
                                 <option value="">== Pilih Level ==</option>
                                 @foreach ($role as $value)
                                     <option value="{{ $value->id }}">{{ ucfirst($value->name) }}</option>
                                 @endforeach
                             </select>
                             @error('role')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row" id="form-tambahan-member">
+                        <div class="form-group col-6">
+                            <label for="ttl">Tempat Tanggal Lahir</label>
+                            <input id="ttl" type="date" class="form-control @error('ttl') is-invalid @enderror" name="ttl" value="{{ old('ttl') }}">
+                            @error('ttl')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="nowhatsapp">No. WhatsApp</label>
+                            <input id="nowhatsapp" type="number" class="form-control @error('nowhatsapp') is-invalid @enderror" name="nowhatsapp" value="{{ old('nowhatsapp') }}">
+                            @error('nowhatsapp')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="instagram">Instagram</label>
+                            <input id="instagram" type="text" class="form-control @error('instagram') is-invalid @enderror" name="instagram" value="{{ old('instagram') }}">
+                            @error('instagram')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="facebook">Facebook</label>
+                            <input id="facebook" type="text" class="form-control @error('facebook') is-invalid @enderror" name="facebook" value="{{ old('facebook') }}">
+                            @error('facebook')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="marketplace">Marketplace</label>
+                            <input id="marketplace" type="text" class="form-control @error('marketplace') is-invalid @enderror" name="marketplace" value="{{ old('marketplace') }}">
+                            @error('marketplace')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="mou">File MOU</label>
+                            <input id="mou" type="file" class="form-control @error('mou') is-invalid @enderror" name="mou" value="{{ old('mou') }}">
+                            @error('mou')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -107,4 +163,22 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+    $(document).ready(function(){
+        $('#form-tambahan-member').hide();
+        $('#col-referral').hide();
+    })
+    $('#level').on('change', function(){
+            console.log($(this).val())
+            if ($(this).val() == 2 || $(this).val() == 3 || $(this).val() == 4 || $(this).val() == 5) {
+                $('#col-referral').show();
+                $('#form-tambahan-member').show();
+            }else{
+                $('#col-referral').hide();
+                $('#form-tambahan-member').hide();
+            }
+        })
+</script>
 @endsection
