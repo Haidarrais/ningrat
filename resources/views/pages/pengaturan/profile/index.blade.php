@@ -9,7 +9,7 @@
                 <div class="profile-widget-items">
                     <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Total Produk</div>
-                        <div class="profile-widget-item-value">187</div>
+                        <div class="profile-widget-item-value">{{$stock_total}}</div>
                     </div>
                     <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Total Hirarki</div>
@@ -17,7 +17,7 @@
                     </div>
                     <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Order Selesai</div>
-                        <div class="profile-widget-item-value">2,1K</div>
+                        <div class="profile-widget-item-value">{{count($orders)}}</div>
                     </div>
                 </div>
             </div>
@@ -39,14 +39,14 @@
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             6 Bulan Member Setelah Upgrade
-                           @if ($monthDiffFromLastUpgrade>=6)
-                               <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
-                           @else
-                               <span class="badge badge-danger badge-pill"><i class="fas fa-times"></i></span>
-                           @endif
+                            @if ($monthDiffFromLastUpgrade>=6)
+                            <span class="badge badge-success badge-pill"><i class="fas fa-check"></i></span>
+                            @else
+                            <span class="badge badge-danger badge-pill"><i class="fas fa-times"></i></span>
+                            @endif
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Repeat order sejumlah {{rtrim((string)$minimal_transaction, "0")}}jt/bulan selama 6 Bulan 
+                            Repeat order sejumlah {{rtrim((string)$minimal_transaction, "0")}}jt/bulan selama 6 Bulan
                             @if ($checkMitraRequirement)
                             <span style="cursor: pointer" class="badge badge-success badge-pill showMontlyTransaction">
                                 <i class="fas fa-check"></i></span>
@@ -57,15 +57,14 @@
                     </ul>
                 </div>
                 <div class="card-footer" id="fieldUpgrade">
-                    @if ($monthDiffFromLastUpgrade<6)
-                    <p>Tunggu {{6 - $monthDiffFromLastUpgrade}} bulan untuk request upgrade</p>
-                    @else
-                    @if (!$checkMitraRequirement)
-                    <button class="btn btn-warning">Anda belum bisa upgrade</button>
-                    @else
-                    <button class="btn btn-success" id="btnUpgrade" onclick="upgrade({{ $user->id }})">Upgrade</button>
-                    @endif
-                    @endif
+                    @if ($monthDiffFromLastUpgrade<6) <p>Tunggu {{6 - $monthDiffFromLastUpgrade}} bulan untuk request upgrade</p>
+                        @else
+                        @if (!$checkMitraRequirement)
+                        <button class="btn btn-warning">Anda belum bisa upgrade</button>
+                        @else
+                        <button class="btn btn-success" id="btnUpgrade" onclick="upgrade({{ $user->id }})">Upgrade</button>
+                        @endif
+                        @endif
                 </div>
             </div>
             @endrole
@@ -162,48 +161,47 @@
 </div>
 @endsection
 @section('modal')
-    <div class="modal fade" id="modal-detail-monthly" tabindex="-2" role="dialog" aria-labelledby="modal-detail-monthly"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-detail-monthly">Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="card-body p-0 overflow-auto">
-                        <div class="table-responsive table-invoice">
-                            <table class="table table-striped" id="table_data">
-                                <tr>
-                                    <th>Bulan</th>
-                                    <th>Total Transaksi</th>
-                                    <th>Status</th>
-                                </tr>
-                                @foreach ($monthly_transaction as $index => $item)
-                                <tr>
-                                    <td>{{ $month[$index - 1] }}</td>
-                                    <td>{{"Rp " . number_format($item["sums"],2,',','.')}}</td>
-                                    <td>
-                                        <i class="  @if ($item['sums'] > $minimal_transaction)
+<div class="modal fade" id="modal-detail-monthly" tabindex="-2" role="dialog" aria-labelledby="modal-detail-monthly" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-detail-monthly">Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body p-0 overflow-auto">
+                    <div class="table-responsive table-invoice">
+                        <table class="table table-striped" id="table_data">
+                            <tr>
+                                <th>Bulan</th>
+                                <th>Total Transaksi</th>
+                                <th>Status</th>
+                            </tr>
+                            @foreach ($monthly_transaction as $index => $item)
+                            <tr>
+                                <td>{{ $month[$index - 1] }}</td>
+                                <td>{{"Rp " . number_format($item["sums"],2,',','.')}}</td>
+                                <td>
+                                    <i class="  @if ($item['sums'] > $minimal_transaction)
                                                           fas fa-thumbs-up text-success
                                                           @else fas fa-thumbs-down text-danger
                                                       @endif" style="font-size: 20px"></i>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                </tr>
-                            </table>
-                        </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
@@ -288,8 +286,8 @@
         })
         $("#loading").hide()
     }
-$(".showMontlyTransaction").on("click", () => {
-    $("#modal-detail-monthly").modal("show");
+    $(".showMontlyTransaction").on("click", () => {
+        $("#modal-detail-monthly").modal("show");
     })
     const get_province = (id = null) => {
         return new Promise((resolve, reject) => {
