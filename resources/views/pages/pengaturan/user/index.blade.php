@@ -41,12 +41,12 @@
                 @endrole
                 <input type="hidden" name="id" id="inputID">
                 <div class="modal-body">
-                    @role('superadmin')
+                    {{-- @role('superadmin') --}}
                     <div class="form-group">
                         <label for="selectRole">Role</label>
                         <select name="role" id="selectRole" class="form-control" required></select>
                     </div>
-                    @endrole
+                    {{-- @endrole --}}
                     <div class="form-group">
                         <label for="inputName">Nama</label>
                         <input type="text" name="name" id="inputName" class="form-control" required>
@@ -78,6 +78,62 @@
                                 <label for="inputPasswordConfirmation">Konfirmasi Password</label>
                                 <input type="password" name="password_confirmation" id="inputPasswordConfirmation" class="form-control" required>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row" id="form-tambahan-member">
+                        <div class="form-group col-6">
+                            <label for="ttl">Tempat Tanggal Lahir</label>
+                            <input id="ttl" type="date" class="form-control @error('ttl') is-invalid @enderror" name="ttl" value="{{ old('ttl') }}">
+                            @error('ttl')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="nowhatsapp">No. WhatsApp</label>
+                            <input id="nowhatsapp" type="number" class="form-control @error('nowhatsapp') is-invalid @enderror" name="nowhatsapp" value="{{ old('nowhatsapp') }}" placeholder="08123456789">
+                            @error('nowhatsapp')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="instagram">Instagram</label>
+                            <input id="instagram" type="text" class="form-control @error('instagram') is-invalid @enderror" name="instagram" value="{{ old('instagram') }}" placeholder="'@' username">
+                            @error('instagram')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="facebook">Facebook</label>
+                            <input id="facebook" type="text" class="form-control @error('facebook') is-invalid @enderror" name="facebook" value="{{ old('facebook') }}" placeholder="username">
+                            @error('facebook')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="marketplace">Marketplace</label>
+                            <input id="marketplace" type="text" class="form-control @error('marketplace') is-invalid @enderror" name="marketplace" value="{{ old('marketplace') }}" placeholder="Shopee, Tokopedia, dll">
+                            @error('marketplace')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="mou">File MOU <span class="text-success" id="filedownload"></span></label>
+                            <input id="mou" type="file" class="form-control @error('mou') is-invalid @enderror" name="mou" value="{{ old('mou') }}">
+                            @error('mou')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -272,5 +328,20 @@
             }
         })
     }
+    $(document).ready(function(){
+        $('#form-tambahan-member').hide();
+        $('#col-referral').hide();
+    })
+    $('#level').on('change', function(){
+            console.log($(this).val())
+            if ($(this).val() == 2 || $(this).val() == 3 || $(this).val() == 4 || $(this).val() == 5) {
+                $('#col-referral').show();
+                $('#form-tambahan-member').show();
+                $('#filedownload').html(`<a href="{{asset('core/mou/${$(this).val()}.docx')}}">download template</a>`)
+            }else{
+                $('#col-referral').hide();
+                $('#form-tambahan-member').hide();
+            }
+        })
 </script>
 @endsection
