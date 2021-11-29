@@ -259,7 +259,7 @@ class TransactionController extends Controller
     public function printInvoice($id){
         $orders = Transaction::find($id);
         $seller = User::find($orders->seller_id);
-        $detailOrder = TransactionDetail::where('order_id', $orders_id);
+        $detailOrder = TransactionDetail::where('order_id', $orders->order_id);
         $client = new Party([
             'name'          => $seller->name,
             'phone'         => $seller->nowhatsapp,
