@@ -177,7 +177,7 @@
         <div class="card-body">
             <div id="wrapper">
                 <div class="tf-tree d-flex justify-content-center">
-                    <ul>
+                    <ul class="w-100">
                         <li>
                             <span class="tf-nc "><a href="{{ route('users.hirarki', base64_encode($user->api_token)) }}">
                                     <p class="">
