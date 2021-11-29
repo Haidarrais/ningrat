@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Auth;
 */
 Route::get('/', HomeComponent::class)->name('home.page');
 Route::get('/pictures/{id}', [ProductController::class, 'pictureShow'])->middleware('auth')->name('picture.show');
-Route::get('/cetak/invoice', [TransactionController::class, 'printInvoice'])->middleware('auth')->name('print.invoice');
+Route::get('/cetak/invoice/{id}', [TransactionController::class, 'printInvoice'])->middleware('auth')->name('print.invoice');
 Route::resource('review', ReviewController::class)->middleware('auth');
 Route::group(['prefix' => 'reseller','middleware' => ['role:reseller','auth','active']], function() {
     Route::get('/shop/{name}-{id}', ShopComponent::class)->name('member.shopr');

@@ -256,10 +256,13 @@ class TransactionController extends Controller
         ], 200);
     }
 
-    public function printInvoice(){
+    public function printInvoice($id){
+        $orders = Transaction::find($id);
+        $seller = User::find($orders->seller_id);
+        $detailOrder = TransactionDetail::where('order_id', $orders_id);
         $client = new Party([
-            'name'          => 'Roosevelt Lloyd',
-            'phone'         => '(520) 318-9486',
+            'name'          => $seller->name,
+            'phone'         => $seller->nowhatsapp,
             'custom_fields' => [
                 'note'        => 'IDDQD',
                 'business id' => '365#GG',
@@ -267,40 +270,20 @@ class TransactionController extends Controller
         ]);
 
         $customer = new Party([
-            'name'          => 'Ashley Medina',
-            'address'       => 'The Green Street 12',
+            'name'          => $orders->sendto,
+            'address'       => $orders->member_address,
             'code'          => '#22663214',
             'custom_fields' => [
                 'order number' => '> 654321 <',
             ],
         ]);
 
-        $items = [
-            (new InvoiceItem())
-                ->title('Service 1')
-                ->description('Your product or service description')
-                ->pricePerUnit(47.79)
-                ->quantity(2)
-                ->discount(10),
-            (new InvoiceItem())->title('Service 2')->pricePerUnit(71.96)->quantity(2),
-            (new InvoiceItem())->title('Service 3')->pricePerUnit(4.56),
-            (new InvoiceItem())->title('Service 4')->pricePerUnit(87.51)->quantity(7)->discount(4)->units('kg'),
-            (new InvoiceItem())->title('Service 5')->pricePerUnit(71.09)->quantity(7)->discountByPercent(9),
-            (new InvoiceItem())->title('Service 6')->pricePerUnit(76.32)->quantity(9),
-            (new InvoiceItem())->title('Service 7')->pricePerUnit(58.18)->quantity(3)->discount(3),
-            (new InvoiceItem())->title('Service 8')->pricePerUnit(42.99)->quantity(4)->discountByPercent(3),
-            (new InvoiceItem())->title('Service 9')->pricePerUnit(33.24)->quantity(6)->units('m2'),
-            (new InvoiceItem())->title('Service 11')->pricePerUnit(97.45)->quantity(2),
-            (new InvoiceItem())->title('Service 12')->pricePerUnit(92.82),
-            (new InvoiceItem())->title('Service 13')->pricePerUnit(12.98),
-            (new InvoiceItem())->title('Service 14')->pricePerUnit(160)->units('hours'),
-            (new InvoiceItem())->title('Service 15')->pricePerUnit(62.21)->discountByPercent(5),
-            (new InvoiceItem())->title('Service 16')->pricePerUnit(2.80),
-            (new InvoiceItem())->title('Service 17')->pricePerUnit(56.21),
-            (new InvoiceItem())->title('Service 18')->pricePerUnit(66.81)->discountByPercent(8),
-            (new InvoiceItem())->title('Service 19')->pricePerUnit(76.37),
-            (new InvoiceItem())->title('Service 20')->pricePerUnit(55.80),
-        ];
+        $items = [];
+        foreach ($detailOrder as $key => $value) {
+            # code...
+            $data = (new InvoiceItem())->title($detailOrder->stock->product->name)->pricePerUnit($detailOrder->stock->product->price);
+            array_push($items, $data);
+        }
 
         $notes = [
             'your multiline',
@@ -321,9 +304,9 @@ class TransactionController extends Controller
             ->date(now()->subWeeks(3))
             ->dateFormat('m/d/Y')
             ->payUntilDays(14)
-            ->currencySymbol('$')
-            ->currencyCode('USD')
-            ->currencyFormat('{SYMBOL}{VALUE}')
+            ->currencySymbol('Rp.')
+            ->currencyCode('IDR')
+            ->currencyFormat('{SYMBOL} {VALUE}')
             ->currencyThousandsSeparator('.')
             ->currencyDecimalPoint(',')
             ->filename($client->name . ' ' . $customer->name)
