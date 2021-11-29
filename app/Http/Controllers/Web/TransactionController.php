@@ -329,7 +329,6 @@ class TransactionController extends Controller
             ->filename($client->name . ' ' . $customer->name)
             ->addItems($items)
             ->notes($notes)
-            ->logo(public_path('assets/img/logo/logo.png'))
             // You can additionally save generated invoice to configured disk
             ->save('public');
 
