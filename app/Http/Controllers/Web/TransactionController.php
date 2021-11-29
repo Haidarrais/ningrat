@@ -259,7 +259,7 @@ class TransactionController extends Controller
     public function printInvoice($id){
         $orders = Transaction::find($id);
         $seller = User::find($orders->seller_id);
-        $detailOrder = TransactionDetail::where('transaction_id', $orders->id)->get();
+        $detailOrder = TransactionDetail::with('stock.product')->where('transaction_id', $orders->id)->get();
         $client = new Party([
             'name'          => $seller->name,
             'phone'         => $seller->nowhatsapp,
@@ -281,8 +281,8 @@ class TransactionController extends Controller
         $items = [];
         foreach ($detailOrder as $key => $value) {
             # code...
-            // $data = (new InvoiceItem())->title($detailOrder->stock->product->name)->pricePerUnit($detailOrder->stock->product->price);
-            // array_push($items, $data);
+            $data = (new InvoiceItem())->title($detailOrder->stock->product->name)->pricePerUnit($detailOrder->stock->product->price);
+            array_push($items, $data);
         }
         dd($detailOrder);
 
