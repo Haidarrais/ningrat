@@ -284,6 +284,7 @@ class TransactionController extends Controller
             $data = (new InvoiceItem())->title($detailOrder->stock->product->name)->pricePerUnit($detailOrder->stock->product->price);
             array_push($items, $data);
         }
+        dd($detailOrder);
 
         $notes = [
             'your multiline',
