@@ -11,6 +11,9 @@ use App\Models\Stock;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Invoice;
 
 class TransactionController extends Controller
 {
@@ -250,5 +253,24 @@ class TransactionController extends Controller
                 'body' => 'Transaction Telah '. $text
             ]
         ], 200);
+    }
+
+    public function printInvoice(){
+        $customer = new Buyer([
+            'name'          => 'John Doe',
+            'custom_fields' => [
+                'email' => 'test@example.com',
+            ],
+        ]);
+        $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+
+        $invoice = Invoice::make()
+            ->buyer($customer)
+            ->discountByPercent(10)
+            ->taxRate(15)
+            ->shipping(1.99)
+            ->addItem($item);
+
+        return $invoice->stream();
     }
 }
