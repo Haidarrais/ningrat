@@ -332,7 +332,7 @@
         $('#form-tambahan-member').hide();
         $('#col-referral').hide();
     })
-    $('#level').on('change', function(){
+    $('#selectRole').on('change', function(){
             console.log($(this).val())
             if ($(this).val() == 2 || $(this).val() == 3 || $(this).val() == 4 || $(this).val() == 5) {
                 $('#col-referral').show();
