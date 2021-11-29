@@ -158,7 +158,9 @@
                 .then(({data}) => {
                     let option = '<option value="">== Pilih Role ==</option>'
                     $.each(data.data, (i, e) => {
-                        option += `<option value="${e.id}">${e.name}</option>`
+                        if (e.name != 'superadmin') {
+                            option += `<option value="${e.id}">${e.name}</option>`
+                        }
                     })
                     $('#selectRole').html(option)
                 })
