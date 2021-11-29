@@ -282,7 +282,7 @@ class TransactionController extends Controller
         foreach ($detailOrder as $key => $value) {
             # code...
             // $data = (new InvoiceItem())->title($detailOrder->stock->product->name)->pricePerUnit($detailOrder->stock->product->price);
-            array_push($items, $data);
+            // array_push($items, $data);
         }
         dd($detailOrder);
 
