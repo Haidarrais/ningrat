@@ -11,8 +11,7 @@
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
-                            value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary"><i class="fas fa-search"></i>Cari</button>
                         </div>
@@ -151,7 +150,7 @@
                             <td> : </td>
                             @role('superadmin')
                             <td>
-                                <input type="number" id="fieldEditStockProduct" type="number" name="stock" value="0"/>
+                                <input type="number" id="fieldEditStockProduct" type="number" name="stock" value="0" />
                             </td>
                             @else
                             <td id="fieldEditStockProduct"></td>
@@ -188,43 +187,47 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
-    <style>
-        button:disabled {
-            cursor: not-allowed;
-            pointer-events: all !important;
-        }
-        ul.timeline {
-            list-style-type: none;
-            position: relative;
-        }
-        ul.timeline:before {
-            content: ' ';
-            background: #d4d9df;
-            display: inline-block;
-            position: absolute;
-            left: 29px;
-            width: 2px;
-            height: 100%;
-            z-index: 400;
-        }
-        ul.timeline > li {
-            margin: 20px 0;
-            padding-left: 20px;
-        }
-        ul.timeline > li:before {
-            content: ' ';
-            background: white;
-            display: inline-block;
-            position: absolute;
-            border-radius: 50%;
-            border: 3px solid #22c0e8;
-            left: 20px;
-            width: 20px;
-            height: 20px;
-            z-index: 400;
-        }
-    </style>
+<link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+<style>
+    button:disabled {
+        cursor: not-allowed;
+        pointer-events: all !important;
+    }
+
+    ul.timeline {
+        list-style-type: none;
+        position: relative;
+    }
+
+    ul.timeline:before {
+        content: ' ';
+        background: #d4d9df;
+        display: inline-block;
+        position: absolute;
+        left: 29px;
+        width: 2px;
+        height: 100%;
+        z-index: 400;
+    }
+
+    ul.timeline>li {
+        margin: 20px 0;
+        padding-left: 20px;
+    }
+
+    ul.timeline>li:before {
+        content: ' ';
+        background: white;
+        display: inline-block;
+        position: absolute;
+        border-radius: 50%;
+        border: 3px solid #22c0e8;
+        left: 20px;
+        width: 20px;
+        height: 20px;
+        z-index: 400;
+    }
+</style>
 @endsection
 
 @section('js')
@@ -235,8 +238,8 @@
 
     $(document).ready(() => {
         @role('reseller')
-        $(".qty").keydown(function(e){
-            if(((e.keyCode < 48) || (e.keyCode > 57))&& e.keyCode != 8){
+        $(".qty").keydown(function(e) {
+            if (((e.keyCode < 48) || (e.keyCode > 57)) && e.keyCode != 8) {
                 e.preventDefault()
             }
         })
@@ -248,20 +251,29 @@
         $("#btn-simpan").attr('disabled', 'disabled')
 
         new Promise((resolve, reject) => {
-            $axios.post(`{{ route('api.check_home') }}`, {api_token:`{{ auth()->user()->api_token }}`})
+            $axios.post(`{{ route('api.check_home') }}`, {
+                    api_token: `{{ auth()->user()->api_token }}`
+                })
                 .catch(err => {
                     $swal.fire({
                         icon: 'error',
                         title: err.response.data.message.head,
                         text: err.response.data.message.body,
+                    }).then((res) => {
+                        if (res.isConfirmed) {
+                            window.location.replace('/dashboard/pengaturan/profile');
+                        }
                     })
-                    $("#btnOut").attr('disabled', 'disabled')
+                    $("#btnTambah").attr('disabled', 'disabled')
                 })
         })
 
+
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_courier') }}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let html = `<option selected disabled value="">== Pilih Kurir ==</option>`
                     $.each(data, (i, e) => {
                         html += `<option value="${e}">${e}</option>`
@@ -272,7 +284,7 @@
 
         $("#btn-courier").on('click', () => {
             let local_weight = $("#inputWeight").val()
-            if(local_weight <= 0) {
+            if (local_weight <= 0) {
                 return $swal.fire({
                     icon: 'error',
                     title: "Gagal",
@@ -281,7 +293,7 @@
             }
 
             let courier = $("#courier").val()
-            if(!courier) {
+            if (!courier) {
                 return $swal.fire({
                     icon: 'error',
                     title: "Gagal",
@@ -289,7 +301,7 @@
                 })
             }
             let subdistrict = $('#subdistricts_id').val()
-            if(!subdistrict) {
+            if (!subdistrict) {
                 return $swal.fire({
                     icon: 'error',
                     title: "Gagal",
@@ -300,43 +312,45 @@
             loading('show', $("#btn-courier"))
             new Promise((resolve, reject) => {
                 $axios.post(`{{ route('api.get_ongkir') }}`, {
-                    'api_token': `{{ auth()->user()->api_token }}`,
-                    'origin': `{{ $upper_origin['subdistrict'] ?? '' }}`,
-                    'destination': $('#subdistricts_id').val(),
-                    'weight': local_weight,
-                    'courier': courier
-                })
-                .then(({data}) => {
-                    if(data.status.code == 200) {
-                        let result = data.results
-                        let cost = result[0].costs
-                        let html = ``
-                        $.each(cost, (i, e) => {
-                            let teks = e.service
-                            html += `<div class="custom-control custom-radio">
+                        'api_token': `{{ auth()->user()->api_token }}`,
+                        'origin': `{{ $upper_origin['subdistrict'] ?? '' }}`,
+                        'destination': $('#subdistricts_id').val(),
+                        'weight': local_weight,
+                        'courier': courier
+                    })
+                    .then(({
+                        data
+                    }) => {
+                        if (data.status.code == 200) {
+                            let result = data.results
+                            let cost = result[0].costs
+                            let html = ``
+                            $.each(cost, (i, e) => {
+                                let teks = e.service
+                                html += `<div class="custom-control custom-radio">
                                         <input type="radio" id="radius-${i}" name="cost" class="custom-control-input" value="${e.cost[0].value}">
                                         <label class="custom-control-label" for="radius-${i}">${teks} - Rp. ${(e.cost[0].value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} - ${e.cost[0].etd} Hari</label>
                                     </div>`
-                        })
-                        $("#fieldCourier").html(html)
-                        $("#btn-simpan").prop("disabled", false)
-                    } else {
+                            })
+                            $("#fieldCourier").html(html)
+                            $("#btn-simpan").prop("disabled", false)
+                        } else {
+                            $swal.fire({
+                                icon: 'error',
+                                title: "Ops",
+                                text: "Ops"
+                            })
+                        }
+                        loading('hide', $("#btn-courier"))
+                    })
+                    .catch(err => {
                         $swal.fire({
                             icon: 'error',
                             title: "Ops",
                             text: "Ops"
                         })
-                    }
-                    loading('hide', $("#btn-courier"))
-                })
-                .catch(err => {
-                    $swal.fire({
-                        icon: 'error',
-                        title: "Ops",
-                        text: "Ops"
+                        loading('hide', $("#btn-courier"))
                     })
-                    loading('hide', $("#btn-courier"))
-                })
             })
         })
 
@@ -365,7 +379,7 @@
         $("#formTambah").on('submit', (e) => {
             e.preventDefault()
             let serializedData = $("#formTambah").serialize()
-            if(!$('input[name="cost"]:checked').val()) {
+            if (!$('input[name="cost"]:checked').val()) {
                 return $swal.fire({
                     icon: 'error',
                     title: "Gagal",
@@ -374,7 +388,9 @@
             }
             new Promise((resolve, reject) => {
                 $axios.post(`{{ route('order.store') }}`, serializedData)
-                    .then(({data}) => {
+                    .then(({
+                        data
+                    }) => {
                         $('#modal_tambah').modal('hide')
                         refresh_get_category()
                         refresh_table(URL_NOW)
@@ -420,89 +436,95 @@
 
     const aktifkan = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Ingin mengkatifkan produk ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('stock.set_status', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', DIAKTIFKAN)
-                loading('show', `.press-btn-${id}`)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        toastr.success(data.message.head, data.message.body)
-                        loading('hide', `.press-btn-${id}`)
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                title: 'Yakin?',
+                text: "Ingin mengkatifkan produk ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('stock.set_status', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', DIAKTIFKAN)
+                    loading('show', `.press-btn-${id}`)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            toastr.success(data.message.head, data.message.body)
+                            loading('hide', `.press-btn-${id}`)
+                            refresh_table(URL_NOW)
+                        })
+                }
+            })
     }
 
     const nonaktifkan = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Ingin menonaktifkan produk ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('stock.set_status', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', NONAKTIFKAN)
-                loading('show', `.press-btn-${id}`)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        toastr.success(data.message.head, data.message.body)
-                        loading('hide', `.press-btn-${id}`)
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                title: 'Yakin?',
+                text: "Ingin menonaktifkan produk ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('stock.set_status', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', NONAKTIFKAN)
+                    loading('show', `.press-btn-${id}`)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            toastr.success(data.message.head, data.message.body)
+                            loading('hide', `.press-btn-${id}`)
+                            refresh_table(URL_NOW)
+                        })
+                }
+            })
     }
 
     const discount = (id, status) => {
         let text
-        if(status) {
+        if (status) {
             text = "mengaktifkan"
         } else {
             text = "menonaktifkan"
         }
         $swal.fire({
-            title: 'Yakin?',
-            text: `Ingin ${text} diskon ini!`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('stock.set_status_discount', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', status)
-                loading('show', `.discount-btn-${id}`)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        toastr.success(data.message.head, data.message.body)
-                        loading('hide', `.discount-btn-${id}`)
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                title: 'Yakin?',
+                text: `Ingin ${text} diskon ini!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('stock.set_status_discount', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', status)
+                    loading('show', `.discount-btn-${id}`)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            toastr.success(data.message.head, data.message.body)
+                            loading('hide', `.discount-btn-${id}`)
+                            refresh_table(URL_NOW)
+                        })
+                }
+            })
     }
 
     const edit = id => {
@@ -510,7 +532,9 @@
             let url = `{{ route('stock.edit', ":id") }}`
             url = url.replace(":id", id)
             $axios.get(`${url}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let result = data.data
                     let price = 0
                     $('#modalTitleEdit').html('Edit')
@@ -524,7 +548,7 @@
                     $("#fieldEditStockProduct").html(result.stock)
                     @endrole
                     $("#fieldEditMinimalPrice").html(result.product.price)
-                    if(result.member_price) {
+                    if (result.member_price) {
                         price = result.member_price
                     } else {
                         price = result.product.price
@@ -532,7 +556,7 @@
                     $("#fieldEditProductPrice").html(price)
                     $("#fieldEditPrice").val(price)
                     let discout = 0
-                    if(result.discount.discount) {
+                    if (result.discount.discount) {
                         discout = result.discount.discount
                     }
                     $("#fieldDiscount").val(discout)
@@ -561,10 +585,10 @@
         let total = parseInt($(`#total-${id}`).val())
         let price = parseInt($(`#field-price-${id}`).data('price'))
         let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
-        if(total > 0) {
+        if (total > 0) {
             let new_total = total - 1
             $(`#total-${id}`).val(new_total)
-            let html = (new_total*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+            let html = (new_total * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
             $(`#field-total-${id}`).html(`Rp. ${html}`)
             let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
             weight -= prod_weight
@@ -577,15 +601,15 @@
         let total = parseInt($(`#total-${id}`).val())
         let price = parseInt($(`#field-price-${id}`).data('price'))
         let new_total = total + 1
-        if(new_total > max) {
+        if (new_total > max) {
             return $swal.fire({
-                        icon: 'error',
-                        title: 'Gagal',
-                        text: 'Stok kurang dari '+max
-                    })
+                icon: 'error',
+                title: 'Gagal',
+                text: 'Stok kurang dari ' + max
+            })
         }
         $(`#total-${id}`).val(new_total)
-        let html = (new_total*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+        let html = (new_total * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
         $(`#field-total-${id}`).html(`Rp. ${html}`)
         let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
         weight -= prod_weight * (new_total - 1)
@@ -596,12 +620,14 @@
     const get_province = (id = null) => {
         return new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_provice') }}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let result = data.data
                     $("#province_id").empty()
                     let html = `<option value="" selected disabled>== Pilih Povinsi ==</option>`
                     $.each(result, (id_elemnt, el) => {
-                        if(el.province_id == id) {
+                        if (el.province_id == id) {
                             html += `<option value="${el.province_id}" selected>${el.name}</option>`
                         } else {
                             html += `<option value="${el.province_id}">${el.name}</option>`
@@ -622,12 +648,14 @@
     const get_city = (id, id_city = null) => {
         return new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_city') }}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let result = data.data
                     $("#city_id").empty()
                     let html = `<option value="" selected disabled>== Pilih Kota ==</option>`
                     $.each(result, (id, el) => {
-                        if(el.city_id == id_city) {
+                        if (el.city_id == id_city) {
                             html += `<option value="${el.city_id}" selected>${el.name} - ${el.type}</option>`
                         } else {
                             html += `<option value="${el.city_id}">${el.name} - ${el.type}</option>`
@@ -647,12 +675,14 @@
     const get_subdistrict = (id, id_subdistrict_old) => {
         return new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_subdistict') }}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let result = data.data
                     $("#subdistricts_id").empty()
                     let html = `<option value="" selected disabled>== Pilih Kecamatan ==</option>`
                     $.each(result, (id, el) => {
-                        if(el.subdistrict_id == id_subdistrict_old) {
+                        if (el.subdistrict_id == id_subdistrict_old) {
                             html += `<option value="${el.subdistrict_id}" selected>${el.subdistrict_name}</option>`
                         } else {
                             html += `<option value="${el.subdistrict_id}">${el.subdistrict_name}</option>`

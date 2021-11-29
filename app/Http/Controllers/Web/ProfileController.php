@@ -36,6 +36,18 @@ class ProfileController extends Controller
         $last_upgrade = Carbon::make($user->last_upgrade);
         $monthDiffFromLastUpgrade = $last_upgrade->diffInMonths(Carbon::now());
         $user_updated_at = $last_upgrade->year;
+
+        $orders = [];
+        $stock_total = 0;
+        if ($user->orders) {
+            $orders = $user->orders->where('status', 4)->get();
+        }
+        if ($user->stock) {
+            $stocks = $user->stock->where('stock','>', 0);
+            foreach ($stocks as $key => $stock) {
+                $stock_total+=$stock->stock;
+            }
+        }
         // $status_request = RequestUpgrade::where('user_id', $user->id)->where('status', 1)->first();
         if ($role == 'distributor') {
             $minimal_transaction = $user_updated_at > 2019 ?
@@ -50,7 +62,7 @@ class ProfileController extends Controller
         $check = $this->checkOrderRequirements($d, $minimal_transaction);
         $checkMitraRequirement = count($check["checkMitraRequirement"]) >= 6 ? true : false;
         $monthly_transaction = $check["newData"];
-        return view('pages.pengaturan.profile.index', compact('user', 'monthly_transaction','month','checkMitraRequirement', 'monthDiffFromLastUpgrade', 'minimal_transaction'));
+        return view('pages.pengaturan.profile.index', compact('user', 'monthly_transaction','month','checkMitraRequirement', 'monthDiffFromLastUpgrade', 'minimal_transaction', 'orders', 'stock_total'));
     }
 
     public function update(UpdateProfileRequest $request) {

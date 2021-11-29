@@ -12,8 +12,7 @@
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
-                            value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary"><i class="fas fa-search"></i>Cari</button>
                         </div>
@@ -181,43 +180,47 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
-    <style>
-        button:disabled {
-            cursor: not-allowed;
-            pointer-events: all !important;
-        }
-        ul.timeline {
-            list-style-type: none;
-            position: relative;
-        }
-        ul.timeline:before {
-            content: ' ';
-            background: #d4d9df;
-            display: inline-block;
-            position: absolute;
-            left: 29px;
-            width: 2px;
-            height: 100%;
-            z-index: 400;
-        }
-        ul.timeline > li {
-            margin: 20px 0;
-            padding-left: 20px;
-        }
-        ul.timeline > li:before {
-            content: ' ';
-            background: white;
-            display: inline-block;
-            position: absolute;
-            border-radius: 50%;
-            border: 3px solid #22c0e8;
-            left: 20px;
-            width: 20px;
-            height: 20px;
-            z-index: 400;
-        }
-    </style>
+<link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+<style>
+    button:disabled {
+        cursor: not-allowed;
+        pointer-events: all !important;
+    }
+
+    ul.timeline {
+        list-style-type: none;
+        position: relative;
+    }
+
+    ul.timeline:before {
+        content: ' ';
+        background: #d4d9df;
+        display: inline-block;
+        position: absolute;
+        left: 29px;
+        width: 2px;
+        height: 100%;
+        z-index: 400;
+    }
+
+    ul.timeline>li {
+        margin: 20px 0;
+        padding-left: 20px;
+    }
+
+    ul.timeline>li:before {
+        content: ' ';
+        background: white;
+        display: inline-block;
+        position: absolute;
+        border-radius: 50%;
+        border: 3px solid #22c0e8;
+        left: 20px;
+        width: 20px;
+        height: 20px;
+        z-index: 400;
+    }
+</style>
 @endsection
 
 @section('js')
@@ -255,7 +258,7 @@
             e.preventDefault()
             let serializedData = $("#formTambah").serialize()
 
-            if(!$('input[name="cost"]:checked').val()) {
+            if (!$('input[name="cost"]:checked').val()) {
                 return $swal.fire({
                     icon: 'error',
                     title: "Gagal",
@@ -265,7 +268,9 @@
 
             new Promise((resolve, reject) => {
                 $axios.post(`{{ route('transaction.store') }}`, serializedData)
-                    .then(({data}) => {
+                    .then(({
+                        data
+                    }) => {
                         $('#modal_tambah').modal('hide')
                         refresh_get_category()
                         refresh_table(URL_NOW)
@@ -281,8 +286,8 @@
             })
         })
 
-        $(".qty").keydown(function(e){
-            if(((e.keyCode < 48) || (e.keyCode > 57))&& e.keyCode != 8){
+        $(".qty").keydown(function(e) {
+            if (((e.keyCode < 48) || (e.keyCode > 57)) && e.keyCode != 8) {
                 e.preventDefault()
             }
         })
@@ -293,12 +298,18 @@
         $("#btn-simpan").attr('disabled', 'disabled')
 
         new Promise((resolve, reject) => {
-            $axios.post(`{{ route('api.check_home') }}`, {api_token:`{{ auth()->user()->api_token }}`})
+            $axios.post(`{{ route('api.check_home') }}`, {
+                    api_token: `{{ auth()->user()->api_token }}`
+                })
                 .catch(err => {
                     $swal.fire({
                         icon: 'error',
                         title: err.response.data.message.head,
                         text: err.response.data.message.body,
+                    }).then((res) => {
+                        if (res.isConfirmed) {
+                            window.location.replace('/dashboard/pengaturan/profile');
+                        }
                     })
                     $("#btnTambah").attr('disabled', 'disabled')
                 })
@@ -306,7 +317,9 @@
 
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_courier') }}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let html = `<option selected disabled value="">== Pilih Kurir ==</option>`
                     $.each(data, (i, e) => {
                         html += `<option value="${e}">${e}</option>`
@@ -317,7 +330,7 @@
 
         $("#btn-courier").on('click', () => {
             let local_weight = $("#inputWeight").val()
-            if(local_weight <= 0) {
+            if (local_weight <= 0) {
                 return $swal.fire({
                     icon: 'error',
                     title: "Gagal",
@@ -326,7 +339,7 @@
             }
 
             let courier = $("#courier").val()
-            if(!courier) {
+            if (!courier) {
                 return $swal.fire({
                     icon: 'error',
                     title: "Gagal",
@@ -336,43 +349,45 @@
             loading('show', $("#btn-courier"))
             new Promise((resolve, reject) => {
                 $axios.post(`{{ route('api.get_ongkir') }}`, {
-                    'api_token': `{{ auth()->user()->api_token }}`,
-                    'origin': `{{ $upper_origin['subdistrict'] ?? '' }}`,
-                    'destination': `{{ auth()->user()->member->subdistrict_id ?? '' }}`,
-                    'weight': local_weight,
-                    'courier': courier
-                })
-                .then(({data}) => {
-                    if(data.status.code == 200) {
-                        let result = data.results
-                        let cost = result[0].costs
-                        let html = ``
-                        $.each(cost, (i, e) => {
-                            let teks = e.service
-                            html += `<div class="custom-control custom-radio">
+                        'api_token': `{{ auth()->user()->api_token }}`,
+                        'origin': `{{ $upper_origin['subdistrict'] ?? '' }}`,
+                        'destination': `{{ auth()->user()->member->subdistrict_id ?? '' }}`,
+                        'weight': local_weight,
+                        'courier': courier
+                    })
+                    .then(({
+                        data
+                    }) => {
+                        if (data.status.code == 200) {
+                            let result = data.results
+                            let cost = result[0].costs
+                            let html = ``
+                            $.each(cost, (i, e) => {
+                                let teks = e.service
+                                html += `<div class="custom-control custom-radio">
                                         <input type="radio" id="radius-${i}" name="cost" class="custom-control-input" value="${e.cost[0].value}">
                                         <label class="custom-control-label" for="radius-${i}">${teks} - Rp. ${(e.cost[0].value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} - ${e.cost[0].etd} Hari</label>
                                     </div>`
-                        })
-                        $("#fieldCourier").html(html)
-                        $("#btn-simpan").prop("disabled", false)
-                    } else {
+                            })
+                            $("#fieldCourier").html(html)
+                            $("#btn-simpan").prop("disabled", false)
+                        } else {
+                            $swal.fire({
+                                icon: 'error',
+                                title: "Ops",
+                                text: "Ops"
+                            })
+                        }
+                        loading('hide', $("#btn-courier"))
+                    })
+                    .catch(err => {
                         $swal.fire({
                             icon: 'error',
                             title: "Ops",
                             text: "Ops"
                         })
-                    }
-                    loading('hide', $("#btn-courier"))
-                })
-                .catch(err => {
-                    $swal.fire({
-                        icon: 'error',
-                        title: "Ops",
-                        text: "Ops"
+                        loading('hide', $("#btn-courier"))
                     })
-                    loading('hide', $("#btn-courier"))
-                })
             })
         })
 
@@ -382,7 +397,9 @@
                 let url = `{{ route('transaction.set_resi', ['id' => ":id"]) }}`
                 url = url.replace(':id', $("#fieldIdUpdateResi").val())
                 $axios.post(`${url}`, $("#form-update-resi").serialize())
-                    .then(({data}) => {
+                    .then(({
+                        data
+                    }) => {
                         $swal.fire({
                             icon: 'success',
                             title: data.message.head,
@@ -397,13 +414,15 @@
     const editData = id => {
         new Promise((resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let category = data.data
                     type = 'UPDATE'
                     $("#formTambah")[0].reset()
                     $("#inputID").val(category.id)
                     $("#modalTitle").html('Update Kategori')
-                    if(category.parent_id) $("#selectSubKategori").val(category.parent_id)
+                    if (category.parent_id) $("#selectSubKategori").val(category.parent_id)
                     $("#inputName").val(category.name)
                     $('#modal_tambah').modal('show')
                 })
@@ -433,7 +452,9 @@
                 if (result.isConfirmed) {
                     new Promise((resolve, reject) => {
                         $axios.delete(`${URL_NOW}/${id}`)
-                            .then(({data}) => {
+                            .then(({
+                                data
+                            }) => {
                                 $swal.fire({
                                     icon: 'success',
                                     title: data.message.head,
@@ -457,7 +478,9 @@
     const refresh_get_category = () => {
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_category') }}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let option = '<option value="">== Kosongkan Sub Kategori ==</option>'
                     $.each(data.data, (i, e) => {
                         option += `<option value="${e.id}">${e.name}</option>`
@@ -478,10 +501,10 @@
         let total = parseInt($(`#total-${id}`).val())
         let price = parseInt($(`#field-price-${id}`).data('price'))
         let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
-        if(total > 0) {
+        if (total > 0) {
             let new_total = total - 1
             $(`#total-${id}`).val(new_total)
-            let html = (new_total*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+            let html = (new_total * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
             $(`#field-total-${id}`).html(`Rp. ${html}`)
             let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
             weight -= prod_weight
@@ -494,7 +517,7 @@
         let price = parseInt($(`#field-price-${id}`).data('price'))
         let new_total = total + 1
         $(`#total-${id}`).val(new_total)
-        let html = (new_total*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+        let html = (new_total * price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
         $(`#field-total-${id}`).html(`Rp. ${html}`)
         let prod_weight = parseInt($(`#field-price-${id}`).data('weight'))
         weight -= prod_weight * (new_total - 1)
@@ -504,176 +527,188 @@
 
     const kemas = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Ingin mengemas order ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', DIKEMAS)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        $swal.fire({
-                            icon: 'success',
-                            title: data.message.head,
-                            text: data.message.body,
+                title: 'Yakin?',
+                text: "Ingin mengemas order ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', DIKEMAS)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            $swal.fire({
+                                icon: 'success',
+                                title: data.message.head,
+                                text: data.message.body,
+                            })
+                            refresh_table(URL_NOW)
                         })
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                }
+            })
     }
 
     const tolak = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Ingin menolak order ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', DITOLAK)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        $swal.fire({
-                            icon: 'success',
-                            title: data.message.head,
-                            text: data.message.body,
+                title: 'Yakin?',
+                text: "Ingin menolak order ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', DITOLAK)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            $swal.fire({
+                                icon: 'success',
+                                title: data.message.head,
+                                text: data.message.body,
+                            })
+                            refresh_table(URL_NOW)
                         })
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                }
+            })
     }
 
     const batalkan = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Ingin membatalkan order ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', BATAL)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        $swal.fire({
-                            icon: 'success',
-                            title: data.message.head,
-                            text: data.message.body,
+                title: 'Yakin?',
+                text: "Ingin membatalkan order ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', BATAL)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            $swal.fire({
+                                icon: 'success',
+                                title: data.message.head,
+                                text: data.message.body,
+                            })
+                            refresh_table(URL_NOW)
                         })
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                }
+            })
     }
 
     const kirim = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Ingin mengirim order ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', DIKIRIM)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        $swal.fire({
-                            icon: 'success',
-                            title: data.message.head,
-                            text: data.message.body,
+                title: 'Yakin?',
+                text: "Ingin mengirim order ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', DIKIRIM)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            $swal.fire({
+                                icon: 'success',
+                                title: data.message.head,
+                                text: data.message.body,
+                            })
+                            refresh_table(URL_NOW)
                         })
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                }
+            })
     }
 
     const barang_diterima = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Barang sudah diterima ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', DITERIMA)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        $swal.fire({
-                            icon: 'success',
-                            title: data.message.head,
-                            text: data.message.body,
+                title: 'Yakin?',
+                text: "Barang sudah diterima ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', DITERIMA)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            $swal.fire({
+                                icon: 'success',
+                                title: data.message.head,
+                                text: data.message.body,
+                            })
+                            refresh_table(URL_NOW)
                         })
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                }
+            })
     }
 
     const selesai = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Order telah selesai!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
-                url = url.replace(':id', id)
-                url = url.replace(':status', SELESAI)
-                $axios.patch(`${url}`)
-                    .then(({data}) => {
-                        $swal.fire({
-                            icon: 'success',
-                            title: data.message.head,
-                            text: data.message.body,
+                title: 'Yakin?',
+                text: "Order telah selesai!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    let url = `{{ route('transaction.set_status', ['id' => ':id', 'status' => ':status']) }}`
+                    url = url.replace(':id', id)
+                    url = url.replace(':status', SELESAI)
+                    $axios.patch(`${url}`)
+                        .then(({
+                            data
+                        }) => {
+                            $swal.fire({
+                                icon: 'success',
+                                title: data.message.head,
+                                text: data.message.body,
+                            })
+                            refresh_table(URL_NOW)
                         })
-                        refresh_table(URL_NOW)
-                    })
-            }
-        })
+                }
+            })
     }
 
     const set_resi = id => {
@@ -681,7 +716,9 @@
             let url = `{{ route('transaction.show_resi', ['id' => ':id']) }}`
             url = url.replace(':id', id)
             $axios.get(`${url}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     $("#fieldCourierUpdate").val(data.data.shipping)
                     $("#fieldIdUpdateResi").val(data.data.id)
                     $("#fieldResiUpdate").val(data.data.waybill)
@@ -695,23 +732,25 @@
             let url = `{{ route('transaction.show', ['transaction' => ':id']) }}`
             url = url.replace(':id', id)
             $axios.get(`${url}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     $("#fieldInvoice").html(data.data.invoice)
                     let status = data.data.status
                     let textStatus = ''
-                    if(status == 0) {
+                    if (status == 0) {
                         textStatus = 'Pending'
-                    } else if(status == 1) {
+                    } else if (status == 1) {
                         textStatus = 'Dikemas'
-                    } else if(status == 2) {
+                    } else if (status == 2) {
                         textStatus = 'Dikirim'
-                    } else if(status == 3) {
+                    } else if (status == 3) {
                         textStatus = 'Diterima'
-                    } else if(status == 4) {
+                    } else if (status == 4) {
                         textStatus = 'Selesai'
-                    } else if(status == 5) {
+                    } else if (status == 5) {
                         textStatus = 'Ditolek'
-                    } else if(status == 6) {
+                    } else if (status == 6) {
                         textStatus = 'Batal'
                     }
                     $("#fieldStatus").html(textStatus)
@@ -733,7 +772,7 @@
                     })
                     $("#fieldDaftarProduk").html(html)
 
-                    if(data.data.waybill) {
+                    if (data.data.waybill) {
                         $("#checkKirim").show()
                         $("#fieldAlamat").html(data.data.user.member.address)
                         $("#fieldProvinsi").html(data.data.user.member.city.province)
@@ -745,15 +784,21 @@
                     } else {
                         $("#checkKirim").hide()
                     }
-                    if(data.data.waybill) {
+                    if (data.data.waybill) {
                         lacak_resi(data.data.shipping, data.data.waybill)
                             .then(() => {
                                 $("#modal-detail").modal('show')
-                                loading('hide', $("#table_data"), {image: '', text: 'Loading....'})
+                                loading('hide', $("#table_data"), {
+                                    image: '',
+                                    text: 'Loading....'
+                                })
                             })
                     } else {
                         $("#modal-detail").modal('show')
-                        loading('hide', $("#table_data"), {image: '', text: 'Loading....'})
+                        loading('hide', $("#table_data"), {
+                            image: '',
+                            text: 'Loading....'
+                        })
                     }
                 })
         })
@@ -762,10 +807,12 @@
     const lacak_resi = (kurir, resi) => {
         return new Promise((resolve, reject) => {
             $axios.post(`{{ route('api.lacak_ongkir') }}`, {
-                'waybill': resi,
-                'courier': kurir
-            })
-                .then(({data}) => {
+                    'waybill': resi,
+                    'courier': kurir
+                })
+                .then(({
+                    data
+                }) => {
                     let lacak = data['result']['manifest']
                     let html = ``
                     $.each(lacak, (index, element) => {
