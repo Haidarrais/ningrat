@@ -281,10 +281,10 @@ class TransactionController extends Controller
         $items = [];
         foreach ($detailOrder as $key => $value) {
             # code...
-            $data = (new InvoiceItem())->title($detailOrder->stock->product->name)->pricePerUnit($detailOrder->stock->product->price);
+            // $data = (new InvoiceItem())->title($detailOrder->stock->product->name)->pricePerUnit($detailOrder->stock->product->price);
             array_push($items, $data);
         }
-        dd($orders);
+        dd($detailOrder);
 
         $notes = [
             'your multiline',
