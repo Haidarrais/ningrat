@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Support\Arr;
 
@@ -43,9 +44,13 @@ class ProfileController extends Controller
             $orders = $user->orders->where('status', 4)->get();
         }
         if ($user->stock) {
-            $stocks = $user->stock->where('stock','>', 0);
-            foreach ($stocks as $key => $stock) {
-                $stock_total+=$stock->stock;
+            if ($role == "superadmin") {
+                $stock_total = "999+";
+            }else{
+                $stocks = $user->stock->where('stock','>', 0);
+                foreach ($stocks as $key => $stock) {
+                    $stock_total+=$stock->stock;
+                }
             }
         }
         // $status_request = RequestUpgrade::where('user_id', $user->id)->where('status', 1)->first();
