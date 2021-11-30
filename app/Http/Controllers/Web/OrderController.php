@@ -266,7 +266,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::with(['user.member.city.province', 'details.product.picture'])->find($id);
+        $order = Order::with(['user.member.city.province', 'details.product.picture', 'details.product.category'])->find($id);
         return response()->json([
             'status' => true,
             'data' => $order

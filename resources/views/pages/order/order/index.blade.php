@@ -576,6 +576,8 @@
                 .then(({
                     data
                 }) => {
+                    console.log(data);
+                    let order_data = data.data;
                     $("#fieldInvoice").html(data.data.invoice)
                     let status = data.data.status
                     let textStatus = ''
@@ -600,26 +602,60 @@
                     let url_asset = `{{ asset('/upload/product') }}`
                     html = ``
                     $.each(data.data.details, (index, element) => {
-                        let total_harga = parseInt(element.price) * parseInt(element.qty)
-                        html += `<div class="col-md-6">
+                        let total_harga = parseInt(element.product.price) * parseInt(element.qty)
+                        html += `<div class="col-md-6 border-bottom mb-4">
                                     <img src="${url_asset}/${element.product.picture[0]?.image}" alt="gambar" class="img-fluid img-thumnail w-20" class="float-left">
                                     <div class="d-flex justify-between">
                                     <p>${element.product.name}</p>
                                     </div>
-                                    <p>${element.qty} Produk (${element.product.weight}) x Rp ${element.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
-                                </div>
+                                    <p >${element.qty} Produk x Rp ${element.product.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
+                                </div>                              
+                    
                                 <div class="col-md-6" style="border-left: 1px solid gray;">
                                 <div>
-                                <p><strong>Harga Barang</strong></p>
+                                <p><strong>Total Harga</strong></p>
                                 <p>Rp. ${total_harga.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
                                 </div>
-                                <div>
-                                  <p><strong>Total Berat Barang</strong></p>
-                                     <p>${element.qty * element.product.weight} Kg</p>
-                                     </div>
                                 </div>
                                 `
                     })
+                    let after_discount = order_data.subtotal * (order_data.discount / 100);
+                    let end_total = order_data.subtotal - (order_data.subtotal * order_data.discount / 100) + (parseInt(order_data.cost) - order_data.subsidy_cost);
+                    html += `<div class="col-md-12">
+                    <hr></div>
+                    <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                    <p><strong>Sub Total :</strong></p>
+                   <p>Rp. ${order_data.subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
+                    </div>
+                    </div>
+                    <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                    <p><strong>Discount :</strong></p>
+                   <p>- Rp. ${after_discount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} (${order_data.discount}%)</p>
+                    </div>
+                    </div>
+                    <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                    <p><strong>Ongkir :</strong></p>
+                   <p>+ Rp. ${parseInt(order_data.cost).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} </p>
+                    </div>
+                    </div>
+                                <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                    <p><strong>Subsidi Ongkir :</strong></p>
+                   <p>- Rp. ${parseInt(order_data.subsidy_cost).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} </p>
+                    </div>
+                    </div>
+                    <div class="col-md-12">
+                    <hr></div>
+                     <div class="col-md-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                    <p><strong>Total :</strong></p>
+                   <p> Rp. ${end_total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')} </p>
+                    </div>
+                    </div>`
+
                     $("#fieldDaftarProduk").html(html)
 
                     if (data.data.waybill) {
