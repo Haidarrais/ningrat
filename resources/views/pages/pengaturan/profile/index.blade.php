@@ -27,7 +27,6 @@
                         <div class="slash"></div> {{ ucfirst($user->getRoleNames()->first()??'') }}
                     </div>
                 </div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, deserunt.
                 <a href="{{ route('users.hirarki', base64_encode($user->api_token)) }}" class="btn btn-block btn-primary">Hirarki</a>
             </div>
             @php $upgrade = [] @endphp
