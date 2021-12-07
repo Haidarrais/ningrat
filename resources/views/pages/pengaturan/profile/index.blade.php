@@ -13,7 +13,7 @@
                     </div>
                     <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Total Hirarki</div>
-                        <div class="profile-widget-item-value">{{count_hierarki}}</div>
+                        <div class="profile-widget-item-value">{{$count_hierarki}}</div>
                     </div>
                     <div class="profile-widget-item">
                         <div class="profile-widget-item-label">Order Selesai</div>
