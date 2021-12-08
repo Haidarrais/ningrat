@@ -194,7 +194,7 @@
                                                                 <td>Rp. {{number_format($transaction->subtotal)}}</td>
                                                                 <td>
                                                                     <a href="{{ route('detail.order'. Auth::user()->getRoleNames()[0], ['transaction'=>$transaction->id])}}" class="check-btn sqr-btn btn btn-success">Detail</a>
-                                                                    <a href="{{ route('print.invoice', ['id'=>$transaction->id]}}" class="check-btn sqr-btn btn btn-success">Print Invoice</a>
+                                                                    <a href="{{ route('print.invoice', ['id'=>$transaction->id])}}" class="check-btn sqr-btn btn btn-success">Print Invoice</a>
                                                                     @if ($transaction->status == 0)
                                                                     <a href="https://wa.me/{{$transaction->seller->member->phone_number}}?text={{$transaction->invoice}} dengan total pembayaran {{$transaction->subtotal}}" class="check-btn sqr-btn btn btn-warning">Bayar</a>
                                                                     @elseif ($transaction->status == 1)
