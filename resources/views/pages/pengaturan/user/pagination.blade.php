@@ -3,6 +3,7 @@
         <tr class="text-center">
             <th scope="col">#</th>
             <th scope="col">Nama</th>
+            <th scope="col">Role</th>
             <th scope="col">Email</th>
             <th scope="col">Status</th>
             <th scope="col">Aksi</th>
@@ -13,6 +14,7 @@
             <tr class="text-center">
                 <th scope="row">{{ ($users->currentpage()-1) * $users->perpage() + $loop->index + 1 }}</th>
                 <td>{{ $value->name??'' }}</td>
+                <td>{{ $value->role_name??'' }}</td>
                 <td>{{ $value->email??'' }}</td>
                 <td>
                     @if ($value->status)
