@@ -53,7 +53,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['total_point'];
+    protected $appends = ['total_point', 'role_name'];
 
     /**
      * The "booting" method of the model.
@@ -72,6 +72,10 @@ class User extends Authenticatable
     // Hash secara default (Jadi tidak perlu hash di controller)
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function getRoleNameAttribute() {
+        return $this->roles()->first()->name;
     }
 
     public function hirarki() {

@@ -29,9 +29,13 @@ class UserController extends Controller
         $query->when('keyword', function($sub) use($request) {
             $keyword = $request->keyword;
             $sub->where(function($q) use($keyword){
-                $q->where('name', 'LIKE', "%$keyword%")
+                $q->whereHas('roles', function($o) use($keyword){
+                    $o->where('name', 'LIKE', "%$keyword%");
+                })
+                ->orwhere('name', 'LIKE', "%$keyword%")
                 ->orWhere('email', 'LIKE', "%$keyword%");
             });
+
         });
         if($user->getRoleNames()->first() != 'superadmin') {
             $query->where(function($sub) use($user) {
