@@ -4,6 +4,7 @@
             <th scope="col">#</th>
             <th scope="col">Nama</th>
             <th scope="col">Role</th>
+            <th scope="col">Data</th>
             <th scope="col">Email</th>
             <th scope="col">Status</th>
             <th scope="col">Aksi</th>
@@ -15,6 +16,14 @@
                 <th scope="row">{{ ($users->currentpage()-1) * $users->perpage() + $loop->index + 1 }}</th>
                 <td>{{ $value->name??'' }}</td>
                 <td>{{ $value->role_name??'' }}</td>
+                <td class="text-left">
+                    Provinsi : {{ $value->member->city->province->name??'' }}<br>
+                    Kota : {{ $value->member->city->name??'' }}<br>
+                    Kecamatan : {{ $value->member->subdistrict->subdistrict_name??'' }}<br>
+                    Alamat : {{ $value->member->address??'' }}<br>
+                    No. Telp. : {{ $value->member->phone_number??'' }}<br>
+                    No. WhatsApp : {{ $value->member->nowhatsapp??'' }}<br>
+                </td>
                 <td>{{ $value->email??'' }}</td>
                 <td>
                     @if ($value->status)
