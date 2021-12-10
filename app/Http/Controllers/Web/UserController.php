@@ -32,6 +32,20 @@ class UserController extends Controller
                 $q->whereHas('roles', function($o) use($keyword){
                     $o->where('name', 'LIKE', "%$keyword%");
                 })
+                ->orWhereHas('member', function($p) use($keyword){
+                    $p->whereHas('city',  function($q) use($keyword){
+                        $q->where('name', 'LIKE', "%$keyword%");
+                    })
+                    ->orWhereHas('city.province',  function($q) use($keyword){
+                        $q->where('name', 'LIKE', "%$keyword%");
+                    })
+                    ->orWhereHas('subdistrict',  function($q) use($keyword){
+                        $q->where('subdistrict_name', 'LIKE', "%$keyword%");
+                    })
+                    ->orwhere('address', 'LIKE', "%$keyword%")
+                    ->orwhere('nowhatsapp', 'LIKE', "%$keyword%")
+                    ->orwhere('phone_number', 'LIKE', "%$keyword%");
+                })
                 ->orwhere('name', 'LIKE', "%$keyword%")
                 ->orWhere('email', 'LIKE', "%$keyword%");
             });
