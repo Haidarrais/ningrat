@@ -147,6 +147,7 @@ class CheckoutReseller extends Component
             'member_phone' =>   $this->buyer_phone,
             'member_address' => $this->buyer_address,
             'subtotal' => $subtotal,
+            'discount' => $this->discount->discount ?? 0,
             'status' => 0,
             'royalty' => $royalty ?? 10
         ]);
