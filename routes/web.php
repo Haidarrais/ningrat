@@ -32,7 +32,7 @@ Route::get('/cetak/invoice/{id}', [TransactionController::class, 'printInvoice']
 Route::resource('review', ReviewController::class)->middleware('auth');
 Route::group(['prefix' => 'reseller','middleware' => ['role:reseller','auth','active']], function() {
     Route::get('/shop/{name}-{id}', ShopComponent::class)->name('member.shopr');
-    Route::get('/member', MemberComponent::class)->name('member.showr');
+    Route::get('/seller', MemberComponent::class)->name('member.showr');
     Route::get('/shop/categories/{id}', CategoryComponent::class)->name('product.category');
     Route::get('/shop/adprod/{$id}', [ShopComponent::class, 'store']);
     Route::get('/checkout', CheckoutReseller::class)->name('checkout.reseller');
@@ -45,7 +45,7 @@ Route::group(['prefix' => 'reseller','middleware' => ['role:reseller','auth','ac
 Route::get('/', HomeComponent::class)->name('home.page');
 Route::group(['prefix' => 'customer','middleware' => ['role:customer','auth','active']], function() {
     Route::get('/shop/{name}-{id}', ShopComponent::class)->name('member.shopc');
-    Route::get('/member', MemberComponent::class)->name('member.showc');
+    Route::get('/seller', MemberComponent::class)->name('member.showc');
     Route::get('/shop/categories/{id}', CategoryComponent::class)->name('product.category');
     Route::get('/shop/adprod/{$id}', [ShopComponent::class, 'store']);
     Route::get('/checkout', CheckoutComponent::class)->name('checkout.customer');
