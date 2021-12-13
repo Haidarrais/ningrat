@@ -125,7 +125,7 @@ class CheckoutComponent extends Component
             'subtotal' => $subtotal,
             'shipping' => $this->courier,
             'cost' => $this->ongkir,
-            'discount' => $this->discount->discount,
+            'discount' => $this->discount->discount ?? 0,
             'status' => 0
         ]);
         foreach (Cart::content() as $cart) {
