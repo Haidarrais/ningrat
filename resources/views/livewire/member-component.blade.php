@@ -3,11 +3,11 @@
     <!-- Breadcrumb Area Start -->
     <div class="breadcrumb-area bg-12 text-center">
         <div class="container">
-            <h1>Member</h1>
+            <h1>Seller</h1>
             <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Member</li>
+                    <li class="breadcrumb-item active" aria-current="page">Seller</li>
                 </ul>
             </nav>
         </div>
@@ -87,7 +87,7 @@
                                     </div>
                                     @empty
                                     <div class="w-100 justify-content-center">
-                                        <h4>Belum ada member di area anda</h4>
+                                        <h4>Belum ada seller di area anda</h4>
                                     </div>
                                 @endforelse
                             </div>
