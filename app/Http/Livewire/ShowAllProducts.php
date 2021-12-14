@@ -68,7 +68,6 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price')
                 ->groupBy('products.id')
                 ->where('category_id', $this->category)
-                ->where('user_id', $this->id_member)
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
@@ -79,7 +78,6 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'ASC')
                 ->groupBy('products.id')
                 ->where('category_id', $this->category)
-                ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -89,7 +87,6 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'DESC')
                 ->groupBy('products.id')
                 ->where('category_id', $this->category)
-                ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -98,7 +95,6 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price')
                 ->groupBy('products.id')
                 ->where('category_id', $this->category)
-                ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -107,7 +103,6 @@ class ShowAllProducts extends Component
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
                 ->groupBy('products.id')
-                ->where('user_id', $this->id_member)
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
@@ -117,7 +112,6 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'ASC')
                 ->groupBy('products.id')
-                ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -126,7 +120,6 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'DESC')
                 ->groupBy('products.id')
-                ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -134,7 +127,6 @@ class ShowAllProducts extends Component
                 $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
                 ->groupBy('products.id')
-                ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
