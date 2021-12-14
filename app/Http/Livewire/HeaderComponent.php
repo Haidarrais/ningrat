@@ -29,6 +29,8 @@ class HeaderComponent extends Component
             return view('livewire.header-component', ['role' => $role]);
         }elseif (Request::route()->getName() == 'profile.lacak') {
             return view('livewire.header-component', ['role' => $role]);
+        }elseif (Request::route()->getName() == 'show.prod.all') {
+            return view('livewire.header-component', ['role' => $role]);
         }else{
             return view('livewire.headerwithcart-component', ['role' => $role]);
         }
