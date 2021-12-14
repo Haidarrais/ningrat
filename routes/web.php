@@ -14,6 +14,7 @@ use App\Http\Livewire\SaveProfile;
 use App\Http\Livewire\ShopComponent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\DetailOrderComponent;
+use App\Http\Livewire\ShowAllProducts;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 Route::get('/', HomeComponent::class)->name('home.page');
+Route::get('/all-product', ShowAllProducts::class)->name('show.prod.all');
 Route::get('/pictures/{id}', [ProductController::class, 'pictureShow'])->middleware('auth')->name('picture.show');
 Route::get('/cetak/invoice/{id}', [TransactionController::class, 'printInvoice'])->middleware('auth')->name('print.invoice');
 Route::resource('review', ReviewController::class)->middleware('auth');
