@@ -77,7 +77,7 @@
                                                         </li>
                                                         <li><a onclick="setIndex({{$stock->product_id}})"><i class="icon icon-Search"></i></a></li>
                                                     </ul>
-                                                    <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                                    {{-- <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a> --}}
                                                 </div>
                                             </div>
                                             <div class="product-text p-2">
@@ -88,7 +88,7 @@
                                                     <i class="fa fa-star-o"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </div> --}}
-                                                <h6><a>Stok tersisa : {{$stock->stock}}</a></h6>
+                                                <h6><a>login terlebih dahulu</a></h6>
                                                 <blockquote class="blockquote">
                                                     <h5 class="mb-0"><a>{{$stock->product->name}}</a></h5>
                                                     <footer class="blockquote-footer small text-primary">Varian : {{$stock->product->variant->subVariant->name ?? "unset"}} <span class="text-secondary">{{$stock->product->variant->name ?? "unset"}}</span></footer>
@@ -136,7 +136,7 @@
                                         </div>
                                     </div>
                                     <div class="product-text p-2">
-                                        <h6><a>Stok tersisa : {{$stock->stock}}</a></h6>
+                                        <h6><a>login terlebih dahulu</a></h6>
                                         <h5><a>{{$stock->product->name}}</a></h5>
                                         {{-- <div class="product-rating">
                                             <i class="fa fa-star-o color"></i>
@@ -154,7 +154,7 @@
                                             @endif
                                         </div>
                                         <p>{{$stock->description}}</p>
-                                        <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a>
+                                        {{-- <a type="button" href="#" class="p-cart-btn default-btn" wire:click="store({{$stock->id}}, '{{$stock->product->name}}' , {{$price}})">Add to cart</a> --}}
                                     </div>
                                 </div>
                             @endforeach
@@ -278,7 +278,7 @@
                                     <h3 class="q-product-price" id="m-product-price"></span></h3>
                                 <p id="m-product-desc"></p>
                                 <div class="input-cart" id="m-product-cart">
-                                    <a type="button" href="#" class="p-cart-btn default-btn">Add to cart</a>
+                                    {{-- <a type="button" href="#" class="p-cart-btn default-btn">Add to cart</a> --}}
                                 </div>
                             </div>
                         </div>
@@ -332,7 +332,7 @@
                     $('#m-product-name').html(data.stock.product.name)
                     $('#m-product-price').html(data.stock.product.price)
                     $('#m-product-desc').html(data.stock.product.description)
-                    $('#m-product-cart').html(`<a type="button" href="#" class="p-cart-btn default-btn" wire:click="store(${data.stock.id}, '${data.stock.product.name}' , ${data.stock.product.price})">Add to cart</a>`)
+                    // $('#m-product-cart').html(`<a type="button" href="#" class="p-cart-btn default-btn" wire:click="store(${data.stock.id}, '${data.stock.product.name}' , ${data.stock.product.price})">Add to cart</a>`)
                     $('#myTabList').html(htmlL)
                     $('#myTabContent').html(htmlC)
 
