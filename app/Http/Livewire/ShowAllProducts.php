@@ -132,7 +132,7 @@ class ShowAllProducts extends Component
             }
         }
         if (count($stocks) < 1) {
-            $this->alert('info', 'Stok produk pada kategori ini belum tersedia', [
+            $this->alert('info', 'Produk pada kategori ini belum tersedia', [
                 'position' =>  'center',
                 'timer' =>  3000,
                 'toast' =>  true,
