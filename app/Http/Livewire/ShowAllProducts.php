@@ -64,9 +64,9 @@ class ShowAllProducts extends Component
     {
         if ($this->category) {
             if ($this->sorting=='date') {
-                $stocks = Stock::with('discount', 'product')->join('products', 'product_id', '=', 'products.id')
+                $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
-                ->groupBy('product')
+                ->groupBy('products.id')
                 ->where('category_id', $this->category)
                 ->where('user_id', $this->id_member)
                 ->orderBy('created_at', 'DESC')
@@ -74,29 +74,29 @@ class ShowAllProducts extends Component
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-asc') {
-                $stocks = Stock::with('discount', 'product')->join('products', 'product_id', '=', 'products.id')
+                $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'ASC')
-                ->groupBy('product')
+                ->groupBy('products.id')
                 ->where('category_id', $this->category)
                 ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-desc') {
-                $stocks = Stock::with('discount', 'product')->join('products', 'product_id', '=', 'products.id')
+                $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'DESC')
-                ->groupBy('product')
+                ->groupBy('products.id')
                 ->where('category_id', $this->category)
                 ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
             else{
-                $stocks = Stock::with('discount', 'product')->join('products', 'product_id', '=', 'products.id')
+                $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
-                ->groupBy('product')
+                ->groupBy('products.id')
                 ->where('category_id', $this->category)
                 ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
@@ -104,36 +104,36 @@ class ShowAllProducts extends Component
             }
         }else{
             if ($this->sorting=='date') {
-                $stocks = Stock::with('discount', 'product')->join('products', 'product_id', '=', 'products.id')
+                $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
-                ->groupBy('product')
+                ->groupBy('products.id')
                 ->where('user_id', $this->id_member)
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-asc') {
-                $stocks = Stock::with('discount', 'product')->join('products', 'product_id', '=', 'products.id')
+                $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'ASC')
-                ->groupBy('product')
+                ->groupBy('products.id')
                 ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-desc') {
-                $stocks = Stock::with('discount', 'product')->join('products', 'product_id', '=', 'products.id')
+                $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
                 ->orderBy('price', 'DESC')
-                ->groupBy('product')
+                ->groupBy('products.id')
                 ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
             else{
-                $stocks = Stock::with('discount', 'product')->join('products', 'product_id', '=', 'products.id')
+                $stocks = Stock::with('discount')->join('products', 'product_id', '=', 'products.id')
                 ->select('stocks.*', 'products.price')
-                ->groupBy('product')
+                ->groupBy('products.id')
                 ->where('user_id', $this->id_member)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
