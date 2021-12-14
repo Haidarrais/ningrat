@@ -25,11 +25,11 @@ class ShowAllProducts extends Component
         'cart:update' => '$refresh',
     ];
 
-    public function mount($id)
+    public function mount()
     {
         $this->sorting = "default";
         $this->pageSize = 6;
-        $this->id_member = $id;
+        // $this->id_member = $id;
         $this->min_price = 50;
         $this->max_price = 1000000;
     }
