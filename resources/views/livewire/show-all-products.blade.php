@@ -53,7 +53,7 @@
                             <div class="custom-row">
                                 @foreach ($stocks as $stock )
                                 @php
-                                    if ($stock->discount) {
+                                    if ($stock->discount && $stock->discount->discount!=0) {
                                         $priceold = $stock->product->price;
                                         $price = $stock->product->price-($stock->product->price*$stock->discount->discount/100);
                                     }else{
@@ -95,7 +95,7 @@
                                                 </blockquote>
                                                 <div class="pro-price">
 
-                                                    @if ($stock->discount)
+                                                    @if ($stock->discount  && $stock->discount->discount!=0)
                                                         <span class="old-price">Rp.{{ number_format($priceold) }}</span>
                                                         <span class="new-price">Rp.{{ number_format($price) }}</span>
                                                     @else
@@ -111,7 +111,7 @@
                         <div class="tab-pane fade text-left" id="list" role="tabpanel">
                             @foreach ($stocks as $stock )
                             @php
-                                if ($stock->discount) {
+                                if ($stock->discount && $stock->discount->discount!=0) {
                                     $priceold = $stock->product->price;
                                     $price = $stock->product->price-($stock->product->price*$stock->discount->discount/100);
                                 }else{
@@ -146,7 +146,7 @@
                                             <i class="fa fa-star-o"></i>
                                         </div> --}}
                                         <div class="pro-price">
-                                            @if ($stock->discount)
+                                            @if ($stock->discount && $stock->discount->discount!=0)
                                                 <span class="new-price">Rp.{{ number_format($price) }}<</span>
                                                 <span class="old-price">Rp.{{ number_format($priceold) }}</span>
                                             @else
