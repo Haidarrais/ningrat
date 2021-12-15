@@ -28,7 +28,7 @@
                     Facebook : {{ $value->member->facebook??'' }}<br>
                     Instagram : {{ $value->member->instagram??'' }}<br>
                     Marketplace : {{ $value->member->marketplace??'' }}<br>
-                    File Mou : <a href="{{asset('uploads/mou') . '/' . $value->member->mou??''}}"></a><br>
+                    File Mou : <a href="{{asset('uploads/mou')}}/{{$value->member->mou??''}}"></a><br>
                 </td>
                 <td>{{ $value->email??'' }}</td>
                 <td>
