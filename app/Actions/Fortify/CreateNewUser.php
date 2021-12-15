@@ -57,6 +57,7 @@ class CreateNewUser implements CreatesNewUsers
         $data = [
             'name' => $input['name'],
             'email' => $input['email'],
+            'last_upgrade' => $input['last_upgrade'] ?? null,
             'password' => $input['password'],
         ];
 

@@ -126,7 +126,11 @@
                                                         @elseif (auth()->user() && auth()->user()->isReseller())
                                                             <a href="{{route('member.showr')}}" class="p-cart-btn" title="Menuju halaman pilihan member">Go Shopping</a>
                                                         @elseif(!Auth::check())
-                                                            {{-- <a href="{{route('login')}}" class="p-cart-btn" title="Harap login terlebih dahulu">Login</a> --}}
+                                                            <ul class="hover-icon-list">
+                                                                <li>
+                                                                    <a href="{{route('login')}}" title="Harap login terlebih dahulu">Login</a>
+                                                                </li>
+                                                            </ul>
                                                             <a href="{{route('show.prod.all')}}" class="p-cart-btn" title="Lihat daftar produk">Lihat daftar produk</a>
                                                         @endif
                                                     </div>
