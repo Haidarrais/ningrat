@@ -4,7 +4,7 @@
             <th scope="col">#</th>
             <th scope="col">Nama</th>
             <th scope="col">Role</th>
-            <th scope="col">Data</th>
+            <th scope="col" colspan="2">Data</th>
             <th scope="col">Email</th>
             <th scope="col">Status</th>
             <th scope="col">Aksi</th>
@@ -23,6 +23,12 @@
                     Alamat : {{ $value->member->address??'' }}<br>
                     No. Telp. : {{ $value->member->phone_number??'' }}<br>
                     No. WhatsApp : {{ $value->member->nowhatsapp??'' }}<br>
+                </td>
+                <td class="text-left">
+                    Facebook : {{ $value->member->facebook??'' }}<br>
+                    Instagram : {{ $value->member->instagram??'' }}<br>
+                    Marketplace : {{ $value->member->marketplace??'' }}<br>
+                    File Mou : <a href="{{ $value->member->mou??'' }}"></a><br>
                 </td>
                 <td>{{ $value->email??'' }}</td>
                 <td>
