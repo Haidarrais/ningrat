@@ -90,7 +90,7 @@ class OrderController extends Controller
         $setting_role = "";
         if($role == 'superadmin') {
         } else if($role == 'distributor') {
-            $minimal_transaction = $user_updated_at > 2019 ?
+            $minimal_transaction = $user_updated_at > 2020 ?
                 Setting::where('role', 'new-distributor')->first()->minimal_transaction??0 :
                 Setting::where('role', 'old-distributor')->first()->minimal_transaction??0;
                  $discount_role_based= Setting::where('role', 'old-distributor')->first()->discount??0;
@@ -98,7 +98,7 @@ class OrderController extends Controller
             $products =
             $products = Stock::with(['product', 'user'])->where('user_id', 'pusat')->where('status', 1)->where('stock', '>', 0)->get()??[];
             // dd($products);
-            $setting_role = $user_updated_at > 2019? "new-distributor": "old-distributor";
+            $setting_role = $user_updated_at > 2020? "new-distributor": "old-distributor";
         } else {
             $setting_role = $role;
             $minimal_transaction = Setting::where('role', $role)->first()->minimal_transaction ?? 0;

@@ -57,13 +57,13 @@
                         <div class="form-check mt-2 d-none">
                             <input class="form-check-input" type="radio" name="distributorType" id="exampleRadios1" value="old" checked>
                             <label class="form-check-label" for="exampleRadios1">
-                                Distributor Lama(Terhitung 2019 ke bawah)
+                                Distributor Lama(Terhitung 2020 ke bawah)
                             </label>
                         </div>
                         <div class="form-check d-none">
                             <input class="form-check-input" type="radio" name="distributorType" id="exampleRadios2" value="new">
                             <label class="form-check-label" for="exampleRadios2">
-                                Distributor baru(Terhitung 2019 ke atas)
+                                Distributor baru(Terhitung 2020 ke atas)
                             </label>
                         </div>
                     </div>

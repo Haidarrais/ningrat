@@ -59,7 +59,7 @@ class ProfileController extends Controller
         }
         // $status_request = RequestUpgrade::where('user_id', $user->id)->where('status', 1)->first();
         if ($role == 'distributor') {
-            $minimal_transaction = $user_updated_at > 2019 ?
+            $minimal_transaction = $user_updated_at > 2020 ?
                 Setting::where('role', 'new-distributor')->first()->value ?? 0 :
                 Setting::where('role', 'old-distributor')->first()->value ?? 0;
         } else {
@@ -120,7 +120,7 @@ class ProfileController extends Controller
         $monthDiffFromLastUpgrade = $last_upgrade->diffInMonths(Carbon::now());
         $user_updated_at = $last_upgrade->year;
         if ($role == 'distributor') {
-            $minimal_transaction = $user_updated_at > 2019 ?
+            $minimal_transaction = $user_updated_at > 2020 ?
                 Setting::where('role', 'new-distributor')->first()->value ?? 0 :
                 Setting::where('role', 'old-distributor')->first()->value ?? 0;
         } else {

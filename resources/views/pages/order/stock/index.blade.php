@@ -69,7 +69,7 @@
                                                 <button type="button" class="btn btn-sm btn-primary" onclick="minus({{ $value->product_id }})"><i class="fas fa-minus"></i></button>
                                             </div>
                                             <div class="col-6">
-                                                <input name="qty[]" type="text" data-max="{{ $value->stock }}" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0" readonly>
+                                                <input name="qty[]" type="text" data-max="{{ $value->stock }}" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0">
                                             </div>
                                             <div class="col-3">
                                                 <button type="button" class="btn btn-sm btn-primary" onclick="plus({{ $value->product_id }})"><i class="fas fa-plus"></i></button>
@@ -153,7 +153,7 @@
                                 <input type="number" id="fieldEditStockProduct" type="number" name="stock" value="0" />
                             </td>
                             @else
-                            <td id="fieldEditStockProduct"></td>
+                            <td><input type="number" id="fieldEditStockProduct" type="number" name="stock" value="0" /></td>
                             @endrole
                         </tr>
                         <tr>
