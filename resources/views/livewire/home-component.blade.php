@@ -91,9 +91,9 @@
             <div class="container">
                 <div class="section-title text-center">
                     <div class="section-img d-flex justify-content-center">
-                        <img src="assets/img/icon/title.png" alt="">
+                        <img src="{{ asset('assets/img/logo/logo.png') }}" alt="">
                     </div>
-                    <h2><span>Organic </span>featured products</h2>
+                    <h2><span>Our </span>exclusive products</h2>
                 </div>
             </div>
             <div class="container">
