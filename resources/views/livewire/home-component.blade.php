@@ -128,7 +128,7 @@
                                                         @elseif(!Auth::check())
                                                             <ul class="hover-icon-list">
                                                                 <li>
-                                                                    <a href="{{route('login')}}" title="Harap login terlebih dahulu"><i class="fas fa-shopping-cart"></i></a>
+                                                                    <a href="{{route('login')}}" title="Harap login terlebih dahulu"><i class="icon icon-FullShoppingCart"></i></a>
                                                                 </li>
                                                             </ul>
                                                             <a href="{{route('show.prod.all')}}" class="p-cart-btn" title="Lihat daftar produk">Lihat daftar produk</a>
