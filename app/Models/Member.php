@@ -14,7 +14,12 @@ class Member extends Model
         'city_id',
         'subdistrict_id',
         'phone_number',
-        'address'
+        'address',
+        'mou',
+        'facebook',
+        'instagram',
+        'nowhatsapp',
+        'marketplace',
     ];
 
     public function reviewRows()
