@@ -27,7 +27,7 @@
         <div class="{{ $col }}">
             <select name="year" id="year" class="form-control mb-2" autocomplete="off">
                 @php
-                $end_year = date('Y') + 3
+                $end_year = \Carbon\Carbon::now()->year+1
                 @endphp
                 @for ($i = 2019; $i < $end_year; $i++) <option data-year="{{ $i }}" data-id="{{ $i }}" class="tahun" {{ date('Y') == $i ? 'selected' : '' }}>{{ $i }}</option>
                     @endfor
@@ -151,7 +151,7 @@
                     <div class="col-6">
                         <select name="year" id="rankYar" class="form-control mb-2" autocomplete="off">
                             @php
-                            $end_year = date('Y') + 3
+                            $end_year = \Carbon\Carbon::now()->year+1
                             @endphp
                             @for ($i = 2019; $i < $end_year; $i++) <option data-year="{{ $i }}" data-id="{{ $i }}" class="tahun" {{ date('Y') == $i ? 'selected' : '' }}>{{ $i }}</option>
                                 @endfor

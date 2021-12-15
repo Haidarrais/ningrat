@@ -48,7 +48,7 @@ class UserMaintenanceController extends Controller
             $user_updated_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year;
             $minimal_transaction = 0;
             if ($role == 'distributor') {
-                $minimal_transaction = $user_updated_at > 2019 ?
+                $minimal_transaction = $user_updated_at > 2020 ?
                     Setting::where('role', 'new-distributor')->first()->value??0:
                     Setting::where('role', 'old-distributor')->first()->value??0;
             } else {
@@ -109,7 +109,7 @@ class UserMaintenanceController extends Controller
         $minimal_transaction = 0;
         $role = $user->getRoleNames()->first();
         if ($role == 'distributor') {
-            $minimal_transaction = $user_updated_at > 2019 ?
+            $minimal_transaction = $user_updated_at > 2020 ?
                 Setting::where('role', 'new-distributor')->first()->value ??0:
                 Setting::where('role', 'old-distributor')->first()->value??0;
         } else {
