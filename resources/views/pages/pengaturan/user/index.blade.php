@@ -135,6 +135,15 @@
                                 </span>
                             @enderror
                         </div>
+                        <div class="form-group col-12">
+                            <label for="last_upgrade">Member terdaftar tanggal (kosongkan jika member baru) <span class="text-success" id="filedownload"></span></label>
+                            <input id="last_upgrade" type="date" class="form-control @error('last_upgrade') is-invalid @enderror" name="last_upgrade" value="{{ old('last_upgrade') }}">
+                            @error('last_upgrade')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">

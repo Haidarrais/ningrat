@@ -65,13 +65,22 @@ class User extends Authenticatable
         static::creating(function ($query) {
             $query->api_token = Str::random(10);
             $query->kode_referal = Str::random(10);
-            $query->last_upgrade = Carbon::now();
+            // $query->last_upgrade = Carbon::now();
+            // $query->last_upgrade = nul;
         });
     }
 
     // Hash secara default (Jadi tidak perlu hash di controller)
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function setLastUpgradeAttribute($value) {
+        if ($value == null) {
+            $this->attributes['last_upgrade'] = Carbon::now();
+        }else{
+            $this->attributes['last_upgrade'] = $value;
+        }
     }
 
     public function getRoleNameAttribute() {
