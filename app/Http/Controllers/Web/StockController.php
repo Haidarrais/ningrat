@@ -86,7 +86,7 @@ class StockController extends Controller
                 ]
             ], 500);
         }
-        if (User::find($user_id)->getRoleNames()->first() == 'superadmin' && $request->stock) {
+        if ($request->stock) {
             $stock->update([
                 'stock' => $request->stock
             ]);
