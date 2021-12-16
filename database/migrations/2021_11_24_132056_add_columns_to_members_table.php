@@ -15,7 +15,7 @@ class AddColumnsToMembersTable extends Migration
     {
         Schema::table('members', function (Blueprint $table) {
             $table->date('ttl')->nullable()->after('address');
-            $table->integer('nowhatsapp')->nullable()->after('address');
+            $table->string('nowhatsapp')->nullable()->after('address');
             $table->string('facebook')->nullable()->after('address');
             $table->string('instagram')->nullable()->after('address');
             $table->string('marketplace')->nullable()->after('address');
