@@ -28,7 +28,7 @@
                     Facebook : {{ $value->member->facebook??'' }}<br>
                     Instagram : {{ $value->member->instagram??'' }}<br>
                     Marketplace : {{ $value->member->marketplace??'' }}<br>
-                    File Mou : @if($value->member->mou)<a href="{{asset('uploads/mou')}}/{{$value->member->mou??''}}">click here</a>@else <span class="text-secondary">belum upload mou</span> @endif<br>
+                    File Mou : @if($value->member && $value->member->mou)<a href="{{asset('uploads/mou')}}/{{$value->member->mou??''}}">click here</a>@else <h6 class="text-secondary text-small">belum upload mou</h6> @endif<br>
                 </td>
                 <td>{{ $value->email??'' }}</td>
                 <td>
