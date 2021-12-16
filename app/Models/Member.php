@@ -20,6 +20,7 @@ class Member extends Model
         'instagram',
         'nowhatsapp',
         'marketplace',
+        'ttl',
     ];
 
     public function reviewRows()
