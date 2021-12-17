@@ -32,7 +32,7 @@ class MemberComponent extends Component
         })->with('city', 'avgRating')->where('city_id', $this->city)->get();
         $members_scan = Member::with('user.roles')->whereHas('user.roles', function ($query){
             return $query->where('name', '!=', 'superadmin')->where('name', '!=', 'customer')->where('name', '!=', 'reseller');
-        })->with('city', 'avgRating')->get();
+        })->with('city', 'avgRating')->whereHas('city')->get();
         $dataA=[];
         $dataB=[];
         foreach ($members_scan as $value) {
