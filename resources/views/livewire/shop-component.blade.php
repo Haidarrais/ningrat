@@ -330,7 +330,7 @@
                         $('#m-product-cart').empty()
                         $('.single-slide-menu').slick('unslick')
                         $('#m-product-name').html(data.stock.product.name)
-                        $('#m-product-price').html(data.stock.product.price)
+                        $('#m-product-price').html("Rp. " + addCommas(data.stock.product.price))
                         $('#m-product-desc').html(data.stock.product.description)
                         $('#m-product-cart').html(`<a type="button" href="#" class="p-cart-btn default-btn" wire:click="store(${data.stock.id}, '${data.stock.product.name}' , ${data.stock.product.price})">Add to cart</a>`)
                         $('#myTabList').html(htmlL)
@@ -388,6 +388,18 @@
         <script>
             if(window.jQuery)
             {
+                function addCommas(nStr)
+                {
+                    nStr += '';
+                    x = nStr.split('.');
+                    x1 = x[0];
+                    x2 = x.length > 1 ? '.' + x[1] : '';
+                    var rgx = /(\d+)(\d{3})/;
+                    while (rgx.test(x1)) {
+                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                    }
+                    return x1 + x2;
+                }
                 function slickRun() {
                     $('.single-slide-menu').slick('unslick')
                     $('.single-slide-menu').slick({
