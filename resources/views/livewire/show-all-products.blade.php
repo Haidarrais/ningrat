@@ -330,7 +330,7 @@
                     $('#m-product-cart').empty()
                     $('.single-slide-menu').slick('unslick')
                     $('#m-product-name').html(data.stock.product.name)
-                    $('#m-product-price').html(addCommas(data.stock.product.price))
+                    $('#m-product-price').html("Rp. " + addCommas(data.stock.product.price))
                     $('#m-product-desc').html(data.stock.product.description)
                     // $('#m-product-cart').html(`<a type="button" href="#" class="p-cart-btn default-btn" wire:click="store(${data.stock.id}, '${data.stock.product.name}' , ${data.stock.product.price})">Add to cart</a>`)
                     $('#myTabList').html(htmlL)
