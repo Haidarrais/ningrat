@@ -10,39 +10,29 @@
     </tr>
   </thead>
   <tbody>
-    @php
-      $isEmpty = [];
-    foreach ($userWithRoleAndOrders as $key => $value) {
-    $index = ++$key;
-    if (count($userWithRoleAndOrders)>0 && $value['status']==true) {
-    $role = "${value['role']}";
-    $params = "showOrderModal(".$value['id'].",".(int)$value['status'].","."'".$role."'".")";
-    // $params = "showOrderModal(".$value[`id`].".",".".(int)($value[`status`]) .",".$role.")";
-    echo"<tr class='text-center displayer'>
+    @forelse ($good_users as $good_user)
+    <input type='hidden' name='user_id[]' value="{{$good_user['id']}}" />
+    <input type='hidden' name='role[]' value="{{$good_user['role']}}" />
+    <tr class='text-center displayer'>
       <th scope='row'>
-        $index
+        {{ ($good_users->currentpage()-1) * $good_users->perpage() + $loop->index + 1 }}
       </th>
-      <td class='user_name'>".$value['name']."</td>
-      <td class='user_email'>".$value['email']."</td>
-      <td class='user_role'>".$value['role']."</td>
+      <td class='user_name'>{{$good_user['name']}}</td>
+      <td class='user_email'>{{$good_user['email']}}</td>
+      <td class='user_role'>{{$good_user['role']}}</td>
       <td>
-        <span class='badge badge-success'>Good</span>
+        <span class='badge badge-danger'>Bad</span>
       </td>
       <td>
-        <span class='badge badge-success' style='cursor: pointer;' onclick=$params><i class='fas fa-thumbs-up'></i></span>
+        <span class='badge badge-success' style='cursor: pointer;' onclick="showOrderModal('{{$good_user['id']}},{{$good_user['status']}},{{$good_user['role']}}')"><i class='fas fas fa-thumbs-up'></i></span>
       </td>
     </tr>";
-    array_push($isEmpty, false);
-    }
-    else {
-    array_push($isEmpty, true);
-    }
-    }
-    if (!in_array(false, $isEmpty)) {
-    echo"<tr>
+    @empty
+    <tr>
       <td colspan='5' class='text-center'>Tidak ada data</td>
-    </tr>";
-    }
-    @endphp
+    </tr>
+    @endforelse
   </tbody>
 </table>
+
+{!! $good_users->links() !!}

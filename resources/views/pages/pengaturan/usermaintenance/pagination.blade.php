@@ -10,42 +10,28 @@
     </tr>
   </thead>
   <tbody>
-    @php
-    $isEmpty = [];
-    foreach ($userWithRoleAndOrders as $key => $value) {
-    $index = ++$key;
-    if ($value['status']==false) {
-    array_push($isEmpty, false);
-    $role = "${value['role']}";
-    $params = "showOrderModal(".$value['id'].",".(int)$value['status'].","."'".$role."'".")";
-    // $params = "showOrderModal(".$value[`id`].".",".".(int)($value[`status`]) .",".$role.")";
-    echo "<input type='hidden' name='user_id[]' value=${value['id']} />";
-    echo "<input type='hidden' name='role[]' value=${value['role']} />";
-    echo"<tr class='text-center displayer'>
-      <th scope='row'>
-        $index
-      </th>
-      <td class='user_name'>".$value['name']."</td>
-      <td class='user_email'>".$value['email']."</td>
-      <td class='user_role'>".$value['role']."</td>
-      <td>
-        <span class='badge badge-danger'>Bad</span>
-      </td>
-      <td>
-        <span class='badge badge-danger' style='cursor: pointer;' onclick=$params><i class='fas fa-thumbs-down'></i></span>
-      </td>
-    </tr>";
-
-    }
-    else {
-    array_push($isEmpty, true);
-    }
-    }
-    if (!in_array(false, $isEmpty)) {
-    echo"<tr>
-      <td colspan='5' class='text-center'>Tidak ada data</td>
-    </tr>";
-    }
-    @endphp
+   @forelse ($bad_users as $bad_user)
+       <input type='hidden' name='user_id[]' value="{{$bad_user['id']}}" />
+       <input type='hidden' name='role[]' value="{{$bad_user['role']}}" />
+        <tr class='text-center displayer'>
+          <th scope='row'>
+            {{ ($bad_users->currentpage()-1) * $bad_users->perpage() + $loop->index + 1 }}
+          </th>
+          <td class='user_name'>{{$bad_user['name']}}</td>
+          <td class='user_email'>{{$bad_user['email']}}</td>
+          <td class='user_role'>{{$bad_user['role']}}</td>
+          <td>
+            <span class='badge badge-danger'>Bad</span>
+          </td>
+          <td>
+            <span class='badge badge-danger' style='cursor: pointer;' onclick="showOrderModal('{{$bad_user['id']}},{{$bad_user['status']}},{{$bad_user['role']}}')"><i class='fas fa-thumbs-down'></i></span>
+          </td>
+        </tr>
+   @empty
+       <tr>
+        <td colspan='5' class='text-center'>Tidak ada data</td>
+      </tr>
+   @endforelse
   </tbody>
 </table>
+{!! $bad_users->links() !!}
