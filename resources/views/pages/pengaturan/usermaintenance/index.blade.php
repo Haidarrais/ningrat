@@ -97,7 +97,7 @@
     var urlHere = "{{route('maintenance.show', ":userId ")}}";
     urlHere = urlHere.replace(':userId', id);
     let html = "";
-    let buttons = status == 0 ? `<button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>` : `<button type="button" onclick="downGradeUser(${id},'${role}')" class="btn btn-outline-danger">Downgrade Now!</button> <button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>`
+    let buttons = status ? `<button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>` : `<button type="button" onclick="downGradeUser(${id},'${role}')" class="btn btn-outline-danger">Downgrade Now!</button> <button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>`
     await $axios.get(urlHere).then((response) => {
       let i = 0;
       let data = response.data;
