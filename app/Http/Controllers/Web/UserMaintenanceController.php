@@ -83,7 +83,7 @@ class UserMaintenanceController extends Controller
             }
         }
         $good_users = $this->paginate(array_filter($check_users, function($key){
-            return $key["status"];
+            return $key["status"]==true;
         }));
 
         $bad_users = $this->paginate(array_filter($check_users, function ($key) {
