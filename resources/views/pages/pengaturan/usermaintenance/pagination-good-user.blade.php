@@ -24,7 +24,7 @@
         <span class='badge badge-danger'>Bad</span>
       </td>
       <td>
-        <span class='badge badge-success' style='cursor: pointer;' onclick="showOrderModal('{{$good_user['id']}},{{$good_user['status']}},{{$good_user['role']}}')"><i class='fas fas fa-thumbs-up'></i></span>
+        <span class='badge badge-success' style='cursor: pointer;' onclick="showOrderModal('{{$good_user['id']}},{{(int)$good_user['status']==1?1:0}},{{$good_user['role']}}')"><i class='fas fas fa-thumbs-up'></i></span>
       </td>
     </tr>";
     @empty

@@ -37,7 +37,7 @@ class UserMaintenanceController extends Controller
     public function index(Request $request, $is_accepting_upgrade_req = null)
     {
         $month = $this->month;
-        $request_upgrades = RequestUpgrade::where("status", 1)->get();
+        $request_upgrades = RequestUpgrade::where("status", 1)->paginate(10);
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', '!=', 'superadmin')->where('name', '!=', 'reseller')->where('name', '!=', 'customer')->where('name', '!=', 'subagent')->whereDate('last_upgrade', '<=', Carbon::now()->startOfMonth());
         })->with('roles')->get();
