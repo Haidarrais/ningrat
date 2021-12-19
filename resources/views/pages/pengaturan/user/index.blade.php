@@ -8,8 +8,7 @@
             <div class="ml-auto">
                 <form action="" method="get" class="row">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci"
-                            value="{{ request()->keyword ?? '' }}">
+                        <input type="text" class="form-control" name="keyword" placeholder="Kata Kunci" value="{{ request()->keyword ?? '' }}">
                         <div class="input-group-append">
                             <button class="btn btn-primary ml-2"><i class="fas fa-search"></i>Cari</button>
                         </div>
@@ -34,7 +33,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" method="post" id="formTambah">
+            <form action="" method="post" id="formTambah" enctype="multipart/form-data">
                 @csrf
                 @unlessrole('superadmin')
                 <input type="hidden" name="upper" value="{{ $user->id }}">
@@ -60,7 +59,7 @@
                         <label for="inputUpper">Atasan</label>
                         <select name="upper" id="inputUpper" class="form-control" autocomplete="off">
                             @foreach ($all_user as $value)
-                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                            <option value="{{ $value->id }}">{{ $value->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -85,63 +84,63 @@
                             <label for="ttl">Tempat Tanggal Lahir</label>
                             <input id="ttl" type="date" class="form-control @error('ttl') is-invalid @enderror" name="ttl" value="{{ old('ttl') }}">
                             @error('ttl')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="form-group col-6">
                             <label for="nowhatsapp">No. WhatsApp</label>
                             <input id="nowhatsapp" type="number" class="form-control @error('nowhatsapp') is-invalid @enderror" name="nowhatsapp" value="{{ old('nowhatsapp') }}" placeholder="08123456789">
                             @error('nowhatsapp')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="form-group col-6">
                             <label for="instagram">Instagram</label>
                             <input id="instagram" type="text" class="form-control @error('instagram') is-invalid @enderror" name="instagram" value="{{ old('instagram') }}" placeholder="'@' username">
                             @error('instagram')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="form-group col-6">
                             <label for="facebook">Facebook</label>
                             <input id="facebook" type="text" class="form-control @error('facebook') is-invalid @enderror" name="facebook" value="{{ old('facebook') }}" placeholder="username">
                             @error('facebook')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="form-group col-6">
                             <label for="marketplace">Marketplace</label>
                             <input id="marketplace" type="text" class="form-control @error('marketplace') is-invalid @enderror" name="marketplace" value="{{ old('marketplace') }}" placeholder="Shopee, Tokopedia, dll">
                             @error('marketplace')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="form-group col-6">
                             <label for="mou">File MOU <span class="text-success" id="filedownload"></span></label>
                             <input id="mou" type="file" class="form-control @error('mou') is-invalid @enderror" name="mou" value="{{ old('mou') }}">
                             @error('mou')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="form-group col-12">
                             <label for="last_upgrade">Member terdaftar tanggal (kosongkan jika member baru) <span class="text-success" id="filedownload"></span></label>
                             <input id="last_upgrade" type="date" class="form-control @error('last_upgrade') is-invalid @enderror" name="last_upgrade" value="{{ old('last_upgrade') }}">
                             @error('last_upgrade')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                     </div>
@@ -164,7 +163,9 @@
         // Get All ROle
         new Promise((resolve, reject) => {
             $axios.get(`{{ route('api.get_role') }}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let option = '<option value="">== Pilih Role ==</option>'
                     $.each(data.data, (i, e) => {
                         if (e.name != 'superadmin') {
@@ -194,12 +195,18 @@
 
         $("#formTambah").on('submit', (e) => {
             e.preventDefault()
-            let serializedData = $("#formTambah").serialize()
+            // new FormData($("#formTambah")[0]);
+            let serializedData = new FormData($("#formTambah")[0]);
+            for (var pair of serializedData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
 
-            if(type == "STORE") {
+            if (type == "STORE") {
                 new Promise((resolve, reject) => {
                     $axios.post(`{{ route('users.store') }}`, serializedData)
-                        .then(({data}) => {
+                        .then(({
+                            data
+                        }) => {
                             $('#modal_tambah').modal('hide')
                             refresh_table(URL_NOW)
                             toastr.success(data.message.head, data.message.body)
@@ -208,11 +215,14 @@
                             throwErr(err)
                         })
                 })
-            } else if(type == "UPDATE") {
+            } else if (type == "UPDATE") {
                 let id_user = $("#inputID").val()
                 new Promise((resolve, reject) => {
-                    $axios.put(`${URL_NOW}/${id_user}`, serializedData)
-                        .then(({data}) => {
+                    serializedData.append("_method", "PUT");
+                    $axios.post(`${URL_NOW}/${id_user}`, serializedData)
+                        .then(({
+                            data
+                        }) => {
                             $('#modal_tambah').modal('hide')
                             refresh_table(URL_NOW)
                             toastr.success(data.message.head, data.message.body)
@@ -227,40 +237,44 @@
 
     const deleteData = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Ingin menghapus data ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                new Promise((resolve, reject) => {
-                    $axios.delete(`${URL_NOW}/${id}`)
-                        .then(({data}) => {
-                            toastr.success(data.message.head, data.message.body)
-                            refresh_table(URL_NOW)
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            $swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Something went wrong!',
+                title: 'Yakin?',
+                text: "Ingin menghapus data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    new Promise((resolve, reject) => {
+                        $axios.delete(`${URL_NOW}/${id}`)
+                            .then(({
+                                data
+                            }) => {
+                                toastr.success(data.message.head, data.message.body)
+                                refresh_table(URL_NOW)
                             })
-                        })
-                })
-            }
-        })
+                            .catch(err => {
+                                console.log(err)
+                                $swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                })
+                            })
+                    })
+                }
+            })
     }
 
     const editData = id => {
         new Promise((resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
-                .then(({data}) => {
+                .then(({
+                    data
+                }) => {
                     let user = data.data
                     type = 'UPDATE'
                     $("#formTambah")[0].reset()
@@ -273,6 +287,16 @@
                     $("#teksPassword").show()
                     $("#inputPassword").prop('required', false)
                     $("#inputPasswordConfirmation").prop('required', false)
+                    if (user.member !== null) {
+                        $("input[name='nowhatsapp']").val(user.member.phone_number);
+                        $("input[name='facebook']").val(user.member.facebook);
+                        $("input[name='instagram']").val(user.member.instagram);
+                        $("input[name='marketplace']").val(user.member.marketplace);
+                        $("input[name='ttl']").val(user.member.ttl);
+                        $('#form-tambahan-member').show();
+                    } else {
+                        $('#form-tambahan-member').hide();
+                    }
                     $('#modal_tambah').modal('show')
                 })
                 .catch(err => {
@@ -288,71 +312,80 @@
 
     const setStatusUser = (id, status) => {
         let teks = ``
-        if(status) {
+        if (status) {
             teks = `Ingin mengaktifkan user ini`
         } else {
             teks = `Ingin menonaktifkan user ini`
         }
         $swal.fire({
-            title: 'Yakin?',
-            text: teks,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then((result) => {
-            if (result.isConfirmed) {
-                new Promise((resolve, reject) => {
-                    $axios.post(`{{ route('users.set_status') }}`, {id: id, status: status})
-                        .then(({data}) => {
-                            toastr.success(data.message.head, data.message.body)
-                            refresh_table(URL_NOW)
-                        })
-                })
-            }
-        })
+                title: 'Yakin?',
+                text: teks,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    new Promise((resolve, reject) => {
+                        $axios.post(`{{ route('users.set_status') }}`, {
+                                id: id,
+                                status: status
+                            })
+                            .then(({
+                                data
+                            }) => {
+                                toastr.success(data.message.head, data.message.body)
+                                refresh_table(URL_NOW)
+                            })
+                    })
+                }
+            })
     }
 
     const upgradeUser = id => {
         $swal.fire({
-            title: 'Yakin?',
-            text: "Ingin mengupgrade user ini",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya!'
-        })
-        .then(result => {
-            if(result.isConfirmed) {
-                new Promise((resolve ,reject) => {
-                    $axios.post(`{{ route('user.upgrade') }}`, {id: id})
-                        .then(({data}) => {
-                            toastr.success(data.message.head, data.message.body)
-                            refresh_table(URL_NOW)
-                        })
-                })
-            }
-        })
+                title: 'Yakin?',
+                text: "Ingin mengupgrade user ini",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Tidak',
+                confirmButtonText: 'Ya!'
+            })
+            .then(result => {
+                if (result.isConfirmed) {
+                    new Promise((resolve, reject) => {
+                        $axios.post(`{{ route('user.upgrade') }}`, {
+                                id: id
+                            })
+                            .then(({
+                                data
+                            }) => {
+                                toastr.success(data.message.head, data.message.body)
+                                refresh_table(URL_NOW)
+                            })
+                    })
+                }
+            })
     }
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('#form-tambahan-member').hide();
         $('#col-referral').hide();
     })
-    $('#selectRole').on('change', function(){
-            console.log($(this).val())
-            if ($(this).val() == 2 || $(this).val() == 3 || $(this).val() == 4 || $(this).val() == 5) {
-                $('#col-referral').show();
-                $('#form-tambahan-member').show();
-                $('#filedownload').html(`<a href="{{asset('core/mou/${$(this).val()}.docx')}}">download template</a>`)
-            }else{
-                $('#col-referral').hide();
-                $('#form-tambahan-member').hide();
-            }
-        })
+    $('#selectRole').on('change', function() {
+        console.log($(this).val())
+        if ($(this).val() == 2 || $(this).val() == 3 || $(this).val() == 4 || $(this).val() == 5) {
+            $('#col-referral').show();
+            $('#form-tambahan-member').show();
+            $('#filedownload').html(`<a href="{{asset('core/mou/${$(this).val()}.docx')}}">download template</a>`)
+        } else {
+            $('#col-referral').hide();
+            $('#form-tambahan-member').hide();
+        }
+    })
 </script>
 @endsection
