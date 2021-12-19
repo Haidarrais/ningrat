@@ -26,7 +26,7 @@
         <div class="col-12 mt-2">
           <ul class="nav nav-tabs col-12">
             <li class="nav-item">
-              <a class="nav-link @if(count($userWithRoleAndOrders)>0)active @endif" data-toggle="tab" href="#bad">Bad
+              <a class="nav-link @if(count($bad_users)>0)active @endif" data-toggle="tab" href="#bad">Bad
                 User</a>
             </li>
             <li class="nav-item">
@@ -94,7 +94,7 @@
   async function showOrderModal(id, status, role) {
     console.log(id);
     let tempdata = ['100', '1111']
-    var urlHere = "{{route('maintenance.show', ":userId ")}}";
+    var urlHere = "{{route('maintenance.show', ": userId ")}}";
     urlHere = urlHere.replace(':userId', id);
     let html = "";
     let buttons = status ? `<button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>` : `<button type="button" onclick="downGradeUser(${id},'${role}')" class="btn btn-outline-danger">Downgrade Now!</button> <button type="button" onclick="removechilderen()" class="btn btn-outline-primary" data-dismiss="modal">Close</button>`
