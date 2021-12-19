@@ -21,7 +21,7 @@
       <td class='user_email'>{{$good_user['email']}}</td>
       <td class='user_role'>{{$good_user['role']}}</td>
       <td>
-        <span class='badge badge-success'>Bad</span>
+        <span class='badge badge-success'>Good</span>
       </td>
       <td>
         <span class='badge badge-success' style='cursor: pointer;' onclick="showOrderModal('{{$good_user['id']}},{{(int)$good_user['status']==1?1:0}},{{$good_user['role']}}')"><i class='fas fas fa-thumbs-up'></i></span>
