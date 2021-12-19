@@ -14,6 +14,7 @@ use App\Http\Requests\Users\UserStoreRequest;
 use App\Http\Requests\Users\UserUpdateRequest;
 use App\Models\Member;
 use App\Traits\ImageHandlerTrait;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -170,7 +171,8 @@ class UserController extends Controller
         $user = User::find($id);
         if ($member = $user->member) {
             if ($member->mou) {
-                $this->unlinkImage($this->pathMou, $member->mou);
+                File::delete($this->pathMou. $member->mou);
+                // $this->unlinkImage($this->pathMou, $member->mou);
             }
             $member->delete();
         }
@@ -241,7 +243,7 @@ class UserController extends Controller
         if ($member) {
             $image = $member->mou;
             if ($request->mou && $image) {
-                $this->unlinkImage($this->pathMou, $image);
+                File::delete($this->pathMou. $image);
                 $data["mou"] =  $this->uploadImage($request->mou, $this->pathMou);
             }elseif($request->mou && $image==null){
                 $data["mou"] =  $this->uploadImage($request->mou, $this->pathMou);
