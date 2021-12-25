@@ -15,4 +15,8 @@ class Content extends Model
         'content_type',
         'image'
     ];
+
+    public function article(){
+        return $this->hasOne(Article::class, 'banner_id', 'id');
+    }
 }
