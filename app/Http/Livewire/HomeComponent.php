@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Content;
 use App\Models\Product;
@@ -18,6 +19,24 @@ class HomeComponent extends Component
     public function destroyItem($rowId)
     {
         $product = Cart::remove($rowId);
+    }
+    public function goBlog($id)
+    {
+        $articles = Article::where('banner_id', $id)->first();
+        if ($articles) {
+            return redirect("/blog/$id");
+        }else{
+            $this->alert('error', 'Tidak ada artikel', [
+                'position' =>  'center',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
+        }
     }
     public function render()
     {
