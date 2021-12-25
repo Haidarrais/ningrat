@@ -41,10 +41,7 @@ class ArticleController extends Controller
         ], [
             'articles' => $request->article
         ]);
-        return response()->json([
-            'error' => false,
-            'data' => $article
-        ]);
+        return redirect()->back()->with('success', 'berhasil');
     }
 
     /**
