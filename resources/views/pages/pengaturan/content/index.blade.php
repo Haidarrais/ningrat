@@ -232,7 +232,7 @@
                     type: 'GET',
                     url: url,
                     success: function(data) {
-                        console.log(data);
+                        console.log(data.data);
                         if (data != null) {
                             $('#modal_edit_article').modal('show')
                             $("#article").val(data.article)
