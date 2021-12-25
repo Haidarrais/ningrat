@@ -66,7 +66,7 @@
                     @foreach ($banner as $bnr)
                         <div class="col-md-6">
                             <div class="shop-banner-img">
-                                <a href="{{ route('show.blog', ['id'=>$bnr->id]) }}"><img src="{{ asset('uploads/contents/'. $bnr->image) }}" alt="Banner"></a>
+                                <a><img src="{{ asset('uploads/contents/'. $bnr->image) }}" alt="Banner" wire:click="goBlog({{$bnr->id}})"></a>
                             </div>
                         </div>
                     @endforeach
