@@ -232,10 +232,10 @@
                     type: 'GET',
                     url: url,
                     success: function(data) {
-                        console.log(data.data);
-                        if (data != null) {
+                        if (data && data.data && data.data.articles) {
+                            console.log(data.data.articles);
                             $('#modal_edit_article').modal('show')
-                            $("#article").val(data.article)
+                            $("#article").val(data.data.articles)
                         }
                             $("#banner_id").val(id)
                         var formAction = "{{route('article.store', ":id")}}";
