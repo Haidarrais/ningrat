@@ -27,7 +27,8 @@ class UserStoreRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:8',
-            'role' => 'nullable'
+            'role' => 'nullable',
+            'nowhatsapp'=> 'required'
         ];
     }
 }

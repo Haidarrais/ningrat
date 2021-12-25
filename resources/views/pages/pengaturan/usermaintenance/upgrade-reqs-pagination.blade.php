@@ -11,39 +11,25 @@
     </tr>
   </thead>
   <tbody>
-    @php
-    $isEmpty = [];
-    foreach ($request_upgrades as $key => $value) {
-    $index = ++$key;
-    if (count($request_upgrades)>0) {
-    $role = "${value['role']}";
-    $params1 = "upgrade(".$value->user->id.","."'".$value->user->getRoleNames()->first()."'".")";
-    $params2 = "tolak(".$value->user->id.","."'".$value->user->getRoleNames()->first()."'".")";
-    // $params = "showOrderModal(".$value[`id`].".",".".(int)($value[`status`]) .",".$role.")";
-    echo"<tr class='text-center'>
+    @forelse ($request_upgrades as $idx=>$request_upgrade)
+    <tr class='text-center'>
       <th scope='row'>
-        $index
+        {{ ($request_upgrades->currentpage()-1) * $request_upgrades->perpage() + $loop->index + 1 }}
       </th>
-      <td class='user_name'>".$value->user->name."</td>
-      <td class='user_email'>".$value->user->email."</td>
-      <td class='user_role'>".$value->user->getRoleNames()->first()."</td>
-      <td class='user_torole'>".$value->role->name."</td>
+      <td class='user_name'>{{$request_upgrade->user->name}}</td>
+      <td class='user_email'>{{$request_upgrade->user->email}}</td>
+      <td class='user_role'>{{$request_upgrade->user->getRoleNames()->first()}}</td>
+      <td class='user_torole'>{{$request_upgrade->role->name}}</td>
       <td>
-        <span class='badge badge-success' title='Terima' style='cursor: pointer;' onclick=$params1><i class='fas fa-arrow-up'></i></span>
-        <span class='badge badge-danger' title='Tolak' style='cursor: pointer;' onclick=$params2><i class='fas fa-times'></i></span>
+        <span class='badge badge-success' title='Terima' style='cursor: pointer;' onclick="upgrade('{{$request_upgrade->user->id}},{{$request_upgrade->user->getRoleNames()->first()}}')"><i class='fas fa-arrow-up'></i></span>
+        <span class='badge badge-danger' title='Tolak' style='cursor: pointer;' onclick="tolak('{{$request_upgrade->user->id}},{{$request_upgrade->user->getRoleNames()->first()}}')"><i class='fas fa-times'></i></span>
       </td>
-    </tr>";
-    array_push($isEmpty, false);
-    }
-    else {
-    array_push($isEmpty, true);
-    }
-    }
-    if (!in_array(false, $isEmpty)) {
-    echo"<tr>
+    </tr>
+    @empty
+    <tr>
       <td colspan='5' class='text-center'>Tidak ada data</td>
-    </tr>";
-    }
-    @endphp
+    </tr>
+    @endforelse
   </tbody>
 </table>
+{!!$request_upgrades->links()!!}

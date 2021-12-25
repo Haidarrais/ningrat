@@ -12,14 +12,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Users\UserStoreRequest;
 use App\Http\Requests\Users\UserUpdateRequest;
+use App\Models\Member;
+use App\Traits\ImageHandlerTrait;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
+    use ImageHandlerTrait;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+     private $pathMou = 'uploads/mou/';
     public function index(Request $request)
     {
         $user = Auth::user();
@@ -88,6 +94,7 @@ class UserController extends Controller
         $role = $request->role ?? 'subagent';
         $user = User::create($request->all());
         $user->assignRole($role);
+        $this->memberCreatOrupdate($request, $user);
         return response()->json([
             'status' => true,
             'message' => [
@@ -105,7 +112,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::with(['roles'])->find($id);
+        $user = User::with(['roles', 'member'])->find($id);
         return response()->json([
             'status' => true,
             'data' => $user
@@ -134,6 +141,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
         // Jika password kosong maka param password di hapus
+        $this->memberCreatOrupdate($request, $user);
+
         if($request->password == '') {
             $user->update($request->except(['password']));
         } else {
@@ -160,6 +169,13 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+        if ($member = $user->member) {
+            if ($member->mou) {
+                File::delete($this->pathMou. $member->mou);
+                // $this->unlinkImage($this->pathMou, $member->mou);
+            }
+            $member->delete();
+        }
         $user->delete();
         return response()->json([
             'status' => true,
@@ -218,5 +234,26 @@ class UserController extends Controller
                 'body' => 'Upgrade ke '. $new_role->name
             ]
         ], 200);
+    }
+    private function memberCreatOrupdate($request, $user){
+        $member = $user->member;
+        $data = $request->except('id');
+        $data["phone_number"] = $request->nowhatsapp;
+        $data["mou"] = null;
+        if ($member) {
+            $image = $member->mou;
+            if ($request->mou && $image) {
+                File::delete($this->pathMou. $image);
+                $data["mou"] =  $this->uploadImage($request->mou, $this->pathMou);
+            }elseif($request->mou && $image==null){
+                $data["mou"] =  $this->uploadImage($request->mou, $this->pathMou);
+            }
+        }elseif($request->mou&& !$member){
+            $data["mou"] =  $this->uploadImage($request->mou, $this->pathMou);
+        }
+          
+            Member::updateOrCreate([
+            'user_id' => $user->id
+            ],$data);
     }
 }

@@ -26,7 +26,7 @@
         <div class="col-12 mt-2">
           <ul class="nav nav-tabs col-12">
             <li class="nav-item">
-              <a class="nav-link @if(count($userWithRoleAndOrders)>0)active @endif" data-toggle="tab" href="#bad">Bad
+              <a class="nav-link @if(count($bad_users)>0)active @endif" data-toggle="tab" href="#bad">Bad
                 User</a>
             </li>
             <li class="nav-item">

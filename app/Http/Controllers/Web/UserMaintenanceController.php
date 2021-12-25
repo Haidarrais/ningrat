@@ -8,8 +8,11 @@ use App\Models\RequestUpgrade;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
@@ -23,6 +26,9 @@ class UserMaintenanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     private $month;
+   
+
+
 
     public function __construct()
     {
@@ -31,28 +37,39 @@ class UserMaintenanceController extends Controller
     public function index(Request $request, $is_accepting_upgrade_req = null)
     {
         $month = $this->month;
-        $request_upgrades = RequestUpgrade::where("status", 1)->get();
+        $request_upgrades = RequestUpgrade::where("status", 1)->paginate(10);
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', '!=', 'superadmin')->where('name', '!=', 'reseller')->where('name', '!=', 'customer')->where('name', '!=', 'subagent')->whereDate('last_upgrade', '<=', Carbon::now()->startOfMonth());
         })->with('roles')->get();
-        $userWithRoleAndOrders = [];
-
+        $check_users = [];
+        $settings = array(
+            'old-distributor' => Setting::where('role', 'old-distributor')->first()->value??0,
+            'new-distributor' => Setting::where('role', 'new-distributor')->first()->value??0,
+            'agent+' => Setting::where('role', 'agent+')->first()->value ?? 0,
+            'agent' => Setting::where('role', 'agent')->first()->value ?? 0,
+            'subagent' => Setting::where('role', 'subagent')->first()->value ?? 0,
+            'reseller' => Setting::where('role', 'reseller')->first()->value ?? 0,
+            'customer' => Setting::where('role', 'customer')->first()->value ?? 0,
+            'superadmin' => 0
+        );
+        // dd($settings['agent+']);
+       
         foreach ($users as $index => $user) {
             # code...
             $role = $user->getRoleNames()->first();
-            $userWithRoleAndOrders[$index]["name"] = $user->name;
-            $userWithRoleAndOrders[$index]["id"] = $user->id;
-            $userWithRoleAndOrders[$index]["role"] = $role;
-            $userWithRoleAndOrders[$index]["email"] = $user->email;
+            $check_users[$index]["name"] = $user->name;
+            $check_users[$index]["id"] = $user->id;
+            $check_users[$index]["role"] = $role;
+            $check_users[$index]["email"] = $user->email;
             // dd(Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year);
             $user_updated_at = Carbon::createFromFormat('Y-m-d H:i:s', $user->last_upgrade)->year;
             $minimal_transaction = 0;
             if ($role == 'distributor') {
                 $minimal_transaction = $user_updated_at > 2020 ?
-                    Setting::where('role', 'new-distributor')->first()->value??0:
-                    Setting::where('role', 'old-distributor')->first()->value??0;
+                   $settings['new-distributor']:
+                    $settings['old-distributor'];
             } else {
-                $minimal_transaction = Setting::where('role', $role)->first()->value ?? 0;
+                $minimal_transaction = $settings[$role];
             }
             $hirarki = $role == 'reseller' ?
                 User::where('id', $user->id)->get()->pluck('id')->toArray()
@@ -60,17 +77,24 @@ class UserMaintenanceController extends Controller
                 User::where('upper', $user->id)->get()->pluck('id')->toArray();
             $d = $this->getMonthTotalTransaction($hirarki, $user);
             if ($d > $minimal_transaction) {
-                $userWithRoleAndOrders[$index]["status"] = true;
+                $check_users[$index]["status"] = true;
             } else {
-                $userWithRoleAndOrders[$index]["status"] = false;
+                $check_users[$index]["status"] = false;
             }
         }
+        $good_users = $this->paginate(array_filter($check_users, function($key){
+            return $key["status"]==true;
+        }));
+
+        $bad_users = $this->paginate(array_filter($check_users, function ($key) {
+            return $key["status"]==false;
+        }));
         if ($request->ajax() && $is_accepting_upgrade_req == null) {
-            return view("pages.pengaturan.usermaintenance.pagination", compact('userWithRoleAndOrders', 'request_upgrades', 'month'))->render();
+            return view("pages.pengaturan.usermaintenance.pagination", compact('good_users','bad_users', 'request_upgrades', 'month'))->render();
         }else if($request->ajax()){
-            return view("pages.pengaturan.usermaintenance.upgrade-reqs-pagination", compact('userWithRoleAndOrders', 'request_upgrades', 'month'))->render();
+            return view("pages.pengaturan.usermaintenance.upgrade-reqs-pagination", compact('good_users','bad_users', 'request_upgrades', 'month'))->render();
         }
-        return view("pages.pengaturan.usermaintenance.index", compact('userWithRoleAndOrders','request_upgrades', 'month'));
+        return view("pages.pengaturan.usermaintenance.index", compact('good_users','bad_users','request_upgrades', 'month'));
     }
 
     /**
@@ -433,5 +457,17 @@ class UserMaintenanceController extends Controller
             "newData" => $newData,
             "checkMitraRequirement" =>  $filteredArray
         ];
+    }
+
+
+    public function paginate($items, $perPage = 10, $page = null, $options = ['path'=> '/dashboard/pengaturan/user-maintenace'])
+
+    {
+
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }
