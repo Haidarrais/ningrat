@@ -16,7 +16,7 @@ class ShowBlog extends Component
     }
     public function render()
     {
-        if ($this->article) {
+        if (!$this->article) {
             return redirect()->back();
         }
         return view('livewire.show-blog')->layout('layouts.main');
