@@ -71,6 +71,7 @@
                                                     @method('DELETE')
                                                     @csrf
                                                     <button type="button" class="btn btn-warning" onclick="setIndex({{$banner->id}})"><i class="fas fa-edit"></i></button>
+                                                    <button type="button" class="btn btn-success" onclick="setIndexArticle({{$banner->id}})"><i class="fas fa-newspaper"></i></button>
                                                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                                 </form>
                                             </td>
@@ -167,8 +168,37 @@
           </div>
         </div>
     </div>
+    <div class="modal fade" id="modal_edit_article" tabindex="-1" role="dialog" aria-labelledby="modal_edit_article" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-set-resiLabel">Article</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="" method="POST" id="form-edit-article" enctype="multipart/form-data">
+                @csrf
+                @method("POST")
+                <input type="number" name="banner_id" id="banner_id" hidden>
+                <div class="modal-body row">
+                    <label for="article">Article</label>
+                    <textarea name="article" id="article" rows="40" class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
 @endsection
 @section('js')
+    <script src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+    <script>
+            CKEDITOR.replace( 'article' );
+    </script>
     <script>
         $('#tambah_konten').on('click', () => {
             $('#modal_tambah').modal('show')
@@ -190,6 +220,27 @@
                         var formAction = "{{route('content.update', ":id")}}";
                         formAction = formAction.replace(':id', id);
                         $("#form-edit-buy").attr("action", formAction);
+                    },
+                });
+            };
+            function setIndexArticle(id) {
+                // index = id;
+                // console.log(index);
+                var url = "{{route('article.edit', ":id")}}";
+                url = url.replace(":id", id);
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data) {
+                        console.log(data);
+                        if (data != null) {
+                            $('#modal_edit_article').modal('show')
+                            $("#article").val(data.article)
+                        }
+                            $("#banner_id").val(id)
+                        var formAction = "{{route('article.store', ":id")}}";
+                        formAction = formAction.replace(':id', id);
+                        $("#form-edit-article").attr("action", formAction);
                     },
                 });
             };

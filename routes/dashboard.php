@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\ArticleController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\PointController;
@@ -44,6 +45,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth','active']], funct
             Route::post('/user/set-status', [UserController::class, 'set_status'])->name('users.set_status');
             Route::post('/user/upgrade', [UserController::class, 'upgrade'])->name('user.upgrade');
             Route::resource('/reward', RewardController::class)->except(['create', 'edit']);
+            Route::resource('/article', ArticleController::class);
             Route::post('/reward/set_status', [RewardController::class, 'set_status'])->name('reward.set_status');
             Route::resource('/point', PointController::class)->except(['create', 'edit']);
             Route::resource('/content', ContentController::class);
