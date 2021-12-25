@@ -14,6 +14,16 @@ class ShowBlog extends Component
         $this->banner = Content::where('id', $id)->where('content_type', 2)->first();
         $this->article =  Article::where('banner_id', $this->banner->id)->first();
         if (!$this->article) {
+            $this->alert('error', 'Tidak ada artikel', [
+                'position' =>  'center',
+                'timer' =>  3000,
+                'toast' =>  true,
+                'text' =>  '',
+                'confirmButtonText' =>  'Ok',
+                'cancelButtonText' =>  'Cancel',
+                'showCancelButton' =>  false,
+                'showConfirmButton' =>  false,
+            ]);
             return redirect()->to('/');
         }
     }
