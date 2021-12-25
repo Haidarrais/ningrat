@@ -235,7 +235,7 @@
                         if (data && data.data && data.data.articles) {
                             console.log(data.data.articles);
                             $('#modal_edit_article').modal('show')
-                            $("#article").html(data.data.articles)
+                            CKEDITOR.instances['article'].setData(data.data.articles)
                         }
                             $("#banner_id").val(id)
                         var formAction = "{{route('article.store', ":id")}}";
