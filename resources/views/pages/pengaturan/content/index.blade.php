@@ -232,8 +232,8 @@
                     type: 'GET',
                     url: url,
                     success: function(data) {
+                        console.log(data);
                         if (data && data.data && data.data.articles) {
-                            console.log(data.data.articles);
                             $('#modal_edit_article').modal('show')
                             CKEDITOR.instances['article'].setData(data.data.articles)
                         }
