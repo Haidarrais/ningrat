@@ -232,9 +232,9 @@
                     type: 'GET',
                     url: url,
                     success: function(data) {
+                        console.log(data);
+                        $('#modal_edit_article').modal('show')
                         if (data && data.data && data.data.articles) {
-                            console.log(data.data.articles);
-                            $('#modal_edit_article').modal('show')
                             CKEDITOR.instances['article'].setData(data.data.articles)
                         }
                             $("#banner_id").val(id)
