@@ -1,7 +1,7 @@
         <!-- Footer Area Start -->
         <footer class="footer-area">
             <!-- Footer Top Area Start -->
-            <div class="footer-top bg-4 pt-120 pb-120">
+            <div class="footer-top bg-4 pb-120">
                 <!-- Footer Widget Area Start -->
                 <div class="footer-widget-area">
                     <div class="container">

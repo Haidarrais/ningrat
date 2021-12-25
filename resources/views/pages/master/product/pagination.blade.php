@@ -3,7 +3,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Nama</th>
-            <th scope="col">Kategori</th>
+            <th scope="col">Kategori dan Varian</th> 
             <th scope="col">Harga</th>
             <th scope="col">Terjual</th>
             <th scope="col">Berat</th>
@@ -16,7 +16,12 @@
         <tr>
             <th scope="row">{{ ($products->currentpage()-1) * $products->perpage() + $loop->index + 1 }}</th>
             <td>{{ $value->name??"" }}</td>
-            <td>{{ $value->category->name??"" }}</td>
+            <td>Kategori: {{ $value->category->subCategory->name??"" }}</br>
+                SubKategori: {{ $value->category->name??"" }} </br>
+                Varian/Sub: {{ $value->variant->subVariant->name??"" }}</br>
+                SubVarian: {{ $value->variant->name??"" }}  </br>
+            
+            </td> 
             <td>Rp. {{ number_format($value->price??0) }}</td>
             <td>{{ count($value->buyed??0) }}</td>
             <td>{{ $value->weight }}</td>

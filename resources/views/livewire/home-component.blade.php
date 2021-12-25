@@ -87,7 +87,7 @@
         </div>
         <!-- Shop Banner Area End -->
         <!-- Protuct Area Start -->
-        <div class="product-area bg-1 pt-110 pb-80">
+        <div class="product-area bg-1 pt-110">
             <div class="container">
                 <div class="section-title text-center">
                     <div class="section-img d-flex justify-content-center">
@@ -157,7 +157,7 @@
         </div>
         @if (count($testi) >= 4)
         <!-- Testimonial Area Start -->
-        <div class="testimonial-area pt-110 pb-95">
+        <div class="testimonial-area pt-50">
             <div class="container">
                 <div class="testimonial-slider-wrapper">
                     <div class="text-carousel text-center">
@@ -173,7 +173,7 @@
                     <div class="image-carousel">
                         @foreach ($testi as $testi_image)
                         <div class="testi-img">
-                            <img src="{{ asset('uploads/contents/'. $testi_image->image) }}" alt="" style="width: 94px; height:94px;">
+                            <img src="{{ asset('uploads/contents/'. $testi_image->image) }}" alt="" style="width: 120px; height:120px;">
                             <h4>{{$testi_image->name}}</h4>
                             <h4 style="font-weight: 0.1;margin-top:-20px;"><small>({{$testi_image->actor}})</small></h4>
                         </div>
@@ -182,5 +182,5 @@
                 </div>
             </div>
         </div>
-        @endif
+        @endif 
 </div>
