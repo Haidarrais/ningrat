@@ -71,7 +71,7 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->where('categories.parent_id', $this->category)
+                ->orwhere('categories.parent_id', $this->category)
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
@@ -84,7 +84,7 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'ASC')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->where('categories.parent_id', $this->category)
+                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -96,7 +96,7 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'DESC')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->where('categories.parent_id', $this->category)
+                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -107,7 +107,7 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->where('categories.parent_id', $this->category)
+                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -119,7 +119,7 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->where('categories.parent_id', $this->category)
+                ->orwhere('categories.parent_id', $this->category)
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
@@ -132,7 +132,7 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'ASC')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->where('categories.parent_id', $this->category)
+                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -144,7 +144,7 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'DESC')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->where('categories.parent_id', $this->category)
+                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -155,7 +155,7 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->where('categories.parent_id', $this->category)
+                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
