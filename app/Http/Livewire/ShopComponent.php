@@ -13,10 +13,14 @@ use Symfony\Component\Process\Process;
 class ShopComponent extends Component
 {
     public $sorting;
+    public $showDivCat = false;
+    public $showDivVar = false;
     public $pictures, $pictureId;
     public $pageSize;
     public $id_member;
     public $category;
+    public $variant;
+    public $variants;
     public $categories;
     public $min_price;
     public $max_price;
@@ -99,6 +103,54 @@ class ShopComponent extends Component
                 ->where('stock', '>', 0)
                 ->where('category_id', $this->category)
                 ->where('user_id', $this->id_member)
+                ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->paginate($this->pageSize);
+            }
+        }else if ($this->variant) {
+            if ($this->sorting=='date') {
+                $stocks = Stock::with('discount')
+                ->join('products', 'product_id', '=', 'products.id')
+                ->join('variants', 'variant_id', '=', 'variants.id')
+                ->select('stocks.*', 'products.price', 'products.id as pid')
+                ->groupBy('pid')
+                ->where('variant_id', $this->variant)
+                ->orwhere('variants.parent_id', $this->variant)
+                ->orderBy('created_at', 'DESC')
+                ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->paginate($this->pageSize);
+            }
+            else if ($this->sorting=='price-asc') {
+                $stocks = Stock::with('discount')
+                ->join('products', 'product_id', '=', 'products.id')
+                ->join('variants', 'variant_id', '=', 'variants.id')
+                ->select('stocks.*', 'products.price', 'products.id as pid')
+                ->orderBy('price', 'ASC')
+                ->groupBy('pid')
+                ->where('variant_id', $this->variant)
+                ->orwhere('variants.parent_id', $this->variant)
+                ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->paginate($this->pageSize);
+            }
+            else if ($this->sorting=='price-desc') {
+                $stocks = Stock::with('discount')
+                ->join('products', 'product_id', '=', 'products.id')
+                ->join('variants', 'variant_id', '=', 'variants.id')
+                ->select('stocks.*', 'products.price', 'products.id as pid')
+                ->orderBy('price', 'DESC')
+                ->groupBy('pid')
+                ->where('variant_id', $this->variant)
+                ->orwhere('variants.parent_id', $this->variant)
+                ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->paginate($this->pageSize);
+            }
+            else{
+                $stocks = Stock::with('discount')
+                ->join('products', 'product_id', '=', 'products.id')
+                ->join('variants', 'variant_id', '=', 'variants.id')
+                ->select('stocks.*', 'products.price', 'products.id as pid')
+                ->groupBy('pid')
+                ->where('variant_id', $this->variant)
+                ->orwhere('variants.parent_id', $this->variant)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
