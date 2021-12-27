@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Category;
 use App\Models\ProductPicture;
 use App\Models\Stock;
+use App\Models\Variant;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Cart;
@@ -13,11 +14,14 @@ use Symfony\Component\Process\Process;
 class ShowAllProducts extends Component
 {
     public $sorting;
+    public $showDivCat = false;
+    public $showDivVar = false;
     public $pictures, $pictureId;
     public $pageSize;
     public $id_member;
     public $category;
     public $variant;
+    public $variants;
     public $categories;
     public $min_price;
     public $max_price;
@@ -41,6 +45,10 @@ class ShowAllProducts extends Component
     public function category($category)
     {
         $this->category = $category;
+    }
+    public function variant($variant)
+    {
+        $this->variant = $variant;
     }
     public function store($stock_id, $stock_name, $stock_price)
     {
@@ -115,11 +123,11 @@ class ShowAllProducts extends Component
             if ($this->sorting=='date') {
                 $stocks = Stock::with('discount')
                 ->join('products', 'product_id', '=', 'products.id')
-                ->join('categories', 'category_id', '=', 'categories.id')
+                ->join('variants', 'variant_id', '=', 'variants.id')
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
-                ->where('category_id', $this->category)
-                ->orwhere('categories.parent_id', $this->category)
+                ->where('variant_id', $this->variant)
+                ->orwhere('variants.parent_id', $this->variant)
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
@@ -127,35 +135,35 @@ class ShowAllProducts extends Component
             else if ($this->sorting=='price-asc') {
                 $stocks = Stock::with('discount')
                 ->join('products', 'product_id', '=', 'products.id')
-                ->join('categories', 'category_id', '=', 'categories.id')
+                ->join('variants', 'variant_id', '=', 'variants.id')
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->orderBy('price', 'ASC')
                 ->groupBy('pid')
-                ->where('category_id', $this->category)
-                ->orwhere('categories.parent_id', $this->category)
+                ->where('variant_id', $this->variant)
+                ->orwhere('variants.parent_id', $this->variant)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-desc') {
                 $stocks = Stock::with('discount')
                 ->join('products', 'product_id', '=', 'products.id')
-                ->join('categories', 'category_id', '=', 'categories.id')
+                ->join('variants', 'variant_id', '=', 'variants.id')
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->orderBy('price', 'DESC')
                 ->groupBy('pid')
-                ->where('category_id', $this->category)
-                ->orwhere('categories.parent_id', $this->category)
+                ->where('variant_id', $this->variant)
+                ->orwhere('variants.parent_id', $this->variant)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
             else{
                 $stocks = Stock::with('discount')
                 ->join('products', 'product_id', '=', 'products.id')
-                ->join('categories', 'category_id', '=', 'categories.id')
+                ->join('variants', 'variant_id', '=', 'variants.id')
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
-                ->where('category_id', $this->category)
-                ->orwhere('categories.parent_id', $this->category)
+                ->where('variant_id', $this->variant)
+                ->orwhere('variants.parent_id', $this->variant)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
                 ->paginate($this->pageSize);
             }
@@ -201,7 +209,7 @@ class ShowAllProducts extends Component
             }
         }
         if (count($stocks) < 1) {
-            $this->alert('info', 'Produk pada kategori ini belum tersedia', [
+            $this->alert('info', 'Produk pada kategori/varian ini belum tersedia', [
                 'position' =>  'center',
                 'timer' =>  3000,
                 'toast' =>  true,
@@ -215,6 +223,7 @@ class ShowAllProducts extends Component
         $pictures = ProductPicture::where('product_id', '=', $this->pictureId)->get();
         $this->pictures = $pictures ?? false;
         $this->categories = Category::all();
+        $this->variants = Variant::all();
         return view('livewire.show-all-products',['stocks' => $stocks])->layout('layouts.main');
     }
 }
