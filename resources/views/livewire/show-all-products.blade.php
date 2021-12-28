@@ -168,18 +168,19 @@
                     <div class="sidebar-wrapper">
                         <h3>Layered Navigation</h3>
                         <div class="sidebar-widget">
-                            <h3>Categories</h3>
-                            <div class="sidebar-widget-option-wrapper">
+                            <h3 wire:click="$toggle('showDivCat')">Categories @if ($showDivCat)<small class="text-secondary">hide</small>@else <small class="text-secondary">show</small> @endif</h3>
+                            @if ($showDivCat)
+                            <div class="sidebar-widget-option-wrapper" id="categories">
                                 @foreach ($categories as $category )
                                     @if ($category->id == $category->parent_id)
                                         <div class="sidebar-widget-option">
-                                            <a href="#" wire:click="category({{$category->id}})">{{$category->name}}</a>
+                                            <a href="#" wire:click="category({{$category->id}})" @if($this->category == $category->id) class="text-success" @endif>{{$category->name}}</a>
                                         </div>
                                     @endif
                                     @foreach ($categories->where('parent_id', '=', $category->id) as $sub)
                                         @if ($sub->id != $sub->parent_id)
                                             <div class="sidebar-widget-option">
-                                                <a class="ml-3 text-secondary" href="#" wire:click="category({{$sub->id}})">- {{$sub->name}}</a>
+                                                <a class="ml-3 @if($this->category == $sub->id) text-success @else text-secondary @endif" href="#" wire:click="category({{$sub->id}})">- {{$sub->name}}</a>
                                             </div>
                                         @endif
                                     @endforeach
@@ -188,6 +189,30 @@
                                     <a href="#" wire:click="category({{0}})">Reset</a>
                                 </div>
                             </div>
+                            @endif
+                            <h3 wire:click="$toggle('showDivVar')">Variant @if ($showDivVar)<small class="text-secondary">hide</small>@else <small class="text-secondary">show</small> @endif</h3>
+                            @if ($showDivVar)
+                            <div class="sidebar-widget-option-wrapper" id="categories">
+                                @foreach ($variants as $variant )
+                                    @if ($variant->id == $variant->parent_id)
+                                        <div class="sidebar-widget-option">
+                                            <a href="#" wire:click="variant({{$variant->id}})" @if($this->variant == $variant->id) class="text-success" @endif>{{$variant->name}}</a>
+                                        </div>
+                                    @endif
+                                    @foreach ($variants->where('parent_id', '=', $variant->id) as $sub)
+                                        @if ($sub->id != $sub->parent_id)
+                                            <div class="sidebar-widget-option">
+                                                <a class="ml-3 @if($this->variant == $sub->id) text-success @else text-secondary @endif" href="#" wire:click="variant({{$sub->id}})">- {{$sub->name}}</a>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                                <div class="sidebar-widget-option">
+                                    {{$stocks}}
+                                    <a href="#" wire:click="variant({{0}})">Reset</a>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                         <div class="sidebar-widget price-widget">
                             <h3>Price Filter</h3>
@@ -202,9 +227,6 @@
                                     <input type="number" wire:model="max_price" class="form-control" >
                                 </div>
                         </div>
-                    </div>
-                    <div class="sidebar-banner-img">
-                        <a href="#"><img src="assets/img/banner/6.png" alt=""></a>
                     </div>
                 </div>
             </div>

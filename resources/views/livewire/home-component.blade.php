@@ -66,7 +66,7 @@
                     @foreach ($banner as $bnr)
                         <div class="col-md-6">
                             <div class="shop-banner-img">
-                                <a href="#"><img src="{{ asset('uploads/contents/'. $bnr->image) }}" alt=""></a>
+                                <a><img src="{{ asset('uploads/contents/'. $bnr->image) }}" alt="Banner" wire:click="goBlog({{$bnr->id}})"></a>
                             </div>
                         </div>
                     @endforeach
@@ -90,14 +90,11 @@
         <div class="product-area bg-1 pt-110 pb-80">
             <div class="container">
                 <div class="section-title text-center">
-                    <div class="section-img d-flex justify-content-center">
-                        <img src="{{ asset('assets/img/logo/logobig.png') }}" alt="Ningrat">
-                    </div>
                     <h2><span>Our </span>exclusive products</h2>
                 </div>
             </div>
             <div class="container">
-                <div class="product-tab-list nav" role="tablist">
+                <div class="product-tab-list nav mt-4" role="tablist">
                     @foreach ($cat as $key => $cat1 )
                         @if(count($cat1->product)>0)
                         <a @if ($key === 0) class="active" @endif href="#tab{{$key+1}}" data-toggle="tab" role="tab" aria-selected="false" aria-controls="tab{{$key+1}}">{{$cat1->name}}</a>
