@@ -96,7 +96,7 @@ class OrderController extends Controller
                  $discount_role_based= Setting::where('role', 'old-distributor')->first()->discount??0;
             $monthly_min_transaction = Setting::where('role', 'old-distributor')->first()->value??0;
             $products =
-            $products = Stock::with(['product', 'user'])->where('user_id', 'pusat')->where('status', 1)->where('stock', '>', 0)->get()??[];
+            $products = Stock::with(['product', 'user'])->where('user_id', 0)->where('status', 1)->where('stock', '>', 0)->get()??[];
             // dd($products);
             $setting_role = $user_updated_at > 2020? "new-distributor": "old-distributor";
         } else {

@@ -20,7 +20,7 @@ class StockController extends Controller
         }
         $user = User::find($user_id);
         if (User::find($user_id)->getRoleNames()->first() == 'superadmin') {
-            $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', 'pusat');
+            $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', 0);
         }else{
             $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', $user_id);
 
