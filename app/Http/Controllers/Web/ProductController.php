@@ -203,7 +203,7 @@ class ProductController extends Controller
                 'status' => false,
                 'message' => [
                     'head' => 'Gagal',
-                    'body' => 'Produk yang sudah tidak bisa dihapus'
+                    'body' => 'Produk yang sudah terjual tidak bisa dihapus'
                 ]
             ],
                 500
