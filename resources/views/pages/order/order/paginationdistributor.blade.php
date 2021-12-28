@@ -16,7 +16,7 @@
         <input type="hidden" name="id[]" value="{{ $value->product_id }}">
         <tr id="displayer">
             <input type="hidden" name="ongkir-per-category-{{$value->product_id}}" value="{{$value->product->category->discount->value??0}}">
-            <input type="hidden" class="category_product" name="productCategory{{$value->id}}" value="{{ $value->product->category->id }}" id="category_product">
+            <input type="hidden" class="category_product" name="productCategory{{$value->id}}" value="{{ $value->product->category_id }}" id="category_product">
             <td>{{ $loop->iteration }}</td>
                   @forelse ($value->product->onePicture as $key => $item)
                   @if ($key<1) <td><img src="{{ asset('upload/product/').'/'.$item->image??'' }}" alt="{{ $item->image }}"
