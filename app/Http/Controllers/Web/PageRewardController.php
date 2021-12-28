@@ -54,7 +54,6 @@ class PageRewardController extends Controller
         ->where('user_id', '=', $user->id)
         ->where('created_at', '>', Carbon::now()->subMonths(6))
         ->get();
-        // dd(count($exchangedPoint) > 0);
         if(count($exchangedPoint)>0) {
             return response()->json([
                 'error' => true,

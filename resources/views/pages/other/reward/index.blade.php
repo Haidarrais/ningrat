@@ -119,6 +119,6 @@
                     })
             }
         })
-    }
+    };
 </script>
 @endsection
