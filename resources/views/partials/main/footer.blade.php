@@ -15,7 +15,7 @@
                                     <div class="footer-text">
                                         <span><i class="icon icon-Pointer"></i>Address : Tenggor, Madiopuro, Kec. Sumobito, Kabupaten Jombang, Jawa Timur 61483.</span>
                                         <span><i class="icon icon-Phone"></i>Phone : +(62) 85649499491</span>
-                                        <span><i class="icon icon-Mail"></i>Email : hello@ningratofficial.com</span>
+                                        <span><i class="icon icon-Mail"></i>Email : ningratclodi@gmail.com</span>
                                     </div>
                                 </div>
                                 <hr>
@@ -25,7 +25,7 @@
                                     </div>
                                     <div class="service-text mt-4">
                                         <h3>Online support</h3>
-                                        <p>CS selalu siap membantu anda.</p>
+                                        <p>Senin - Jumat 08.00-16.00</p>
                                         <a href="https://wa.me/6285649499491" class="btn btn-success">via WhatsApp <i class="fa fa-whatsapp" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -52,7 +52,7 @@
                     <div class="row">
                         <div class="col-lg-6 d-flex col-md-6">
                             <div class="footer-text-bottom">
-                                <p>Copyright &copy; <a href="#">Naturecircle</a>. All Rights Reserved</p>
+                                <p>Copyright &copy; <a href="#">Ningrat</a>. All Rights Reserved</p>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
