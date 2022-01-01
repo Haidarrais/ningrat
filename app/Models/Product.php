@@ -27,6 +27,15 @@ class Product extends Model
         static::saving(function ($model) {
             $model->slug = Str::slug($model->name);
         });
+
+        // Setup event bindings...
+        static::deleting(function ($model) {
+            //delete related  
+            if ($model->isInStock()->delete()) {
+                return true;
+            }
+            return false;
+        });
     }
 
     public function variant(){
@@ -51,6 +60,10 @@ class Product extends Model
 
     public function buyed(){
         return $this->hasMany(OrderDetail::class);
+    }
+
+    public function isInStock(){
+        return $this->hasOne(Stock::class, 'product_id','id')->where('user_id',0);
     }
 
 }

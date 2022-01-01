@@ -16,11 +16,11 @@ class StockController extends Controller
         $user_id = Auth::user()->id;
         $stock_reseller = [];
         if(User::find($user_id)->getRoleNames()->first() == 'reseller') {
-            $stock_reseller = Stock::with(['product', 'user'])->where('user_id', $user_id)->get();
+            $stock_reseller = Stock::with(['product.category', 'user'])->where('user_id', $user_id)->get();
         }
         $user = User::find($user_id);
         if (User::find($user_id)->getRoleNames()->first() == 'superadmin') {
-            $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', 'pusat');
+            $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', 0);
         }else{
             $query = Stock::with(['product.category', 'user', 'discount'])->where('user_id', $user_id);
 
