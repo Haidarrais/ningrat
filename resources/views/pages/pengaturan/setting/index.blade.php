@@ -42,8 +42,8 @@
                         <select name="key" id="selectKey" class="form-control">
                             <option selected>==Pilih Key==</option>
                             <option value="minimal-belanja" title="atur minimal belanja user sesuai roe">minimal-belanja</option>
-                            <!-- <option value="2">Two</option>
-                            <option value="3">Three</option> -->
+                            <option value="minimal-belanja-point">minimal-belanja</option>
+                            <span id="keterangan"></span>
                         </select>
                     </div>
                     <div class="form-group d-none" id="selectRoleWrapper">
@@ -90,6 +90,7 @@
         $("#selectKey").on('change', () => {
             var value = $('#selectKey').val()
             if (value == "minimal-belanja") {
+                $("#keterangan").html("Keterangan: Setting ini digunakan untuk mevalidasi apakah user berhak untuk mendapatkan diskon dan subsidi ongkir dan syarat untuk naik level.");
                 $("#selectRoleWrapper").removeClass("d-none");
                 $("#new_input").append($(`<div class="
                                 col "> <div class="form-group" id=""> <label
@@ -118,6 +119,7 @@
             } else {
                 $("#selectRoleWrapper").addClass("d-none");
                 $("#new_input").children("div").remove();
+                $("#keterangan").html("Keterangan: Setting ini digunakan untuk mevalidasi apakah user berhak untuk mendapatkan poin.");
             }
         });
         $("#selectRole").on("change", () => {
@@ -142,7 +144,7 @@
         $("#formTambah").on('submit', (e) => {
             e.preventDefault()
             let serializedData = $("#formTambah").serialize();
-
+$("#keterangan").html(null);
             if (type == "STORE") {
                 new Promise((resolve, reject) => {
                     $axios.post(`{{ route('setting.store') }}`, serializedData)
