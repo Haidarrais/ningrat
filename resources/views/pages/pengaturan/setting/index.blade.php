@@ -42,7 +42,7 @@
                         <select name="key" id="selectKey" class="form-control">
                             <option selected>==Pilih Key==</option>
                             <option value="minimal-belanja" title="atur minimal belanja user sesuai roe">minimal-belanja</option>
-                            <option value="minimal-belanja-point">minimal-belanja</option>
+                            <option value="minimal-belanja-point">minimal-belanja-point</option>
                             <span id="keterangan"></span>
                         </select>
                     </div>
