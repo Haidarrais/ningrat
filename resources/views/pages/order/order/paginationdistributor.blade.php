@@ -26,6 +26,12 @@
                     <td>Belum ada foto</td>
                     @endforelse
             <td class="product_name">{{ $value->product->name??"" }}</td>
+                  <td>Kategori: {{ $value->category->subCategory->name??"" }}</br>
+                SubKategori: {{ $value->category->name??"" }} </br>
+                Varian/Sub: {{ $value->variant->subVariant->name??"" }}</br>
+                SubVarian: {{ $value->variant->name??"" }}  </br>
+            
+            </td> 
             <td id="field-price-{{ $value->product_id }}" data-weight="{{ $value->product->weight }}" data-price="{{ $value->product->price }}">
                 Rp.{{ number_format($value->product->price??0) }}
             </td>
