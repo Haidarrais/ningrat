@@ -44,7 +44,7 @@
                             <option value="minimal-belanja" title="atur minimal belanja user sesuai roe">minimal-belanja</option>
                             <option value="minimal-belanja-point">minimal-belanja-point</option>
                         </select>
-                        <span id="keterangan"></span>
+                        <span id="keterangan" class="text-small"></span>
                     </div>
                     <div class="form-group d-none" id="selectRoleWrapper">
                         <label for="selectSubKategori">Role</label>
