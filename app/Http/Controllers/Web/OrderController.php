@@ -352,6 +352,7 @@ class OrderController extends Controller
 
     public function set_status($id, $status) {
         $order = Order::find($id);
+        $user  = User::find($order->user_id);
         $order->update([
             'status' => $status == 3 ? 4 : $status
         ]);
@@ -388,25 +389,28 @@ class OrderController extends Controller
                         'type' => $type
                     ]);
                 }
-            }
-
-            $min_order = $this->getValue(Setting::all(), 'minimal-belanja-point');
-            if($order->subtotal >= (int) $min_order) {
-                $point = Point::where('category_id', $value->product->category_id)->first();
-                if($point) {
-                    $qty = $value->qty;
-                    $total = $qty/$point->min;
-                    if(floor($total) > 0) {
-                        DB::table("point_user")->insert([
-                            'point_id' => $point->id,
-                            'user_id' => $order->user_id,
-                            'total' => floor($total),
-                            'created_at' => now(),
-                            'updated_at' => now()
-                        ]);
+                $min_order = Setting::where([
+                    ['key','=', 'minimal-belanja-point'],
+                    ['role', '=', $user->role_name]])
+                    ->first();
+                if($order->subtotal >= (int) $min_order->value) {
+                    $point = Point::where('category_id', $value->product->category_id)->first();
+                    if($point) {
+                        $qty = $value->qty;
+                        $total = $qty/$point->min;
+                        if(floor($total) > 0) {
+                            DB::table("point_user")->insert([
+                                'point_id' => $point->id,
+                                'user_id' => $order->user_id,
+                                'total' => floor($total),
+                                'created_at' => now(),
+                                'updated_at' => now()
+                            ]);
+                        }
                     }
                 }
             }
+
         } else if($status == 5) {
             $text = "Ditolak";
         } else if($status == 6) {

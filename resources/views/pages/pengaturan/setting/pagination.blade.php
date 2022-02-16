@@ -16,9 +16,16 @@
             <th scope="row">{{ ($settings->currentpage()-1) * $settings->perpage() + $loop->index + 1 }}</th>
             <td>{{ $value->new_key??'' }}</td>
             <td>{{ $value->role??"-" }}</td>
+            @if ($value->key=="minimal-belanja")
             <td>Rp. {{ number_format($value->value)??'' }}</td>
-            <td>Rp. {{ number_format($value->minimal_transaction)??'' }}</td>
-            <td>{{ $value->discount??'' }}%</td>
+            <td>Rp. {{ number_format($value->minimal_transaction)??'' }}</td> 
+             <td>{{ $value->discount??'' }}%</td>
+            @else
+            <td>~</td>
+            <td>Rp. {{ number_format($value->value)??'' }}</td> 
+            <td>~</td>
+            @endif
+            {{-- <td>{{ $value->discount??'' }}%</td> --}}
             <td scope="row">
                 <button type="button" class="btn btn-sm btn-success" onclick="editData({{ $value->id }})">Edit</button>
                 <button class="btn btn-sm btn-danger hapus" onclick="deleteData({{ $value->id }})" type="button">Delete</button>

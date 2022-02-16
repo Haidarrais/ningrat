@@ -69,12 +69,11 @@ class DashboardController extends Controller
         if (auth()->user()->isCustomer()) {
             return redirect('/');
         }else{
-            // return $request->ajax()?view("pages.paginationds", compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement', 'role', 'monthly_transaction', 'minimal_transaction'))->render():
-            //  view('pages.index', compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement','role', 'monthly_transaction', 'minimal_transaction'));
-         return view('pages.index', compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement','role', 'monthly_transaction', 'minimal_transaction'));
-
-
-
+            return $request->ajax() ? 
+            view("pages.paginationds", compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement', 'role', 'monthly_transaction', 'minimal_transaction'))->render()
+            :
+             view('pages.index', compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement','role', 'monthly_transaction', 'minimal_transaction'));
+        //  return view('pages.index', compact('orders', 'month', 'hirarki', 'royalty', 'all_role', 'text_dashboard', 'user', 'checkMitraRequirement','role', 'monthly_transaction', 'minimal_transaction'));
         }
     }
 

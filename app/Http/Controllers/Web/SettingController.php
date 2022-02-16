@@ -54,7 +54,10 @@ class SettingController extends Controller
         $key = Str::slug($request->key);
         $role = $request->role;
         if ($role) {
-            $role = $role == "distributor" ? $request->distributorType . "-" . $role : $role;
+            if ($key=="minimal-belanja") {
+                $role = $role == "distributor" ? $request->distributorType . "-" . $role : $role;
+                # code...
+            }
         }
         $setting = Setting::checkData($key, $role);
         if ($setting) {

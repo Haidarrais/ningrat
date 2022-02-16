@@ -89,6 +89,7 @@
         //modal input 
         $("#selectKey").on('change', () => {
             var value = $('#selectKey').val()
+            $("#new_input").children("div").remove();
             if (value == "minimal-belanja") {
                 $("#keterangan").html("Keterangan: Setting ini digunakan untuk mevalidasi apakah user berhak untuk mendapatkan diskon dan subsidi ongkir dan syarat untuk naik level.");
                 $("#selectRoleWrapper").removeClass("d-none");
@@ -117,15 +118,22 @@
                                 </div>
                                 `));
             } else {
-                $("#selectRoleWrapper").addClass("d-none");
-                $("#new_input").children("div").remove();
+                // $("#selectRoleWrapper").addClass("d-none");
+                // $("#new_input").children("div").remove();
+                $("#selectRoleWrapper").removeClass("d-none");
+                $("#new_input").append($(`<div class="
+                                col"> <div class="form-group" id=""> <label
+                                for="">Minimal Order</label> <input type="text"
+                                class="form-control"
+                                name="value"
+                                id="value" required>
+                                </div></div>`));
                 $("#keterangan").html("Keterangan: Setting ini digunakan untuk mevalidasi apakah user berhak untuk mendapatkan poin.");
             }
         });
         $("#selectRole").on("change", () => {
             var value = $('#selectRole').val()
-            console.log(value)
-            if (value == "distributor") {
+            if (value == "distributor"&&$("#selectKey").val()!=="minimal-belanja-point") {
                 $(".form-check").removeClass('d-none');
             } else {
                 $(".form-check").addClass('d-none');
@@ -138,7 +146,6 @@
             $('#modal_tambah').modal('show')
         });
         $("input[type=radio][name=distributorType]").change(function() {
-            console.log(this.value);
         })
 
         $("#formTambah").on('submit', (e) => {
@@ -162,7 +169,6 @@ $("#keterangan").html(null);
                             });
                         })
                         .catch(err => {
-                            console.log(err);
                             throwErr(err)
                         }).then(() => {
                             $("#modal_tambah").modal("hide");
@@ -172,7 +178,6 @@ $("#keterangan").html(null);
                 });
             } else if (type == "UPDATE") {
                 let id_setting = $("#inputID").val();
-                console.log("oke you are going to update");
                 // return;
                 new Promise((resolve, reject) => {
                     $axios.put(`${URL_NOW}/${id_setting}`, serializedData)
@@ -200,23 +205,45 @@ $("#keterangan").html(null);
     })
 
     const editData = id => {
+        if (!$(".form-check").hasClass('d-none')) {
+            $(".form-check").addClass('d-none');
+        }
+        // $(".form-check").removeClass('d-none');
         new Promise((resolve, reject) => {
             $axios.get(`${URL_NOW}/${id}`)
                 .then(({
                     data
                 }) => {
                     let setting = data.data;
-                    console.log(setting);
                     type = 'UPDATE';
                     $("#formTambah")[0].reset();
                     $("#inputID").val(setting.id);
-                    $("#key").val(setting.key);
+                    $("#selectKey").val(setting.key);
+                    $("#selectKey").trigger("change");
                     $("#modalTitle").html('Edit Setting')
                     $("#value").val(setting.value);
+                    if (setting.key == 'minimal-belanja' && setting.role.split("-").length>1) {
+                        let splitedRole = setting.role.split("-");
+                        $("#selectRole").val(splitedRole[1]);
+                        if (splitedRole[1]=="distributor") {
+                            $(".form-check").removeClass('d-none');
+                            if (splitedRole[0]=='old') {
+                                $("#exampleRadios1").attr("checked", true);
+                                $("#exampleRadios2").attr("checked", false);
+                            }else{
+                                $("#exampleRadios1").attr("checked", false);
+                                $("#exampleRadios2").attr("checked", true);
+                            }
+                        }
+                    }else{
+                        $("#selectRole").val(setting.role);
+                    }
+                    $("#value").val(setting.value);
+                    $("#minimal_transaction").val(setting.minimal_transaction);
+                    $("#discount").val(setting.discount);
                     $('#modal_tambah').modal('show');
                 })
                 .catch(err => {
-                    console.log(err)
                     $swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -232,7 +259,6 @@ $("#keterangan").html(null);
     }
 
     const deleteData = id => {
-        console.log(id);
         // return;
         $swal.fire({
                 title: 'Yakin?',
