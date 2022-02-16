@@ -29,10 +29,10 @@
                     <td>Belum ada foto</td>
                     @endforelse
       <td class="product_name">{{ $value->product->name??"" }}</td>
-      <td>Kategori: {{ $value->category->subCategory->name??"" }}</br>
-                SubKategori: {{ $value->category->name??"" }} </br>
-                Varian/Sub: {{ $value->variant->subVariant->name??"" }}</br>
-                SubVarian: {{ $value->variant->name??"" }}  </br>
+      <td>Kategori: {{ $value->product->category->subCategory->name??"" }}</br>
+                SubKategori: {{ $value->product->category->name??"" }} </br>
+                Varian/Sub: {{ $value->product->variant->subVariant->name??"" }}</br>
+                SubVarian: {{ $value->product->variant->name??"" }}  </br>
             
             </td> 
       @if ($discount =

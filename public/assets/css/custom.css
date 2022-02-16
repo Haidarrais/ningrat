@@ -38,6 +38,7 @@ justify-content:space-around;
 }
 .table_order tbody td{
  flex-basis:15%;
+ height:100px;
 }
 
 th{
