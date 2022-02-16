@@ -17,6 +17,7 @@ use App\Http\Livewire\DetailOrderComponent;
 use App\Http\Livewire\ShowAllProducts;
 use App\Http\Livewire\ShowBlog;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,4 +59,8 @@ Route::group(['prefix' => 'customer','middleware' => ['role:customer','auth','ac
     Route::get('/profile', MyProfileComponent::class)->name('profile.customer');
     Route::get('/profile/lacak/{id}', [MyProfileComponent::class, 'lacak'])->name('customer.lacak');
     Route::patch('/profile', SaveProfile::class)->name('profile.savec');
+});
+
+Route::get('storage-link', function() {
+    return Artisan::call("storage:link");
 });
