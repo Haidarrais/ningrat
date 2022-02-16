@@ -2,7 +2,9 @@
     width: 100%;
 }
 
-.table_order thead, .table_order tbody, .table_order tr, .table_order td, .table_order th { display: block; }
+.table_order thead, .table_order tbody, .table_order tr, .table_order td, .table_order th { 
+    display: block; 
+}
 
 .table_order tr:after {
     content: ' ';
@@ -38,7 +40,7 @@ justify-content:space-around;
 }
 .table_order tbody td{
  flex-basis:15%;
- height:100px;
+ height:200px;
 }
 
 th{
