@@ -4,6 +4,7 @@
             <th>#</th>
             <th>Gambar</th>
             <th>Nama Produk</th>
+            <th>Kategori dan varian</th>
             <th class="qty">Harga</th>
             <th>Jumlah</th>
             <th>Total</th>
