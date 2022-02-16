@@ -604,7 +604,7 @@
                     $.each(data.data.details, (index, element) => {
                         let total_harga = parseInt(element.product.price) * parseInt(element.qty)
                         html += `<div class="col-md-6 border-bottom mb-4">
-                                    <img src="${url_asset}/${element.product.picture[0]?.image}" alt="gambar" class="img-fluid img-thumnail w-20" class="float-left">
+                                    <img src="${url_asset}/${element.product.picture[0]?.image}" alt="gambar" class="img-fluid img-thumnail w-50" class="float-left">
                                     <div class="d-flex justify-between">
                                     <p>${element.product.name}</p>
                                     </div>

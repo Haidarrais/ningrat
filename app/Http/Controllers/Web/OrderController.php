@@ -362,7 +362,7 @@ class OrderController extends Controller
         } else if($status == 3) {
             $text = "Diterima";
         } else if($status == 4) {
-            $text = "Selsai";
+            $text = "Selesai";
             foreach ($order->details()->get() as $key => $value) {
                 $stock = Stock::where('user_id', $order->user_id)
                                 ->where('product_id', $value->product_id)
