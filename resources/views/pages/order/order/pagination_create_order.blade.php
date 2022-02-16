@@ -4,6 +4,7 @@
       <th>#</th>
       <th>Gambar</th>
       <th>Nama Produk</th>
+      <th>Kargori dan variant</th>
       <th>Harga</th>
       <th>Jumlah</th>
       <th>Total</th>
@@ -28,6 +29,12 @@
                     <td>Belum ada foto</td>
                     @endforelse
       <td class="product_name">{{ $value->product->name??"" }}</td>
+      <td>Kategori: {{ $value->category->subCategory->name??"" }}</br>
+                SubKategori: {{ $value->category->name??"" }} </br>
+                Varian/Sub: {{ $value->variant->subVariant->name??"" }}</br>
+                SubVarian: {{ $value->variant->name??"" }}  </br>
+            
+            </td> 
       @if ($discount =
       $value->discount()->where('user_id', $value->user_id)->where('status', 1)->first())
       @php
