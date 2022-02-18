@@ -389,14 +389,17 @@ class OrderController extends Controller
                         'type' => $type
                     ]);
                 }
-                $min_order = Setting::where([
-                    ['key','=', 'minimal-belanja-point'],
-                    ['role', '=', $user->role_name]])
-                    ->first();
-                if($order->subtotal >= (int) $min_order->value) {
-                    $point = Point::where('category_id', $value->product->category_id)->first();
+            }
+            $min_order = Setting::where([
+                ['key','=', 'minimal-belanja-point'],
+                ['role', '=', $user->role_name]])
+                ->first();
+            if($order->subtotal >= (int) $min_order->value) {
+                foreach($order->details()->get() as $key => $detail) {
+                    $point = Point::where('category_id', 
+                    $detail->product->category_id)->first();
                     if($point) {
-                        $qty = $value->qty;
+                        $qty = $detail->qty;
                         $total = $qty/$point->min;
                         if(floor($total) > 0) {
                             DB::table("point_user")->insert([
@@ -408,6 +411,7 @@ class OrderController extends Controller
                             ]);
                         }
                     }
+                    # code...
                 }
             }
 
