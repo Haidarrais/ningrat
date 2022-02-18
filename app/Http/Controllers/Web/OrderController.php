@@ -408,8 +408,8 @@ class OrderController extends Controller
                         $detail->product->category_id
                     )->first();
                     if (!$point) {
-                        $category = Category::where('parent_id', $detail->product->category_id)->first();
-                        if ($category && $p = Point::where('category_id', $category->id)->first()) {
+                        $category = Category::find($detail->product->category_id);
+                        if ($category && $p = Point::where('category_id', $category->parent_id)) {
                             $min_point = $p->min;
                         }
                     } else {
