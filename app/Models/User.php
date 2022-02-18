@@ -137,11 +137,15 @@ class User extends Authenticatable
 
     public function getTotalPointAttribute() {
         $total = ($this->point()->sum('total') != null) ? $this->point()->sum('total') : 0;
-        // $reward = $this->reward()->where('rewards.status', 1)->get();
-        $reward = $this->reward()->get();
+        $reward = $this->reward()->where('rewards.status', 1)->get();
+        // $reward = $this->reward()->get();
+        // dd($reward);
         $total_reward = 0;
         foreach ($reward as $key => $value) {
-            if($value->pivot->status == 1) $total_reward += $value->point;
+            if($value->pivot->status == 1) {
+                $total_reward += $value->point;
+                // dd($value->point);
+            }
         }
         $subtotal = $total - $total_reward;
         return $subtotal < 0 ? 0 : $subtotal;

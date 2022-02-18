@@ -409,17 +409,19 @@ class OrderController extends Controller
                     )->first();
                     if (!$point) {
                         $category = Category::find($detail->product->category_id);
-                        if ($category && $p = Point::where('category_id', $category->parent_id)) {
+                        if ($category && $p = Point::where('category_id', $category->parent_id)->first()) {
                             $min_point = $p->min;
+                            $point = $p;
                         }
                     } else {
                         $min_point = $point->min;
                     }
+                    // dd($min_point);
                     if ($min_point) {
                         $qty = $detail->qty;
                         $total = $qty / $min_point;
                         if (floor($total) > 0) {
-                            DB::table("point_user")->insert([
+                           $n = DB::table("point_user")->insert([
                                 'point_id' => $point->id,
                                 'user_id' => $order->user_id,
                                 'total' => floor($total),
