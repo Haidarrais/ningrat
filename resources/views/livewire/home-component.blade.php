@@ -145,6 +145,11 @@
                                         </div>
                                     @endif
                                 @endforeach
+                                @if(($cat2->product && !$cat2->product()->where('status',1)->first()) || !$cat2->product)
+                                    <div class="alert alert-info">
+                                        <h3>produk belum tersedia</h3>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         @endif

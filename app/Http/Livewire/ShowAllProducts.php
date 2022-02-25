@@ -79,9 +79,10 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->orwhere('categories.parent_id', $this->category)
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->orwhere('categories.parent_id', $this->category)
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-asc') {
@@ -92,8 +93,9 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'ASC')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
+                ->orwhere('categories.parent_id', $this->category)
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-desc') {
@@ -104,8 +106,9 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'DESC')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
+                ->orwhere('categories.parent_id', $this->category)
                 ->paginate($this->pageSize);
             }
             else{
@@ -115,8 +118,9 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
                 ->where('category_id', $this->category)
-                ->orwhere('categories.parent_id', $this->category)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
+                ->orwhere('categories.parent_id', $this->category)
                 ->paginate($this->pageSize);
             }
         }else if ($this->variant) {
@@ -130,6 +134,7 @@ class ShowAllProducts extends Component
                 ->orwhere('variants.parent_id', $this->variant)
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-asc') {
@@ -142,6 +147,7 @@ class ShowAllProducts extends Component
                 ->where('variant_id', $this->variant)
                 ->orwhere('variants.parent_id', $this->variant)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-desc') {
@@ -154,6 +160,7 @@ class ShowAllProducts extends Component
                 ->where('variant_id', $this->variant)
                 ->orwhere('variants.parent_id', $this->variant)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
             else{
@@ -165,6 +172,7 @@ class ShowAllProducts extends Component
                 ->where('variant_id', $this->variant)
                 ->orwhere('variants.parent_id', $this->variant)
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
         }else{
@@ -176,6 +184,7 @@ class ShowAllProducts extends Component
                 ->groupBy('pid')
                 ->orderBy('created_at', 'DESC')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-asc') {
@@ -186,6 +195,7 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'ASC')
                 ->groupBy('pid')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
             else if ($this->sorting=='price-desc') {
@@ -196,6 +206,7 @@ class ShowAllProducts extends Component
                 ->orderBy('price', 'DESC')
                 ->groupBy('pid')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
             else{
@@ -205,6 +216,7 @@ class ShowAllProducts extends Component
                 ->select('stocks.*', 'products.price', 'products.id as pid')
                 ->groupBy('pid')
                 ->whereBetween('price', [$this->min_price, $this->max_price])
+                ->whereRaw('products.status = 1')
                 ->paginate($this->pageSize);
             }
         }

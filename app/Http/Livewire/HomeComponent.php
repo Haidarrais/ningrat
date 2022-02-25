@@ -48,8 +48,8 @@ class HomeComponent extends Component
         //     ->select('categories.name as cname', 'products.category_id', 'products.name as pname', DB::raw('count(products.id) as count'))
         //     ->groupBy('products.category_id')
         //     ->get();
-        $cat = Category::all();
-        $product = Product::all();
+        $cat = Category::with('product')->get();
+        $product = Product::whereRaw('products.status = 1')->get();
         return view('livewire.home-component', ['cat' => $cat, 'product' => $product, 'carousel' => $carousel, 'banner' => $banner, 'testi' => $testi])->layout('layouts.main');
     }
 }
