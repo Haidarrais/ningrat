@@ -62,6 +62,7 @@ class CartComponent extends Component
         }
     }
     public function addNote($rowId, $note){
+        $this->alert($rowId, $note);
         Cart::update($rowId, ['note'=>$note]);
     }
     public function destroyItem($rowId)
