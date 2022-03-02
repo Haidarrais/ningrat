@@ -31,6 +31,8 @@
                                     <th class="table-p-price">price</th>
                                     <th class="table-p-qty">quantity</th>
                                     <th class="table-total">total</th>
+                                    <th class="">keterangan</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,6 +60,9 @@
 
                                             <td class="table-total">
                                                 <p>Rp.{{ number_format($item->subtotal) }}</p>
+                                            </td>
+                                            <td class="">
+                                               <input name="cart-note" type="text" >
                                             </td>
                                         </tr>
                                     @endforeach

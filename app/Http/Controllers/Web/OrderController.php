@@ -186,8 +186,9 @@ class OrderController extends Controller
                 $temp_data['price'] = $data['price'][$key];
                 $temp_data['weight'] = $product->weight;
                 $temp_data['qty'] = $data['qty'][$key];
-                //                $temp_data['created_at'] = now();
-                //                $temp_data['updated_at'] = now();
+                $temp_data['note'] = $data['note'][$key];
+                               $temp_data['created_at'] = now();
+                               $temp_data['updated_at'] = now();
                 // $price += $product->price * $data['qty'][$key];
                 $price += $data['price'][$key];
                 array_push($order_details, $temp_data);

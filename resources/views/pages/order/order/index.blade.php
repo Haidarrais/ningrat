@@ -615,6 +615,8 @@
                                 <div>
                                 <p><strong>Total Harga</strong></p>
                                 <p>Rp. ${total_harga.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
+                                <p><strong>Keterangan</strong></p>
+                                <p>${element.note?element.note:'~'}</p>
                                 </div>
                                 </div>
                                 `

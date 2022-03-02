@@ -30,13 +30,14 @@
 
 
 .table_order thead th {
-    width: 14.2%;
+    width: 12.2%;
     float: left;
     padding:1rem 25px!important;
 }
 .table_order tbody tr{
   display:flex;
-justify-content:space-around;
+    justify-content:space-around;
+    margin-bottom:5rem;
 }
 .table_order tbody td{
  flex-basis:15%;

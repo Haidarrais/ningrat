@@ -8,6 +8,7 @@
       <th>Harga</th>
       <th>Jumlah</th>
       <th>Total</th>
+      <th>Keterangan</th>
     </tr>
   </thead>
   <tbody id="tbody" style="height: 400px !important;display:block;" class="pt-4">
@@ -81,6 +82,13 @@
       </td>
       <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
       <td id="field-total-{{ $value->product_id }}" class="field-total">-</td>
+      <td> <div class="row">
+
+          <div class="col-12">
+            <input name="note[]" type="text" id="note-{{ $value->product_id }}" class="form-control qty text-center">
+          </div>
+
+        </div></td>
     </tr>
     @empty
     <tr>
