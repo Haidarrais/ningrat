@@ -128,7 +128,6 @@ class CheckoutComponent extends Component
             'discount' => $this->discount->discount ?? 0,
             'status' => 0
         ]);
-        dd(Cart::content());
         foreach (Cart::content() as $cart) {
             TransactionDetail::create([
             'transaction_id' => $transaction->id,
