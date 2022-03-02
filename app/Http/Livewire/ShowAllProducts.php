@@ -56,11 +56,11 @@ class ShowAllProducts extends Component
         $product = Stock::where('product_id', $stock->product->id)->first();
         $stock = Cart::content()->where('id', $stock_id)->first();
         if (empty($stock->qty)) {
-            $catitem = Cart::add($stock_id, $stock_name, 1, $stock_price, ['stock' => $product], ['note', =>'']);
+            $catitem = Cart::add($stock_id, $stock_name, 1, $stock_price, ['stock' => $product], ['note',=>'']);
             $catitem->associate('App\Models\Stock');
             $this->emit('cartAdd');
         }elseif ($stock->qty < $product->stock) {
-            $catitem = Cart::add($stock_id, $stock_name, 1, $stock_price, ['stock' => $product], ['note', =>'']);
+            $catitem = Cart::add($stock_id, $stock_name, 1, $stock_price, ['stock' => $product], ['note',=>'']);
             $catitem->associate('App\Models\Stock');
             $this->emit('cartAdd');
         }else{
