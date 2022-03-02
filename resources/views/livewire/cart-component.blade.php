@@ -62,7 +62,7 @@
                                                 <p>Rp.{{ number_format($item->subtotal) }}</p>
                                             </td>
                                             <td class="">
-                                               <input value="{{json_decode(json_encode($item->options), true)}}" wire:change="addNote('{{$item->rowId}}', $event.target.value)" name="cart-note" type="text" >
+                                               <input value="{{json_decode(json_encode($item->options), true)['note']}}" wire:change="addNote('{{$item->rowId}}', $event.target.value)" name="cart-note" type="text" >
                                             </td>
                                         </tr>
                                     @endforeach
