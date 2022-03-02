@@ -63,15 +63,15 @@ class CartComponent extends Component
     public function addNote($rowId, $note)
     {
         foreach ($this->itemQty as $value) {
-            // $condition = Cart::get($value["rowId"]);
+            $condition = Cart::get($value["rowId"]);
             if ($value["rowId"] == $rowId) {
-                $item = Cart::get($rowId);
-                $prevOption = json_decode(json_encode($item->options), true);
+                // $item = Cart::get($rowId);
+                $prevOption = json_decode(json_encode($condition->options), true);
                 $option = array_merge($prevOption, ['note' => $note]);
                 Cart::update($rowId, ['options' => $option]);
+                $this->itemQty = Cart::content();
             }
         }
-        $this->itemQty = Cart::content();
     }
     public function destroyItem($rowId)
     {
