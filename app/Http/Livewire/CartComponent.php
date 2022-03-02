@@ -62,7 +62,7 @@ class CartComponent extends Component
     }
     public function addNote($rowId, $note)
     {
-        dd($this->itemQty);
+        // dd($this->itemQty);
         foreach ($this->itemQty as $value) {
             if ($value["rowId"]==$rowId) {
                 $condition = Cart::get($value["rowId"]);
