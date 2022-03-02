@@ -62,13 +62,13 @@ class CartComponent extends Component
     }
     public function addNote($rowId, $note)
     {
-        foreach ($this->itemQty as $value) {
-            if ($value["rowId"] == $rowId) {
-                $condition = Cart::get($value["rowId"]);
-                $prevOption = json_decode(json_encode($condition->options), true);
-                Cart::update($rowId, ['options' => array_merge($prevOption, ['note' => $value['options']['note']])]);
-            }
-        }
+        $condition = Cart::get($rowId);
+        $prevOption = json_decode(json_encode($condition->options), true);
+        Cart::update($rowId, ['options' => array_merge($prevOption, ['note' => $note])]);
+        // foreach ($this->itemQty as $value) {
+        //     if ($value["rowId"] == $rowId) {
+        //     }
+        // }
         $this->itemQty = Cart::content();
     }
     public function destroyItem($rowId)
