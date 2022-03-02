@@ -62,31 +62,14 @@ class CartComponent extends Component
     }
     public function addNote($rowId, $note)
     {
-        // dd($this->itemQty);
         foreach ($this->itemQty as $value) {
-            if ($value["rowId"]==$rowId) {
+            if ($value["rowId"] == $rowId) {
                 $condition = Cart::get($value["rowId"]);
-                // if ($condition->model->stock >= intval($value["qty"])) {
-                
-                
-                // }
-                // if ($condition) {
-                    // $this->rowId = $rowId;
-                    $prevOption = json_decode(json_encode($condition->options), true);
-                    // $option = array_merge($prevOption, ['note' =>$note]);
-                    //  Cart::update($value["rowId"], intval($value["qty"]));
-                    Cart::update($value["rowId"], ['options' => array_merge($prevOption, ['note' => $value['options']['note']])]);
-                    $this->itemQty = Cart::content();
-                # code...
+                dd($condition);
+                $prevOption = json_decode(json_encode($condition->options), true);
+                Cart::update($value["rowId"], ['options' => array_merge($prevOption, ['note' => $value['options']['note']])]);
+                $this->itemQty = Cart::content();
             }
-            // }
-            // if ($value['options']['note'] != $note) {
-            // }else{
-            //     $prevOption = json_decode(json_encode($condition->options), true);
-            //     $option = array_merge($prevOption, ['note' => $note]);
-            //     Cart::update($rowId, ['options' => $option]);
-            //     $this->itemQty = Cart::content();
-            // }
         }
     }
     public function destroyItem($rowId)
