@@ -64,17 +64,17 @@ class CartComponent extends Component
     {
         foreach ($this->itemQty as $value) {
             $condition = Cart::get($value["rowId"]);
-            if ($value['options']['note'] != $note) {
+            // if ($value['options']['note'] != $note) {
                 $prevOption = json_decode(json_encode($condition->options), true);
                 $option = array_merge($prevOption, ['note' => $value['options']['note']]);
                 Cart::update($rowId, ['options' => $option]);
                 $this->itemQty = Cart::content();
-            }else{
-                $prevOption = json_decode(json_encode($condition->options), true);
-                $option = array_merge($prevOption, ['note' => $note]);
-                Cart::update($rowId, ['options' => $option]);
-                $this->itemQty = Cart::content();
-            }
+            // }else{
+            //     $prevOption = json_decode(json_encode($condition->options), true);
+            //     $option = array_merge($prevOption, ['note' => $note]);
+            //     Cart::update($rowId, ['options' => $option]);
+            //     $this->itemQty = Cart::content();
+            // }
         }
     }
     public function destroyItem($rowId)
