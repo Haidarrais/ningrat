@@ -64,18 +64,21 @@ class CartComponent extends Component
     {
         dd($this->itemQty);
         foreach ($this->itemQty as $value) {
-            $condition = Cart::get($value["rowId"]);
-            // if ($condition->model->stock >= intval($value["qty"])) {
-            
-            
-            // }
-            // if ($condition) {
-                // $this->rowId = $rowId;
-                $prevOption = json_decode(json_encode($condition->options), true);
-                // $option = array_merge($prevOption, ['note' =>$note]);
-                //  Cart::update($value["rowId"], intval($value["qty"]));
-                Cart::update($value["rowId"], ['options' => array_merge($prevOption, ['note' => $value['options']['note']])]);
-                $this->itemQty = Cart::content();
+            if ($value["rowId"]==$rowId) {
+                $condition = Cart::get($value["rowId"]);
+                // if ($condition->model->stock >= intval($value["qty"])) {
+                
+                
+                // }
+                // if ($condition) {
+                    // $this->rowId = $rowId;
+                    $prevOption = json_decode(json_encode($condition->options), true);
+                    // $option = array_merge($prevOption, ['note' =>$note]);
+                    //  Cart::update($value["rowId"], intval($value["qty"]));
+                    Cart::update($value["rowId"], ['options' => array_merge($prevOption, ['note' => $value['options']['note']])]);
+                    $this->itemQty = Cart::content();
+                # code...
+            }
             // }
             // if ($value['options']['note'] != $note) {
             // }else{
