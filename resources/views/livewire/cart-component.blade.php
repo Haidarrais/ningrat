@@ -62,7 +62,7 @@
                                                 <p>Rp.{{ number_format($item->subtotal) }}</p>
                                             </td>
                                             <td class="">
-                                               <input name="cart-note" type="text" >
+                                               <input wire:change="show('{{$item->rowId}}')" name="cart-note" type="text" >
                                             </td>
                                         </tr>
                                     @endforeach
