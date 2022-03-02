@@ -65,7 +65,6 @@ class CartComponent extends Component
         foreach ($this->itemQty as $value) {
             if ($value["rowId"] == $rowId) {
                 $condition = Cart::get($value["rowId"]);
-                dd($condition);
                 $prevOption = json_decode(json_encode($condition->options), true);
                 Cart::update($rowId, ['options' => array_merge($prevOption, ['note' => $value['options']['note']])]);
             }
