@@ -72,11 +72,12 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         $data = $request->except(['id', 'image']);
+        
         $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
         $data['category_id'] = $data['sub_category'];
         unset($data['sub_category']);
         if (($data['variant_id']!=null &&  $data['variant_id']!='tanpa') ) {
-            $data['variant_id'] = $data['sub_variant_id']? $data['sub_variant_id']: $data['variant_id'];
+            $data['variant_id'] = isset($data['sub_variant_id']) ? $data['sub_variant_id']: $data['variant_id'];
             unset($data['sub_variant_id']);
         }
         $product = Product::create($data);
@@ -156,7 +157,7 @@ class ProductController extends Controller
             $images = $request->image;
             // dd(count($images));
             $countImages =count($this->countImages($product->id));
-            if($countImages>5) {
+            if($countImages>=5) {
                return response()->json([
                    'status' => true,
                     'message' => [
@@ -171,11 +172,12 @@ class ProductController extends Controller
             // $this->unlinkImage($this->pathImage, $product->image);
         }
         $data = $request->except(['id','image']);
+        
         // $data['image'] = $imageName ?? $product->image;
         $data['price'] = floor((float)preg_replace('/[Rp. ]/', '', $request->price));
         $data['category_id'] = $data['sub_category'];
         unset($data['sub_category']);
-        $data['variant_id'] = $data['sub_variant_id'] ? $data['sub_variant_id'] : $data['variant_id'];
+        $data['variant_id'] = isset($data['sub_variant_id']) ? $data['sub_variant_id'] : $data['variant_id'];
         unset($data['sub_variant_id']);
 
         $product->update($data);

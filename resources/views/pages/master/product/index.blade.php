@@ -229,8 +229,9 @@
             }
             $("#modal_tambah").LoadingOverlay('hide');
         });
+
         $(".btn-success-images").click(function() {
-            if (countimageinput >= 5) {
+            if (countimageinput >= 4) {
                 $swal.fire({
                     icon: 'warning',
                     title: "Foto",
@@ -241,11 +242,13 @@
             var lsthmtl = $(".clone").children().clone().addClass('cloned');
             $(".increment").after(lsthmtl);
             countimageinput += 1;
+            console.log(countimageinput);
         });
 
         $("body").on("click", ".btn-danger-images", function() {
             $(this).parents(".hdtuto").remove();
             countimageinput -= 1;
+            console.log(countimageinput)
         });
 
 
@@ -298,11 +301,12 @@
                     $("#inputID").val(product.id);
                     $("#modalTitle").html('Update Produk');
                     let images = "";
-                    countimageinput = 1;
+                    countimageinput = product.picture.length==0?1:product.picture.length;
+                    console.log(countimageinput);
                     product.picture.map((item, i) => {
                         images += `<div class="position-relative mt-2" id="image-${item.id}">
                         <img src="${BASE_URL}/upload/product/${item.image}" alt="${BASE_URL}/upload/product/${item.image}" class="img-fluid" width="300"><button class="btn btn-sm btn-danger hapus position-absolute" style="top:0;right:0" onclick="deleteImage(${item.id})" type="button"><i class="fas fa-trash-alt"></i></button></div>`
-                        countimageinput++;
+                        // countimageinput++;
                     });
                     $('#fieldFoto').html(`${images}`)
                     $("#fieldFoto").addClass('d-flex');
