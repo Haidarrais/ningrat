@@ -63,8 +63,8 @@ class CartComponent extends Component
     public function addNote($rowId, $note)
     {
         $item = Cart::get($rowId);
-        $this->alert(dd($item, $item->options, typeOf($item->options)));
-        $option = array_merge(['note' => $note], $item->options->items);
+        // $this->alert(dd($item, $item->options));
+        $option = array_merge(['note' => $note], $item->options);
         Cart::update($rowId, ['options' => $option]);
         // $this->itemQty = Cart::content();
     }
