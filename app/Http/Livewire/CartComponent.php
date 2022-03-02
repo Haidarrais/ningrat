@@ -35,7 +35,7 @@ class CartComponent extends Component
     public function decreaseQty($rowId)
     {
         $product = Cart::get($rowId);
-        $this->rowId = $rowId;
+        // $this->rowId = $rowId;
         if ($product->qty > 1) {
             $qty = $product->qty - 1;
             Cart::update($rowId, $qty);
