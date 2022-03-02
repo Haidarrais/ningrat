@@ -64,11 +64,11 @@ class CartComponent extends Component
     {
         // foreach ($this->itemQty as $value) {
             $condition = Cart::get($rowId);
-        $this->rowId = $rowId;
             if ($condition) {
+                $this->rowId = $rowId;
                 $prevOption = json_decode(json_encode($condition->options), true);
                 $option = array_merge($prevOption, ['note' =>$note]);
-                Cart::update($rowId, ['options' => $option]);
+                Cart::update($rowId, ['options' => array_merge($prevOption, ['note' => $note])]);
                 $this->itemQty = Cart::content();
             }
             // if ($value['options']['note'] != $note) {
