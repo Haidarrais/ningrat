@@ -62,6 +62,7 @@ class CartComponent extends Component
     }
     public function addNote($rowId, $note)
     {
+        dd($this->itemQty);
         foreach ($this->itemQty as $value) {
             $condition = Cart::get($value["rowId"]);
             // if ($condition->model->stock >= intval($value["qty"])) {
