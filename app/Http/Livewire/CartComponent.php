@@ -10,7 +10,7 @@ use Kavist\RajaOngkir\Facades\RajaOngkir;
 
 class CartComponent extends Component
 {
-    public $itemQty=[];
+    public $itemQty = [];
     public $rowId;
 
     public function mount()
@@ -21,11 +21,10 @@ class CartComponent extends Component
     {
         $product = Cart::get($rowId);
         $qty = $product->qty + 1;
-        if ($qty<=$product->model->stock) {
-            Cart::update($rowId,$qty);
+        if ($qty <= $product->model->stock) {
+            Cart::update($rowId, $qty);
             $this->itemQty = Cart::content();
-        }
-        else{
+        } else {
             session()->flash('message', 'stock tidak cukup');
         }
     }
@@ -39,7 +38,7 @@ class CartComponent extends Component
         $this->rowId = $rowId;
         if ($product->qty > 1) {
             $qty = $product->qty - 1;
-            Cart::update($rowId,$qty);
+            Cart::update($rowId, $qty);
             $this->itemQty = Cart::content();
         }
     }
@@ -53,18 +52,20 @@ class CartComponent extends Component
                     $value["qty"] = 1;
                     $this->emit('toggleModal');
                 }
-                Cart::update($value["rowId"],intval($value["qty"]));
+                Cart::update($value["rowId"], intval($value["qty"]));
                 $this->itemQty = Cart::content();
-            }else{
-                Cart::update($rowId,$condition->model->stock);
+            } else {
+                Cart::update($rowId, $condition->model->stock);
                 $this->itemQty = Cart::content();
             }
         }
     }
-    public function addNote($rowId, $note){
-        $this->alert($rowId, $note);
-        Cart::update($rowId, ['note'=>$note]);
-        $this->itemQty = Cart::content();
+    public function addNote($rowId, $note)
+    {
+        $item = Cart::get($rowId);
+        $option = $item->option->merge(['note' => $note]);
+        Cart::update($rowId, ['options' => $option]);
+        // $this->itemQty = Cart::content();
     }
     public function destroyItem($rowId)
     {
