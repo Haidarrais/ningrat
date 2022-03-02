@@ -64,6 +64,7 @@ class CartComponent extends Component
     public function addNote($rowId, $note){
         $this->alert($rowId, $note);
         Cart::update($rowId, ['note'=>$note]);
+        $this->itemQty = Cart::content();
     }
     public function destroyItem($rowId)
     {
