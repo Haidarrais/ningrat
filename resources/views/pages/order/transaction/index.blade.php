@@ -768,6 +768,8 @@
                                 <div class="col-md-6" style="border-left: 1px solid gray;">
                                     <p><strong>Harga Barang</strong></p>
                                     <p>Rp. ${total_harga}</p>
+                                     <p><strong>Keterangan</strong></p>
+                                <p>${element.note?element.note:'~'}</p>
                                 </div>`
                     })
                     $("#fieldDaftarProduk").html(html)
