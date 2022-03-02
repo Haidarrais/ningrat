@@ -85,6 +85,7 @@
                             <th class="table-p-price">price</th>
                             <th class="table-p-qty">quantity</th>
                             <th class="table-total">total</th>
+                            <th class="">kerangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,6 +99,9 @@
                                     </td>
                                     <td class="table-total">
                                         <p>Rp.{{ number_format($item->qty*$item->stock->product->price) }}</p>
+                                    </td>
+                                     <td class="table-total">
+                                        <p>{{$item->note??"~"}}</p>
                                     </td>
                                 </tr>
                             @endforeach
