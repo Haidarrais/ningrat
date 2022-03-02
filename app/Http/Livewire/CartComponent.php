@@ -68,14 +68,14 @@ class CartComponent extends Component
             
             
             // }
-            if ($condition) {
+            // if ($condition) {
                 // $this->rowId = $rowId;
                 $prevOption = json_decode(json_encode($condition->options), true);
                 // $option = array_merge($prevOption, ['note' =>$note]);
                 //  Cart::update($value["rowId"], intval($value["qty"]));
                 Cart::update($rowId, ['options' => array_merge($prevOption, ['note' => $value['optiond']['note']])]);
                 $this->itemQty = Cart::content();
-            }
+            // }
             // if ($value['options']['note'] != $note) {
             // }else{
             //     $prevOption = json_decode(json_encode($condition->options), true);
