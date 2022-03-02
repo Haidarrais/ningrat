@@ -135,7 +135,7 @@ class CheckoutComponent extends Component
             'price' => $cart->price,
             'weight' => $cart->model->product->weight,
             'qty' => $cart->qty,
-            'note' => $cart->note,
+            'note' => $cart->options["note"],
             ]);
         }
         if ($this->discountOn) {
