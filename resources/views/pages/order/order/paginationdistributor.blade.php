@@ -42,7 +42,7 @@
                     <input name="qty[]" oninput="onchangePrice({{ $value->product_id }}, '{{$value->stock}}')" type="number" id="total-{{ $value->product_id }}" class="form-control qty text-center"  value="0" min="0">
                 </td>
                 <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
-                <td id="field-total-{{ $value->product_id }}" class="field-total" style="width:11%">-</td>
+                <td id="field-total-{{ $value->product_id }}" class="field-total" style="width:15%;">-</td>
                 <td>
                     <!-- <div class="row"> -->
 

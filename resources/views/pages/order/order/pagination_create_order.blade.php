@@ -81,7 +81,7 @@
         </div> -->
       </td>
       <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
-      <td id="field-total-{{ $value->product_id }}" class="field-total" style="width:11%">-</td>
+      <td id="field-total-{{ $value->product_id }}" class="field-total" style="width:15%;">-</td>
       <td> 
         
             <textarea name="note[]"  id="note-{{ $value->product_id }}" class="form-control text-center"></textarea>
