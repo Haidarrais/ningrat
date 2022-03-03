@@ -29,7 +29,7 @@
                     @empty
                     <td>Belum ada foto</td>
                     @endforelse
-      <td class="product_name">{{ $value->product->name??"" }}</td>
+      <td class="product_name" style="width:14%;">{{ $value->product->name??"" }}</td>
       <td style="width: 25%;">Kategori: {{ $value->product->category->subCategory->name??"" }}</br>
                 SubKategori: {{ $value->product->category->name??"" }} </br>
                 Varian/Sub: {{ $value->product->variant->subVariant->name??"" }}</br>
@@ -81,7 +81,7 @@
         </div> -->
       </td>
       <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
-      <td id="field-total-{{ $value->product_id }}" class="field-total">-</td>
+      <td id="field-total-{{ $value->product_id }}" class="field-total" style="width:11%">-</td>
       <td> 
         
             <textarea name="note[]"  id="note-{{ $value->product_id }}" class="form-control text-center"></textarea>

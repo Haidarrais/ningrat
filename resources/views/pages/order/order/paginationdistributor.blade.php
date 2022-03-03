@@ -26,7 +26,7 @@
                 @empty
                 <td>Belum ada foto</td>
                 @endforelse
-                <td class="product_name">{{ $value->product->name??"" }}</td>
+                <td class="product_name" style="width:14%;">{{ $value->product->name??"" }}</td>
                 <td style="width: 25%;">Kategori: {{ $value->product->category->subCategory->name??"" }}</br>
                     SubKategori: {{ $value->product->category->name??"" }} </br>
                     Varian/Sub: {{ $value->product->variant->subVariant->name??"" }}</br>
@@ -42,7 +42,7 @@
                     <input name="qty[]" oninput="onchangePrice({{ $value->product_id }}, '{{$value->stock}}')" type="number" id="total-{{ $value->product_id }}" class="form-control qty text-center"  value="0" min="0">
                 </td>
                 <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
-                <td id="field-total-{{ $value->product_id }}" class="field-total">-</td>
+                <td id="field-total-{{ $value->product_id }}" class="field-total" style="width:11%">-</td>
                 <td>
                     <!-- <div class="row"> -->
 
