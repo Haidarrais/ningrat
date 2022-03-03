@@ -1,4 +1,4 @@
-<table class="table_order table product-table text-center border-bottom" style="min-width: max-content;">
+<table class="table table-sm">
   <thead>
     <tr>
       <th>#</th>
@@ -11,7 +11,7 @@
       <th>Keterangan</th>
     </tr>
   </thead>
-  <tbody id="tbody" style="height: 400px !important;display:block;" class="pt-4">
+  <tbody id="tbody" >
     <input type="hidden" name="ongkir-discount" value="0" readonly>
     <input type="hidden" name="discount" value="0" readonly>
     <!-- <input type="hidden" name="discount" value="0" id="discount"> -->
@@ -23,14 +23,14 @@
       <input type="hidden" name="productCategory{{$value->id}}" value="{{ $value->product->category_id }}" class="category_product">
       <td>{{ $loop->iteration }}</td>
       @forelse ($value->product->onePicture as $key => $item)
-                  @if ($key<1) <td><img src="{{ asset('upload/product/').'/'.$item->image??'' }}" alt="{{ $item->image }}"
+                  @if ($key<1) <td><img src="{{ asset('upload/product/').'/'.$item->image??'' }}" alt="{{ $value->product->name??''}}.img"
                       class="img-fluid" width="100"></td>
                     @endif
                     @empty
                     <td>Belum ada foto</td>
                     @endforelse
       <td class="product_name">{{ $value->product->name??"" }}</td>
-      <td>Kategori: {{ $value->product->category->subCategory->name??"" }}</br>
+      <td style="width: 25%;">Kategori: {{ $value->product->category->subCategory->name??"" }}</br>
                 SubKategori: {{ $value->product->category->name??"" }} </br>
                 Varian/Sub: {{ $value->product->variant->subVariant->name??"" }}</br>
                 SubVarian: {{ $value->product->variant->name??"" }}  </br>
@@ -71,21 +71,21 @@
         @endif
         Rp. {{ number_format($price) }}
       </td>
-      <td>
-        <div class="row">
+      <td style="width:11%">
+        <!-- <div class="row">
 
-          <div class="col-12">
+          <div class="col-12"> -->
             <input name="qty[]" oninput="onchangePrice({{ $value->product_id }}, '{{$value->stock}}')" type="number" id="total-{{ $value->product_id }}" class="form-control qty text-center" value="0" min="0">
-          </div>
+          <!-- </div>
 
-        </div>
+        </div> -->
       </td>
       <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
       <td id="field-total-{{ $value->product_id }}" class="field-total">-</td>
       <td> <div class="row">
 
           <div class="col-12">
-            <input name="note[]" type="text" id="note-{{ $value->product_id }}" class="form-control qty text-center">
+            <textarea name="note[]" type="text" id="note-{{ $value->product_id }}" class="form-control qty text-center"></textarea>
           </div>
 
         </div></td>
