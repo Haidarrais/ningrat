@@ -59,7 +59,7 @@
                 <div class="overflow-auto">
                     <input type="hidden" name="ongkir-discount" value="0" readonly>
                     <input type="hidden" name="discount" value="0" readonly>
-                    <div class="" id="table_data">
+                    <div class="" id="table_data" style="height:50rem;">
                         @include('pages.order.order.pagination_create_order')
                     </div>
                 </div>
