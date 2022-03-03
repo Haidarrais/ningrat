@@ -138,7 +138,7 @@
             }
             e.preventDefault();
             type = 'STORE';
-            countimageinput = 1;
+            countimageinput = 0;
             $("#modalTitle").html('Tambah Produk')
             $("#formTambah")[0].reset()
             $("#fieldFoto").hide()
