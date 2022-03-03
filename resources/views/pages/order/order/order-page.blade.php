@@ -363,7 +363,8 @@
             setTimeout(() => {
                 $(`#total-${id}`).val(max);
             }, 500);
-            return $swal.fire('Gagal', 'Stock hanya ' + max, 'error')
+            $swal.fire('Gagal', 'Stock hanya ' + max, 'error');
+            total = max;
         }
         let price = parseInt($(`#field-price-${id}`).data('price'))
         // let new_total = total + 1

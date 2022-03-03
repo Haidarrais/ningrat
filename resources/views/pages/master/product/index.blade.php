@@ -302,7 +302,6 @@
                     $("#modalTitle").html('Update Produk');
                     let images = "";
                     countimageinput = product.picture.length;
-                    console.log(countimageinput);
                     product.picture.map((item, i) => {
                         images += `<div class="position-relative mt-2" id="image-${item.id}">
                         <img src="${BASE_URL}/upload/product/${item.image}" alt="${BASE_URL}/upload/product/${item.image}" class="img-fluid" width="300"><button class="btn btn-sm btn-danger hapus position-absolute" style="top:0;right:0" onclick="deleteImage(${item.id})" type="button"><i class="fas fa-trash-alt"></i></button></div>`
