@@ -101,6 +101,11 @@
 @section('css')
 <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
 <style>
+        th {
+  position: sticky;
+  top: 0;
+  background: white;
+}
     button:disabled {
         cursor: not-allowed;
         pointer-events: all !important;
