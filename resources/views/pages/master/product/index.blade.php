@@ -301,7 +301,7 @@
                     $("#inputID").val(product.id);
                     $("#modalTitle").html('Update Produk');
                     let images = "";
-                    countimageinput = product.picture.length==0?1:product.picture.length;
+                    countimageinput = product.picture.length;
                     console.log(countimageinput);
                     product.picture.map((item, i) => {
                         images += `<div class="position-relative mt-2" id="image-${item.id}">
