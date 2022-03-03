@@ -82,13 +82,11 @@
       </td>
       <input type="hidden" name="price[]" id="input-total-{{ $value->product_id }}">
       <td id="field-total-{{ $value->product_id }}" class="field-total">-</td>
-      <td> <div class="row">
+      <td> 
+        
+            <textarea name="note[]"  id="note-{{ $value->product_id }}" class="form-control text-center"></textarea>
 
-          <div class="col-12">
-            <textarea name="note[]" type="text" id="note-{{ $value->product_id }}" class="form-control qty text-center"></textarea>
-          </div>
-
-        </div></td>
+        </td>
     </tr>
     @empty
     <tr>

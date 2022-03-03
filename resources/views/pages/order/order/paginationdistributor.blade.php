@@ -47,7 +47,7 @@
                     <!-- <div class="row"> -->
 
                         <!-- <div class="col-12"> -->
-                            <textarea name="note[]" type="text" id="note-{{ $value->product_id }}" class="form-control text-center"></textarea>
+                            <textarea name="note[]"  id="note-{{ $value->product_id }}" class="form-control text-center"></textarea>
                         <!-- </div> -->
 
                     </div>
