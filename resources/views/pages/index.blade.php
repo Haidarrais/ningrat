@@ -507,6 +507,7 @@
                 .then(({
                     data
                 }) => {
+                    console.log(data.data);
                     $("#countPenjualan").html(data.data.penjualan)
                     // $("#countPendapatan").html()
                     let pendapatan = parseInt(data.data.pendapatan)

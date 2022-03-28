@@ -85,7 +85,7 @@
                             <th class="table-p-price">price</th>
                             <th class="table-p-qty">quantity</th>
                             <th class="table-total">total</th>
-                            <th class="">kerangan</th>
+                            <th class="">keterangan</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -14,7 +14,7 @@
                     <td>{{ $no++ }}</td>
                     <td>{{ $value->user->name }}</td>
                     <td>{{ $value->user->roles->first()->name }}</td>
-                    <td>Rp. {{ number_format($value->subtotal) }}</td>
+                    <td>Rp. {{ number_format($value->totalSub) }}</td>
                 </tr>
             @endforeach
         </tbody>

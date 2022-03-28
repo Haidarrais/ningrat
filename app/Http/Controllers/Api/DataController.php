@@ -147,7 +147,7 @@ class DataController extends Controller
                 }
                 $q->where("name", "!=", 'reseller');
             });
-        })->whereMonth("created_at", $month)->whereYear("created_at", $year)->orderBy('subtotal', 'DESC')->groupBy('user_id')->limit(10)->get();
+        })->where('status', 3)->orWhere('status', 4)->whereMonth("created_at", $month)->whereYear("created_at", $year)->select('*', DB::raw('SUM(subtotal) as totalSub'))->orderBy('totalSub', 'DESC')->groupBy('user_id')->get();
         return view("ajax.ranking", compact('rank', 'no'))->render();
     }
 }
